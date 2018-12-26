@@ -12,6 +12,7 @@ import com.playgilround.schedule.client.R;
  * 18-12-26
  * Schedule Calendar Activity
  * added by CHO
+ * Test
  */
 public class ScheCalendarActivity extends AppCompatActivity {
 
