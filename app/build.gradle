@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.playgilround.schedule.client"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -32,4 +32,6 @@ dependencies {
 
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    implementation project(':library')
+
 }
