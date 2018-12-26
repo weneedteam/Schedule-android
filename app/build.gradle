@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
-
+ext {
+    PUBLISH_GROUP_ID = 'com.applandeo'
+    PUBLISH_ARTIFACT_ID = 'material-calendar-view'
+    PUBLISH_VERSION = '1.5.0'
+}
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -32,6 +36,9 @@ dependencies {
 
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-    implementation project(':library')
+
+    implementation 'com.annimon:stream:1.1.7'
 
 }
+
+apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
