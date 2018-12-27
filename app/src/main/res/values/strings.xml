@@ -39,4 +39,5 @@
     <string name="material_calendar_negative_button">Cancel</string>
 
     <string name="exit">닫기</string>
+    <string name="addSchdule">스케줄 추가</string>
 </resources>
