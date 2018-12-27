@@ -37,4 +37,6 @@
     <string name="material_calendar_today_button">Today</string>
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
+
+    <string name="exit">닫기</string>
 </resources>

@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:text="닫기"
+            android:text="@string/exit"
             android:background="@drawable/background_transparent"
             android:textSize="16dp"
             android:textColor="@color/colorWhite"/>
