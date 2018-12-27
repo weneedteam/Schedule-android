@@ -3,6 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorGreen">#008577</color>
 
     <color name="daysLabelColor">#8A000000</color>
     <color name="currentMonthDayColor">#de000000</color>
@@ -14,4 +15,5 @@
     <color name="itemHighlightColor">#1F000000</color>
 
     <color name="defaultColor">#000000</color>
+    <color name="colorWhite">@android:color/white</color>
 </resources>

@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+
+apply plugin: 'realm-android'
 ext {
     PUBLISH_GROUP_ID = 'com.applandeo'
     PUBLISH_ARTIFACT_ID = 'material-calendar-view'
