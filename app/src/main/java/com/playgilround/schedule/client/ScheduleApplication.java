@@ -14,14 +14,13 @@ public class ScheduleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name(getString(R.string.realm_name))
                 .schemaVersion(0)
                 .migration(new ScheduleMigration())
                 .build();
 
-        Realm.init(this);
         Realm.setDefaultConfiguration(config);
     }
 }

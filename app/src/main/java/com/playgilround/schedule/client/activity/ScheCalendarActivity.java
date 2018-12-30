@@ -55,7 +55,7 @@ public class ScheCalendarActivity extends AppCompatActivity {
 
         String strDate = strYear + strMonth + strDay;
 
-        ScheCalendarDialog calendarDialog = new ScheCalendarDialog(this, strDate);
+        ScheCalendarDialog calendarDialog = new ScheCalendarDialog(this, this, strDate);
 
         WindowManager.LayoutParams wm = calendarDialog.getWindow().getAttributes();
 
