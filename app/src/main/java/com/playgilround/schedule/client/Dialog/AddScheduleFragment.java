@@ -37,4 +37,14 @@ public class AddScheduleFragment extends android.app.DialogFragment {
         tvDate.setText(strDate);
         return rootView;
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+
 }

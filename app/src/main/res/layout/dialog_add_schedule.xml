@@ -12,13 +12,14 @@
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="@string/size_20dp"
     android:layout_weight="1"
     android:orientation="vertical">
     <include
         layout="@layout/current_date"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.3"
         tools:ignore="NestedWeight"/>
 
     <LinearLayout
@@ -32,16 +33,169 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="@dimen/schedule_item_size"
+            android:layout_height="@string/schedule_item_size"
             android:orientation="horizontal">
             
             <View
-                android:layout_width="@dimen/size_16dp"
+                android:layout_width="@string/size_16dp"
                 android:layout_height="match_parent"
                 android:background="@color/colorGreen"/>
+
+            <EditText
+                android:id="@+id/etScheduleTitle"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:layout_marginEnd="@string/size_10dp"
+                android:ellipsize="end"
+                android:layout_gravity="center_vertical"
+                android:lines="1"
+                android:hint="@string/hint_schedule"
+                android:textColor="@color/color_schedule_title_text"
+                android:textSize="@string/size_18dp" />
         </LinearLayout>
-        
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@string/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:id="@+id/llScheduleTime"
+            android:layout_width="match_parent"
+            android:layout_height="@string/schedule_item_size"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="@string/size_16dp"
+                android:src="@mipmap/ic_detail_clock"/>
+
+            <TextView
+                android:id="@+id/tvScheduleTime"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@string/size_12dp"
+                android:layout_marginRight="@string/size_12dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="2018-06-30 14:00"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@string/size_16dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@string/size_12dp"
+                android:src="@mipmap/ic_detail_arrow_normal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@string/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:id="@+id/llScheduleLocation"
+            android:layout_width="match_parent"
+            android:layout_height="@string/schedule_item_size"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="@string/size_16dp"
+                android:src="@mipmap/ic_detail_location"/>
+
+            <TextView
+                android:id="@+id/tvScheduleLocation"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@string/size_10dp"
+                android:layout_marginRight="@string/size_10dp"
+                android:layout_weight="1"
+                android:background="@color/colorTranslate"
+                android:ellipsize="end"
+                android:lines="1"
+                android:text="위치"
+                android:textColor="@color/color_schedule_text"
+                android:textSize="@string/size_16dp"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@string/size_12dp"
+                android:src="@mipmap/ic_detail_arrow_normal"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@string/line_height"
+            android:background="@color/color_schedule_line"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@string/schedule_item_size"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/ivRemarkIcon"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="@string/size_16dp"
+            android:src="@mipmap/ic_detail_remarks"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@string/schedule_item_size"
+            android:layout_marginLeft="@string/size_12dp"
+            android:layout_toRightOf="@+id/ivRemarkIcon"
+            android:background="@color/colorTranslate"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:lines="1"
+            android:text="@string/remarks"
+            android:textColor="@color/color_schedule_text"
+            android:textSize="@string/size_16dp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+        <EditText
+            android:id="@+id/etScheduleDesc"
+            android:layout_below="@+id/ivRemarkIcon"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.8"
+            android:layout_marginLeft="@string/size_10dp"
+            android:background="@drawable/bg_remark_edit_text"
+            android:gravity="top|left"
+            android:hint="@string/please_input_desc"
+            android:paddingTop="@string/size_12dp"
+            android:textSize="@string/size_16dp"/>
+            <Button
+                android:id="@+id/btn_cancel"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.2"
+                android:layout_marginBottom="@string/size_10dp"
+                android:layout_marginLeft="@string/size_10dp"
+                android:layout_gravity="center_vertical"
+                android:text="@string/exit"
+                android:background="@color/colorGreen"
+                android:textSize="@string/size_16dp"
+                android:textColor="@color/colorWhite"/>
+        </LinearLayout>
+
     </LinearLayout>
+
 </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
