@@ -52,7 +52,11 @@ dependencies {
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
-    implementation 'com.annimon:stream:1.1.7'
+    implementation 'com.annimon:stream:1.2.1'
+
+    //Stetho
+    implementation 'com.uphyca:stetho_realm:2.3.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
 
 }
 

@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.playgilround.schedule.client.Activity.ScheCalendarActivity;
+import com.playgilround.schedule.client.activity.ScheCalendarActivity;
 
 public class MainActivity extends AppCompatActivity {
 
