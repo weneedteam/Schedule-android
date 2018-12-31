@@ -15,6 +15,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.model.Schedule;
+
+import java.util.Date;
 
 import io.realm.Realm;
 
@@ -69,6 +72,24 @@ public class AddScheduleActivity extends Activity {
         if (etTitle.getText().length() == 0) {
             Toast.makeText(getApplicationContext(), "스케줄을 입력해주세요!", Toast.LENGTH_LONG).show();
         } else {
+            realm.executeTransaction(realm -> {
+                Number currentIdNum = realm.where(Schedule.class).max("id");
+
+                int nextId;
+
+                if (currentIdNum == null) {
+                    nextId = 0;
+                } else {
+                    nextId = currentIdNum.intValue() +1;
+                }
+                Log.d(TAG, "realm confirm" + nextId);
+
+//                String checkDate = dt.format(new Date());
+                Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
+//                mSchedule.setId(nextId);
+                mSchedule.setTitle(etTitle.getText().toString());
+//                mSchedule
+            });
 
         }
     }
