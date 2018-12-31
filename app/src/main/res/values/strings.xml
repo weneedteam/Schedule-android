@@ -45,19 +45,19 @@
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
-    <string name="schedule_item_size">50dp</string>
-    <string name="line_height">0.5dp</string>
+    <dimen name="schedule_item_size">50dp</dimen>
+    <dimen name="line_height">0.5dp</dimen>
 
-    <string name="size_3dp">3dp</string>
-    <string name="size_6dp">6dp</string>
-    <string name="size_8dp">8dp</string>
-    <string name="size_10dp">10dp</string>
-    <string name="size_12dp">12dp</string>
-    <string name="size_14dp">14dp</string>
-    <string name="size_16dp">16dp</string>
-    <string name="size_18dp">18dp</string>
-    <string name="size_20dp">20dp</string>
-    <string name="size_30dp">30dp</string>
+    <dimen name="size_3dp">3dp</dimen>
+    <dimen name="size_6dp">6dp</dimen>
+    <dimen name="size_8dp">8dp</dimen>
+    <dimen name="size_10dp">10dp</dimen>
+    <dimen name="size_12dp">12dp</dimen>
+    <dimen name="size_14dp">14dp</dimen>
+    <dimen name="size_16dp">16dp</dimen>
+    <dimen name="size_18dp">18dp</dimen>
+    <dimen name="size_20dp">20dp</dimen>
+    <dimen name="size_30dp">30dp</dimen>
 
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="remarks">스케줄 내용</string>
