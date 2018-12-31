@@ -1,24 +1,19 @@
 package com.playgilround.schedule.client.Dialog;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.activity.AddScheduleActivity;
 
 /**
  * 18-12-27
@@ -65,14 +60,17 @@ public class ScheCalendarDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ivAddBtn:
-                AddScheduleFragment addFrag = new AddScheduleFragment();
-                FragmentManager fm = activity.getFragmentManager();
-
-                Bundle bundle = new Bundle(1);
-                bundle.putString("date", date);
-
-                addFrag.setArguments(bundle);
-                addFrag.show(fm, "TAG");
+                Intent intent = new Intent(context, AddScheduleActivity.class);
+                intent.putExtra("date", date);
+                activity.startActivity(intent);
+//                AddScheduleActivity addFrag = new AddScheduleActivity();
+//                FragmentManager fm = activity.getFragmentManager();
+//
+//                Bundle bundle = new Bundle(1);
+//                bundle.putString("date", date);
+//
+//                addFrag.setArguments(bundle);
+//                addFrag.show(fm, "TAG");
         }
     }
 

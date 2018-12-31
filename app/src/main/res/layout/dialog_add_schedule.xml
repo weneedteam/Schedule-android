@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="@dimen/size_20dp">
+        android:padding="20dp">
 
         <include
             layout="@layout/current_date"
@@ -36,7 +36,7 @@
                 android:orientation="horizontal">
 
                 <View
-                    android:layout_width="@dimen/size_16dp"
+                    android:layout_width="16dp"
                     android:layout_height="match_parent"
                     android:background="@color/colorGreen" />
 
@@ -50,8 +50,8 @@
                     android:hint="@string/hint_schedule"
                     android:lines="1"
                     android:textColor="@color/color_schedule_title_text"
-                    android:textSize="@dimen/size_18dp"
-                    android:layout_marginRight="@dimen/size_10dp" />
+                    android:textSize="18dp"
+                    android:layout_marginRight="10dp" />
             </LinearLayout>
 
             <View
@@ -69,26 +69,26 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:layout_marginLeft="16dp"
                     android:src="@mipmap/ic_detail_clock" />
 
                 <TextView
                     android:id="@+id/tvScheduleTime"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_12dp"
-                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="2018-06-30 14:00"
                     android:textColor="@color/color_schedule_text"
-                    android:textSize="@dimen/size_16dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginRight="12dp"
                     android:src="@mipmap/ic_detail_arrow_normal" />
             </LinearLayout>
 
@@ -107,27 +107,27 @@
                 <ImageView
                     android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:layout_marginLeft="16dp"
                     android:src="@mipmap/ic_detail_location" />
 
                 <TextView
                     android:id="@+id/tvScheduleLocation"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/size_10dp"
-                    android:layout_marginRight="@dimen/size_10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:background="@color/colorTranslate"
                     android:ellipsize="end"
                     android:lines="1"
                     android:text="위치"
                     android:textColor="@color/color_schedule_text"
-                    android:textSize="@dimen/size_16dp" />
+                    android:textSize="16dp" />
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/size_12dp"
+                    android:layout_marginRight="12dp"
                     android:src="@mipmap/ic_detail_arrow_normal" />
             </LinearLayout>
 
@@ -146,13 +146,13 @@
                     android:id="@+id/ivRemarkIcon"
                     android:layout_width="30dp"
                     android:layout_height="50dp"
-                    android:layout_marginLeft="@dimen/size_16dp"
+                    android:layout_marginLeft="16dp"
                     android:src="@mipmap/ic_detail_remarks" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/schedule_item_size"
-                    android:layout_marginLeft="@dimen/size_12dp"
+                    android:layout_marginLeft="12dp"
                     android:layout_toRightOf="@+id/ivRemarkIcon"
                     android:background="@color/colorTranslate"
                     android:ellipsize="end"
@@ -160,7 +160,7 @@
                     android:lines="1"
                     android:text="@string/remarks"
                     android:textColor="@color/color_schedule_text"
-                    android:textSize="@dimen/size_16dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
             <LinearLayout
@@ -174,26 +174,26 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_below="@+id/ivRemarkIcon"
-                    android:layout_marginLeft="@dimen/size_10dp"
+                    android:layout_marginLeft="10dp"
                     android:layout_weight="0.9"
                     android:background="@drawable/bg_remark_edit_text"
                     android:gravity="top|left"
                     android:hint="@string/please_input_desc"
-                    android:paddingTop="@dimen/size_12dp"
-                    android:textSize="@dimen/size_16dp" />
+                    android:paddingTop="12dp"
+                    android:textSize="16dp" />
 
                 <Button
-                    android:id="@+id/btn_cancel"
+                    android:id="@+id/btn_confirm"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="@dimen/size_10dp"
-                    android:layout_marginBottom="@dimen/size_10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginBottom="10dp"
                     android:layout_weight="0.1"
                     android:background="@color/colorGreen"
-                    android:text="@string/exit"
+                    android:text="@string/confirm"
                     android:textColor="@color/colorWhite"
-                    android:textSize="@dimen/size_16dp" />
+                    android:textSize="16dp" />
             </LinearLayout>
 
         </LinearLayout>

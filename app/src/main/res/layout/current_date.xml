@@ -14,7 +14,7 @@
             android:background="@drawable/rounded_lightgreen"
             android:gravity="center"
             android:textColor="@color/defaultColor"
-            android:textSize="@dimen/size_16dp"/>
+            android:textSize="16dp"/>
 
         <Space
             android:layout_width="match_parent"

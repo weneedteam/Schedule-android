@@ -19,6 +19,8 @@
         </activity>
 
         <activity android:name=".activity.ScheCalendarActivity"/>
+        <activity android:name=".activity.AddScheduleActivity"
+            android:theme="@android:style/Theme.Dialog"/>
     </application>
 
 </manifest>
