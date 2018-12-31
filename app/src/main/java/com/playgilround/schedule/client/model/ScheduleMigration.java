@@ -22,5 +22,15 @@ public class ScheduleMigration implements RealmMigration {
                     .addField("isChecked", boolean.class);
             oldVersion++;
         }
+        if (oldVersion == 1) {
+            schema.create("Schedule")
+                    .addField("id", int.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("title", String.class, FieldAttribute.REQUIRED)
+                    .addField("location", String.class)
+                    .addField("latitude", double.class)
+                    .addField("longitude", double.class)
+                    .addField("time", long.class);
+            oldVersion++;
+        }
     }
 }

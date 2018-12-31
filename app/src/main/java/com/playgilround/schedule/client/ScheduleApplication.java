@@ -17,7 +17,7 @@ public class ScheduleApplication extends Application {
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
                 .name(getString(R.string.realm_name))
-                .schemaVersion(0)
+                .schemaVersion(1)
                 .migration(new ScheduleMigration())
                 .build();
 

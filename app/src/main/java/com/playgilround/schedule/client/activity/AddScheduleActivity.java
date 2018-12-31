@@ -9,9 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
+
+import io.realm.Realm;
 
 /**
  * 18-12-30
@@ -22,6 +27,10 @@ public class AddScheduleActivity extends Activity {
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
     TextView tvDate;
+    Button btnConfirm;
+    Realm realm;
+
+    EditText etTitle;
 
 
     @Override
@@ -32,7 +41,12 @@ public class AddScheduleActivity extends Activity {
         setContentView(R.layout.dialog_add_schedule);
 //        final LocationManager lm = (LocationManager)
 
-        tvDate = (TextView) findViewById(R.id.tv_date);
+        realm = Realm.getDefaultInstance();
+
+        tvDate = findViewById(R.id.tv_date);
+        btnConfirm = findViewById(R.id.btn_confirm);
+        etTitle = findViewById(R.id.etScheduleTitle);
+
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
         Log.d(TAG, "Date Test ->" + date);
@@ -44,6 +58,19 @@ public class AddScheduleActivity extends Activity {
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
         tvDate.setText(strDate);
 
+        btnConfirm.setOnClickListener(l -> {
+            confirm();
+        });
+
+    }
+
+    //Click Confirm Button
+    private void confirm() {
+        if (etTitle.getText().length() == 0) {
+            Toast.makeText(getApplicationContext(), "스케줄을 입력해주세요!", Toast.LENGTH_LONG).show();
+        } else {
+
+        }
     }
 
     @Override
