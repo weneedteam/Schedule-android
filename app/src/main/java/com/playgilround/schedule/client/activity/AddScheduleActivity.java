@@ -17,6 +17,8 @@ import android.widget.Toast;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
+import org.joda.time.DateTime;
+
 import java.util.Date;
 
 import io.realm.Realm;
@@ -29,7 +31,7 @@ public class AddScheduleActivity extends Activity {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
-    TextView tvDate;
+    TextView tvDate, tvTime;
     Button btnConfirm;
     Realm realm;
 
@@ -47,6 +49,8 @@ public class AddScheduleActivity extends Activity {
         realm = Realm.getDefaultInstance();
 
         tvDate = findViewById(R.id.tv_date);
+        tvTime = findViewById(R.id.tvScheduleTime);
+
         btnConfirm = findViewById(R.id.btn_confirm);
         etTitle = findViewById(R.id.etScheduleTitle);
 
@@ -59,7 +63,15 @@ public class AddScheduleActivity extends Activity {
         String strDay = date.substring(6, 8);
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
+
+        //Get Current Time
+        DateTime dateTime = new DateTime();
+        String curTime = dateTime.toString("HH:mm");
+        Log.d(TAG, "curTime ->" + curTime);
+
+        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + curTime;
         tvDate.setText(strDate);
+        tvTime.setText(strTime);
 
         btnConfirm.setOnClickListener(l -> {
             confirm();
@@ -89,6 +101,9 @@ public class AddScheduleActivity extends Activity {
 //                mSchedule.setId(nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
 //                mSchedule
+
+                Toast.makeText(getApplicationContext(), "스케줄 저장 완료", Toast.LENGTH_LONG).show();
+                finish();
             });
 
         }

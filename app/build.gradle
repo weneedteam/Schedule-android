@@ -58,6 +58,9 @@ dependencies {
     implementation 'com.uphyca:stetho_realm:2.3.0'
     implementation 'com.facebook.stetho:stetho:1.5.0'
 
+    //jodaTime
+    implementation 'joda-time:joda-time:2.9.9'
+
 }
 
 apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'
