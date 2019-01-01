@@ -13,7 +13,7 @@ android {
     defaultConfig {
         applicationId "com.playgilround.schedule.client"
 
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 28
 
         versionCode 14
@@ -52,8 +52,12 @@ dependencies {
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
 
-    implementation 'com.annimon:stream:1.1.7'
+    implementation 'com.annimon:stream:1.2.1'
 
+    //Stetho
+    implementation 'com.uphyca:stetho_realm:2.3.0'
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+
+    //jodaTime
+    implementation 'joda-time:joda-time:2.9.9'
 }
-
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

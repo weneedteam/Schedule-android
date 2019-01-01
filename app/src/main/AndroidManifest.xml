@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.playgilround.schedule.client">
-
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:name=".ScheduleApplication"
         android:allowBackup="true"
@@ -18,7 +20,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Activity.ScheCalendarActivity"/>
+        <activity android:name=".activity.ScheCalendarActivity"/>
+        <activity android:name=".activity.AddScheduleActivity"
+                android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+
+        <activity android:name=".activity.SetLocationActivity"
+            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+
     </application>
 
 </manifest>

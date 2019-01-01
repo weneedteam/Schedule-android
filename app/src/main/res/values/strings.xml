@@ -41,4 +41,18 @@
     <string name="material_calendar_negative_button">Cancel</string>
 
     <string name="exit">닫기</string>
+    <string name="confirm">확인</string>
+    <string name="addSchdule">스케줄 추가</string>
+
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+
+    <dimen name="schedule_item_size">50dp</dimen>
+    <dimen name="line_height">0.5dp</dimen>
+
+    <string name="hint_schedule">스케줄을 적어주세요..</string>
+    <string name="remarks">스케줄 내용</string>
+    <string name="please_input_desc">내용을 적어주세요..</string>
+
+
+
 </resources>
