@@ -15,11 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarView;
+import com.playgilround.schedule.client.calendar.DatePicker;
+import com.playgilround.schedule.client.calendar.builders.DatePickerBuilder;
+import com.playgilround.schedule.client.calendar.listeners.OnSelectDateListener;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Stream;
 
 import io.realm.Realm;
 
@@ -27,7 +34,7 @@ import io.realm.Realm;
  * 18-12-30
  * 스케줄 추가 관련 DialogFragment
  */
-public class AddScheduleActivity extends Activity {
+public class AddScheduleActivity extends Activity implements View.OnClickListener, OnSelectDateListener {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
@@ -54,6 +61,7 @@ public class AddScheduleActivity extends Activity {
         btnConfirm = findViewById(R.id.btn_confirm);
         etTitle = findViewById(R.id.etScheduleTitle);
 
+        findViewById(R.id.llScheduleTime).setOnClickListener(this);
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
         Log.d(TAG, "Date Test ->" + date);
@@ -77,6 +85,14 @@ public class AddScheduleActivity extends Activity {
             confirm();
         });
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.llScheduleTime:
+                showCalendarDialog();
+        }
     }
 
     //Click Confirm Button
@@ -109,6 +125,23 @@ public class AddScheduleActivity extends Activity {
         }
     }
 
+    //Show Select Calendar Dialog
+    private void showCalendarDialog() {
+        Log.d(TAG, "showCalendarDialog...");
+        DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
+                .pickerType(CalendarView.ONE_DAY_PICKER)
+                .headerColor(R.color.colorGreen)
+                .headerLabelColor(R.color.colorWhite)
+                .selectionColor(R.color.colorGreen)
+                .todayLabelColor(R.color.colorAccent)
+                .dialogButtonsColor(android.R.color.holo_green_dark)
+                .previousButtonSrc(R.drawable.ic_chevron_left_black_24dp)
+                .forwardButtonSrc(R.drawable.ic_chevron_right_black_24dp);
+
+        DatePicker datePicker = dateBuilder.build();
+        datePicker.show();
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -116,6 +149,12 @@ public class AddScheduleActivity extends Activity {
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+    }
+
+    //Dialog Day Click Event
+    @Override
+    public void onSelect(List<Calendar> calendars) {
+            Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
     }
 
 }

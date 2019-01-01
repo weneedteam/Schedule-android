@@ -20,7 +20,8 @@
 
         <activity android:name=".activity.ScheCalendarActivity"/>
         <activity android:name=".activity.AddScheduleActivity"
-            android:theme="@android:style/Theme.Dialog"/>
+                android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+
     </application>
 
 </manifest>
