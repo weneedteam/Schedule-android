@@ -60,7 +60,4 @@ dependencies {
 
     //jodaTime
     implementation 'joda-time:joda-time:2.9.9'
-
 }
-
-apply from: 'https://raw.githubusercontent.com/blundell/release-android-library/master/android-release-aar.gradle'

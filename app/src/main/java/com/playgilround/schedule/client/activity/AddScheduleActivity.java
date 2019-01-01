@@ -1,8 +1,11 @@
 package com.playgilround.schedule.client.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -23,6 +26,9 @@ import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -43,6 +49,8 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     Realm realm;
 
     EditText etTitle;
+    DateTime dateTime;
+    DateTimeFormatter fmt;
 
 
     @Override
@@ -62,6 +70,8 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         etTitle = findViewById(R.id.etScheduleTitle);
 
         findViewById(R.id.llScheduleTime).setOnClickListener(this);
+        findViewById(R.id.llScheduleLocation).setOnClickListener(this);
+
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
         Log.d(TAG, "Date Test ->" + date);
@@ -73,7 +83,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
 
         //Get Current Time
-        DateTime dateTime = new DateTime();
+        dateTime = new DateTime();
         String curTime = dateTime.toString("HH:mm");
         Log.d(TAG, "curTime ->" + curTime);
 
@@ -92,6 +102,10 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         switch (v.getId()) {
             case R.id.llScheduleTime:
                 showCalendarDialog();
+                break;
+            case R.id.llScheduleLocation:
+                showLocationActivity();
+                break;
         }
     }
 
@@ -142,6 +156,19 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         datePicker.show();
     }
 
+    //Show Location Theme Dialog
+    private void showLocationActivity() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Intent intent = new Intent(this, SetLocationActivity.class);
+            startActivityForResult(intent, 3000);
+        } else {
+            Toast.makeText(getApplicationContext(), "스케줄에 위치 추가를 위해 \n GPS 를 켜주세요.", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -155,6 +182,10 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     @Override
     public void onSelect(List<Calendar> calendars) {
             Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
-    }
+            String strTime  = calendars.get(0).getTime().toString();
+            org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("EEE MMM dd hh:mm:ss ZZZZ yyyy");
+            DateTime dt = DateTime.parse(strTime, fmt);
+            Log.d(TAG ,"Dt -> " +dt.toString());
 
+    }
 }
