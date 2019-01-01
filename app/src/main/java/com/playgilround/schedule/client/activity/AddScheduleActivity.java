@@ -38,7 +38,7 @@ import io.realm.Realm;
 
 /**
  * 18-12-30
- * 스케줄 추가 관련 DialogFragment
+ * 스케줄 추가 관련 Activity
  */
 public class AddScheduleActivity extends Activity implements View.OnClickListener, OnSelectDateListener {
 

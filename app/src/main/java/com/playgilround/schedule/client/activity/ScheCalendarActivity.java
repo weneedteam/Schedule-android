@@ -1,12 +1,10 @@
 package com.playgilround.schedule.client.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.WindowManager;
 
-import com.playgilround.schedule.client.Dialog.ScheCalendarDialog;
 import com.playgilround.schedule.client.R;
 
 
@@ -43,9 +41,9 @@ public class ScheCalendarActivity extends AppCompatActivity {
     //show Dialog When User Click Calendar
     private void showDialogCalendar(String date) {
         Log.d(TAG, "date --> " + date);
-        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+     /*   DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
         int width = dm.widthPixels;
-        int height = dm.heightPixels;
+        int height = dm.heightPixels;*/
 
         String[] date_arr = date.split(" "); //공백 기준
 
@@ -55,16 +53,20 @@ public class ScheCalendarActivity extends AppCompatActivity {
 
         String strDate = strYear + strMonth + strDay;
 
-        ScheCalendarDialog calendarDialog = new ScheCalendarDialog(this, this, strDate);
+        Intent intent = new Intent(this, ScheduleInfoActivity.class);
+        intent.putExtra("date", strDate);
+        startActivity(intent);
+
+/*
+        ScheduleInfoActivity calendarDialog = new ScheduleInfoActivity(this, this, strDate);
 
         WindowManager.LayoutParams wm = calendarDialog.getWindow().getAttributes();
-
         wm.copyFrom(calendarDialog.getWindow().getAttributes());
 
         wm.width = (int) (width / 1.2);
         wm.height = (int) (height / 1.5);
 
-        calendarDialog.show();
+        calendarDialog.show();*/
     }
 
     //Month Eng -> Num
