@@ -6,6 +6,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.EventDay;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -36,6 +44,7 @@ public class ScheCalendarActivity extends AppCompatActivity {
         //전 달로 이동
         calendarView.setOnPreviousPageChangeListener(() -> Log.d(TAG, "Previous Month ---"));
 
+        Log.d(TAG, "calendarView.getCurrentPageDate() -->" + calendarView.getCurrentPageDate().getTimeInMillis());
     }
 
     //show Dialog When User Click Calendar
