@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.content.IntentCompat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -54,6 +56,20 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         tvDate.setText(strDate);
 
         findViewById(R.id.ivAddBtn).setOnClickListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
+                int width = dm.widthPixels;
+                int height = dm.heightPixels;
+
+        WindowManager.LayoutParams wm = getWindow().getAttributes();
+
+        wm.copyFrom(getWindow().getAttributes());
+        wm.width = (int) (width / 1.2);
+        wm.height = (int) (height / 1.5);
     }
     /*public ScheduleInfoActivity(Activity activity, Context context, String date) {
         super(context);
