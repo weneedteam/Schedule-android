@@ -53,4 +53,7 @@
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
 
+    <!-- Message -->
+    <string name="message_check_permission">Checking Permission</string>
+
 </resources>
