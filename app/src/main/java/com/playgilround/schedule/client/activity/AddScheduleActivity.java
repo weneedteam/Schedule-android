@@ -145,7 +145,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.colorGreen)
-                .headerLabelColor(R.color.colorWhite)
+                .headerLabelColor(android.R.color.white)
                 .selectionColor(R.color.colorGreen)
                 .todayLabelColor(R.color.colorAccent)
                 .dialogButtonsColor(android.R.color.holo_green_dark)

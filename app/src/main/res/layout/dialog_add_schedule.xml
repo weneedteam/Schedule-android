@@ -45,13 +45,13 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginRight="10dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:hint="@string/hint_schedule"
                     android:lines="1"
                     android:textColor="@color/color_schedule_title_text"
-                    android:textSize="18dp"
-                    android:layout_marginRight="10dp" />
+                    android:textSize="18dp" />
             </LinearLayout>
 
             <View
@@ -192,7 +192,7 @@
                     android:layout_weight="0.1"
                     android:background="@color/colorGreen"
                     android:text="@string/confirm"
-                    android:textColor="@color/colorWhite"
+                    android:textColor="@android:color/white"
                     android:textSize="16dp" />
             </LinearLayout>
 
