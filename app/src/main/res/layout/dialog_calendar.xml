@@ -45,7 +45,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
-                    android:text="@string/addSchdule"
+                    android:text="@string/text_add_schedule"
                     android:textSize="25dp" />
             </LinearLayout>
 
@@ -60,7 +60,7 @@
                     android:layout_height="40dp"
                     android:layout_gravity="center_vertical"
                     android:background="@color/colorGreen"
-                    android:text="@string/exit"
+                    android:text="@string/button_exit"
                     android:textColor="@android:color/white"
                     android:textSize="16dp" />
             </LinearLayout>
