@@ -14,8 +14,6 @@
 
     <color name="itemHighlightColor">#1F000000</color>
 
-    <color name="defaultColor">#000000</color>
-    <color name="colorWhite">@android:color/white</color>
     <color name="color_schedule_line">#E3E1EE</color>
     <color name="color_schedule_title_text">#272E3E</color>
     <color name="color_schedule_text">#282D40</color>
@@ -78,9 +76,6 @@
     <color name="color_add_event_set_content">#F4F4F4</color>
     <color name="color_add_event_text">#282D40</color>
     <color name="color_circle_border">#706F7D</color>
-    <string name="event_set_color">Color</string>
     <color name="color_menu_line">#303054</color>
-
-    <color name="color_black">#000000</color>
 
 </resources>

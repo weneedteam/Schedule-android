@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Schedule-android</string>
+    <string name="app_name">Schedule</string>
     <string name="realm_name" translatable="false">schedule.realm</string>
+    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
     <string name="material_calendar_monday">M</string>
     <string name="material_calendar_tuesday">T</string>
@@ -40,19 +41,19 @@
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
 
-    <string name="exit">닫기</string>
-    <string name="confirm">확인</string>
-    <string name="addSchdule">스케줄 추가</string>
+    <!-- Button -->
+    <string name="button_exit">Exit</string>
+    <string name="button_confirm">Confirm</string>
 
-    <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
+    <!-- Text -->
+    <string name="text_add_schedule">Add schedule</string>
+    <string name="text_schedule_contents">Contents</string>
 
-    <dimen name="schedule_item_size">50dp</dimen>
-    <dimen name="line_height">0.5dp</dimen>
+    <!-- Hint -->
+    <string name="hint_schedule">Edit schedule.</string>
+    <string name="hint_schedule_contents">Edit schedule contents.</string>
 
-    <string name="hint_schedule">스케줄을 적어주세요..</string>
-    <string name="remarks">스케줄 내용</string>
-    <string name="please_input_desc">내용을 적어주세요..</string>
-
-
+    <!-- Message -->
+    <string name="message_check_permission">Checking Permission</string>
 
 </resources>
