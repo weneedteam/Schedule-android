@@ -1,5 +1,5 @@
 apply plugin: 'com.android.application'
-
+apply plugin: 'io.fabric'
 apply plugin: 'realm-android'
 ext {
     PUBLISH_GROUP_ID = 'com.applandeo'
@@ -66,4 +66,7 @@ dependencies {
     implementation 'gun0912.ted:tedpermission:2.2.2'
 
 
+    implementation 'com.google.firebase:firebase-core:16.0.6'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
 }
+apply plugin: 'com.google.gms.google-services'
