@@ -20,7 +20,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ScheCalendarActivity"/>
+        <activity android:name=".activity.ScheduleCalendarActivity"/>
         <activity android:name=".activity.AddScheduleActivity"
                 android:theme="@style/Theme.AppCompat.Light.Dialog"/>
 

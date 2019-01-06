@@ -5,8 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.calendar.EventDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -19,10 +20,10 @@ import java.util.List;
  * added by CHO
  * Test
  */
-public class ScheCalendarActivity extends AppCompatActivity {
+public class ScheduleCalendarActivity extends AppCompatActivity {
 
-    private com.playgilround.schedule.client.calendar.CalendarView calendarView;
-    static final String TAG = ScheCalendarActivity.class.getSimpleName();
+    private CalendarView calendarView;
+    static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

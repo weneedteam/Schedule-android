@@ -17,11 +17,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.DatePicker;
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
+import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.calendar.CalendarView;
-import com.playgilround.schedule.client.calendar.DatePicker;
-import com.playgilround.schedule.client.calendar.builders.DatePickerBuilder;
-import com.playgilround.schedule.client.calendar.listeners.OnSelectDateListener;
+
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;

@@ -11,6 +11,7 @@ import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                    public void onPermissionDenied(List<String> deniedPermissions) {
 
                     }
                 })
@@ -41,12 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 .setPermissions(PERMISSION_STORAGE)
                 .check();
 
-        findViewById(R.id.button_calendar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScheCalendarActivity.class));
-            }
-        });
+        findViewById(R.id.button_calendar).setOnClickListener(l ->
+            startActivity(new Intent(MainActivity.this, ScheduleCalendarActivity.class)));
+        }
     }
-}
+
 
