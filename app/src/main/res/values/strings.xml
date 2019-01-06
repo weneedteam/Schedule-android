@@ -56,4 +56,7 @@
     <!-- Message -->
     <string name="message_check_permission">Checking Permission</string>
 
+    <!-- Google Map-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBtfoWf45RbAnQ7mDul2qiW37sB5jEy_Ho</string>
+
 </resources>
