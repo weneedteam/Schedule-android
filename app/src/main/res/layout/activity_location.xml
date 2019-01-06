@@ -3,12 +3,47 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="30dp"
-    android:paddingRight="30dp">
+    android:orientation="vertical"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:gravity="center"
+        android:text="@string/text_add_location"
+        android:textColor="@color/colorGreen"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/schedule_hint_dash_line_width"
+        android:background="@color/color_select_date_dialog_line" />
+
+    <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
+        style="@style/MaterialSearchBarDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:mt_hint="위치 검색"
+        app:mt_maxSuggestionsCount="30"
+        app:mt_placeholder="위치 검색"
+        app:mt_speechMode="false" />
 
     <fragment
         android:id="@+id/google_map"
+        class="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        class="com.google.android.gms.maps.MapFragment"/>
+        android:layout_height="300dp" />
+
+
+    <include
+        layout="@layout/confirm_cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp" />
+
+
 </LinearLayout>
