@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
+import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -13,16 +14,22 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * 19-01-01
@@ -34,6 +41,8 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     double latitude; //위도
     double longitude; //경도
 
+    double searchLatitude;
+    double searchLongitude;
     static final String TAG = SetLocationActivity.class.getSimpleName();
 
     private GoogleMap mMap;
@@ -118,6 +127,58 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     public void onSearchConfirmed(CharSequence text) {
         if (isSearch) {
             if (isInit) {
+                List<Address> addressList = null;
+
+                try {
+                    addressList = geocoder.getFromLocationName(text.toString(), 1);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if (addressList.size() != 0) {
+                    String title = addressList.get(0).getFeatureName();
+                    String snippet = addressList.get(0).getCountryName();
+
+                    searchLatitude = addressList.get(0).getLatitude();
+                    searchLongitude = addressList.get(0).getLongitude();
+
+                    //현재 자기 위치 좌표 생성
+                    LatLng currentMap = new LatLng(latitude, longitude);
+
+                    //검색 된 위치 좌표 생성
+                    LatLng searchMap = new LatLng(searchLatitude, searchLongitude);
+
+                    //Create Marker
+                    MarkerOptions mOption = new MarkerOptions();
+                    mOption.title(title);
+                    mOption.snippet(snippet);
+                    mOption.position(searchMap);
+                    mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                    //Add Marker
+                    mMap.addMarker(mOption);
+
+                    //내 위치와 목적지 거리 계산
+                    Location currentLocation = new Location("Current");
+                    currentLocation.setLatitude(latitude);
+                    currentLocation.setLongitude(longitude);
+
+                    Location destLocation = new Location("destination");
+                    destLocation.setLatitude(searchLatitude);
+                    destLocation.setLongitude(searchLongitude);
+
+                    double distance = currentLocation.distanceTo(destLocation);
+
+                    //해당된 좌표로 화면 줌.
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchMap, setZoomLevel(distance)));
+
+                    //내위치 -> 목적지 거리를 선으로 표시.
+                    mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
+
+                } else if (addressList.size() == 0) {
+                    Toast.makeText(getApplicationContext(), "장소 검색에 실패했습니다.", Toast.LENGTH_LONG).show();
+                }
+
                 isSearch = false;
             }
         } else {
@@ -185,6 +246,79 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
     }
+
+    /**
+     * Zoom level 0 1:20088000.56607700 meters
+     * Zoom level 1 1:10044000.28303850 meters
+     * Zoom level 2 1:5022000.14151925 meters
+     * Zoom level 3 1:2511000.07075963 meters
+     * Zoom level 4 1:1255500.03537981 meters
+     * Zoom level 5 1:627750.01768991 meters
+     * Zoom level 6 1:313875.00884495 meters
+     * Zoom level 7 1:156937.50442248 meters
+     * Zoom level 8 1:78468.75221124 meters
+     * Zoom level 9 1:39234.37610562 meters
+     * Zoom level 10 1:19617.18805281 meters
+     * Zoom level 11 1:9808.59402640 meters
+     * Zoom level 12 1:4909.29701320 meters
+     * Zoom level 13 1:2452.14850660 meters
+     * Zoom level 14 1:1226.07425330 meters
+     * Zoom level 15 1:613.03712665 meters
+     * Zoom level 16 1:306.51856332 meters
+     * Zoom level 17 1:153.25928166 meters
+     * Zoom level 18 1:76.62964083 meters
+     * Zoom level 19 1:38.31482042 meters
+     * <p>
+     * 목적지와, 내위치거리를 계산해서,
+     * Google map zoom level을 결정함.
+     */
+    public int setZoomLevel(Double distance) {
+        if (distance < 38.31482042) {
+            return 19;
+        } else if (distance < 76.62964083) {
+            return 18;
+        } else if (distance < 153.25928166) {
+            return 17;
+        } else if (distance < 306.51856332) {
+            return 16;
+        } else if (distance < 613.03712665) {
+            return 15;
+        } else if (distance < 1226.07425330) {
+            return 14;
+        } else if (distance < 2452.14850660) {
+            return 13;
+        } else if (distance < 4909.29701320) {
+            return 12;
+        } else if (distance < 9808.59402640) {
+            return 11;
+        } else if (distance < 19617.18805281) {
+            return 10;
+        } else if (distance < 39234.37610562) {
+            return 9;
+        } else if (distance < 78468.75221124) {
+            return 8;
+        } else if (distance < 156937.50442248) {
+            return 7;
+        } else if (distance < 313875.00884495) {
+            return 6;
+        } else if (distance < 627750.01768991) {
+            return 5;
+        } else if (distance < 1255500.03537981) {
+            return 4;
+        } else if (distance < 2511000.07075963) {
+            return 3;
+        } else if (distance < 5022000.14151925) {
+            return 2;
+        } else if (distance < 10044000.28303850) {
+            return 1;
+        } else if (distance < 20088000.56607700) {
+            return 0;
+        } else {
+            return 0;
+        }
+
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
