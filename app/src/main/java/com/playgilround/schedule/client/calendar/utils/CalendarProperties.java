@@ -136,7 +136,7 @@ public class CalendarProperties {
 
     public int getSelectionColor() {
         if (mSelectionColor == 0) {
-            return ContextCompat.getColor(mContext, R.color.defaultColor);
+            return ContextCompat.getColor(mContext, android.R.color.black);
         }
 
         return mSelectionColor;
@@ -148,7 +148,7 @@ public class CalendarProperties {
 
     public int getTodayLabelColor() {
         if (mTodayLabelColor == 0) {
-            return ContextCompat.getColor(mContext, R.color.defaultColor);
+            return ContextCompat.getColor(mContext, android.R.color.black);
         }
 
         return mTodayLabelColor;

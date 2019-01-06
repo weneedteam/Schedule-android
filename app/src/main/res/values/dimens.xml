@@ -3,4 +3,7 @@
     <dimen name="row_height">44dp</dimen>
     <dimen name="day_label_size_events_enabled">30dp</dimen>
     <dimen name="day_label_size_events_disabled">38dp</dimen>
+
+    <dimen name="schedule_item_size">50dp</dimen>
+    <dimen name="line_height">0.5dp</dimen>
 </resources>
