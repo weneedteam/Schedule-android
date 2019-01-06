@@ -8,7 +8,10 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,13 +19,15 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
 
 /**
  * 19-01-01
  * 위치 관련 Activity
  */
-public class SetLocationActivity extends Activity implements OnMapReadyCallback {
+public class SetLocationActivity extends Activity implements OnMapReadyCallback,
+        MaterialSearchBar.OnSearchActionListener, View.OnClickListener {
 
     double latitude; //위도
     double longitude; //경도
@@ -31,6 +36,8 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback 
 
     private GoogleMap mMap;
     private Geocoder geocoder;
+
+    private MaterialSearchBar searchBar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -46,6 +53,58 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback 
         } catch (SecurityException e) {
             e.printStackTrace();
         }
+
+        //Material Search Bar 관련 작업
+        searchBar = findViewById(R.id.searchBar);
+        searchBar.setHint("위치 검색");
+        searchBar.setSpeechMode(false);
+
+        searchBar.setOnSearchActionListener(this);
+        searchBar.addTextChangeListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        findViewById(R.id.tvConfirm).setOnClickListener(this);
+        findViewById(R.id.tvCancel).setOnClickListener(this);
+    }
+
+    //SearchBar Clicked
+    @Override
+    public void onButtonClicked(int buttonCode) {
+        switch (buttonCode) {
+            case MaterialSearchBar.BUTTON_NAVIGATION:
+                Log.d(TAG, "Button Navigation MaterialSearchBar");
+                break;
+
+            case MaterialSearchBar.BUTTON_SPEECH:
+                Log.d(TAG, "Button speech MaterialSearchBar..");
+                break;
+        }
+    }
+
+    //SearchBar inputText changed
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    //SearchBar SearchButton Click
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        Log.d(TAG, "Confirm --->" + text.toString());
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -97,6 +156,18 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback 
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
         map.animateCamera(CameraUpdateFactory.zoomTo(15));
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.tvCancel:
+                finish();
+                break;
+
+            case R.id.tvConfirm:
+                break;
+        }
     }
 
 }
