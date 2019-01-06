@@ -74,5 +74,8 @@ dependencies {
     //Google Map
     implementation 'com.google.android.gms:play-services-maps:16.0.0'
     implementation 'com.google.android.gms:play-services-location:16.0.0'
+
+    //Material-SerachBar
+    implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
 }
 apply plugin: 'com.google.gms.google-services'
