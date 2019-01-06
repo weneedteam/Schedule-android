@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Geocoder;
@@ -15,6 +16,7 @@ import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -39,6 +41,16 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     private MaterialSearchBar searchBar;
 
+    /**
+     * Material Search Bar 검색 버튼 클릭 시,
+     * 2번 검색되는 버그가 있어 flag 추가 (isSearch)
+     * 검색 버튼 클릭 시,
+     * SearchBar 텍스트가 이전과 같을 경우
+     * 검색이 안되는 버그가 있어 flag 추가 (isInit).
+     */
+    private boolean isInit = false;
+    private boolean isSearch = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,13 +74,13 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         searchBar.setOnSearchActionListener(this);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
 
             }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+            public void onTextChanged(CharSequence charSequence, int start, int before, int count) {
+                isInit = true;
             }
 
             @Override
@@ -104,7 +116,13 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     //SearchBar SearchButton Click
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        Log.d(TAG, "Confirm --->" + text.toString());
+        if (isSearch) {
+            if (isInit) {
+                isSearch = false;
+            }
+        } else {
+            isSearch = true;
+        }
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -114,6 +132,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
             longitude = location.getLongitude();
 
             Log.d(TAG, "Location Test ->" + latitude + "//" + longitude);
+            finishLocation();
         }
 
         @Override
@@ -140,6 +159,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
         MarkerOptions markerOptions = new MarkerOptions();
 
+        Log.d(TAG, "onMapReady latitude ->" + latitude + longitude);
         LatLng destMap = new LatLng(latitude, longitude);
 
         markerOptions.position(destMap);
@@ -158,6 +178,13 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     }
 
+    //위도 경도 탐색완료.
+    private void finishLocation() {
+        FragmentManager fragmentManager = getFragmentManager();
+
+        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment.getMapAsync(this);
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
