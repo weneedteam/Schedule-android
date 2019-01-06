@@ -5,15 +5,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.calendar.EventDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 
 /**
@@ -22,10 +20,10 @@ import java.util.Set;
  * added by CHO
  * Test
  */
-public class ScheCalendarActivity extends AppCompatActivity {
+public class ScheduleCalendarActivity extends AppCompatActivity {
 
-    private com.playgilround.schedule.client.calendar.CalendarView calendarView;
-    static final String TAG = ScheCalendarActivity.class.getSimpleName();
+    private CalendarView calendarView;
+    static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +33,10 @@ public class ScheCalendarActivity extends AppCompatActivity {
         setTitle("스케줄 달력");
         calendarView = findViewById(R.id.calendarView);
 
+        List<EventDay> events = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
+        calendarView.setEvents(events);
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> showDialogCalendar(eventDay.getCalendar().getTime().toString()));
 

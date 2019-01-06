@@ -51,6 +51,7 @@ dependencies {
 
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
+    implementation 'com.applandeo:material-calendar-view:1.5.1'
 
     implementation 'com.annimon:stream:1.2.1'
 
@@ -62,7 +63,8 @@ dependencies {
     implementation 'joda-time:joda-time:2.9.9'
 
     //Permission
-    implementation 'gun0912.ted:tedpermission:2.1.1'
+    implementation 'gun0912.ted:tedpermission:2.2.2'
+
 
     implementation 'com.google.firebase:firebase-core:16.0.6'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
