@@ -56,6 +56,10 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     public static final String LOCATION_CURRENT = "current";
     public static final String LOCATION_DESTINATION = "destination";
 
+    public static final String INTENT_EXTRA_LOCATION = "location";
+    public static final String INTENT_EXTRA_LATITUDE = "latitude";
+    public static final String INTENT_EXTRA_LONGITUDE = "longitude";
+
     private GoogleMap mMap;
     private Geocoder geocoder;
 
@@ -347,9 +351,9 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 //Search Bar 텍스트와, 지정된 Location 이 같을 때만 finish
                 if (strSearchBar.equals(searchLocation)) {
                     Intent intent = new Intent();
-                    intent.putExtra("location", searchLocation);
-                    intent.putExtra("latitude", searchLatitude);
-                    intent.putExtra("longitude", searchLongitude);
+                    intent.putExtra(INTENT_EXTRA_LOCATION, searchLocation);
+                    intent.putExtra(INTENT_EXTRA_LATITUDE, searchLatitude);
+                    intent.putExtra(INTENT_EXTRA_LONGITUDE, searchLongitude);
 
                     Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
                     setResult(LOCATION_OK, intent);

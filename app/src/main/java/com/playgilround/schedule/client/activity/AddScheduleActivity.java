@@ -52,8 +52,8 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     Double resLatitude;
     Double resLongitude;
 
-    public static final int LOCATION_START = 1000;
-    public static final int LOCATION_OK = 1001;
+    public static final int LOCATION_START = 0x1000;
+    public static final int LOCATION_OK = 0x1001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -194,9 +194,9 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             switch (requestCode) {
                 case LOCATION_START:
 
-                    resLocation = data.getStringExtra("location");
-                    resLatitude = data.getDoubleExtra("latitude", 0);
-                    resLongitude = data.getDoubleExtra("longitude", 0);
+                    resLocation = data.getStringExtra(SetLocationActivity.INTENT_EXTRA_LOCATION);
+                    resLatitude = data.getDoubleExtra(SetLocationActivity.INTENT_EXTRA_LATITUDE, 0);
+                    resLongitude = data.getDoubleExtra(SetLocationActivity.INTENT_EXTRA_LONGITUDE, 0);
 
                     if (TextUtils.isEmpty(resLocation)) {
                         tvLocation.setText(R.string.text_add_location);
