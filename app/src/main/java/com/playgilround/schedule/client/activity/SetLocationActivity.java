@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -43,6 +45,10 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     double searchLatitude;
     double searchLongitude;
+    String searchLocation;
+
+    //현재 SearchBar 에 적힌 텍스트 확인.
+    String strSearchBar;
     static final String TAG = SetLocationActivity.class.getSimpleName();
 
     static final String LOCATION_CURRENT = "current";
@@ -96,7 +102,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
             }
 
             @Override
@@ -106,7 +111,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                strSearchBar = editable.toString();
             }
         });
 
@@ -184,6 +189,8 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
                     //내위치 -> 목적지 거리를 선으로 표시.
                     mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
+
+                    searchLocation = text.toString();
 
                 } else if (addressList.size() == 0) {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
@@ -335,7 +342,22 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 break;
 
             case R.id.tvConfirm:
-                break;
+                //Search Bar 텍스트와, 지정된 Location 이 같을 때만 finish
+                if (strSearchBar.equals(searchLocation)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("location", searchLocation);
+                    intent.putExtra("latitude", searchLatitude);
+                    intent.putExtra("longitude", searchLongitude);
+
+                    Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                    break;
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_check_location), Toast.LENGTH_LONG).show();
+                    break;
+                }
+
         }
     }
 

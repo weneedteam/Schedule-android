@@ -29,6 +29,8 @@
     <string name="toast_msg_input_schedule">스케줄을 입력해주세요.</string>
     <string name="toast_msg_save_schedule">스케줄 저장 완료.</string>
     <string name="toast_msg_gps_enable">GPS를 켜주세요.</string>
+    <string name="toast_msg_check_location">입력한 위치를 확인해주세요.</string>
+
 
 
 </resources>

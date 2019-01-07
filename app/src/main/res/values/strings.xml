@@ -71,5 +71,6 @@
     <string name="toast_msg_input_schedule">Please input schedule.</string>
     <string name="toast_msg_save_schedule">Save schedule</string>
     <string name="toast_msg_gps_enable">Turn on the GPS.</string>
+    <string name="toast_msg_check_location">Please Check Input Location.</string>
 
 </resources>
