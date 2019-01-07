@@ -33,6 +33,8 @@ import com.playgilround.schedule.client.R;
 import java.io.IOException;
 import java.util.List;
 
+import static com.playgilround.schedule.client.activity.AddScheduleActivity.LOCATION_OK;
+
 /**
  * 19-01-01
  * 위치 관련 Activity
@@ -51,8 +53,8 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     String strSearchBar;
     static final String TAG = SetLocationActivity.class.getSimpleName();
 
-    static final String LOCATION_CURRENT = "current";
-    static final String LOCATION_DESTINATION = "destination";
+    public static final String LOCATION_CURRENT = "current";
+    public static final String LOCATION_DESTINATION = "destination";
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -350,7 +352,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                     intent.putExtra("longitude", searchLongitude);
 
                     Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
-                    setResult(RESULT_OK, intent);
+                    setResult(LOCATION_OK, intent);
                     finish();
                     break;
                 } else {

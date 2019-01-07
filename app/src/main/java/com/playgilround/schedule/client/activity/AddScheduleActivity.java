@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +39,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
-    TextView tvDate, tvTime;
+    TextView tvDate, tvTime, tvLocation;
     Button btnConfirm;
     Realm realm;
 
@@ -46,6 +47,13 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     DateTime dateTime;
     DateTimeFormatter fmt;
 
+    //SetLocationActivity.class 에서 받은 위치정보.
+    String resLocation;
+    Double resLatitude;
+    Double resLongitude;
+
+    public static final int LOCATION_START = 1000;
+    public static final int LOCATION_OK = 1001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +66,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
         tvDate = findViewById(R.id.tv_date);
         tvTime = findViewById(R.id.tvScheduleTime);
+        tvLocation = findViewById(R.id.tvScheduleLocation);
 
         btnConfirm = findViewById(R.id.btn_confirm);
         etTitle = findViewById(R.id.etScheduleTitle);
@@ -150,7 +159,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Intent intent = new Intent(this, SetLocationActivity.class);
-            startActivityForResult(intent, 3000);
+            startActivityForResult(intent, LOCATION_START);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
@@ -175,6 +184,29 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("EEE MMM dd hh:mm:ss ZZZZ yyyy");
             DateTime dt = DateTime.parse(strTime, fmt);
             Log.d(TAG ,"Dt -> " +dt.toString());
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == LOCATION_OK) {
+            switch (requestCode) {
+                case LOCATION_START:
+
+                    resLocation = data.getStringExtra("location");
+                    resLatitude = data.getDoubleExtra("latitude", 0);
+                    resLongitude = data.getDoubleExtra("longitude", 0);
+
+                    Log.d(TAG, "OK Data -> " + resLocation + "--" + resLatitude + "--" + resLongitude);
+
+                    if (TextUtils.isEmpty(resLocation)) {
+                        tvLocation.setText(R.string.text_add_location);
+                    } else {
+                        tvLocation.setText(resLocation);
+                    }
+                    break;
+            }
+        }
     }
 }
