@@ -48,6 +48,9 @@
     <!-- Text -->
     <string name="text_add_schedule">Add schedule</string>
     <string name="text_schedule_contents">Contents</string>
+    <string name="text_add_location">Add Location</string>
+    <string name="text_cancel">Cancel</string>
+    <string name="text_confirm">Confirm</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
@@ -55,5 +58,8 @@
 
     <!-- Message -->
     <string name="message_check_permission">Checking Permission</string>
+
+    <!-- Google Map-->
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBtfoWf45RbAnQ7mDul2qiW37sB5jEy_Ho</string>
 
 </resources>
