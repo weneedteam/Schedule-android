@@ -6,9 +6,8 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,18 +21,13 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.playgilround.schedule.client.R;
-
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 import io.realm.Realm;
 
@@ -45,7 +39,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
-    TextView tvDate, tvTime;
+    TextView tvDate, tvTime, tvLocation;
     Button btnConfirm;
     Realm realm;
 
@@ -53,6 +47,13 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     DateTime dateTime;
     DateTimeFormatter fmt;
 
+    //SetLocationActivity.class 에서 받은 위치정보.
+    String resLocation;
+    Double resLatitude;
+    Double resLongitude;
+
+    public static final int LOCATION_START = 1000;
+    public static final int LOCATION_OK = 1001;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,12 +61,12 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.dialog_add_schedule);
-//        final LocationManager lm = (LocationManager)
 
         realm = Realm.getDefaultInstance();
 
         tvDate = findViewById(R.id.tv_date);
         tvTime = findViewById(R.id.tvScheduleTime);
+        tvLocation = findViewById(R.id.tvScheduleLocation);
 
         btnConfirm = findViewById(R.id.btn_confirm);
         etTitle = findViewById(R.id.etScheduleTitle);
@@ -75,7 +76,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
-        Log.d(TAG, "Date Test ->" + date);
 
         String strYear = date.substring(0, 4);
         String strMonth = date.substring(4, 6);
@@ -86,7 +86,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         //Get Current Time
         dateTime = new DateTime();
         String curTime = dateTime.toString("HH:mm");
-        Log.d(TAG, "curTime ->" + curTime);
 
         String strTime = strYear + "-" + strMonth + "-" + strDay + " " + curTime;
         tvDate.setText(strDate);
@@ -113,7 +112,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     //Click Confirm Button
     private void confirm() {
         if (etTitle.getText().length() == 0) {
-            Toast.makeText(getApplicationContext(), "스케줄을 입력해주세요!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
             realm.executeTransaction(realm -> {
                 Number currentIdNum = realm.where(Schedule.class).max("id");
@@ -125,15 +124,14 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                 } else {
                     nextId = currentIdNum.intValue() +1;
                 }
-                Log.d(TAG, "realm confirm" + nextId);
 
 //                String checkDate = dt.format(new Date());
                 Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
-//                mSchedule.setId(nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-//                mSchedule
-
-                Toast.makeText(getApplicationContext(), "스케줄 저장 완료", Toast.LENGTH_LONG).show();
+                mSchedule.setLocation(resLocation);
+                mSchedule.setLatitude(resLatitude);
+                mSchedule.setLongitude(resLongitude);
+                Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 finish();
             });
 
@@ -142,7 +140,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
     //Show Select Calendar Dialog
     private void showCalendarDialog() {
-        Log.d(TAG, "showCalendarDialog...");
         DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.colorGreen)
@@ -162,9 +159,9 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Intent intent = new Intent(this, SetLocationActivity.class);
-            startActivityForResult(intent, 3000);
+            startActivityForResult(intent, LOCATION_START);
         } else {
-            Toast.makeText(getApplicationContext(), "스케줄에 위치 추가를 위해 \n GPS 를 켜주세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
@@ -187,6 +184,27 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("EEE MMM dd hh:mm:ss ZZZZ yyyy");
             DateTime dt = DateTime.parse(strTime, fmt);
             Log.d(TAG ,"Dt -> " +dt.toString());
+    }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == LOCATION_OK) {
+            switch (requestCode) {
+                case LOCATION_START:
+
+                    resLocation = data.getStringExtra("location");
+                    resLatitude = data.getDoubleExtra("latitude", 0);
+                    resLongitude = data.getDoubleExtra("longitude", 0);
+
+                    if (TextUtils.isEmpty(resLocation)) {
+                        tvLocation.setText(R.string.text_add_location);
+                    } else {
+                        tvLocation.setText(resLocation);
+                    }
+                    break;
+            }
+        }
     }
 }

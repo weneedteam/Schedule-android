@@ -15,7 +15,7 @@
         android:gravity="center"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:text="@string/text_cancel"
+        android:text="@string/button_cancel"
         android:textColor="@color/colorWrite" />
 
     <TextView
@@ -28,6 +28,6 @@
         android:gravity="center"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
-        android:text="@string/text_confirm"
+        android:text="@string/button_confirm"
         android:textColor="@color/colorWrite" />
 </LinearLayout>

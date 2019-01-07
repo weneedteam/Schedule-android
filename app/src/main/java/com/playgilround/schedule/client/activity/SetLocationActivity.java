@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -32,6 +33,8 @@ import com.playgilround.schedule.client.R;
 import java.io.IOException;
 import java.util.List;
 
+import static com.playgilround.schedule.client.activity.AddScheduleActivity.LOCATION_OK;
+
 /**
  * 19-01-01
  * 위치 관련 Activity
@@ -44,7 +47,14 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     double searchLatitude;
     double searchLongitude;
+    String searchLocation;
+
+    //현재 SearchBar 에 적힌 텍스트 확인.
+    String strSearchBar;
     static final String TAG = SetLocationActivity.class.getSimpleName();
+
+    public static final String LOCATION_CURRENT = "current";
+    public static final String LOCATION_DESTINATION = "destination";
 
     private GoogleMap mMap;
     private Geocoder geocoder;
@@ -77,9 +87,9 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
             progress = new ProgressDialog(this);
             progress.setCanceledOnTouchOutside(false);
-            progress.setTitle("위치");
+            progress.setTitle(getString(R.string.text_location));
 
-            progress.setMessage("현재 계신 곳에 위치를 탐색 중입니다..");
+            progress.setMessage(getString(R.string.text_find_current_location));
             progress.show();
         } catch (SecurityException e) {
             e.printStackTrace();
@@ -87,14 +97,13 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
         //Material Search Bar 관련 작업
         searchBar = findViewById(R.id.searchBar);
-        searchBar.setHint("위치 검색");
+        searchBar.setHint(getString(R.string.text_search_location));
         searchBar.setSpeechMode(false);
 
         searchBar.setOnSearchActionListener(this);
         searchBar.addTextChangeListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int start, int count, int after) {
-
             }
 
             @Override
@@ -104,7 +113,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                strSearchBar = editable.toString();
             }
         });
 
@@ -117,11 +126,9 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     public void onButtonClicked(int buttonCode) {
         switch (buttonCode) {
             case MaterialSearchBar.BUTTON_NAVIGATION:
-                Log.d(TAG, "Button Navigation MaterialSearchBar");
                 break;
 
             case MaterialSearchBar.BUTTON_SPEECH:
-                Log.d(TAG, "Button speech MaterialSearchBar..");
                 break;
         }
     }
@@ -169,11 +176,11 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                     mMap.addMarker(mOption);
 
                     //내 위치와 목적지 거리 계산
-                    Location currentLocation = new Location("Current");
+                    Location currentLocation = new Location(LOCATION_CURRENT);
                     currentLocation.setLatitude(latitude);
                     currentLocation.setLongitude(longitude);
 
-                    Location destLocation = new Location("destination");
+                    Location destLocation = new Location(LOCATION_DESTINATION);
                     destLocation.setLatitude(searchLatitude);
                     destLocation.setLongitude(searchLongitude);
 
@@ -185,8 +192,10 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                     //내위치 -> 목적지 거리를 선으로 표시.
                     mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
 
+                    searchLocation = text.toString();
+
                 } else if (addressList.size() == 0) {
-                    Toast.makeText(getApplicationContext(), "장소 검색에 실패했습니다.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
                 }
 
                 isSearch = false;
@@ -202,7 +211,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
             latitude = location.getLatitude();
             longitude = location.getLongitude();
 
-            Log.d(TAG, "Location Test ->" + latitude + "//" + longitude);
             finishLocation();
         }
 
@@ -230,7 +238,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         progress.cancel();
         MarkerOptions markerOptions = new MarkerOptions();
 
-        Log.d(TAG, "onMapReady latitude ->" + latitude + longitude);
         LatLng destMap = new LatLng(latitude, longitude);
 
         markerOptions.position(destMap);
@@ -239,9 +246,9 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         CircleOptions circle = new CircleOptions().center(destMap)
                 .radius(500)     //반지름 단위 : m
                 .strokeWidth(0f) //선 없음
-                .fillColor(Color.parseColor("#880000ff")); //배경색
-        markerOptions.title("내 위치");
-        markerOptions.snippet("내 위치");
+                .fillColor(getResources().getColor(R.color.color_map_background));//배경색
+        markerOptions.title(getString(R.string.text_my_location));
+        markerOptions.snippet(getString(R.string.text_my_location));
         map.addMarker(markerOptions);
         map.addCircle(circle);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
@@ -337,7 +344,22 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 break;
 
             case R.id.tvConfirm:
-                break;
+                //Search Bar 텍스트와, 지정된 Location 이 같을 때만 finish
+                if (strSearchBar.equals(searchLocation)) {
+                    Intent intent = new Intent();
+                    intent.putExtra("location", searchLocation);
+                    intent.putExtra("latitude", searchLatitude);
+                    intent.putExtra("longitude", searchLongitude);
+
+                    Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
+                    setResult(LOCATION_OK, intent);
+                    finish();
+                    break;
+                } else {
+                    Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_check_location), Toast.LENGTH_LONG).show();
+                    break;
+                }
+
         }
     }
 

@@ -30,7 +30,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
-        setTitle("스케줄 달력");
+        setTitle(getString(R.string.text_schedule_calendar));
         calendarView = findViewById(R.id.calendarView);
 
         List<EventDay> events = new ArrayList<>();
@@ -51,7 +51,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
 
     //show Dialog When User Click Calendar
     private void showDialogCalendar(String date) {
-        Log.d(TAG, "date --> " + date);
      /*   DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
         int width = dm.widthPixels;
         int height = dm.heightPixels;*/

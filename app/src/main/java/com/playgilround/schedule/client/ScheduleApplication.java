@@ -1,7 +1,6 @@
 package com.playgilround.schedule.client;
 
 import android.app.Application;
-import android.content.Context;
 
 import com.facebook.stetho.Stetho;
 import com.playgilround.schedule.client.model.ScheduleMigration;
