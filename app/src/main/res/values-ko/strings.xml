@@ -4,14 +4,13 @@
 
     <!-- Button -->
     <string name="button_exit">닫기</string>
+    <string name="button_add_location">위치 추가</string>
     <string name="button_confirm">확인</string>
+    <string name="button_cancel">취소</string>
 
     <!-- Text -->
     <string name="text_add_schedule">스케줄 추가</string>
     <string name="text_schedule_contents">스케줄 내용</string>
-    <string name="text_add_location">위치 추가</string>
-    <string name="text_cancel">취소</string>
-    <string name="text_confirm">확인</string>
 
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>

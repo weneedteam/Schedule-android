@@ -43,14 +43,14 @@
 
     <!-- Button -->
     <string name="button_exit">Exit</string>
+    <string name="button_add_location">Add Location</string>
     <string name="button_confirm">Confirm</string>
+    <string name="button_cancel">Cancel</string>
 
     <!-- Text -->
     <string name="text_add_schedule">Add schedule</string>
     <string name="text_schedule_contents">Contents</string>
-    <string name="text_add_location">Add Location</string>
-    <string name="text_cancel">Cancel</string>
-    <string name="text_confirm">Confirm</string>
+
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>

@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -22,18 +20,13 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.playgilround.schedule.client.R;
-
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.stream.Stream;
 
 import io.realm.Realm;
 
@@ -75,7 +68,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
-        Log.d(TAG, "Date Test ->" + date);
 
         String strYear = date.substring(0, 4);
         String strMonth = date.substring(4, 6);
@@ -86,7 +78,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         //Get Current Time
         dateTime = new DateTime();
         String curTime = dateTime.toString("HH:mm");
-        Log.d(TAG, "curTime ->" + curTime);
 
         String strTime = strYear + "-" + strMonth + "-" + strDay + " " + curTime;
         tvDate.setText(strDate);
