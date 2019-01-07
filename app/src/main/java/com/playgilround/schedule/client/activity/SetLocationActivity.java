@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.location.Address;
@@ -50,6 +51,9 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     private MaterialSearchBar searchBar;
 
+    ProgressDialog progress;
+
+
     /**
      * Material Search Bar 검색 버튼 클릭 시,
      * 2번 검색되는 버그가 있어 flag 추가 (isSearch)
@@ -71,6 +75,12 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
 
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
+            progress = new ProgressDialog(this);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setTitle("위치");
+
+            progress.setMessage("현재 계신 곳에 위치를 탐색 중입니다..");
+            progress.show();
         } catch (SecurityException e) {
             e.printStackTrace();
         }
@@ -217,7 +227,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         mMap = map;
 
         geocoder = new Geocoder(this);
-
+        progress.cancel();
         MarkerOptions markerOptions = new MarkerOptions();
 
         Log.d(TAG, "onMapReady latitude ->" + latitude + longitude);
