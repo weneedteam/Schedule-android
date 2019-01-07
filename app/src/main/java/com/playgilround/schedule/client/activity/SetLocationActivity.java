@@ -237,7 +237,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         CircleOptions circle = new CircleOptions().center(destMap)
                 .radius(500)     //반지름 단위 : m
                 .strokeWidth(0f) //선 없음
-                .fillColor(Color.parseColor(String.valueOf(getResources().getColor(R.color.color_map_background)))); //배경색
+                .fillColor(getResources().getColor(R.color.color_map_background));//배경색
         markerOptions.title(getString(R.string.text_my_location));
         markerOptions.snippet(getString(R.string.text_my_location));
         map.addMarker(markerOptions);
