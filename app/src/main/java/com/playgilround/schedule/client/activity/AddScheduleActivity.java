@@ -127,10 +127,10 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
 //                String checkDate = dt.format(new Date());
                 Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
-//                mSchedule.setId(nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-//                mSchedule
-
+                mSchedule.setLocation(resLocation);
+                mSchedule.setLatitude(resLatitude);
+                mSchedule.setLongitude(resLongitude);
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 finish();
             });
@@ -197,8 +197,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                     resLocation = data.getStringExtra("location");
                     resLatitude = data.getDoubleExtra("latitude", 0);
                     resLongitude = data.getDoubleExtra("longitude", 0);
-
-                    Log.d(TAG, "OK Data -> " + resLocation + "--" + resLatitude + "--" + resLongitude);
 
                     if (TextUtils.isEmpty(resLocation)) {
                         tvLocation.setText(R.string.text_add_location);
