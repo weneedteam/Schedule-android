@@ -53,7 +53,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         setContentView(R.layout.dialog_add_schedule);
-//        final LocationManager lm = (LocationManager)
 
         realm = Realm.getDefaultInstance();
 
@@ -104,7 +103,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     //Click Confirm Button
     private void confirm() {
         if (etTitle.getText().length() == 0) {
-            Toast.makeText(getApplicationContext(), "스케줄을 입력해주세요!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
             realm.executeTransaction(realm -> {
                 Number currentIdNum = realm.where(Schedule.class).max("id");
@@ -116,7 +115,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                 } else {
                     nextId = currentIdNum.intValue() +1;
                 }
-                Log.d(TAG, "realm confirm" + nextId);
 
 //                String checkDate = dt.format(new Date());
                 Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
@@ -124,7 +122,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                 mSchedule.setTitle(etTitle.getText().toString());
 //                mSchedule
 
-                Toast.makeText(getApplicationContext(), "스케줄 저장 완료", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 finish();
             });
 
@@ -133,7 +131,6 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
     //Show Select Calendar Dialog
     private void showCalendarDialog() {
-        Log.d(TAG, "showCalendarDialog...");
         DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.colorGreen)
@@ -155,7 +152,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             Intent intent = new Intent(this, SetLocationActivity.class);
             startActivityForResult(intent, 3000);
         } else {
-            Toast.makeText(getApplicationContext(), "스케줄에 위치 추가를 위해 \n GPS 를 켜주세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }

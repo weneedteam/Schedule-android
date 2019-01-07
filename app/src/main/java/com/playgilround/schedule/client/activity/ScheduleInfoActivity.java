@@ -1,12 +1,9 @@
 package com.playgilround.schedule.client.activity;
 
 import android.app.Activity;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.content.IntentCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -43,7 +40,6 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
 
         Intent intent = getIntent();
         date = intent.getStringExtra("date");
-        Log.d(TAG, "date -> "  + date);
         cancel = findViewById(R.id.btn_cancel);
         cancel.setOnClickListener(l -> finish());
 

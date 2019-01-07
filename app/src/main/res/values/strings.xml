@@ -50,16 +50,26 @@
     <!-- Text -->
     <string name="text_add_schedule">Add schedule</string>
     <string name="text_schedule_contents">Contents</string>
-
+    <string name="text_location">Location</string>
+    <string name="text_find_current_location">Finding current your location..</string>
+    <string name="text_search_location">Search location</string>
+    <string name="text_my_location">My location</string>
+    <string name="text_schedule_calendar">Schedule Calendar</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
 
     <!-- Message -->
-    <string name="message_check_permission">Checking Permission</string>
+    <string name="message_check_permission">Checking permission</string>
 
     <!-- Google Map-->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBtfoWf45RbAnQ7mDul2qiW37sB5jEy_Ho</string>
+
+    <!-- Toast -->
+    <string name="toast_error_msg_find_location">Fail find location.</string>
+    <string name="toast_msg_input_schedule">Please input schedule.</string>
+    <string name="toast_msg_save_schedule">Save schedule</string>
+    <string name="toast_msg_gps_enable">Turn on the GPS.</string>
 
 </resources>

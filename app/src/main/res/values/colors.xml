@@ -78,4 +78,6 @@
     <color name="color_circle_border">#706F7D</color>
     <color name="color_menu_line">#303054</color>
 
+    <color name="color_map_background">#880000ff</color>
+
 </resources>
