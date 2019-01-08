@@ -43,7 +43,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     Button btnConfirm;
     Realm realm;
 
-    EditText etTitle;
+    EditText etTitle, etDesc;
     DateTime dateTime;
     DateTimeFormatter fmt;
 
@@ -70,6 +70,7 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
         btnConfirm = findViewById(R.id.btn_confirm);
         etTitle = findViewById(R.id.etScheduleTitle);
+        etDesc = findViewById(R.id.etScheduleDesc);
 
         findViewById(R.id.llScheduleTime).setOnClickListener(this);
         findViewById(R.id.llScheduleLocation).setOnClickListener(this);
@@ -125,12 +126,12 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                     nextId = currentIdNum.intValue() +1;
                 }
 
-//                String checkDate = dt.format(new Date());
                 Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
                 mSchedule.setLocation(resLocation);
                 mSchedule.setLatitude(resLatitude);
                 mSchedule.setLongitude(resLongitude);
+                mSchedule.setDesc(etDesc.getText().toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 finish();
             });
