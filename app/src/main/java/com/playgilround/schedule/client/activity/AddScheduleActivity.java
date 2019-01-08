@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -19,6 +21,9 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+import com.jzxiang.pickerview.TimePickerDialog;
+import com.jzxiang.pickerview.data.Type;
+import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -38,7 +43,7 @@ import io.realm.Realm;
  * 18-12-30
  * 스케줄 추가 관련 Activity
  */
-public class AddScheduleActivity extends Activity implements View.OnClickListener, OnSelectDateListener {
+public class AddScheduleActivity extends AppCompatActivity implements View.OnClickListener, OnSelectDateListener, OnDateSetListener {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
@@ -57,6 +62,9 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
     public static final int LOCATION_START = 0x1000;
     public static final int LOCATION_OK = 0x1001;
+    public static final String HOUR_MINUTE = "hour_minute";
+
+    TimePickerDialog timePickerDialog;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,6 +115,18 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             confirm();
         });
 
+        //TimePicker
+        timePickerDialog = new TimePickerDialog.Builder()
+                .setType(Type.HOURS_MINS)
+                .setCallBack(this)
+                .setSureStringId(getString(R.string.button_confirm))
+                .setCancelStringId(getString(R.string.button_cancel))
+                .setTitleStringId(getString(R.string.text_time_set))
+                .setThemeColor(getResources().getColor(R.color.colorGreen))
+                .setHourText(getString(R.string.text_hour))
+                .setMinuteText(getString(R.string.text_minute))
+                .setWheelItemTextSize(20)
+                .build();
     }
 
     @Override
@@ -196,18 +216,25 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
             Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
 
             String strSelect = calendars.get(0).getTime().toString();
-            Date date = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy", Locale.ENGLISH).parse(strSelect);
+            Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
             long milliseconds = date.getTime();
 
             DateTime someDate = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            String strDay = someDate.toString("yyyy-MM-dd");
+            String strDay = someDate.toString(getString(R.string.text_date_day));
 
             tvTime.setText(strDay); //변경한 날짜로 재 표시
+
+            //시, 분을 설정하는 다이얼로그 표시
+            timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
-
+    //Dialog Time Click Event
+    @Override
+    public void onDateSet(TimePickerDialog timePickerDialog, long millseconds) {
+        Log.d(TAG, "onDateSet ->" + millseconds);
     }
 
     @Override

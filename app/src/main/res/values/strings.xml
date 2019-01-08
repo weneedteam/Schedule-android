@@ -55,6 +55,11 @@
     <string name="text_search_location">Search location</string>
     <string name="text_my_location">My location</string>
     <string name="text_schedule_calendar">Schedule Calendar</string>
+    <string name="text_time_set">Time Setting</string>
+    <string name="text_hour">Hour</string>
+    <string name="text_minute">Minute</string>
+    <string name="text_date_all_format" translatable="false">EEE MMM dd hh:mm:ss zzz yyyy</string>
+    <string name="text_date_day" translatable="false">yyyy-MM-dd</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
