@@ -7,7 +7,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -24,10 +23,14 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormatter;
 
-import java.time.format.DateTimeFormatter;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 
@@ -84,11 +87,19 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
 
+        /*try {
+            String strTime  = strYear + strMonth + strDay;
+            Date date2 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(strTime);
+            long milliseconds = date2.getTime();
+            Log.d(TAG, "dt result -> " + milliseconds);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
         //Get Current Time
-        dateTime = new DateTime();
-        String curTime = dateTime.toString("HH:mm");
+//        dateTime = new DateTime();
+//        String curTime = dateTime.toString("HH:mm");
 
-        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + curTime;
+        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + "00:00";
         tvDate.setText(strDate);
         tvTime.setText(strTime);
 
@@ -123,11 +134,12 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
                 if (currentIdNum == null) {
                     nextId = 0;
                 } else {
-                    nextId = currentIdNum.intValue() +1;
+                    nextId = currentIdNum.intValue() + 1;
                 }
 
-                Schedule mSchedule =  realm.createObject(Schedule.class, nextId);
+                Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
+//                mSchedule.setTitle();
                 mSchedule.setLocation(resLocation);
                 mSchedule.setLatitude(resLatitude);
                 mSchedule.setLongitude(resLongitude);
@@ -180,11 +192,22 @@ public class AddScheduleActivity extends Activity implements View.OnClickListene
     //Dialog Day Click Event
     @Override
     public void onSelect(List<Calendar> calendars) {
+        try {
             Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
-            String strTime  = calendars.get(0).getTime().toString();
-            org.joda.time.format.DateTimeFormatter fmt = org.joda.time.format.DateTimeFormat.forPattern("EEE MMM dd hh:mm:ss ZZZZ yyyy");
-            DateTime dt = DateTime.parse(strTime, fmt);
-            Log.d(TAG ,"Dt -> " +dt.toString());
+
+            String strSelect = calendars.get(0).getTime().toString();
+            Date date = new SimpleDateFormat("EEE MMM dd hh:mm:ss zzz yyyy", Locale.ENGLISH).parse(strSelect);
+            long milliseconds = date.getTime();
+
+            DateTime someDate = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+            String strDay = someDate.toString("yyyy-MM-dd");
+
+            tvTime.setText(strDay); //변경한 날짜로 재 표시
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     @Override
