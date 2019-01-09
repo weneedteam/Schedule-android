@@ -52,8 +52,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     Realm realm;
 
     EditText etTitle, etDesc;
-    DateTime dateTime;
-    DateTimeFormatter fmt;
+    String strDay;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
@@ -213,14 +212,12 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onSelect(List<Calendar> calendars) {
         try {
-            Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
-
             String strSelect = calendars.get(0).getTime().toString();
             Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
             long milliseconds = date.getTime();
 
-            DateTime someDate = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            String strDay = someDate.toString(getString(R.string.text_date_day));
+            DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+            strDay = dateTime.toString(getString(R.string.text_date_day));
 
             tvTime.setText(strDay); //변경한 날짜로 재 표시
 
@@ -233,8 +230,14 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
     //Dialog Time Click Event
     @Override
-    public void onDateSet(TimePickerDialog timePickerDialog, long millseconds) {
-        Log.d(TAG, "onDateSet ->" + millseconds);
+    public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
+
+        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+        String strTime = dateTime.toString(getString(R.string.text_date_time));
+
+        String strDayTime = strDay + " " + strTime;
+        tvTime.setText(strDayTime);
+
     }
 
     @Override
