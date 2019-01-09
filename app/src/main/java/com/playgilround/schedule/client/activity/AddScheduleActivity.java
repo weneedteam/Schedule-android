@@ -1,6 +1,5 @@
 package com.playgilround.schedule.client.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -29,8 +28,10 @@ import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,12 +53,12 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     Realm realm;
 
     EditText etTitle, etDesc;
-    String strDay;
+    String strMDay, strMTime, strResultTime;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
-    Double resLatitude;
-    Double resLongitude;
+    Double resLatitude = 0.0;
+    Double resLongitude = 0.0;
 
     public static final int LOCATION_START = 0x1000;
     public static final int LOCATION_OK = 0x1001;
@@ -105,8 +106,10 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         //Get Current Time
 //        dateTime = new DateTime();
 //        String curTime = dateTime.toString("HH:mm");
+        strMDay = strYear + "-" + strMonth + "-" + strDay;
+        strMTime = "00:00";
 
-        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + "00:00";
+        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
         tvDate.setText(strDate);
         tvTime.setText(strTime);
 
@@ -158,7 +161,26 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-//                mSchedule.setTitle();
+
+                Log.d(TAG, "strTime -> " + strMTime + "//" + strMDay);
+                String retTime = strMDay + strMTime;
+
+                DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
+                DateTime dateTime = new DateTime(retTime);
+                long result = Long.valueOf(dateTime.toString(formatter));
+                Log.d(TAG, "strMTime -> " + result);
+                //yyyy-MM-dd 00:00 -->
+              /*  try {
+                    Log.d(TAG, "retTime -> " + retTime);
+                    Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
+
+                    long milliseconds = date.getTime();
+                    Log.d(TAG, "millisecond -> " + milliseconds);
+                    mSchedule.setTime(milliseconds);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+*/
                 mSchedule.setLocation(resLocation);
                 mSchedule.setLatitude(resLatitude);
                 mSchedule.setLongitude(resLongitude);
@@ -217,9 +239,9 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             long milliseconds = date.getTime();
 
             DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            strDay = dateTime.toString(getString(R.string.text_date_day));
+            strMDay = dateTime.toString(getString(R.string.text_date_day));
 
-            tvTime.setText(strDay); //변경한 날짜로 재 표시
+            tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
             //시, 분을 설정하는 다이얼로그 표시
             timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
@@ -233,9 +255,10 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
 
         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-        String strTime = dateTime.toString(getString(R.string.text_date_time));
+        strMTime = dateTime.toString(getString(R.string.text_date_time));
 
-        String strDayTime = strDay + " " + strTime;
+        Log.d(TAG, "strMTime -> " + strMTime);
+        String strDayTime = strMDay + " " + strMTime;
         tvTime.setText(strDayTime);
 
     }
