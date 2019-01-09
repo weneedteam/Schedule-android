@@ -16,7 +16,9 @@
     <string name="text_search_location">위치 검색</string>
     <string name="text_my_location">내 위치</string>
     <string name="text_schedule_calendar">스케줄 달력</string>
-
+    <string name="text_time_set">시간 설정</string>
+    <string name="text_hour">시</string>
+    <string name="text_minute">분</string>
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="hint_schedule_contents">내용을 적어주세요..</string>
