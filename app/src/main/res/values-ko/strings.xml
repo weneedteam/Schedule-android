@@ -6,6 +6,9 @@
     <string name="button_exit">닫기</string>
     <string name="button_confirm">확인</string>
     <string name="button_cancel">취소</string>
+    <string name="button_signin">로그인</string>
+    <string name="button_signup">회원가입</string>
+    <string name="button_find_password">비밀번호 찾기</string>
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>
@@ -16,12 +19,15 @@
     <string name="text_search_location">위치 검색</string>
     <string name="text_my_location">내 위치</string>
     <string name="text_schedule_calendar">스케줄 달력</string>
+    <string name="text_remember_login">로그인 정보 저장</string>
     <string name="text_time_set">시간 설정</string>
     <string name="text_hour">시</string>
     <string name="text_minute">분</string>
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="hint_schedule_contents">내용을 적어주세요..</string>
+    <string name="hint_email">이메일</string>
+    <string name="hint_password">패스워드</string>
 
     <!-- Message -->
     <string name="message_check_permission">권한 요청을 해주세요.</string>

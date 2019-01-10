@@ -33,7 +33,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
 
     String strMDay;
     Realm realm;
-    
+
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
     @Override
     protected void onCreate(Bundle savedInstanceState) {
