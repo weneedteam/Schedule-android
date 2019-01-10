@@ -218,7 +218,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             long milliseconds = date.getTime();
 
             DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day));
+            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
             strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
             tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
