@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -50,7 +51,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     Realm realm;
 
     EditText etTitle, etDesc;
-    String strMDay, strMTime;
+    String strMDay, strMTime, strMYearMonth;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
@@ -92,8 +93,9 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
         //Get Current Time
-        //        dateTime = new DateTime();
-        //        String curTime = dateTime.toString("HH:mm");
+        //dateTime = new DateTime();
+        //String curTime = dateTime.toString("HH:mm");
+        strMYearMonth = strYear + "-" + strMonth;
         strMDay = strYear + "-" + strMonth + "-" + strDay;
         strMTime = "00:00";
 
@@ -149,7 +151,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-                mSchedule.setDate(strMDay);
+                mSchedule.setDate(strMYearMonth);
                 try {
                     String retTime = strMDay + " " + strMTime;
                     Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
@@ -217,7 +219,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
             DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
             strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day));
-
+            strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
             tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
             //시, 분을 설정하는 다이얼로그 표시
@@ -259,5 +261,12 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy..");
+        realm.close();
     }
 }

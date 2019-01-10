@@ -59,6 +59,7 @@
     <string name="text_hour">Hour</string>
     <string name="text_minute">Minute</string>
     <string name="text_date_all_format" translatable="false">EEE MMM dd hh:mm:ss zzz yyyy</string>
+    <string name="text_date_year_month" translatable="false">yyyy-MM</string>
     <string name="text_date_day" translatable="false">yyyy-MM-dd</string>
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>

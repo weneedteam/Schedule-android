@@ -8,10 +8,17 @@ import android.util.Log;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.model.Schedule;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 
 /**
@@ -25,12 +32,18 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
     private CalendarView calendarView;
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
+    String strMDay;
+    Realm realm;
+
+    private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
         setTitle(getString(R.string.text_schedule_calendar));
+        realm = Realm.getDefaultInstance();
+
         calendarView = findViewById(R.id.calendarView);
 
         List<EventDay> events = new ArrayList<>();
@@ -47,14 +60,20 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         calendarView.setOnPreviousPageChangeListener(() -> Log.d(TAG, "Previous Month ---"));
 
         Log.d(TAG, "calendarView.getCurrentPageDate() -->" + calendarView.getCurrentPageDate().getTimeInMillis());
+        long currentPageTime = calendarView.getCurrentPageDate().getTimeInMillis();
+        DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
+
+        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
+
+        realm.executeTransaction(realm -> {
+            realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
+            Log.d(TAG, "realmSchedule size ->" + realmSchedule);
+        });
+
     }
 
     //show Dialog When User Click Calendar
     private void showDialogCalendar(String date) {
-     /*   DisplayMetrics dm = getApplicationContext().getResources().getDisplayMetrics();
-        int width = dm.widthPixels;
-        int height = dm.heightPixels;*/
-
         String[] date_arr = date.split(" "); //공백 기준
 
         String strYear = date_arr[5];
