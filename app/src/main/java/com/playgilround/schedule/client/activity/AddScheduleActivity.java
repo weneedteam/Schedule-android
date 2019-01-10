@@ -28,8 +28,6 @@ import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -53,7 +51,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     Realm realm;
 
     EditText etTitle, etDesc;
-    String strMDay, strMTime, strResultTime;
+    String strMDay, strMTime;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
@@ -94,18 +92,9 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         String strDay = date.substring(6, 8);
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-
-        /*try {
-            String strTime  = strYear + strMonth + strDay;
-            Date date2 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(strTime);
-            long milliseconds = date2.getTime();
-            Log.d(TAG, "dt result -> " + milliseconds);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         //Get Current Time
-//        dateTime = new DateTime();
-//        String curTime = dateTime.toString("HH:mm");
+        //        dateTime = new DateTime();
+        //        String curTime = dateTime.toString("HH:mm");
         strMDay = strYear + "-" + strMonth + "-" + strDay;
         strMTime = "00:00";
 
@@ -162,25 +151,14 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
 
-                Log.d(TAG, "strTime -> " + strMTime + "//" + strMDay);
-                String retTime = strMDay + strMTime;
-
-                DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm");
-                DateTime dateTime = new DateTime(retTime);
-                long result = Long.valueOf(dateTime.toString(formatter));
-                Log.d(TAG, "strMTime -> " + result);
-                //yyyy-MM-dd 00:00 -->
-              /*  try {
-                    Log.d(TAG, "retTime -> " + retTime);
+                try {
+                    String retTime = strMDay + " " + strMTime;
                     Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
-
-                    long milliseconds = date.getTime();
-                    Log.d(TAG, "millisecond -> " + milliseconds);
+                    long milliseconds = date.getTime(); //add 9 hour
                     mSchedule.setTime(milliseconds);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-*/
                 mSchedule.setLocation(resLocation);
                 mSchedule.setLatitude(resLatitude);
                 mSchedule.setLongitude(resLongitude);
@@ -239,7 +217,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             long milliseconds = date.getTime();
 
             DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            strMDay = dateTime.toString(getString(R.string.text_date_day));
+            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day));
 
             tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
@@ -255,9 +233,8 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
 
         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-        strMTime = dateTime.toString(getString(R.string.text_date_time));
+        strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
 
-        Log.d(TAG, "strMTime -> " + strMTime);
         String strDayTime = strMDay + " " + strMTime;
         tvTime.setText(strDayTime);
 
