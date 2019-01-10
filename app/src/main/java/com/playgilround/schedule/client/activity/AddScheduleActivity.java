@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -150,7 +149,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-
+                mSchedule.setDate(strMDay);
                 try {
                     String retTime = strMDay + " " + strMTime;
                     Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);

@@ -32,5 +32,16 @@ public class ScheduleMigration implements RealmMigration {
                     .addField("time", long.class);
             oldVersion++;
         }
+        if (oldVersion == 2) {
+            schema.create("Schedule")
+                    .addField("id", int.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("date", String.class, FieldAttribute.REQUIRED)
+                    .addField("title", String.class, FieldAttribute.REQUIRED)
+                    .addField("location", String.class)
+                    .addField("latitude", double.class)
+                    .addField("longitude", double.class)
+                    .addField("time", long.class)
+                    .addField("desc", String.class);
+        }
     }
 }
