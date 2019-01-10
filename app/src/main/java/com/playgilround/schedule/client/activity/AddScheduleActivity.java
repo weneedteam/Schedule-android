@@ -1,6 +1,5 @@
 package com.playgilround.schedule.client.activity;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
@@ -29,8 +28,8 @@ import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.format.DateTimeFormatter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -52,13 +51,12 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     Realm realm;
 
     EditText etTitle, etDesc;
-    DateTime dateTime;
-    DateTimeFormatter fmt;
+    String strMDay, strMTime, strMYearMonth;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
-    Double resLatitude;
-    Double resLongitude;
+    Double resLatitude = 0.0;
+    Double resLongitude = 0.0;
 
     public static final int LOCATION_START = 0x1000;
     public static final int LOCATION_OK = 0x1001;
@@ -94,20 +92,14 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         String strDay = date.substring(6, 8);
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-
-        /*try {
-            String strTime  = strYear + strMonth + strDay;
-            Date date2 = new SimpleDateFormat("yyyyMMdd", Locale.ENGLISH).parse(strTime);
-            long milliseconds = date2.getTime();
-            Log.d(TAG, "dt result -> " + milliseconds);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
         //Get Current Time
-//        dateTime = new DateTime();
-//        String curTime = dateTime.toString("HH:mm");
+        //dateTime = new DateTime();
+        //String curTime = dateTime.toString("HH:mm");
+        strMYearMonth = strYear + "-" + strMonth;
+        strMDay = strYear + "-" + strMonth + "-" + strDay;
+        strMTime = "00:00";
 
-        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + "00:00";
+        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
         tvDate.setText(strDate);
         tvTime.setText(strTime);
 
@@ -159,7 +151,15 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
-//                mSchedule.setTitle();
+                mSchedule.setDate(strMYearMonth);
+                try {
+                    String retTime = strMDay + " " + strMTime;
+                    Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
+                    long milliseconds = date.getTime(); //add 9 hour
+                    mSchedule.setTime(milliseconds);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 mSchedule.setLocation(resLocation);
                 mSchedule.setLatitude(resLatitude);
                 mSchedule.setLongitude(resLongitude);
@@ -213,16 +213,14 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onSelect(List<Calendar> calendars) {
         try {
-            Toast.makeText(getApplicationContext(), calendars.get(0).getTime().toString(), Toast.LENGTH_LONG).show();
-
             String strSelect = calendars.get(0).getTime().toString();
             Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
             long milliseconds = date.getTime();
 
-            DateTime someDate = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            String strDay = someDate.toString(getString(R.string.text_date_day));
-
-            tvTime.setText(strDay); //변경한 날짜로 재 표시
+            DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day));
+            strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
+            tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
             //시, 분을 설정하는 다이얼로그 표시
             timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
@@ -233,8 +231,14 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
     //Dialog Time Click Event
     @Override
-    public void onDateSet(TimePickerDialog timePickerDialog, long millseconds) {
-        Log.d(TAG, "onDateSet ->" + millseconds);
+    public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
+
+        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+        strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
+
+        String strDayTime = strMDay + " " + strMTime;
+        tvTime.setText(strDayTime);
+
     }
 
     @Override
@@ -257,5 +261,12 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                     break;
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy..");
+        realm.close();
     }
 }

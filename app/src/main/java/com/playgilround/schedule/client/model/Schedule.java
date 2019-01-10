@@ -11,6 +11,7 @@ public class Schedule extends RealmObject {
 
     @PrimaryKey
     private int id;
+    private String date;
     private String title;
     private String location;
     private double latitude;
@@ -25,6 +26,12 @@ public class Schedule extends RealmObject {
         this.id = id;
     }
 
+    public String getDate() {
+        return date;
+    }
+    public void setDate(String date) {
+        this.date = date;
+    }
     public String getTitle() {
         return title;
     }
