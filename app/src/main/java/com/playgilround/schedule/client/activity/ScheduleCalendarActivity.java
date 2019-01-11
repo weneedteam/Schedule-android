@@ -34,7 +34,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
     String strMDay;
     Realm realm;
 
+    CalendarView calendarView;
+    List<EventDay> events;
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,27 +46,41 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         setTitle(getString(R.string.text_schedule_calendar));
         realm = Realm.getDefaultInstance();
 
-        CalendarView calendarView = findViewById(R.id.calendarView);
+        calendarView = findViewById(R.id.calendarView);
 
-        List<EventDay> events = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
+
 
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> showDialogCalendar(eventDay.getCalendar().getTime().toString()));
 
         //다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(() -> Log.d(TAG, "Next Month ---"));
+//        calendarView.setOnForwardPageChangeListener(() -> Log.d(TAG, "Next Month ---") );
+        calendarView.setOnForwardPageChangeListener(() -> {
+            getScheduleRealm();
+            Log.d(TAG, "Forward Month ---");
+
+        });
 
         //전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(() -> Log.d(TAG, "Previous Month ---"));
+        calendarView.setOnPreviousPageChangeListener(() -> {
+            getScheduleRealm();
+            Log.d(TAG, "Previous Month ---");
+        });
 
+        getScheduleRealm();
+    }
+
+    //yyyy-MM 기준으로 저장된 스케줄 표시
+    private void getScheduleRealm() {
         Log.d(TAG, "calendarView.getCurrentPageDate() -->" + calendarView.getCurrentPageDate().getTimeInMillis());
+
         long currentPageTime = calendarView.getCurrentPageDate().getTimeInMillis();
         DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
 
         strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
-
+        events = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
         realm.executeTransaction(realm -> {
             realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
 
@@ -80,7 +97,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
             calendarView.setEvents(events);
 
         });
-
     }
 
     //show Dialog When User Click Calendar
