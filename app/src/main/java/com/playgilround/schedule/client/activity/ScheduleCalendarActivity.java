@@ -29,7 +29,6 @@ import io.realm.RealmResults;
  */
 public class ScheduleCalendarActivity extends AppCompatActivity {
 
-    private CalendarView calendarView;
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
     String strMDay;
@@ -44,12 +43,12 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         setTitle(getString(R.string.text_schedule_calendar));
         realm = Realm.getDefaultInstance();
 
-        calendarView = findViewById(R.id.calendarView);
+        CalendarView calendarView = findViewById(R.id.calendarView);
 
         List<EventDay> events = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.sample_icon_3));
-        calendarView.setEvents(events);
+
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> showDialogCalendar(eventDay.getCalendar().getTime().toString()));
 
@@ -67,7 +66,19 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
 
         realm.executeTransaction(realm -> {
             realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
-            Log.d(TAG, "realmSchedule size ->" + realmSchedule);
+
+            //해당 yyyy-MM 에 저장된 스케줄 dd 얻기.
+            for (Schedule schedule : realmSchedule) {
+                DateTime realmTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
+
+                int realmDay = Integer.valueOf(realmTime.plusHours(9).toString(getString(R.string.text_date_day)));
+
+                Calendar realmCalendar = Calendar.getInstance();
+                realmCalendar.set(Calendar.DATE, realmDay);
+                events.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
+            }
+            calendarView.setEvents(events);
+
         });
 
     }

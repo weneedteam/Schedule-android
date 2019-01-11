@@ -45,6 +45,10 @@
     <string name="button_exit">Exit</string>
     <string name="button_confirm">Confirm</string>
     <string name="button_cancel">Cancel</string>
+    <string name="button_signin">Login</string>
+    <string name="button_signup">Sign Up</string>
+    <string name="button_find_password">Forgot Password</string>
+
 
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
@@ -55,17 +59,22 @@
     <string name="text_search_location">Search location</string>
     <string name="text_my_location">My location</string>
     <string name="text_schedule_calendar">Schedule Calendar</string>
+    <string name="text_remember_login">Remember Login</string>
     <string name="text_time_set">Time Setting</string>
     <string name="text_hour">Hour</string>
     <string name="text_minute">Minute</string>
     <string name="text_date_all_format" translatable="false">EEE MMM dd hh:mm:ss zzz yyyy</string>
     <string name="text_date_year_month" translatable="false">yyyy-MM</string>
-    <string name="text_date_day" translatable="false">yyyy-MM-dd</string>
+    <string name="text_date_year_month_day" translatable="false">yyyy-MM-dd</string>
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>
+    <string name="text_date_day" translatable="false">dd</string>
+
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
+    <string name="hint_email">E-mail</string>
+    <string name="hint_password">Password</string>
 
     <!-- Message -->
     <string name="message_check_permission">Checking permission</string>
