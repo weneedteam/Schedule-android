@@ -33,8 +33,9 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
         mListener = listener;
     }
 
+    @NonNull
     @Override
-    public ScheduleViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ScheduleViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_schedule_card_item, viewGroup, false);
 
         return new ScheduleViewHolder(v);
