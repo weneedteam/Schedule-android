@@ -17,7 +17,7 @@ android {
 
         minSdkVersion 16
         targetSdkVersion 28
-
+        multiDexEnabled true
         versionCode 14
         versionName "1.4.0.0"
 

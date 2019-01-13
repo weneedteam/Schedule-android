@@ -22,6 +22,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".activity.RegisterActivity"/>
 
         <activity android:name=".activity.ScheduleCalendarActivity"/>
         <activity android:name=".activity.AddScheduleActivity"
@@ -32,6 +34,8 @@
 
         <activity android:name=".activity.ScheduleInfoActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+
+        <activity android:name=".activity.MainActivity"/>
     </application>
 
 </manifest>

@@ -32,55 +32,76 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
     String strMDay;
+    int strMYear, strMonth;
     Realm realm;
 
+    CalendarView calendarView;
+    List<EventDay> events;
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
         setTitle(getString(R.string.text_schedule_calendar));
-        realm = Realm.getDefaultInstance();
-
-        CalendarView calendarView = findViewById(R.id.calendarView);
-
-        List<EventDay> events = new ArrayList<>();
+        events = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.sample_icon_3));
+        realm = Realm.getDefaultInstance();
+
+        calendarView = findViewById(R.id.calendarView);
+
+
 
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> showDialogCalendar(eventDay.getCalendar().getTime().toString()));
 
         //다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(() -> Log.d(TAG, "Next Month ---"));
+//        calendarView.setOnForwardPageChangeListener(() -> Log.d(TAG, "Next Month ---") );
+        calendarView.setOnForwardPageChangeListener(() -> {
+            getScheduleRealm();
+            Log.d(TAG, "Forward Month ---");
+
+        });
 
         //전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(() -> Log.d(TAG, "Previous Month ---"));
+        calendarView.setOnPreviousPageChangeListener(() -> {
+            getScheduleRealm();
+            Log.d(TAG, "Previous Month ---");
+        });
 
-        Log.d(TAG, "calendarView.getCurrentPageDate() -->" + calendarView.getCurrentPageDate().getTimeInMillis());
+        getScheduleRealm();
+    }
+
+    //yyyy-MM 기준으로 저장된 스케줄 표시
+    private void getScheduleRealm() {
+
+        //현재 페이지 달력 시간 얻기
         long currentPageTime = calendarView.getCurrentPageDate().getTimeInMillis();
         DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
 
-        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
+        strMYear = dateTime.plusHours(9).getYear(); //연도
+        strMonth = dateTime.plusHours(9).getMonthOfYear() -1; //달
+        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month)); //yyyy-MM
 
         realm.executeTransaction(realm -> {
             realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
-
             //해당 yyyy-MM 에 저장된 스케줄 dd 얻기.
             for (Schedule schedule : realmSchedule) {
                 DateTime realmTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
 
-                int realmDay = Integer.valueOf(realmTime.plusHours(9).toString(getString(R.string.text_date_day)));
+                int realmDay = realmTime.plusHours(9).getDayOfMonth();
 
                 Calendar realmCalendar = Calendar.getInstance();
+                realmCalendar.set(Calendar.YEAR, strMYear);
+                realmCalendar.set(Calendar.MONTH, strMonth);
                 realmCalendar.set(Calendar.DATE, realmDay);
                 events.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
             }
             calendarView.setEvents(events);
 
         });
-
     }
 
     //show Dialog When User Click Calendar
