@@ -28,6 +28,9 @@
     <string name="hint_schedule_contents">내용을 적어주세요..</string>
     <string name="hint_email">이메일</string>
     <string name="hint_password">패스워드</string>
+    <string name="hint_confirm_password">패스워드 확인</string>
+    <string name="hint_birth">생년월일(19950818)</string>
+    <string name="hint_nick_name">닉네임</string>
 
     <!-- Message -->
     <string name="message_check_permission">권한 요청을 해주세요.</string>
