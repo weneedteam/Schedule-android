@@ -67,7 +67,6 @@
     <string name="text_date_year_month_day" translatable="false">yyyy-MM-dd</string>
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>
-    <string name="text_date_day" translatable="false">dd</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>

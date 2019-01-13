@@ -32,6 +32,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
     String strMDay;
+    int strMYear, strMonth;
     Realm realm;
 
     CalendarView calendarView;
@@ -44,6 +45,9 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         setContentView(R.layout.activity_calendar);
 
         setTitle(getString(R.string.text_schedule_calendar));
+        events = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
         realm = Realm.getDefaultInstance();
 
         calendarView = findViewById(R.id.calendarView);
@@ -72,25 +76,26 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
 
     //yyyy-MM 기준으로 저장된 스케줄 표시
     private void getScheduleRealm() {
-        Log.d(TAG, "calendarView.getCurrentPageDate() -->" + calendarView.getCurrentPageDate().getTimeInMillis());
 
+        //현재 페이지 달력 시간 얻기
         long currentPageTime = calendarView.getCurrentPageDate().getTimeInMillis();
         DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
 
-        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
-        events = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
+        strMYear = dateTime.plusHours(9).getYear(); //연도
+        strMonth = dateTime.plusHours(9).getMonthOfYear() -1; //달
+        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month)); //yyyy-MM
+
         realm.executeTransaction(realm -> {
             realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
-
             //해당 yyyy-MM 에 저장된 스케줄 dd 얻기.
             for (Schedule schedule : realmSchedule) {
                 DateTime realmTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
 
-                int realmDay = Integer.valueOf(realmTime.plusHours(9).toString(getString(R.string.text_date_day)));
+                int realmDay = realmTime.plusHours(9).getDayOfMonth();
 
                 Calendar realmCalendar = Calendar.getInstance();
+                realmCalendar.set(Calendar.YEAR, strMYear);
+                realmCalendar.set(Calendar.MONTH, strMonth);
                 realmCalendar.set(Calendar.DATE, realmDay);
                 events.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
             }
