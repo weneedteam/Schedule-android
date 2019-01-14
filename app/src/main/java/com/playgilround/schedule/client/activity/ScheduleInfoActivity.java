@@ -16,11 +16,14 @@ import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.ScheduleCardAdapter;
+import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * 18-12-27
@@ -30,6 +33,10 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
 
 
     private String date;
+    private String strDateDay;
+    private ArrayList<Object> arrTitle;
+    private ArrayList<Object> arrDesc;
+    private ArrayList<Long> arrTime;
 
     static final String TAG = ScheduleInfoActivity.class.getSimpleName();
 
@@ -39,6 +46,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     ScheduleCardAdapter mAdapter;
     Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
+    RealmResults<Schedule> realmSchedule;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,9 +63,6 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new ScheduleCardAdapter(null, this);
-        mRecyclerView.setAdapter(mAdapter);
-
         Intent intent = getIntent();
         date = intent.getStringExtra(INTENT_EXTRA_DATE);
         Button cancel = findViewById(R.id.btn_cancel);
@@ -71,7 +76,11 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
         tvDate.setText(strDate);
 
+        strDateDay = strYear + "-" + strMonth + "-"+ strDay;
+
         findViewById(R.id.ivAddBtn).setOnClickListener(this);
+
+        getTodaySchedule(realm);
     }
 
     @Override
@@ -120,7 +129,24 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     //오늘 저장된 스케줄 정보 얻기
     private void getTodaySchedule(Realm realm) {
         realm.executeTransaction(realm1 -> {
-            
+            realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
+
+            arrTime = new ArrayList<>();
+            arrTitle = new ArrayList<>();
+            arrDesc = new ArrayList<>();
+
+            for (Schedule schedule : realmSchedule) {
+                arrTime.add(schedule.getTime());
+                arrTitle.add(schedule.getTitle());
+                arrDesc.add(schedule.getDesc());
+            }
+
+            Log.d(TAG, "strdateday -> " + realmSchedule.size() + "//" +  strDateDay + "//" + arrTitle.get(0).toString());
+
+
+            mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
+            mRecyclerView.setAdapter(mAdapter);
+
 
         });
     }

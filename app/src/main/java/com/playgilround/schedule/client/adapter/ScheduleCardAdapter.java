@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +25,18 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     private List<ScheduleCard> mItems;
     private Listener mListener;
 
-    public ScheduleCardAdapter(List<ScheduleCard> items, Listener listener) {
-        if (items == null) {
+    private ArrayList arrTime, arrTitle, arrDesc;
+
+    public ScheduleCardAdapter(ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
+     /*   if (items == null) {
             items = new ArrayList<>();
         }
 
-        mItems = items;
+        mItems = items;*/
+
+        arrTime = time;
+        arrTitle = title;
+        arrDesc = desc;
         mListener = listener;
     }
 
@@ -45,10 +52,9 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     public void onBindViewHolder(@NonNull ScheduleViewHolder viewHolder, int i) {
         ScheduleCard schedule = mItems.get(i);
 
-        //Test
-        viewHolder.tvTime.setText("2019-01-13 22:22:22");
-        viewHolder.tvTitle.setText("테스트");
-        viewHolder.tvDesc.setText("테스트");
+        viewHolder.tvTime.setText(arrTime.get(i).toString());
+        viewHolder.tvTitle.setText(arrTitle.get(i).toString());
+        viewHolder.tvDesc.setText(arrDesc.get(i).toString());
 
         if (mListener != null) {
             viewHolder.cardView.setOnClickListener(this);
@@ -58,7 +64,7 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
 
     @Override
     public int getItemCount() {
-        return mItems.size();
+        return arrTitle.size();
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
