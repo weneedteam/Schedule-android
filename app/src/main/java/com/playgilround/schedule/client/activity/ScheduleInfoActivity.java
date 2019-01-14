@@ -120,7 +120,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     //오늘 저장된 스케줄 정보 얻기
     private void getTodaySchedule(Realm realm) {
         realm.executeTransaction(realm1 -> {
-
+            
 
         });
     }
