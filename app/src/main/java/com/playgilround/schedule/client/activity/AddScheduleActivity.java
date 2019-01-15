@@ -152,6 +152,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                 Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                 mSchedule.setTitle(etTitle.getText().toString());
                 mSchedule.setDate(strMYearMonth);
+                mSchedule.setDateDay(strMDay);
                 try {
                     String retTime = strMDay + " " + strMTime;
                     Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);

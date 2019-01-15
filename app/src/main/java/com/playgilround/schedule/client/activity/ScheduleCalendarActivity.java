@@ -39,6 +39,8 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
     List<EventDay> events;
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
 
+    String currentCalendar = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,12 +55,17 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         calendarView = findViewById(R.id.calendarView);
 
 
-
         //날짜 클릭 시 다이얼로그
-        calendarView.setOnDayClickListener(eventDay -> showDialogCalendar(eventDay.getCalendar().getTime().toString()));
+        calendarView.setOnDayClickListener(eventDay -> {
+            //유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
+            if (currentCalendar.equals(eventDay.getCalendar().getTime().toString())) {
+                showDialogCalendar(eventDay.getCalendar().getTime().toString());
+            }
+            currentCalendar = eventDay.getCalendar().getTime().toString();
+
+        });
 
         //다음 달로 이동
-//        calendarView.setOnForwardPageChangeListener(() -> Log.d(TAG, "Next Month ---") );
         calendarView.setOnForwardPageChangeListener(() -> {
             getScheduleRealm();
             Log.d(TAG, "Forward Month ---");
@@ -70,7 +77,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
             getScheduleRealm();
             Log.d(TAG, "Previous Month ---");
         });
-
         getScheduleRealm();
     }
 
@@ -82,7 +88,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
 
         strMYear = dateTime.plusHours(9).getYear(); //연도
-        strMonth = dateTime.plusHours(9).getMonthOfYear() -1; //달
+        strMonth = dateTime.plusHours(9).getMonthOfYear() - 1; //달
         strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month)); //yyyy-MM
 
         realm.executeTransaction(realm -> {
