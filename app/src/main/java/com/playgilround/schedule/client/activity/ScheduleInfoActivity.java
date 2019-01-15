@@ -29,7 +29,7 @@ import io.realm.RealmResults;
  * 18-12-27
  * Calendar 에서 날짜 클릭 시 스케줄 정보가 표시되는 액티비티
  */
-public class ScheduleInfoActivity extends Activity implements View.OnClickListener, ScheduleCardAdapter.Listener {
+public class ScheduleInfoActivity extends Activity implements View.OnClickListener/*, ScheduleCardAdapter.Listener*/ {
 
 
     private String date;
@@ -44,6 +44,8 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     ScheduleCardAdapter mAdapter;
+    private ArrayList<ScheduleCard> arrCard;
+
     Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
     RealmResults<Schedule> realmSchedule;
@@ -81,6 +83,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         findViewById(R.id.ivAddBtn).setOnClickListener(this);
 
         getTodaySchedule(realm);
+
     }
 
     @Override
@@ -108,12 +111,12 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     }
 
     //CardView Click
-    @Override
+  /*  @Override
     public void onItemClick(ScheduleCard schedule) {
         if (schedule != null) {
             Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule.title, Toast.LENGTH_LONG).show();
         }
-    }
+    }*/
 
 
     @Override
@@ -141,13 +144,18 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
                 arrDesc.add(schedule.getDesc());
             }
 
-            Log.d(TAG, "strdateday -> " + realmSchedule.size() + "//" +  strDateDay + "//" + arrTitle.get(0).toString());
-
-
-            mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
-            mRecyclerView.setAdapter(mAdapter);
-
-
         });
+
+        arrCard = new ArrayList<>();
+        Log.d(TAG, "strdateday -> " + realmSchedule.size() + "//" +  strDateDay + "//" + arrTitle.get(0).toString());
+
+        arrCard.add(new ScheduleCard(arrTime.get(0).toString(), arrTitle.get(0).toString(), arrDesc.get(0).toString()));
+//            arrCard.add(new ScheduleCard(arrTime.get(1).toString(), arrTitle.get(1).toString(), arrDesc.get(1).toString()));
+//            arrCard.add(new ScheduleCard(arrTime.get(2).toString(), arrTitle.get(2).toString(), arrDesc.get(2).toString()));
+
+        mAdapter = new ScheduleCardAdapter(arrCard);
+
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 }
