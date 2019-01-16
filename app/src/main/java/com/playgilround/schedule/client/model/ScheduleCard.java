@@ -11,6 +11,12 @@ public class ScheduleCard {
     public String title;
     public String desc;
 
+    ScheduleCard(String time, String title, String desc) {
+        this.time = time;
+        this.title = title;
+        this.desc = desc;
+    }
+
     public Bitmap getImage() {
         return image;
     }
@@ -42,4 +48,6 @@ public class ScheduleCard {
     public void setDesc(String desc) {
         this.desc = desc;
     }
+
+
 }

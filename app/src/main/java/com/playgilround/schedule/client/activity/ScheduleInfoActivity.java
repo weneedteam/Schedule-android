@@ -20,7 +20,6 @@ import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -106,7 +105,6 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
                 startActivityForResult(intent, ADD_SCHEDULE);
         }
     }
-
     //CardView Click
     @Override
     public void onItemClick(ScheduleCard schedule) {
@@ -130,7 +128,6 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     private void getTodaySchedule(Realm realm) {
         realm.executeTransaction(realm1 -> {
             realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
-
             arrTime = new ArrayList<>();
             arrTitle = new ArrayList<>();
             arrDesc = new ArrayList<>();
@@ -142,12 +139,12 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
             }
 
             Log.d(TAG, "strdateday -> " + realmSchedule.size() + "//" +  strDateDay + "//" + arrTitle.get(0).toString());
-
-
-            mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
-            mRecyclerView.setAdapter(mAdapter);
-
+            Log.d(TAG, "strdateday -> " + arrTime.size() + "//" + arrTitle.size() + "//" + arrDesc.size());
 
         });
+        //mRecyclerView.setAdapter(new ScheduleCardAdapter(getApplicationContext(), ));
+        mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 }
