@@ -1,9 +1,7 @@
 package com.playgilround.schedule.client.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,48 +11,36 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import javax.annotation.Nonnull;
 
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-//public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder> implements View.OnClickListener {
 public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder> implements View.OnClickListener {
 
     static final String TAG = ScheduleCardAdapter.class.getSimpleName();
 
-    private List<ScheduleCard> mItems;
-
     private Listener mListener;
-    private Context context;
     private ArrayList arrTime, arrTitle, arrDesc;
 
     public ScheduleCardAdapter(ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
-     /*   if (items == null) {
-            items = new ArrayList<>();
-        }
-
-        mItems = items;*/
-
         arrTime = time;
         arrTitle = title;
         arrDesc = desc;
         mListener = listener;
-        Log.d("TEST", "ScheduleCardAdapter.");
     }
 
+    @Nonnull
     @Override
-    public ScheduleViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        Log.d("TEST", "onCreateViewHolder ->" + arrTitle.get(0).toString());
+    public ScheduleViewHolder onCreateViewHolder(@Nonnull ViewGroup viewGroup, int i) {
         View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_schedule_card_item, viewGroup, false);
 
-        ScheduleViewHolder sh = new ScheduleViewHolder(v);
-        return sh;
+        return new ScheduleViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(ScheduleViewHolder viewHolder, int i) {
-        Log.d(TAG, "onBindView ->");
+    public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
         viewHolder.tvTime.setText(arrTime.get(i).toString());
         viewHolder.tvTitle.setText(arrTitle.get(i).toString());
         viewHolder.tvDesc.setText(arrDesc.get(i).toString());
@@ -65,7 +51,6 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
 
     @Override
     public int getItemCount() {
-        Log.d(TAG, "arrTitle ->" + arrTitle.size());
         return arrTime.size();
     }
 
@@ -82,7 +67,7 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
         void onItemClick(ScheduleCard card);
     }
 
-    public static class ScheduleViewHolder extends RecyclerView.ViewHolder {
+    class ScheduleViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardView;
         //private ImageView ivSchedule;
