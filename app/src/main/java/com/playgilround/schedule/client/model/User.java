@@ -10,6 +10,7 @@ public class User {
     private String email;
     private String password;
     private String language;
+    private String token;
 
     public void setUserName(String user_name) {
         this.user_name = user_name;
@@ -33,6 +34,10 @@ public class User {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getUserName() {
@@ -59,6 +64,10 @@ public class User {
         return language;
     }
 
+    public String getToken() {
+        return token;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -67,8 +76,9 @@ public class User {
                 " 'nick_name' : '" + nick_name + "', " +
                 " 'birth' : '" + birth + "', " +
                 " 'email' : '" + email + "', " +
-                " 'password' : '" + password + "'" +
-                " 'language' : '" + language + "'" +
+                " 'password' : '" + password + "', " +
+                " 'language' : '" + language + "', " +
+                " 'token' : '" + token + "'" +
                 "}";
     }
 }
