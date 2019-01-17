@@ -8,4 +8,6 @@ public class BaseUrl {
 
     static final String PATH_EMAIL_SIGN_IN = "accounts/jwt/create";
     static final String PATH_TOKEN_SIGN_IN = "accounts/jwt/verify";
+
+    static final String PATH_HOLIDAYS = "holiday/list";
 }

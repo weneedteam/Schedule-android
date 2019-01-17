@@ -7,12 +7,15 @@ import android.util.Log;
 import android.view.View;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.model.Holiday;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
+import com.playgilround.schedule.client.retrofit.HolidayAPI;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 
 import java.util.List;
@@ -74,8 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 user.addProperty("email", "tjstlr2010@gmail.com");
                 user.addProperty("password", "js30211717");*/
 
-                Retrofit retrofit = APIClient.getClient();
-                UserAPI userAPI = retrofit.create(UserAPI.class);
+                Retrofit retrofit = APIClient.getLoggingClient();
+                /*UserAPI userAPI = retrofit.create(UserAPI.class);
                 userAPI.tokenSignIn(user).enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -93,7 +96,26 @@ public class MainActivity extends AppCompatActivity {
                     public void onFailure(Call<JsonObject> call, Throwable t) {
                         Log.e(TAG, t.toString());
                     }
-                });
+                });*/
+
+                /*HolidayAPI holidayAPI = retrofit.create(HolidayAPI.class);
+                holidayAPI.holidays().enqueue(new Callback<JsonObject>() {
+                    @Override
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                        if (response.isSuccessful()) {
+                            JsonArray jsonArray  = response.body().getAsJsonArray("holidays");
+                            Holiday[] holidays = new Gson().fromJson(jsonArray, Holiday[].class);
+                            for (Holiday holiday : holidays) {
+                                Log.v(TAG, "holiday - " + holiday.getName());
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                        Log.e(TAG, t.toString());
+                    }
+                });*/
             }
         });
     }
