@@ -9,6 +9,7 @@ public class User {
     private String birth;
     private String email;
     private String password;
+    private String language;
 
     public void setUserName(String user_name) {
         this.user_name = user_name;
@@ -28,6 +29,10 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
     public String getUserName() {
@@ -50,6 +55,10 @@ public class User {
         return password;
     }
 
+    public String getLanguage() {
+        return language;
+    }
+
     @NonNull
     @Override
     public String toString() {
@@ -59,6 +68,7 @@ public class User {
                 " 'birth' : '" + birth + "', " +
                 " 'email' : '" + email + "', " +
                 " 'password' : '" + password + "'" +
+                " 'language' : '" + language + "'" +
                 "}";
     }
 }
