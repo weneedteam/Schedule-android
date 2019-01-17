@@ -40,20 +40,19 @@
                 android:gravity="bottom"
                 android:orientation="horizontal">
 
-
                 <ImageButton
                     android:id="@+id/ivAddBtn"
                     android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_height="match_parent"
                     android:background="@mipmap/schedule_add"/>
 
                 <TextView
                     android:id="@+id/tvAddSchedule"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="match_parent"
                     android:gravity="center_vertical"
                     android:text="@string/text_add_schedule"
-                    android:textSize="25dp"/>
+                    android:textSize="25sp"/>
             </LinearLayout>
 
             <LinearLayout
@@ -64,12 +63,12 @@
                 <Button
                     android:id="@+id/btn_cancel"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:background="@color/colorGreen"
                     android:text="@string/button_exit"
                     android:textColor="@android:color/white"
-                    android:textSize="16dp"/>
+                    android:textSize="16sp"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
