@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp">
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="20dp"
+              android:layout_marginRight="20dp">
 
     <TextView
         android:id="@+id/tvCancel"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginRight="30dp"
+        android:layout_marginRight="10dp"
         android:layout_weight="1"
         android:background="@drawable/btn_cancel"
         android:gravity="center"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:text="@string/button_cancel"
-        android:textColor="@color/colorWrite" />
+        android:textColor="@color/colorWrite"/>
 
     <TextView
         android:id="@+id/tvConfirm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:layout_weight="1"
         android:background="@drawable/btn_confirm"
         android:gravity="center"
         android:paddingTop="6dp"
         android:paddingBottom="6dp"
         android:text="@string/button_confirm"
-        android:textColor="@color/colorWrite" />
+        android:textColor="@color/colorWrite"/>
 </LinearLayout>

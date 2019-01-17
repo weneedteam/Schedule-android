@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -20,7 +19,6 @@ import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -76,7 +74,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
         tvDate.setText(strDate);
 
-        strDateDay = strYear + "-" + strMonth + "-"+ strDay;
+        strDateDay = strYear + "-" + strMonth + "-" + strDay;
 
         findViewById(R.id.ivAddBtn).setOnClickListener(this);
 
@@ -131,23 +129,20 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         realm.executeTransaction(realm1 -> {
             realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
 
-            arrTime = new ArrayList<>();
-            arrTitle = new ArrayList<>();
-            arrDesc = new ArrayList<>();
+            if (realmSchedule.size() != 0) {
+                arrTime = new ArrayList<>();
+                arrTitle = new ArrayList<>();
+                arrDesc = new ArrayList<>();
 
-            for (Schedule schedule : realmSchedule) {
-                arrTime.add(schedule.getTime());
-                arrTitle.add(schedule.getTitle());
-                arrDesc.add(schedule.getDesc());
+                for (Schedule schedule : realmSchedule) {
+                    arrTime.add(schedule.getTime());
+                    arrTitle.add(schedule.getTitle());
+                    arrDesc.add(schedule.getDesc());
+                }
+                mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
+                mRecyclerView.setAdapter(mAdapter);
             }
-
-            Log.d(TAG, "strdateday -> " + realmSchedule.size() + "//" +  strDateDay + "//" + arrTitle.get(0).toString());
-
-
-            mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
-            mRecyclerView.setAdapter(mAdapter);
-
-
         });
+
     }
 }
