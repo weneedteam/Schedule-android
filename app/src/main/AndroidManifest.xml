@@ -33,9 +33,10 @@
             android:theme="@style/Theme.AppCompat.Light.Dialog"/>
 
         <activity android:name=".activity.ScheduleInfoActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+                  android:theme="@style/Theme.AppCompat.Light.Dialog"/>
 
         <activity android:name=".activity.MainActivity"/>
+
     </application>
 
 </manifest>

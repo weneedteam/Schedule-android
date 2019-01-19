@@ -123,17 +123,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity {
         Intent intent = new Intent(this, ScheduleInfoActivity.class);
         intent.putExtra("date", strDate);
         startActivity(intent);
-
-/*
-        ScheduleInfoActivity calendarDialog = new ScheduleInfoActivity(this, this, strDate);
-
-        WindowManager.LayoutParams wm = calendarDialog.getWindow().getAttributes();
-        wm.copyFrom(calendarDialog.getWindow().getAttributes());
-
-        wm.width = (int) (width / 1.2);
-        wm.height = (int) (height / 1.5);
-
-        calendarDialog.show();*/
     }
 
     //Month Eng -> Num
