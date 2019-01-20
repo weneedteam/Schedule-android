@@ -93,4 +93,13 @@
     <string name="toast_msg_gps_enable">Turn on the GPS.</string>
     <string name="toast_msg_check_location">Please Check Input Location.</string>
 
+    <!-- Navigation -->
+    ㅁㅜ
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_friend">Friend</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_card">Card</string>
+    <string name="nav_question">Question</string>
+
+
 </resources>
