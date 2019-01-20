@@ -27,10 +27,11 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     private ArrayList<ScheduleCard> arrScheduleCard;
     private Listener mListener;
     static final String TAG = ScheduleCardAdapter.class.getSimpleName();
-
+    private Context context;
     private ArrayList arrTime, arrTitle, arrDesc;
 
-    public ScheduleCardAdapter(ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
+    public ScheduleCardAdapter(Context context, ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
+        this.context = context;
         arrTime = time;
         arrTitle = title;
         arrDesc = desc;
@@ -49,7 +50,7 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     @Override
     public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
         DateTime dateTime = new DateTime(Long.valueOf(arrTime.get(i).toString()), DateTimeZone.UTC);
-        String strTime = dateTime.plusHours(9).toString("HH:mm");
+        String strTime = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
         viewHolder.tvTime.setText(strTime);
         viewHolder.tvTitle.setText(arrTitle.get(i).toString());
         viewHolder.tvDesc.setText(arrDesc.get(i).toString());

@@ -143,7 +143,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
                     arrTitle.add(schedule.getTitle());
                     arrDesc.add(schedule.getDesc());
                 }
-                mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
+                mAdapter = new ScheduleCardAdapter(this, arrTime, arrTitle, arrDesc, this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
