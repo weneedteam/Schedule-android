@@ -23,7 +23,9 @@
 
         <activity android:name=".activity.RegisterActivity" />
 
-        <activity android:name=".activity.ScheduleCalendarActivity" />
+        <activity android:name=".activity.ScheduleCalendarActivity"
+            android:theme="@style/AppTheme.NoActionBar"/>
+
         <activity
             android:name=".activity.AddScheduleActivity"
             android:theme="@style/Theme.AppCompat.Light.Dialog" />
