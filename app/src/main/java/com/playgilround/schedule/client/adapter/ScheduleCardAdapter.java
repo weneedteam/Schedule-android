@@ -1,5 +1,6 @@
 package com.playgilround.schedule.client.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -11,6 +12,9 @@ import android.widget.TextView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
@@ -18,19 +22,19 @@ import javax.annotation.Nonnull;
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder>  {
+public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder> implements View.OnClickListener  {
 
     private ArrayList<ScheduleCard> arrScheduleCard;
-//    private Listener mListener;
+    private Listener mListener;
     static final String TAG = ScheduleCardAdapter.class.getSimpleName();
 
     private ArrayList arrTime, arrTitle, arrDesc;
 
-    public ScheduleCardAdapter(ArrayList time, ArrayList title, ArrayList desc) {
+    public ScheduleCardAdapter(ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
         arrTime = time;
         arrTitle = title;
         arrDesc = desc;
-//        mListener = listener;
+        mListener = listener;
     }
 
 
@@ -44,17 +48,32 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
 
     @Override
     public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
-        viewHolder.tvTime.setText(arrTime.get(i).toString());
+        DateTime dateTime = new DateTime(Long.valueOf(arrTime.get(i).toString()), DateTimeZone.UTC);
+        String strTime = dateTime.plusHours(9).toString("HH:mm");
+        viewHolder.tvTime.setText(strTime);
         viewHolder.tvTitle.setText(arrTitle.get(i).toString());
         viewHolder.tvDesc.setText(arrDesc.get(i).toString());
-     /*   if (mListener != null) {
+
+        if (mListener != null) {
             viewHolder.cardView.setOnClickListener(this);
-        }*/
+            viewHolder.cardView.setTag(arrTitle.get(i).toString());
+        }
     }
 
     @Override
     public int getItemCount() {
         return arrTime.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v instanceof CardView) {
+            String schedule = (String) v.getTag();
+            mListener.onItemClick(schedule);
+        }
+    }
+    public interface Listener {
+        void onItemClick(String schedule);
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
@@ -64,7 +83,7 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
         private TextView tvTitle;
         private TextView tvDesc;
 
-        public ScheduleViewHolder(View itemView) {
+        ScheduleViewHolder(View itemView) {
             super(itemView);
 //            ivSchedule = itemView.findViewById(R.id.ivSchedule);
             cardView = itemView.findViewById(R.id.card_view);

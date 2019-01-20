@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -55,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
                 .setDeniedMessage(getString(R.string.message_check_permission))
                 .setPermissions(PERMISSION_STORAGE)
                 .check();
+
+        findViewById(R.id.button_test).setOnClickListener(v ->
+            startActivity(new Intent(MainActivity.this, ScheduleCalendarActivity.class)));
 
         findViewById(R.id.button_calendar).setOnClickListener(v -> {
 

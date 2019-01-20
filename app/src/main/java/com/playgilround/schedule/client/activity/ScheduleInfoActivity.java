@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -27,7 +28,7 @@ import io.realm.RealmResults;
  * 18-12-27
  * Calendar 에서 날짜 클릭 시 스케줄 정보가 표시되는 액티비티
  */
-public class ScheduleInfoActivity extends Activity implements View.OnClickListener/*, ScheduleCardAdapter.Listener*/ {
+public class ScheduleInfoActivity extends Activity implements View.OnClickListener, ScheduleCardAdapter.Listener {
 
 
     private String date;
@@ -109,12 +110,12 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     }
 
     //CardView Click
-  /*  @Override
-    public void onItemClick(ScheduleCard schedule) {
+    @Override
+    public void onItemClick(String schedule) {
         if (schedule != null) {
-            Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule.title, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
         }
-    }*/
+    }
 
 
     @Override
@@ -142,7 +143,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
                     arrTitle.add(schedule.getTitle());
                     arrDesc.add(schedule.getDesc());
                 }
-                mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc);
+                mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
