@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -42,6 +43,8 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
     RecyclerView mRecyclerView;
     RecyclerView.LayoutManager mLayoutManager;
     ScheduleCardAdapter mAdapter;
+    private ArrayList<ScheduleCard> arrCard;
+
     Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
     RealmResults<Schedule> realmSchedule;
@@ -79,6 +82,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         findViewById(R.id.ivAddBtn).setOnClickListener(this);
 
         getTodaySchedule(realm);
+
     }
 
     @Override
@@ -107,9 +111,9 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
 
     //CardView Click
     @Override
-    public void onItemClick(ScheduleCard schedule) {
+    public void onItemClick(String schedule) {
         if (schedule != null) {
-            Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule.title, Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
         }
     }
 
@@ -139,10 +143,9 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
                     arrTitle.add(schedule.getTitle());
                     arrDesc.add(schedule.getDesc());
                 }
-                mAdapter = new ScheduleCardAdapter(arrTime, arrTitle, arrDesc, this);
+                mAdapter = new ScheduleCardAdapter(this, arrTime, arrTitle, arrDesc, this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
-
     }
 }

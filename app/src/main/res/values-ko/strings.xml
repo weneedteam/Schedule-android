@@ -42,6 +42,10 @@
     <string name="toast_msg_gps_enable">GPS를 켜주세요.</string>
     <string name="toast_msg_check_location">입력한 위치를 확인해주세요.</string>
 
-
-
+    <!-- Navigation -->
+    <string name="nav_calendar">달력 보기</string>
+    <string name="nav_friend">내 친구</string>
+    <string name="nav_map">지도 보기</string>
+    <string name="nav_card">카드 뷰 보기</string>
+    <string name="nav_question">문의 사항</string>
 </resources>

@@ -41,6 +41,11 @@
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
 
+    <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
+    <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
+
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+
     <!-- Button -->
     <string name="button_exit">Exit</string>
     <string name="button_confirm">Confirm</string>
@@ -67,6 +72,7 @@
     <string name="text_date_year_month_day" translatable="false">yyyy-MM-dd</string>
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>
+    <string name="text_logo" translatable="false">PlayGilRound</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
@@ -90,5 +96,14 @@
     <string name="toast_msg_save_schedule">Save schedule</string>
     <string name="toast_msg_gps_enable">Turn on the GPS.</string>
     <string name="toast_msg_check_location">Please Check Input Location.</string>
+
+    <!-- Navigation -->
+    ㅁㅜ
+    <string name="nav_calendar">Calendar</string>
+    <string name="nav_friend">Friend</string>
+    <string name="nav_map">Map</string>
+    <string name="nav_card">Card</string>
+    <string name="nav_question">Question</string>
+
 
 </resources>

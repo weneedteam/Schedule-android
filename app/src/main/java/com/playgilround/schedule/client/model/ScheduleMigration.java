@@ -44,7 +44,7 @@ public class ScheduleMigration implements RealmMigration {
                     .addField("desc", String.class);
         }
         if (oldVersion == 3) {
-            schema.create("Schedule")
+            schema.get("Schedule")
                     .addField("dateDay", String.class, FieldAttribute.REQUIRED);
         }
     }
