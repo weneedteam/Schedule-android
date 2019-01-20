@@ -10,4 +10,5 @@
 
     <dimen name="add_event_set_radius">2dp</dimen>
 
+    <dimen name="nav_header_height">250dp</dimen>
 </resources>

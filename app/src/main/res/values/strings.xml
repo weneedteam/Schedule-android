@@ -41,6 +41,8 @@
     <string name="material_calendar_positive_button">OK</string>
     <string name="material_calendar_negative_button">Cancel</string>
 
+    <string name="nav_header_desc" translatable="false">Navigation header</string>
+
     <!-- Button -->
     <string name="button_exit">Exit</string>
     <string name="button_confirm">Confirm</string>
