@@ -3,27 +3,16 @@ package com.playgilround.schedule.client.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.View;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.model.Holiday;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
-import com.playgilround.schedule.client.retrofit.HolidayAPI;
-import com.playgilround.schedule.client.retrofit.UserAPI;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Retrofit;
 
 public class MainActivity extends AppCompatActivity {
