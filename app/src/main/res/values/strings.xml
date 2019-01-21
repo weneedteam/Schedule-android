@@ -79,10 +79,9 @@
     <string name="hint_schedule_contents">Edit schedule contents.</string>
     <string name="hint_email">E-mail</string>
     <string name="hint_password">Password</string>
-    <string name="hint_confirm_password">Confirm Password</string>
     <string name="hint_birth">Birth(19950818)</string>
     <string name="hint_nick_name">NickName</string>
-
+    <string name="hint_name">Name</string>
 
     <!-- Message -->
     <string name="message_check_permission">Checking permission</string>
