@@ -225,7 +225,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
             tvTime.setText(strMDay); //변경한 날짜로 재 표시
 
             //시, 분을 설정하는 다이얼로그 표시
-            //timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
+            timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
         } catch (Exception e) {
             e.printStackTrace();
         }
