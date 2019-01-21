@@ -3,18 +3,13 @@ package com.playgilround.schedule.client.activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
+import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -25,6 +20,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -60,7 +61,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         events.add(new EventDay(calendar, R.drawable.sample_icon_3));
         realm = Realm.getDefaultInstance();
 
-        android.support.v7.widget.Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = findViewById(R.id.drawerLayout);
