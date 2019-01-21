@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +35,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.appcompat.app.AppCompatActivity;
 import io.realm.Realm;
 
 /**
@@ -62,6 +62,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     public static final int LOCATION_OK = 0x1001;
     public static final String HOUR_MINUTE = "hour_minute";
 
+    //TimePickerDialog timePickerDialog;
     TimePickerDialog timePickerDialog;
 
     @Override

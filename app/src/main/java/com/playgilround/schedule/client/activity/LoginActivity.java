@@ -4,13 +4,15 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 18-01-10 로그인 화면
@@ -28,6 +30,7 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        ButterKnife.bind(this);
         TedPermission.with(this)
                 .setPermissionListener(new PermissionListener() {
                     @Override
@@ -44,12 +47,29 @@ public class LoginActivity extends Activity {
                 .setPermissions(PERMISSION_STORAGE)
                 .check();
 
-        findViewById(R.id.btn_regist).setOnClickListener(l -> {
-            startActivity(new Intent(this, RegisterActivity.class));
-        });
-        findViewById(R.id.btn_login).setOnClickListener(l ->
-                startActivity(new Intent(this, MainActivity.class)));
+
+        //});
+
     }
+
+    @OnClick(R.id.btn_regist)
+    void onRegistClick() {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    @OnClick(R.id.btn_login)
+    void onLoginClick() {
+        startActivity(new Intent(this, MainActivity.class));
+    }
+    /*@OnClick(R.id.btn_regist)
+    void onRegistClick() {
+        startActivity(new Intent(this, RegisterActivity.class));
+    }
+
+    @OnClick(R.id.btn_login)
+    void onLoginClick() {
+        startActivity(new Intent(this, MainActivity.class));
+    }*/
 
 }
 

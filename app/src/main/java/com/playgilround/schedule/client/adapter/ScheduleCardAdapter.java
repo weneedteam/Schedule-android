@@ -1,9 +1,6 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
-import android.support.v7.widget.CardView;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +15,9 @@ import org.joda.time.DateTimeZone;
 import java.util.ArrayList;
 
 import javax.annotation.Nonnull;
+
+import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
