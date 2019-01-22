@@ -8,6 +8,7 @@ import android.os.Bundle;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class LoginActivity extends Activity {
 
     @OnClick(R.id.btn_regist)
     void onRegistClick() {
-        startActivity(new Intent(this, RegisterActivity.class));
+        startActivity(new Intent(this, SignUpActivity.class));
     }
 
     @OnClick(R.id.btn_login)
