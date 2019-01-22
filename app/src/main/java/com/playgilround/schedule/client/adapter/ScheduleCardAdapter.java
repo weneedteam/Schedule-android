@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,11 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     private Listener mListener;
     static final String TAG = ScheduleCardAdapter.class.getSimpleName();
     private Context context;
-    private ArrayList arrTime, arrTitle, arrDesc;
+    private ArrayList arrId, arrTime, arrTitle, arrDesc;
 
-    public ScheduleCardAdapter(Context context, ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
+    public ScheduleCardAdapter(Context context, ArrayList id, ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
         this.context = context;
+        arrId = id;
         arrTime = time;
         arrTitle = title;
         arrDesc = desc;
@@ -57,7 +59,7 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
 
         if (mListener != null) {
             viewHolder.cardView.setOnClickListener(this);
-            viewHolder.cardView.setTag(arrTitle.get(i).toString());
+            viewHolder.cardView.setTag(arrId.get(i));
         }
     }
 
@@ -69,12 +71,12 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
     @Override
     public void onClick(View v) {
         if (v instanceof CardView) {
-            String schedule = (String) v.getTag();
+            int schedule = (int) v.getTag();
             mListener.onItemClick(schedule);
         }
     }
     public interface Listener {
-        void onItemClick(String schedule);
+        void onItemClick(int schedule);
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {

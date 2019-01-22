@@ -32,6 +32,8 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
 
     private String date;
     private String strDateDay;
+
+    private ArrayList<Integer> arrId;
     private ArrayList<Object> arrTitle;
     private ArrayList<Object> arrDesc;
     private ArrayList<Long> arrTime;
@@ -110,10 +112,8 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
 
     //CardView Click
     @Override
-    public void onItemClick(String schedule) {
-        if (schedule != null) {
+    public void onItemClick(int schedule) {
             Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
-        }
     }
 
 
@@ -134,16 +134,18 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
             realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
 
             if (realmSchedule.size() != 0) {
+                arrId = new ArrayList<>();
                 arrTime = new ArrayList<>();
                 arrTitle = new ArrayList<>();
                 arrDesc = new ArrayList<>();
 
                 for (Schedule schedule : realmSchedule) {
+                    arrId.add(schedule.getId());
                     arrTime.add(schedule.getTime());
                     arrTitle.add(schedule.getTitle());
                     arrDesc.add(schedule.getDesc());
                 }
-                mAdapter = new ScheduleCardAdapter(this, arrTime, arrTitle, arrDesc, this);
+                mAdapter = new ScheduleCardAdapter(this, arrId, arrTime, arrTitle, arrDesc, this);
                 mRecyclerView.setAdapter(mAdapter);
             }
         });
