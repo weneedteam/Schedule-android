@@ -123,6 +123,7 @@ public class ScheduleInfoActivity extends Activity implements View.OnClickListen
         switch (requestCode) {
             case ADD_SCHEDULE:
                 //스케줄 입력이 완료됬을 때
+                getTodaySchedule(realm);
                 break;
         }
     }
