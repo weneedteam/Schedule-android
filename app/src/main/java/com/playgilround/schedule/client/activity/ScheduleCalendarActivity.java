@@ -1,7 +1,6 @@
 package com.playgilround.schedule.client.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,6 +27,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-26
@@ -144,7 +145,18 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         Intent intent = new Intent(this, ScheduleInfoActivity.class);
         intent.putExtra("date", strDate);
-        startActivity(intent);
+        startActivityForResult(intent, ADD_SCHEDULE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case ADD_SCHEDULE:
+                //스케줄 입력이 완료됬을 때
+                getScheduleRealm();
+                break;
+        }
     }
 
     //Month Eng -> Num
