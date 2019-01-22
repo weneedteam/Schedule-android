@@ -7,11 +7,13 @@ import android.graphics.Bitmap;
  */
 public class ScheduleCard {
 //    public Bitmap image;
-    public String time;
+    public int id;
+    public long time;
     public String title;
     public String desc;
 
-    ScheduleCard(String time, String title, String desc) {
+    public ScheduleCard(int id, long time, String title, String desc) {
+        this.id = id;
         this.time = time;
         this.title = title;
         this.desc = desc;

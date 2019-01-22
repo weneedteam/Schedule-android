@@ -1,7 +1,6 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +24,14 @@ import androidx.recyclerview.widget.RecyclerView;
  */
 public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder> implements View.OnClickListener  {
 
-    private ArrayList<ScheduleCard> arrScheduleCard;
     private Listener mListener;
     static final String TAG = ScheduleCardAdapter.class.getSimpleName();
     private Context context;
-    private ArrayList arrId, arrTime, arrTitle, arrDesc;
+    private ArrayList<ScheduleCard> arrCard;
 
-    public ScheduleCardAdapter(Context context, ArrayList id, ArrayList time, ArrayList title, ArrayList desc, Listener listener) {
+    public ScheduleCardAdapter(Context context, ArrayList<ScheduleCard> arrCard, Listener listener) {
         this.context = context;
-        arrId = id;
-        arrTime = time;
-        arrTitle = title;
-        arrDesc = desc;
+        this.arrCard = arrCard;
         mListener = listener;
     }
 
@@ -51,21 +46,21 @@ public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapte
 
     @Override
     public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
-        DateTime dateTime = new DateTime(Long.valueOf(arrTime.get(i).toString()), DateTimeZone.UTC);
+        DateTime dateTime = new DateTime(Long.valueOf(arrCard.get(i).time), DateTimeZone.UTC);
         String strTime = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
         viewHolder.tvTime.setText(strTime);
-        viewHolder.tvTitle.setText(arrTitle.get(i).toString());
-        viewHolder.tvDesc.setText(arrDesc.get(i).toString());
+        viewHolder.tvTitle.setText(arrCard.get(i).title);
+        viewHolder.tvDesc.setText(arrCard.get(i).desc);
 
         if (mListener != null) {
             viewHolder.cardView.setOnClickListener(this);
-            viewHolder.cardView.setTag(arrId.get(i));
+            viewHolder.cardView.setTag(arrCard.get(i).id);
         }
     }
 
     @Override
     public int getItemCount() {
-        return arrTime.size();
+        return arrCard.size();
     }
 
     @Override
