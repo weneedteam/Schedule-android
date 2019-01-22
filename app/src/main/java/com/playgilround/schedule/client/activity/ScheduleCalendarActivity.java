@@ -2,7 +2,6 @@ package com.playgilround.schedule.client.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,6 +24,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -40,11 +41,22 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
+    @BindView(R.id.drawerLayout)
+    DrawerLayout drawer;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+
+    @BindView(R.id.naviView)
+    NavigationView navigationView;
+
+    @BindView(R.id.calendarView)
+    CalendarView calendarView;
+
     String strMDay;
     int strMYear, strMonth;
     Realm realm;
 
-    CalendarView calendarView;
     List<EventDay> events;
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
 
@@ -56,27 +68,23 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
 
+        ButterKnife.bind(this);
         setTitle(getString(R.string.text_schedule_calendar));
         events = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         events.add(new EventDay(calendar, R.drawable.sample_icon_3));
         realm = Realm.getDefaultInstance();
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = findViewById(R.id.naviView);
         navigationView.setNavigationItemSelectedListener(this);
 
         header = navigationView.getHeaderView(0);
-        calendarView = findViewById(R.id.calendarView);
-
 
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -89,17 +97,11 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         });
 
         //다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(() -> {
-            getScheduleRealm();
-            Log.d(TAG, "Forward Month ---");
-
-        });
+        calendarView.setOnForwardPageChangeListener(this::getScheduleRealm);
 
         //전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(() -> {
-            getScheduleRealm();
-            Log.d(TAG, "Previous Month ---");
-        });
+        calendarView.setOnPreviousPageChangeListener(this::getScheduleRealm);
+
         getScheduleRealm();
     }
 
@@ -209,17 +211,16 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
 
         if (id == R.id.navCalendar) {
+            //현재 캘린더 뷰라면 실행하지않도록 수정예정
             startActivity(new Intent(this, ScheduleCalendarActivity.class));
         }
-        DrawerLayout drawerLayout = findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 
     //Navigation
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = findViewById(R.id.drawerLayout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         }
