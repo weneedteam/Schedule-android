@@ -14,7 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -274,14 +273,13 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     @OnClick(R.id.tvConfirm)
     void onConfirmClick() {
         //Search Bar 텍스트와, 지정된 Location이 같을 때만 finish
-        Log.d(TAG, "strSearchBar ->" + strSearchBar + "//" + searchLocation);
-        if (strSearchBar.equals(searchLocation)) {
+        if (strSearchBar == null || searchLocation == null) {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_null_location), Toast.LENGTH_LONG).show();
+        } else if (strSearchBar.equals(searchLocation)) {
             Intent intent = new Intent();
             intent.putExtra(INTENT_EXTRA_LOCATION, searchLocation);
             intent.putExtra(INTENT_EXTRA_LATITUDE, searchLatitude);
             intent.putExtra(INTENT_EXTRA_LONGITUDE, searchLongitude);
-
-            Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
             setResult(LOCATION_OK, intent);
             finish();
         } else {

@@ -41,6 +41,7 @@
     <string name="toast_msg_save_schedule">스케줄 저장 완료.</string>
     <string name="toast_msg_gps_enable">GPS를 켜주세요.</string>
     <string name="toast_msg_check_location">입력한 위치를 확인해주세요.</string>
+    <string name="toast_msg_null_location">입력한 위치가 없습니다.</string>
 
     <!-- Navigation -->
     <string name="nav_calendar">달력 보기</string>
