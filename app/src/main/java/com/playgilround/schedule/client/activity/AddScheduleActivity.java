@@ -6,10 +6,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,21 +35,39 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
  * 18-12-30
  * 스케줄 추가 관련 Activity
  */
-public class AddScheduleActivity extends AppCompatActivity implements View.OnClickListener, OnSelectDateListener, OnDateSetListener {
+public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
-    TextView tvDate, tvTime, tvLocation;
+    @BindView(R.id.tv_date)
+    TextView tvDate;
+
+    @BindView(R.id.tvScheduleTime)
+    TextView tvTime;
+
+    @BindView(R.id.tvScheduleLocation)
+    TextView tvLocation;
+
+    @BindView(R.id.btn_confirm)
     Button btnConfirm;
+
+    @BindView(R.id.etScheduleTitle)
+    EditText etTitle;
+
+    @BindView(R.id.etScheduleDesc)
+    EditText etDesc;
+
     Realm realm;
 
-    EditText etTitle, etDesc;
     String strMDay, strMTime, strMYearMonth;
 
     //SetLocationActivity.class 에서 받은 위치정보.
@@ -62,7 +79,6 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     public static final int LOCATION_OK = 0x1001;
     public static final String HOUR_MINUTE = "hour_minute";
 
-    //TimePickerDialog timePickerDialog;
     TimePickerDialog timePickerDialog;
 
     @Override
@@ -72,18 +88,8 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
 
         setContentView(R.layout.dialog_add_schedule);
 
+        ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
-
-        tvDate = findViewById(R.id.tv_date);
-        tvTime = findViewById(R.id.tvScheduleTime);
-        tvLocation = findViewById(R.id.tvScheduleLocation);
-
-        btnConfirm = findViewById(R.id.btn_confirm);
-        etTitle = findViewById(R.id.etScheduleTitle);
-        etDesc = findViewById(R.id.etScheduleDesc);
-
-        findViewById(R.id.llScheduleTime).setOnClickListener(this);
-        findViewById(R.id.llScheduleLocation).setOnClickListener(this);
 
         Intent intent = getIntent();
         String date = intent.getStringExtra("date");
@@ -93,9 +99,6 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         String strDay = date.substring(6, 8);
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-        //Get Current Time
-        //dateTime = new DateTime();
-        //String curTime = dateTime.toString("HH:mm");
         strMYearMonth = strYear + "-" + strMonth;
         strMDay = strYear + "-" + strMonth + "-" + strDay;
         strMTime = "00:00";
@@ -104,9 +107,7 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         tvDate.setText(strDate);
         tvTime.setText(strTime);
 
-        btnConfirm.setOnClickListener(l -> {
-            confirm();
-        });
+        btnConfirm.setOnClickListener(l -> confirm());
 
         //TimePicker
         timePickerDialog = new TimePickerDialog.Builder()
@@ -122,16 +123,42 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
                 .build();
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.llScheduleTime:
-                showCalendarDialog();
-                break;
-            case R.id.llScheduleLocation:
-                showLocationActivity();
-                break;
+    @OnClick(R.id.llScheduleTime)
+    void onShowTimeDialog() {
+        DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
+                .pickerType(CalendarView.ONE_DAY_PICKER)
+                .headerColor(R.color.colorGreen)
+                .headerLabelColor(android.R.color.white)
+                .selectionColor(R.color.colorGreen)
+                .todayLabelColor(R.color.colorAccent)
+                .dialogButtonsColor(android.R.color.holo_green_dark)
+                .previousButtonSrc(R.drawable.ic_chevron_left_black_24dp)
+                .forwardButtonSrc(R.drawable.ic_chevron_right_black_24dp);
+
+        DatePicker datePicker = dateBuilder.build();
+        datePicker.show();
+    }
+
+    @OnClick(R.id.llScheduleLocation)
+    void onShowLocationActivity() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Intent intent = new Intent(this, SetLocationActivity.class);
+            startActivityForResult(intent, LOCATION_START);
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewGroup.LayoutParams params = getWindow().getAttributes();
+        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+        getWindow().setAttributes((WindowManager.LayoutParams) params);
     }
 
     //Click Confirm Button
@@ -141,7 +168,6 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         } else {
             realm.executeTransaction(realm -> {
                 Number currentIdNum = realm.where(Schedule.class).max("id");
-
                 int nextId;
 
                 if (currentIdNum == null) {
@@ -174,44 +200,6 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
-    //Show Select Calendar Dialog
-    private void showCalendarDialog() {
-        DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
-                .pickerType(CalendarView.ONE_DAY_PICKER)
-                .headerColor(R.color.colorGreen)
-                .headerLabelColor(android.R.color.white)
-                .selectionColor(R.color.colorGreen)
-                .todayLabelColor(R.color.colorAccent)
-                .dialogButtonsColor(android.R.color.holo_green_dark)
-                .previousButtonSrc(R.drawable.ic_chevron_left_black_24dp)
-                .forwardButtonSrc(R.drawable.ic_chevron_right_black_24dp);
-
-        DatePicker datePicker = dateBuilder.build();
-        datePicker.show();
-    }
-
-    //Show Location Theme Dialog
-    private void showLocationActivity() {
-        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Intent intent = new Intent(this, SetLocationActivity.class);
-            startActivityForResult(intent, LOCATION_START);
-        } else {
-            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
-            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-            startActivity(intent);
-        }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        ViewGroup.LayoutParams params = getWindow().getAttributes();
-        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-        getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
-    }
-
     //Dialog Day Click Event
     @Override
     public void onSelect(List<Calendar> calendars) {
@@ -235,13 +223,11 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     //Dialog Time Click Event
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
-
         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
         strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
 
         String strDayTime = strMDay + " " + strMTime;
         tvTime.setText(strDayTime);
-
     }
 
     @Override
@@ -269,7 +255,6 @@ public class AddScheduleActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(TAG, "onDestroy..");
         realm.close();
     }
 }
