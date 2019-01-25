@@ -14,8 +14,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -34,6 +32,10 @@ import com.playgilround.schedule.client.model.ZoomLevel;
 import java.io.IOException;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 import static com.playgilround.schedule.client.activity.AddScheduleActivity.LOCATION_OK;
 
 /**
@@ -41,8 +43,10 @@ import static com.playgilround.schedule.client.activity.AddScheduleActivity.LOCA
  * 위치 관련 Activity
  */
 public class SetLocationActivity extends Activity implements OnMapReadyCallback,
-        MaterialSearchBar.OnSearchActionListener, View.OnClickListener {
+        MaterialSearchBar.OnSearchActionListener {
 
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
     double latitude; //위도
     double longitude; //경도
 
@@ -64,10 +68,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     private GoogleMap mMap;
     private Geocoder geocoder;
 
-    private MaterialSearchBar searchBar;
-
     ProgressDialog progress;
-
 
     /**
      * Material Search Bar 검색 버튼 클릭 시,
@@ -84,6 +85,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
+        ButterKnife.bind(this);
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
@@ -101,7 +103,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         }
 
         //Material Search Bar 관련 작업
-        searchBar = findViewById(R.id.searchBar);
         searchBar.setHint(getString(R.string.text_search_location));
         searchBar.setSpeechMode(false);
 
@@ -121,9 +122,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 strSearchBar = editable.toString();
             }
         });
-
-        findViewById(R.id.tvConfirm).setOnClickListener(this);
-        findViewById(R.id.tvCancel).setOnClickListener(this);
     }
 
     //SearchBar Clicked
@@ -203,7 +201,6 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 } else if (addressList.size() == 0) {
                     Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
                 }
-
                 isSearch = false;
             }
         } else {
@@ -259,42 +256,34 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         map.addCircle(circle);
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
         map.animateCamera(CameraUpdateFactory.zoomTo(15));
-
     }
 
     //위도 경도 탐색완료.
     private void finishLocation() {
         FragmentManager fragmentManager = getFragmentManager();
-
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
     }
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.tvCancel:
-                finish();
-                break;
-
-            case R.id.tvConfirm:
-                //Search Bar 텍스트와, 지정된 Location 이 같을 때만 finish
-                if (strSearchBar.equals(searchLocation)) {
-                    Intent intent = new Intent();
-                    intent.putExtra(INTENT_EXTRA_LOCATION, searchLocation);
-                    intent.putExtra(INTENT_EXTRA_LATITUDE, searchLatitude);
-                    intent.putExtra(INTENT_EXTRA_LONGITUDE, searchLongitude);
-
-                    Log.d(TAG, "tvConfirm --> " + searchLocation + "--" + searchLatitude + "--" + searchLongitude);
-                    setResult(LOCATION_OK, intent);
-                    finish();
-                    break;
-                } else {
-                    Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_check_location), Toast.LENGTH_LONG).show();
-                    break;
-                }
-
-        }
+    @OnClick(R.id.tvCancel)
+    void onCancelClick() {
+        finish();
     }
 
+    @OnClick(R.id.tvConfirm)
+    void onConfirmClick() {
+        //Search Bar 텍스트와, 지정된 Location이 같을 때만 finish
+        if (strSearchBar == null || searchLocation == null) {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_null_location), Toast.LENGTH_LONG).show();
+        } else if (strSearchBar.equals(searchLocation)) {
+            Intent intent = new Intent();
+            intent.putExtra(INTENT_EXTRA_LOCATION, searchLocation);
+            intent.putExtra(INTENT_EXTRA_LATITUDE, searchLatitude);
+            intent.putExtra(INTENT_EXTRA_LONGITUDE, searchLongitude);
+            setResult(LOCATION_OK, intent);
+            finish();
+        } else {
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_check_location), Toast.LENGTH_LONG).show();
+        }
+    }
 }

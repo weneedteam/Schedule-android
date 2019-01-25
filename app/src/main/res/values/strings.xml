@@ -9,6 +9,8 @@
 
     <string name="nav_header_desc" translatable="false">Navigation header</string>
 
+    <string name="image" translatable="false">image</string>
+
     <!-- Button -->
     <string name="button_exit">Exit</string>
     <string name="button_confirm">Confirm</string>
@@ -16,6 +18,7 @@
     <string name="button_signin">Login</string>
     <string name="button_signup">Sign Up</string>
     <string name="button_find_password">Forgot Password</string>
+    <string name="button_modify">Modify</string>
 
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
@@ -36,6 +39,7 @@
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>
     <string name="text_logo" translatable="false">PlayGilRound</string>
+    <string name="text_schedule_desc">Schedule Desc..</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
@@ -58,6 +62,7 @@
     <string name="toast_msg_save_schedule">Save schedule</string>
     <string name="toast_msg_gps_enable">Turn on the GPS.</string>
     <string name="toast_msg_check_location">Please Check Input Location.</string>
+    <string name="toast_msg_null_location">Input Location is Null.</string>
 
     <!-- Navigation -->
     <string name="nav_calendar">Calendar</string>

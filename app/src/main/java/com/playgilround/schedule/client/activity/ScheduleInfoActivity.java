@@ -1,8 +1,12 @@
 package com.playgilround.schedule.client.activity;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.Window;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.ScheduleCardAdapter;
+import com.playgilround.schedule.client.fragment.DetailScheduleFragment;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleCard;
 
@@ -113,6 +118,16 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
     @Override
     public void onItemClick(int schedule) {
         Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            final DetailScheduleFragment fragment = DetailScheduleFragment.getInstance(date, schedule);
+            final FragmentManager fm = getFragmentManager();
+            fragment.show(fm, "TAG");
+        } else {
+            Toast.makeText(getApplicationContext(), "현재 위치를 얻기 위해 \n GPS 위치 기능을 켜주세요!", Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+            startActivity(intent);
+        }
     }
 
 

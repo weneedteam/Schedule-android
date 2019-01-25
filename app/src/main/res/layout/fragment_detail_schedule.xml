@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingTop="16dp"
+        android:paddingRight="8dp"
+        android:paddingBottom="16dp">
+
+        <androidx.cardview.widget.CardView xmlns:cardview="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            cardview:cardCornerRadius="2dp"
+            cardview:cardElevation="4dp"
+            cardview:cardUseCompatPadding="true">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/frameLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp">
+
+                    <ImageView
+                        android:id="@+id/ivMap"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:adjustViewBounds="true"
+                        android:contentDescription="@string/image"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/test_fragment_img" />
+
+                    <LinearLayout
+                        android:id="@+id/linearBackView"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:background="@color/colorGreen"
+                        android:gravity="center_vertical"
+                        android:orientation="vertical"
+                        android:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/linearBackButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:orientation="vertical"
+                            android:visibility="gone">
+
+                            <Button
+                                style="@style/Button"
+                                android:layout_marginBottom="16dp"
+                                android:text="@string/button_modify" />
+
+                            <Button
+                                style="@style/Button"
+                                android:layout_marginBottom="16dp"
+                                android:text="@string/button_confirm" />
+
+                            <Button
+                                style="@style/Button"
+                                android:text="@string/button_cancel" />
+
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/tvScheduleInfo"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/frameLayout"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="48dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="24dp"
+                    android:text="@string/text_add_location"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tvScheduleInfo"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="24dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:text="@string/text_date_day_time"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="16sp"
+                    android:textStyle="italic" />
+
+                <ImageButton
+                    android:id="@+id/ivBtnLaunch"
+                    android:layout_width="56dp"
+                    android:layout_height="56dp"
+                    android:layout_alignBottom="@id/frameLayout"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginEnd="@dimen/activity_vertical_margin"
+                    android:layout_marginBottom="-28dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/rounded_button"
+                    android:contentDescription="@string/image"
+                    android:elevation="4dp"
+                    android:src="@mipmap/main_profile" />
+
+            </RelativeLayout>
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+</ScrollView>
