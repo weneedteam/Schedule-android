@@ -22,11 +22,11 @@
         <activity android:name=".signup.SignUpActivity" />
 
         <activity android:name=".singin.SignInActivity" >
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN"/>-->
-<!---->
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity android:name=".activity.ScheduleCalendarActivity"
@@ -46,13 +46,7 @@
 
         <activity android:name=".activity.MainActivity"/>
 
-        <activity android:name=".activity.LoginActivity">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN"/>
-
-            <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.LoginActivity"/>
     </application>
 
 </manifest>
