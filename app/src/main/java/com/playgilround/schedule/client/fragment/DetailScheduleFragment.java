@@ -17,7 +17,9 @@ import android.widget.LinearLayout;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.realm.Realm;
 
 /**
@@ -26,16 +28,16 @@ import io.realm.Realm;
  */
 public class DetailScheduleFragment extends android.app.DialogFragment {
 
-    //    @BindView(R.id.ivMap)
+    @BindView(R.id.ivMap)
     ImageView ivMap;
 
-    //    @BindView(R.id.ivBtnLaunch)
+    @BindView(R.id.ivBtnLaunch)
     ImageButton ivBtn;
 
-    //    @BindView(R.id.linearBackView)
+    @BindView(R.id.linearBackView)
     LinearLayout backView;
 
-    //    @BindView(R.id.linearBackButton)
+    @BindView(R.id.linearBackButton)
     LinearLayout backBtnView;
 
     static String strDate;
@@ -59,15 +61,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
-        ButterKnife.bind(getActivity());
+        ButterKnife.bind(this, rootView);
 
         pixelDensity = getResources().getDisplayMetrics().density;
-        ivMap = rootView.findViewById(R.id.ivMap);
-        ivBtn = rootView.findViewById(R.id.ivBtnLaunch);
-        backView = rootView.findViewById(R.id.linearBackView);
-        backBtnView = rootView.findViewById(R.id.linearBackButton);
 
-        ivBtn.setOnClickListener(l -> onButtonLaunch());
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
         findScheduleInfo();
         return rootView;
@@ -81,9 +78,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             Log.d(TAG, "Schedule result ->" + schedule.getTitle());
         });
     }
-
-    //
-//    @OnClick(R.id.ivBtnLaunch)
+    
+    @OnClick(R.id.ivBtnLaunch)
     public void onButtonLaunch() {
 
         int x = ivMap.getRight();
