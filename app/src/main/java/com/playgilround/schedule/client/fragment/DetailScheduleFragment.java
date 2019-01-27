@@ -17,8 +17,7 @@ import android.widget.LinearLayout;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
-import butterknife.BindView;
-import butterknife.OnClick;
+import butterknife.ButterKnife;
 import io.realm.Realm;
 
 /**
@@ -27,16 +26,16 @@ import io.realm.Realm;
  */
 public class DetailScheduleFragment extends android.app.DialogFragment {
 
-    @BindView(R.id.ivMap)
+    //    @BindView(R.id.ivMap)
     ImageView ivMap;
 
-    @BindView(R.id.ivBtnLaunch)
+    //    @BindView(R.id.ivBtnLaunch)
     ImageButton ivBtn;
 
-    @BindView(R.id.linearBackView)
+    //    @BindView(R.id.linearBackView)
     LinearLayout backView;
 
-    @BindView(R.id.linearBackButton)
+    //    @BindView(R.id.linearBackButton)
     LinearLayout backBtnView;
 
     static String strDate;
@@ -60,10 +59,15 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
+        ButterKnife.bind(getActivity());
 
-        Log.d(TAG, "strDate -> " + strDate + "//" + scheduleId);
         pixelDensity = getResources().getDisplayMetrics().density;
+        ivMap = rootView.findViewById(R.id.ivMap);
+        ivBtn = rootView.findViewById(R.id.ivBtnLaunch);
+        backView = rootView.findViewById(R.id.linearBackView);
+        backBtnView = rootView.findViewById(R.id.linearBackButton);
 
+        ivBtn.setOnClickListener(l -> onButtonLaunch());
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
         findScheduleInfo();
         return rootView;
@@ -78,9 +82,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         });
     }
 
-    @OnClick(R.id.ivBtnLaunch)
+    //
+//    @OnClick(R.id.ivBtnLaunch)
     public void onButtonLaunch() {
-        Log.d(TAG, "Click Button");
+
         int x = ivMap.getRight();
         int y = ivMap.getBottom();
 
@@ -90,7 +95,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
         if (flag) {
             ivBtn.setBackgroundResource(R.drawable.rounded_cancel_button);
-            ivBtn.setImageResource(R.mipmap.ic_detail_arrow_normal);
+            ivBtn.setImageResource(R.drawable.ic_chevron_left_black_24dp);
 
             FrameLayout.LayoutParams paramters = (FrameLayout.LayoutParams)
                     backView.getLayoutParams();
@@ -99,7 +104,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             backView.setLayoutParams(paramters);
 
             //Animation 효과
-            Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y,0, hypotenuse);
+            Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y, 0, hypotenuse);
             anim.setDuration(700);
 
             anim.addListener(new Animator.AnimatorListener() {
@@ -132,7 +137,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         } else {
             //다시 클릭시 되돌아 오기.
             ivBtn.setBackgroundResource(R.drawable.rounded_button);
-            ivBtn.setImageResource(R.mipmap.main_profile);
+            ivBtn.setImageResource(R.drawable.ic_chevron_right_black_24dp);
 
             Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y, hypotenuse, 0);
             anim.setDuration(400);
@@ -146,7 +151,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     backView.setVisibility(View.GONE);
-                    ivBtn.setVisibility(View.GONE);
+                    backBtnView.setVisibility(View.GONE);
                 }
 
                 @Override
