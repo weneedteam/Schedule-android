@@ -30,22 +30,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TedPermission.with(this)
-                .setPermissionListener(new PermissionListener() {
-                    @Override
-                    public void onPermissionGranted() {
-
-                    }
-
-                    @Override
-                    public void onPermissionDenied(List<String> deniedPermissions) {
-
-                    }
-                })
-                .setDeniedMessage(getString(R.string.message_check_permission))
-                .setPermissions(PERMISSION_STORAGE)
-                .check();
-
         findViewById(R.id.button_test).setOnClickListener(v ->
             startActivity(new Intent(MainActivity.this, ScheduleCalendarActivity.class)));
 

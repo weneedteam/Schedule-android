@@ -5,7 +5,7 @@ package com.playgilround.schedule.client.model;
  * Month English -> Number
  */
 public enum MonthEnum {
-    
+
     MONTH_ENUM_1("Jan", "01"), MONTH_ENUM_2("Feb", "02"),
     MONTH_ENUM_3("Mar", "03"), MONTH_ENUM_4("Apr", "04"),
     MONTH_ENUM_5("May", "05"), MONTH_ENUM_6("Jun", "06"),
