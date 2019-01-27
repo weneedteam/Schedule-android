@@ -50,5 +50,6 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                 mView.signUpError();
             }
         });
+
     }
 }
