@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
@@ -140,7 +142,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         String[] date_arr = date.split(" "); //공백 기준
 
         String strYear = date_arr[5];
-        String strMonth = monthChange(date_arr[1]);
+        String strMonth = MonthEnum.getMonthNum(date_arr[1]);
         String strDay = date_arr[2];
 
         String strDate = strYear + strMonth + strDay;
@@ -159,50 +161,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
                 getScheduleRealm();
                 break;
         }
-    }
-
-    //Month Eng -> Num
-    private String monthChange(String month) {
-        String result = "";
-        switch (month) {
-            case "Jan":
-                result = "01";
-                break;
-            case "Feb":
-                result = "02";
-                break;
-            case "Mar":
-                result = "03";
-                break;
-            case "Apr":
-                result = "04";
-                break;
-            case "May":
-                result = "05";
-                break;
-            case "Jun":
-                result = "06";
-                break;
-            case "Jul":
-                result = "07";
-                break;
-            case "Aug":
-                result = "08";
-                break;
-            case "Sep":
-                result = "09";
-                break;
-            case "Oct":
-                result = "10";
-                break;
-            case "Nov":
-                result = "11";
-                break;
-            case "Dec":
-                result = "12";
-                break;
-        }
-        return result;
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
