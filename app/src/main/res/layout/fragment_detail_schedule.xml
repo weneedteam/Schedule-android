@@ -114,7 +114,7 @@
                     android:background="@drawable/rounded_button"
                     android:contentDescription="@string/image"
                     android:elevation="4dp"
-                    android:src="@mipmap/main_profile" />
+                    android:src="@drawable/ic_chevron_right_black_24dp" />
 
             </RelativeLayout>
         </androidx.cardview.widget.CardView>

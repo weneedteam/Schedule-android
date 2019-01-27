@@ -18,6 +18,7 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
@@ -60,8 +61,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
+        ButterKnife.bind(this, rootView);
 
-        Log.d(TAG, "strDate -> " + strDate + "//" + scheduleId);
         pixelDensity = getResources().getDisplayMetrics().density;
 
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
@@ -77,10 +78,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             Log.d(TAG, "Schedule result ->" + schedule.getTitle());
         });
     }
-
+    
     @OnClick(R.id.ivBtnLaunch)
     public void onButtonLaunch() {
-        Log.d(TAG, "Click Button");
+
         int x = ivMap.getRight();
         int y = ivMap.getBottom();
 
@@ -90,7 +91,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
         if (flag) {
             ivBtn.setBackgroundResource(R.drawable.rounded_cancel_button);
-            ivBtn.setImageResource(R.mipmap.ic_detail_arrow_normal);
+            ivBtn.setImageResource(R.drawable.ic_chevron_left_black_24dp);
 
             FrameLayout.LayoutParams paramters = (FrameLayout.LayoutParams)
                     backView.getLayoutParams();
@@ -99,7 +100,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             backView.setLayoutParams(paramters);
 
             //Animation 효과
-            Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y,0, hypotenuse);
+            Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y, 0, hypotenuse);
             anim.setDuration(700);
 
             anim.addListener(new Animator.AnimatorListener() {
@@ -132,7 +133,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         } else {
             //다시 클릭시 되돌아 오기.
             ivBtn.setBackgroundResource(R.drawable.rounded_button);
-            ivBtn.setImageResource(R.mipmap.main_profile);
+            ivBtn.setImageResource(R.drawable.ic_chevron_right_black_24dp);
 
             Animator anim = ViewAnimationUtils.createCircularReveal(backView, x, y, hypotenuse, 0);
             anim.setDuration(400);
@@ -146,7 +147,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
                 @Override
                 public void onAnimationEnd(Animator animator) {
                     backView.setVisibility(View.GONE);
-                    ivBtn.setVisibility(View.GONE);
+                    backBtnView.setVisibility(View.GONE);
                 }
 
                 @Override
