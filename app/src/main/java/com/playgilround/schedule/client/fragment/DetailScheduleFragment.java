@@ -13,9 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -39,6 +43,9 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
     @BindView(R.id.linearBackButton)
     LinearLayout backBtnView;
+
+    @BindView(R.id.tvTime)
+    TextView tvTime;
 
     static String strDate;
     static int scheduleId;
@@ -75,10 +82,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
-            Log.d(TAG, "Schedule result ->" + schedule.getTitle());
+            DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
+            String strDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day_time));
+
+            tvTime.setText(strDay);
         });
     }
-    
+
     @OnClick(R.id.ivBtnLaunch)
     public void onButtonLaunch() {
 
