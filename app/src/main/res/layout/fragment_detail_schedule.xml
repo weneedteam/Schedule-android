@@ -73,31 +73,44 @@
                         </LinearLayout>
                     </LinearLayout>
                 </FrameLayout>
-
                 <TextView
-                    android:id="@+id/tvScheduleInfo"
+                    android:id="@+id/tvScheduleTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/frameLayout"
                     android:lineSpacingExtra="4dp"
                     android:paddingLeft="24dp"
-                    android:paddingTop="48dp"
+                    android:paddingTop="10dp"
                     android:paddingRight="24dp"
-                    android:paddingBottom="24dp"
-                    android:text="@string/text_add_location"
+                    android:paddingBottom="10dp"
+                    android:text="@string/text_schedule_title"
                     android:textColor="@color/color_text_grey"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tvScheduleLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/tvScheduleTitle"
+                    android:lineSpacingExtra="4dp"
+                    android:paddingLeft="24dp"
+                    android:paddingTop="10dp"
+                    android:paddingRight="24dp"
+                    android:paddingBottom="10dp"
+                    android:text="@string/text_add_location"
+                    android:textColor="@color/color_text_grey"
+                    android:textSize="16sp"/>
+
+                <TextView
                     android:id="@+id/tvTime"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/tvScheduleInfo"
+                    android:layout_below="@id/tvScheduleLocation"
                     android:paddingLeft="24dp"
-                    android:paddingTop="24dp"
+                    android:paddingTop="10dp"
                     android:paddingRight="24dp"
-                    android:paddingBottom="@dimen/activity_vertical_margin"
+                    android:paddingBottom="10dp"
                     android:text="@string/text_date_day_time"
                     android:textColor="@android:color/black"
                     android:textSize="16sp"
