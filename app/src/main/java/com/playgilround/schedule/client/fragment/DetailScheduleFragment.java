@@ -47,6 +47,12 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     @BindView(R.id.tvTime)
     TextView tvTime;
 
+    @BindView(R.id.tvScheduleTitle)
+    TextView tvTitle;
+
+    @BindView(R.id.tvScheduleLocation)
+    TextView tvLocation;
+
     static String strDate;
     static int scheduleId;
     Realm realm;
@@ -84,8 +90,12 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
             DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
             String strDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day_time));
+            String strTitle = schedule.getTitle();
+            String strLocation = schedule.getLocation();
 
             tvTime.setText(strDay);
+            tvTitle.setText(strTitle);
+            tvLocation.setText(strLocation);
         });
     }
 
