@@ -26,7 +26,11 @@
     <string name="text_minute">분</string>
     <string name="text_schedule_desc">스케줄 설명..</string>
     <string name="text_schedule_title">스케줄 제목</string>
-    
+    <string name="text_email">이메일</string>
+    <string name="text_password">비밀번호</string>
+    <string name="text_not_account">아직 계정이 없어요</string>
+
+
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="hint_schedule_contents">내용을 적어주세요..</string>

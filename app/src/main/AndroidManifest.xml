@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest package="com.playgilround.schedule.client"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.playgilround.schedule.client">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:name=".ScheduleApplication"
@@ -17,34 +17,37 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key"/>
+            android:value="@string/google_maps_key" />
 
         <activity android:name=".signup.SignUpActivity" />
 
-        <activity android:name=".singin.SignInActivity" >
+        <activity
+            android:name=".singin.SignInActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ScheduleCalendarActivity"
-                  android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activity.ScheduleCalendarActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
             android:name=".activity.AddScheduleActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.SetLocationActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
         <activity
             android:name=".activity.ScheduleInfoActivity"
-            android:theme="@style/Theme.AppCompat.Light.Dialog"/>
+            android:theme="@style/Theme.AppCompat.Light.Dialog" />
 
-        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.MainActivity" />
 
     </application>
 
