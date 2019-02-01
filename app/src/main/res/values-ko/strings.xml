@@ -31,6 +31,9 @@
     <string name="text_password">비밀번호</string>
     <string name="text_not_account">아직 계정이 없어요</string>
 
+    <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
+    <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
+    <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
 
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
