@@ -10,6 +10,7 @@
     <string name="button_signup">회원가입</string>
     <string name="button_find_password">비밀번호 찾기</string>
     <string name="button_modify">수정</string>
+    <string name="button_next">다음</string>
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>
@@ -26,7 +27,14 @@
     <string name="text_minute">분</string>
     <string name="text_schedule_desc">스케줄 설명..</string>
     <string name="text_schedule_title">스케줄 제목</string>
-    
+    <string name="text_email">이메일</string>
+    <string name="text_password">비밀번호</string>
+    <string name="text_not_account">아직 계정이 없어요</string>
+
+    <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
+    <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
+    <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
+
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="hint_schedule_contents">내용을 적어주세요..</string>

@@ -19,6 +19,7 @@
     <string name="button_signup">Sign Up</string>
     <string name="button_find_password">Forgot Password</string>
     <string name="button_modify">Modify</string>
+    <string name="button_next">Next</string>
 
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
@@ -41,7 +42,13 @@
     <string name="text_logo" translatable="false">PlayGilRound</string>
     <string name="text_schedule_desc">Schedule Desc..</string>
     <string name="text_schedule_title">Schedule Title</string>
+    <string name="text_email">Email</string>
+    <string name="text_password">Password</string>
+    <string name="text_not_account">Not yet account</string>
 
+    <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
+    <string name="text_tutorial_start2">장소에 가까워지면\n 도착 버튼이 활성화됩니다.</string>
+    <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
@@ -71,6 +78,5 @@
     <string name="nav_map">Map</string>
     <string name="nav_card">Card</string>
     <string name="nav_question">Question</string>
-
 
 </resources>
