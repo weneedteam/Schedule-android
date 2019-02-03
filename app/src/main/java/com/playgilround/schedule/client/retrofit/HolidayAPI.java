@@ -11,8 +11,8 @@ import retrofit2.http.Headers;
 
 public interface HolidayAPI {
 
-    @Headers({"Accept: application/json"})
+    /*@Headers({"Accept: application/json"})
     @GET(BaseUrl.PATH_HOLIDAYS)
-    Call<JsonObject> holidays();
+    Call<JsonObject> holidays();*/
 
 }
