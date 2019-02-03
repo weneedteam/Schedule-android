@@ -60,7 +60,7 @@ public class TutorialActivity extends AppCompatActivity {
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
                 if (retPosition == adapter.getItemCount() -1) {
-                    mNextBtn.setText(R.string.button_final);
+                    mNextBtn.setText(R.string.button_start);
                 } else {
                     mNextBtn.setText(R.string.button_next);
                 }

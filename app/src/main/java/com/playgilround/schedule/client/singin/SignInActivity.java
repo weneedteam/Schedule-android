@@ -60,6 +60,11 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         new SignInPresenter(this);
     }
 
+    @OnClick(R.id.btn_login)
+    void onLoginClick() {
+        startActivity(new Intent(this, ScheduleCalendarActivity.class));
+    }
+
     @OnClick(R.id.tvSignUp)
     void onSignUpClick() {
         startActivity(new Intent(this, SignUpActivity.class));
