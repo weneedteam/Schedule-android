@@ -1,5 +1,6 @@
 package com.playgilround.schedule.client.activity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +39,8 @@ public class TutorialActivity extends AppCompatActivity {
 
     TutorialAdapter adapter;
 
+    static final String TAG = TutorialActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +76,12 @@ public class TutorialActivity extends AppCompatActivity {
     @OnClick(R.id.btn_next)
     void onButtonClick() {
         if (adapter.getItemCount() -1 == retPosition) {
+            Log.d(TAG, "Button Click -----");
             startActivity(new Intent(this, SignInActivity.class));
-            overridePendingTransition(R.anim.enter, R.anim.exit);
+            this.overridePendingTransition(R.anim.enter, R.anim.exit);
+            finish();
         } else {
             mRecyclerView.smoothScrollToPosition(retPosition + 1);
         }
-
     }
 }
