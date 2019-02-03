@@ -1,13 +1,13 @@
 package com.playgilround.schedule.client.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.TutorialAdapter;
+import com.playgilround.schedule.client.singin.SignInActivity;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 
 import androidx.annotation.NonNull;
@@ -31,6 +31,13 @@ public class TutorialActivity extends AppCompatActivity {
     @BindView(R.id.pager_indicator)
     IndefinitePagerIndicator indefinite;
 
+    @BindView(R.id.btn_next)
+    Button mNextBtn;
+
+    int retPosition;
+
+    TutorialAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,14 +46,38 @@ public class TutorialActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);
-        TutorialAdapter adapter = new TutorialAdapter(this);
+        adapter = new TutorialAdapter(this);
         mRecyclerView.setAdapter(adapter);
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                LinearLayoutManager mLinear = (LinearLayoutManager) recyclerView.getLayoutManager();
+
+                retPosition = mLinear.findFirstVisibleItemPosition();
+                if (retPosition == adapter.getItemCount() -1) {
+                    mNextBtn.setText(R.string.button_final);
+                } else {
+                    mNextBtn.setText(R.string.button_next);
+                }
+            }
+        });
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
-
         indefinite.attachToRecyclerView(mRecyclerView);
+    }
+
+    @OnClick(R.id.btn_next)
+    void onButtonClick() {
+        if (adapter.getItemCount() -1 == retPosition) {
+            startActivity(new Intent(this, SignInActivity.class));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+        } else {
+            mRecyclerView.smoothScrollToPosition(retPosition + 1);
+        }
 
     }
 }

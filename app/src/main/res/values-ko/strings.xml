@@ -11,6 +11,7 @@
     <string name="button_find_password">비밀번호 찾기</string>
     <string name="button_modify">수정</string>
     <string name="button_next">다음</string>
+    <string name="button_final">마지막</string>
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>

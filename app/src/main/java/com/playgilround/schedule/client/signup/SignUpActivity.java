@@ -1,7 +1,9 @@
 package com.playgilround.schedule.client.signup;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.playgilround.schedule.client.R;
@@ -16,7 +18,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     private SignUpContract.Presenter mPresenter;
 
-    @BindView(R.id.emailInput)
+   /* @BindView(R.id.emailInput)
     EditText mEmailEditText;
 
     @BindView(R.id.pwInput)
@@ -29,14 +31,22 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     EditText mNickNameEditText;
 
     @BindView(R.id.birthInput)
-    EditText mBirthEditText;
+    EditText mBirthEditText;*/
 
+   @BindView(R.id.etText)
+   EditText mEditText;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_sign_up2);
         ButterKnife.bind(this);
 
+        mEditText.post(() -> {
+            mEditText.setFocusableInTouchMode(true);
+            mEditText.requestFocus();
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.showSoftInput(mEditText,0);
+        });
         new SignUpPresenter(this);
     }
 
@@ -51,10 +61,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         mPresenter = presenter;
     }
 
-    @OnClick(R.id.button_sign_up)
+    @OnClick(R.id.btn_next)
     public void signUp() {
 
-        User user = new User();
+       /* User user = new User();
 
         user.setNickName(mNickNameEditText.getText().toString());
         user.setUserName(mNameEditText.getText().toString());
@@ -63,7 +73,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         user.setBirth(mBirthEditText.getText().toString());
         user.setLanguage("Korean");
 
-        mPresenter.signUp(user);
+        mPresenter.signUp(user);*/
     }
 
     @Override

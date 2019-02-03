@@ -20,6 +20,7 @@
     <string name="button_find_password">Forgot Password</string>
     <string name="button_modify">Modify</string>
     <string name="button_next">Next</string>
+    <string name="button_final">final</string>
 
     <!-- Text -->
     <string name="text_add_location">Add Location</string>

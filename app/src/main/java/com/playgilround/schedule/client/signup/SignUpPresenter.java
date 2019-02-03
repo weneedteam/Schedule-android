@@ -1,6 +1,8 @@
 package com.playgilround.schedule.client.signup;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.inputmethod.InputMethodManager;
 
 import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.model.User;

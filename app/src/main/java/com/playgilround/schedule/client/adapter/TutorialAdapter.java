@@ -4,24 +4,19 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.activity.TutorialActivity;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
@@ -31,11 +26,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
     private String[] images = new String[]{image1, image2, image2};
 
     private Context mContext;
-    int retPosition;
-
-    static final String TAG = TutorialAdapter.class.getSimpleName();
-
-    public boolean isFirst = false;
 
     public TutorialAdapter(Context context) {
         mContext = context;
@@ -46,26 +36,18 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.item_tutorial, parent, false);
-        Log.d(TAG, "onCreateViewHolder ...");
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        if (!isFirst) {
-            retPosition = position;
-        }
-        Log.d(TAG, "retPosition - > " +retPosition + "//" + holder.getLayoutPosition() + "//" + holder.getAdapterPosition());
-        holder.bindView(retPosition);
+        holder.bindView(position);
     }
-
-
 
     @Override
     public int getItemCount() {
         return images.length;
     }
-
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -74,9 +56,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
 
         @BindView(R.id.tvtutorial)
         TextView mTextView;
-
-        @BindView(R.id.btn_next)
-        Button mButton;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -116,13 +95,5 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
 
             mTextView.setText(ssb);
         }
-
-        @OnClick(R.id.btn_next)
-        void onButtonClick(View v) {
-            Log.d(TAG, "onButtonClick -> " +retPosition);
-
-            bindView(retPosition +1);
-        }
-
     }
 }

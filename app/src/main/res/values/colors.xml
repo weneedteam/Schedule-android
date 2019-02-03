@@ -84,5 +84,6 @@
     <color name="light_indigo">#7165cd</color>
     <color name="light_indigo_70">#b37165cd</color>
     <color name="light_indigo_38">#617165cd</color>
+    <color name="sign_up_color">#61000000</color>
 
 </resources>
