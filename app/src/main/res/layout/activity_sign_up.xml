@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:layout="http://schemas.android.com/tools">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -84,5 +85,12 @@
             android:text="@string/button_signup" />
 
     </LinearLayout>
+
+    <include
+        android:id="@+id/btn_next"
+        layout="@layout/next_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
