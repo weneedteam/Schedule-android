@@ -65,10 +65,7 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         void bindView(int position) {
             String image = images[position];
 
-            String[] texts = new String[]{
-                    mContext.getString(R.string.text_tutorial_start1),
-                    mContext.getString(R.string.text_tutorial_start2),
-                    mContext.getString(R.string.text_tutorial_start3)};
+            String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
 
             String text = texts[position];
 
@@ -78,6 +75,7 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             Picasso.get().load(resourceID).into(mImageView);
 
             //특정 글자만 색깔 변경
+            //ViewHolder 여러개 만들기
             SpannableStringBuilder ssb = new SpannableStringBuilder(text);
             int startText;
             int lastText;
