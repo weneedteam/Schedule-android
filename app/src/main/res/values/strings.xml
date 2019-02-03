@@ -20,7 +20,7 @@
     <string name="button_find_password">Forgot Password</string>
     <string name="button_modify">Modify</string>
     <string name="button_next">Next</string>
-    <string name="button_final">final</string>
+    <string name="button_start">Start</string>
 
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
@@ -46,6 +46,8 @@
     <string name="text_email">Email</string>
     <string name="text_password">Password</string>
     <string name="text_not_account">Not yet account</string>
+    <string name="text_signup">SignUp</string>
+
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
