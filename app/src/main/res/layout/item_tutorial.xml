@@ -26,4 +26,18 @@
         android:textSize="16sp"
         android:textStyle="normal" />
 
+    <Button
+        android:id="@+id/btn_next"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/light_indigo"
+        android:fontFamily="sans-serif"
+        android:text="@string/button_next"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        android:textStyle="bold" />
+
+
+
 </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -9,6 +10,7 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.TutorialAdapter;
 import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -29,9 +31,6 @@ public class TutorialActivity extends AppCompatActivity {
     @BindView(R.id.pager_indicator)
     IndefinitePagerIndicator indefinite;
 
-    @BindView(R.id.btn_next)
-    Button nextBtn;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,13 +45,8 @@ public class TutorialActivity extends AppCompatActivity {
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
+
         indefinite.attachToRecyclerView(mRecyclerView);
 
-
-    }
-
-    @OnClick(R.id.btn_next)
-    void onButtonClick(View view) {
-        Toast.makeText(this, "Click" , Toast.LENGTH_SHORT).show();
     }
 }
