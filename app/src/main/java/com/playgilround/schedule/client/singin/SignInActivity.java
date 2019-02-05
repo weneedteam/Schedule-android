@@ -10,7 +10,6 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.MainActivity;
-import com.playgilround.schedule.client.activity.ManyDayScheduleCalendarActivity;
 import com.playgilround.schedule.client.activity.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.signup.SignUpActivity;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -16,9 +17,13 @@ import com.playgilround.schedule.client.model.Schedule;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -55,7 +60,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    String strMDay;
+    @BindView(R.id.btn_save)
+    Button saveBtn;
+
+    String strMDay, strManyDay;
     int strMYear, strMonth;
     Realm realm;
 
@@ -105,6 +113,28 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         calendarView.setOnPreviousPageChangeListener(this::getScheduleRealm);
 
         getScheduleRealm();
+
+        saveBtn.setOnClickListener(v -> {
+            if (calendarView.getSelectedDates().size() > 1) {
+                //2개 이상일 경우에만 다중 저장 실행.
+                ArrayList<Calendar> arrTime = new ArrayList<>(calendarView.getSelectedDates());
+
+                for (Calendar retTime : arrTime) {
+                    try {
+                        Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(retTime.getTime().toString());
+                        long milliseconds = date.getTime();
+
+                        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+                        Log.d(TAG, "realmTime -> " + dateTime);
+
+                        strManyDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        });
     }
 
     //yyyy-MM 기준으로 저장된 스케줄 표시
