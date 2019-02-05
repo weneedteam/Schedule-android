@@ -78,6 +78,7 @@
     <string name="nav_map">Map</string>
     <string name="nav_card">Card</string>
     <string name="nav_question">Question</string>
+    <string name="button_schedule_save">Schedule save</string>
 
     <!-- Tutorial Text-->
     <string-array name="tutorial_text_array">
