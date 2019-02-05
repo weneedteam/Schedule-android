@@ -10,6 +10,7 @@ import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.MainActivity;
+import com.playgilround.schedule.client.activity.ManyDayScheduleCalendarActivity;
 import com.playgilround.schedule.client.activity.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.signup.SignUpActivity;
@@ -62,7 +63,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @OnClick(R.id.btn_login)
     void onLoginClick() {
-        startActivity(new Intent(this, ScheduleCalendarActivity.class));
+        startActivity(new Intent(this, ManyDayScheduleCalendarActivity.class));
     }
 
     @OnClick(R.id.tvSignUp)
