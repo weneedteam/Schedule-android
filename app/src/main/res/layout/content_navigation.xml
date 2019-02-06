@@ -8,10 +8,35 @@
     tools:context=".activity.MainActivity"
     tools:showIn="@layout/app_bar_navigation">
     
-    <com.applandeo.materialcalendarview.CalendarView
+    <!--<com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:eventsEnabled="true"
-        app:type="one_day_picker" />
+        app:type="one_day_picker" />-->
+
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        app:abbreviationsBarColor="#303F9F"
+        app:abbreviationsLabelsColor="@android:color/white"
+        app:daysLabelsColor="@android:color/white"
+        app:headerColor="@color/colorGreen"
+        app:pagesColor="#3F51B5"
+        app:eventsEnabled="true"
+        app:selectionColor="@android:color/white"
+        app:selectionLabelColor="@android:color/holo_blue_dark"
+        app:anotherMonthsDaysLabelsColor="#3F51B5"
+        app:todayLabelColor="@color/color_pink"
+        app:type="many_days_picker" />
+
+    <Button
+        android:id="@+id/btn_save"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/button_schedule_save"/>
 </RelativeLayout>

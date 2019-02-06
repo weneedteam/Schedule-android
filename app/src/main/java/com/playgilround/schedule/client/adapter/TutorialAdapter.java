@@ -1,18 +1,14 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.squareup.picasso.Picasso;
@@ -21,18 +17,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
     private static final String image1 = "tutorial";
     private static final String image2 = "illustration";
 
-    private String[] images  = new String[]{image1, image2, image2};
+    private String[] images = new String[]{image1, image2, image2};
 
     private Context mContext;
 
-    int startText, lastText;
     public TutorialAdapter(Context context) {
         mContext = context;
     }
@@ -55,7 +49,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         return images.length;
     }
 
-
     class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.ivtutorial)
@@ -72,10 +65,7 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         void bindView(int position) {
             String image = images[position];
 
-            String[] texts = new String[]{
-                    mContext.getString(R.string.text_tutorial_start1),
-                    mContext.getString(R.string.text_tutorial_start2),
-                    mContext.getString(R.string.text_tutorial_start3)};
+            String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
 
             String text = texts[position];
 
@@ -85,7 +75,10 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             Picasso.get().load(resourceID).into(mImageView);
 
             //특정 글자만 색깔 변경
+            //ViewHolder 여러개 만들기
             SpannableStringBuilder ssb = new SpannableStringBuilder(text);
+            int startText;
+            int lastText;
             if (position == 0) {
                 startText = 12;
                 lastText = 14;
@@ -99,6 +92,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             ssb.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_indigo)), startText, lastText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             mTextView.setText(ssb);
-            }
+        }
     }
 }
