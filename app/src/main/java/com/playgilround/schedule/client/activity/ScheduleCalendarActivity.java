@@ -1,5 +1,6 @@
 package com.playgilround.schedule.client.activity;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +12,7 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.fragment.ManyScheduleFragment;
 import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -73,6 +75,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     String currentCalendar = "";
     View header;
 
+    ManyScheduleFragment manyFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -118,21 +121,25 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             if (calendarView.getSelectedDates().size() > 1) {
                 //2개 이상일 경우에만 다중 저장 실행.
                 ArrayList<Calendar> arrTime = new ArrayList<>(calendarView.getSelectedDates());
-
+                ArrayList<String> arrRetTime = new ArrayList<>();
                 for (Calendar retTime : arrTime) {
                     try {
                         Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(retTime.getTime().toString());
                         long milliseconds = date.getTime();
 
                         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-                        Log.d(TAG, "realmTime -> " + dateTime);
 
                         strManyDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
+                        arrRetTime.add(strManyDay);
+
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
 
                 }
+                manyFragment = ManyScheduleFragment.getInstance(arrRetTime);
+                final FragmentManager fm = getFragmentManager();
+                manyFragment.show(fm, "TAG");
             }
         });
     }
