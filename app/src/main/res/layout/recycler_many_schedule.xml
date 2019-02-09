@@ -3,8 +3,20 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:text="@string/text_choice_day"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/mRecycler"
         android:layout_width="match_parent"
         android:layout_height="400dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/btn_save"
+        android:text="@string/button_yes"/>
 </LinearLayout>
