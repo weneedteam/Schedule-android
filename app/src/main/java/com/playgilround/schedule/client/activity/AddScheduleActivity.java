@@ -31,6 +31,7 @@ import org.joda.time.DateTimeZone;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -71,6 +72,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     Realm realm;
 
     String strMDay, strMTime, strMYearMonth;
+
+    //Schedule DB  dateDay 컬럼에 들어갈 항목
+    ArrayList<String> arrDateDay = new ArrayList<>();
     int chooseSize;
 
     //SetLocationActivity.class 에서 받은 위치정보.
@@ -87,6 +91,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,21 +115,25 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
             strMYearMonth = strYear + "-" + strMonth;
             strMDay = strYear + "-" + strMonth + "-" + strDay;
+
+            arrDateDay.add(strMDay);
+
             strMTime = "00:00";
 
             String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
             tvDate.setText(strDate);
             tvTime.setText(strTime);
-        } else if (intent.getStringExtra("manyDate") != null) {
+        } else if (intent.getStringArrayListExtra("dateArr") != null) {
             //다중 날짜 선택일 경우
-            String date = intent.getStringExtra("manyDate");
-            int dateSize = intent.getIntExtra("dateSize", 0);
 
-            String strTime = date.substring(0, 10);
-            String strRetTime = strTime + " 외 " + dateSize + "일";
+            arrDateDay = intent.getStringArrayListExtra("dateArr");
 
+            String strTime = arrDateDay.get(0);
+            String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
+
+            chooseSize = arrDateDay.size();
             isManyDay = true;
-            tvDate.setText(date);
+            tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
             tvTime.setText(strRetTime);
         }
         btnConfirm.setOnClickListener(l -> confirm());
@@ -191,31 +200,33 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
             realm.executeTransaction(realm -> {
-                Number currentIdNum = realm.where(Schedule.class).max("id");
-                int nextId;
+                for (String strDateDay : arrDateDay) {
+                    Number currentIdNum = realm.where(Schedule.class).max("id");
+                    int nextId;
 
-                if (currentIdNum == null) {
-                    nextId = 0;
-                } else {
-                    nextId = currentIdNum.intValue() + 1;
-                }
+                    if (currentIdNum == null) {
+                        nextId = 0;
+                    } else {
+                        nextId = currentIdNum.intValue() + 1;
+                    }
 
-                Schedule mSchedule = realm.createObject(Schedule.class, nextId);
-                mSchedule.setTitle(etTitle.getText().toString());
-                mSchedule.setDate(strMYearMonth);
-                mSchedule.setDateDay(strMDay);
-                try {
-                    String retTime = strMDay + " " + strMTime;
-                    Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
-                    long milliseconds = date.getTime(); //add 9 hour
-                    mSchedule.setTime(milliseconds);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    Schedule mSchedule = realm.createObject(Schedule.class, nextId);
+                    mSchedule.setTitle(etTitle.getText().toString());
+                    mSchedule.setDate(strMYearMonth);
+                    mSchedule.setDateDay(strDateDay);
+                    try {
+                        String retTime = strMDay + " " + strMTime;
+                        Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
+                        long milliseconds = date.getTime(); //add 9 hour
+                        mSchedule.setTime(milliseconds);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    mSchedule.setLocation(resLocation);
+                    mSchedule.setLatitude(resLatitude);
+                    mSchedule.setLongitude(resLongitude);
+                    mSchedule.setDesc(etDesc.getText().toString());
                 }
-                mSchedule.setLocation(resLocation);
-                mSchedule.setLatitude(resLatitude);
-                mSchedule.setLongitude(resLongitude);
-                mSchedule.setDesc(etDesc.getText().toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 setResult(ScheduleInfoActivity.ADD_SCHEDULE);
                 finish();

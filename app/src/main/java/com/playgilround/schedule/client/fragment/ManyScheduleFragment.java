@@ -56,12 +56,9 @@ public class ManyScheduleFragment extends DialogFragment {
         adapter = new ManyScheduleAdapter(arrDay);
         mRecycler.setAdapter(adapter);
 
-        String strDate = arrDay.get(0) + " ~ " + arrDay.get(arrDay.size() -1);
-
         btnSave.setOnClickListener(l -> {
             Intent intent = new Intent(this.getActivity(), AddScheduleActivity.class);
-            intent.putExtra("manyDate", strDate);
-            intent.putExtra("dateSize", arrDay.size() -1);
+            intent.putExtra("dateArr", arrDay);
             startActivity(intent);
         });
 
