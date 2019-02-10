@@ -257,6 +257,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         arrDateDay = new ArrayList<>();
         arrDate = new ArrayList<>();
         String strDateTime;
+        String strDateTitle = "";
         try {
             for (Calendar calendar : calendars) {
                 String strSelect = calendar.getTime().toString();
@@ -266,6 +267,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
 
                 strDateTime = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
+                strDateTitle = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day_title));
                 arrDateDay.add(strDateTime);
 
                 String strYear = strDateTime.substring(0, 4);
@@ -276,10 +278,12 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             strMDay = arrDateDay.get(0);
             if (calendars.size() > 1) {
                 chooseSize = calendars.size() - 1;
+                tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
                 tvTime.setText(strMDay + " 외 " + chooseSize + "일");
                 isManyDay = true;
             } else {
                 isManyDay = false;
+                tvDate.setText(strDateTitle);
                 tvTime.setText(strMDay); //변경한 날짜로 재 표시
             }
 
