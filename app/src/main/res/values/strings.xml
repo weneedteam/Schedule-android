@@ -21,7 +21,8 @@
     <string name="button_modify">Modify</string>
     <string name="button_next">Next</string>
     <string name="button_start">Start</string>
-
+    <string name="button_schedule_save">Schedule save</string>
+    <string name="button_yes">Yes</string>
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
     <string name="text_add_schedule">Add schedule</string>
@@ -40,6 +41,7 @@
     <string name="text_date_year_month_day" translatable="false">yyyy-MM-dd</string>
     <string name="text_date_time" translatable="false">HH:mm</string>
     <string name="text_date_day_time" translatable="false">yyyy-MM-dd HH:mm</string>
+    <string name="text_date_year_month_day_title" translatable="false">yyyy년 MM월 dd일</string>
     <string name="text_logo" translatable="false">PlayGilRound</string>
     <string name="text_schedule_desc">Schedule Desc..</string>
     <string name="text_schedule_title">Schedule Title</string>
@@ -47,6 +49,7 @@
     <string name="text_password">Password</string>
     <string name="text_not_account">Not yet account</string>
     <string name="text_signup">SignUp</string>
+    <string name="text_choice_day">Is the date selected?</string>
 
 
     <!-- Hint -->
@@ -78,7 +81,6 @@
     <string name="nav_map">Map</string>
     <string name="nav_card">Card</string>
     <string name="nav_question">Question</string>
-    <string name="button_schedule_save">Schedule save</string>
 
     <!-- Tutorial Text-->
     <string-array name="tutorial_text_array">

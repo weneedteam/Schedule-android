@@ -13,6 +13,7 @@
     <string name="button_next">다음</string>
     <string name="button_start">시작하기</string>
     <string name="button_schedule_save">스케줄 저장</string>
+    <string name="button_yes">네</string>
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>
@@ -33,6 +34,7 @@
     <string name="text_password">비밀번호</string>
     <string name="text_not_account">아직 계정이 없어요</string>
     <string name="text_signup">회원가입</string>
+    <string name="text_choice_day">선택한 날짜가 맞나요?</string>
 
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>

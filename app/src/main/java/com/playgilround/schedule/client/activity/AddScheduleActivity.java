@@ -1,11 +1,13 @@
 package com.playgilround.schedule.client.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -29,6 +31,7 @@ import org.joda.time.DateTimeZone;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +73,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     String strMDay, strMTime, strMYearMonth;
 
+    //Schedule DB  dateDay 컬럼에 들어갈 항목
+    ArrayList<String> arrDateDay;
+
+    //Schedule DB date 컬럼에 들어갈 항목
+    ArrayList<String> arrDate;
+    int chooseSize;
+
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
     Double resLatitude = 0.0;
@@ -81,6 +91,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     TimePickerDialog timePickerDialog;
 
+    //단일인지 다중인지 판단하는 플래그.
+    public boolean isManyDay = false;
+
+    @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,22 +105,51 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
 
+        arrDateDay = new ArrayList<>();
+        arrDate = new ArrayList<>();
         Intent intent = getIntent();
-        String date = intent.getStringExtra("date");
+        if (intent.getStringExtra("date") != null) {
+            //단일 날짜 선택 일 경우
+            String date = intent.getStringExtra("date");
 
-        String strYear = date.substring(0, 4);
-        String strMonth = date.substring(4, 6);
-        String strDay = date.substring(6, 8);
+            String strYear = date.substring(0, 4);
+            String strMonth = date.substring(4, 6);
+            String strDay = date.substring(6, 8);
 
-        String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-        strMYearMonth = strYear + "-" + strMonth;
-        strMDay = strYear + "-" + strMonth + "-" + strDay;
-        strMTime = "00:00";
+            String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
 
-        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
-        tvDate.setText(strDate);
-        tvTime.setText(strTime);
+            strMYearMonth = strYear + "-" + strMonth;
+            strMDay = strYear + "-" + strMonth + "-" + strDay;
 
+            arrDate.add(strMYearMonth);
+            arrDateDay.add(strMDay);
+
+            strMTime = "00:00";
+
+            String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
+            tvDate.setText(strDate);
+            tvTime.setText(strTime);
+        } else if (intent.getStringArrayListExtra("dateArr") != null) {
+            //다중 날짜 선택일 경우
+            arrDateDay = intent.getStringArrayListExtra("dateArr");
+
+            //yyyy-MM 포맷으로 arrDate 저장
+            for (String date : arrDateDay) {
+                String strYear = date.substring(0, 4);
+                String strMonth = date.substring(5, 7);
+                strMYearMonth = strYear + "-" + strMonth;
+                arrDate.add(strMYearMonth);
+            }
+
+            strMTime = "00:00";
+            String strTime = arrDateDay.get(0);
+            String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
+
+            chooseSize = arrDateDay.size();
+            isManyDay = true;
+            tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
+            tvTime.setText(strRetTime);
+        }
         btnConfirm.setOnClickListener(l -> confirm());
 
         //TimePicker
@@ -126,7 +169,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @OnClick(R.id.llScheduleTime)
     void onShowTimeDialog() {
         DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
-                .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.colorGreen)
                 .headerLabelColor(android.R.color.white)
                 .selectionColor(R.color.colorGreen)
@@ -134,6 +176,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 .dialogButtonsColor(android.R.color.holo_green_dark)
                 .previousButtonSrc(R.drawable.ic_chevron_left_black_24dp)
                 .forwardButtonSrc(R.drawable.ic_chevron_right_black_24dp);
+        if (isManyDay) {
+            dateBuilder.pickerType(CalendarView.MANY_DAYS_PICKER);
+        } else {
+            dateBuilder.pickerType(CalendarView.ONE_DAY_PICKER);
+        }
 
         DatePicker datePicker = dateBuilder.build();
         datePicker.show();
@@ -167,33 +214,39 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
             realm.executeTransaction(realm -> {
-                Number currentIdNum = realm.where(Schedule.class).max("id");
-                int nextId;
+//                for (String strDateDay : arrDateDay) {
+                for (int i = 0; i < arrDateDay.size(); i++) {
+                    Number currentIdNum = realm.where(Schedule.class).max("id");
+                    int nextId;
 
-                if (currentIdNum == null) {
-                    nextId = 0;
-                } else {
-                    nextId = currentIdNum.intValue() + 1;
-                }
+                    if (currentIdNum == null) {
+                        nextId = 0;
+                    } else {
+                        nextId = currentIdNum.intValue() + 1;
+                    }
 
-                Schedule mSchedule = realm.createObject(Schedule.class, nextId);
-                mSchedule.setTitle(etTitle.getText().toString());
-                mSchedule.setDate(strMYearMonth);
-                mSchedule.setDateDay(strMDay);
-                try {
-                    String retTime = strMDay + " " + strMTime;
-                    Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
-                    long milliseconds = date.getTime(); //add 9 hour
-                    mSchedule.setTime(milliseconds);
-                } catch (ParseException e) {
-                    e.printStackTrace();
+                    Schedule mSchedule = realm.createObject(Schedule.class, nextId);
+                    mSchedule.setTitle(etTitle.getText().toString());
+                    mSchedule.setDate(arrDate.get(i));
+                    mSchedule.setDateDay(arrDateDay.get(i));
+                    try {
+                        String retTime = arrDateDay.get(i) + " " + strMTime;
+                        Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
+                        long milliseconds = date.getTime(); //add 9 hour
+                        mSchedule.setTime(milliseconds);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    mSchedule.setLocation(resLocation);
+                    mSchedule.setLatitude(resLatitude);
+                    mSchedule.setLongitude(resLongitude);
+                    mSchedule.setDesc(etDesc.getText().toString());
                 }
-                mSchedule.setLocation(resLocation);
-                mSchedule.setLatitude(resLatitude);
-                mSchedule.setLongitude(resLongitude);
-                mSchedule.setDesc(etDesc.getText().toString());
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
-                setResult(ScheduleInfoActivity.ADD_SCHEDULE);
+                Intent intent = new Intent();
+                intent.putExtra("date", tvDate.getText());
+                intent.putExtra("dateDay", arrDateDay.get(0));
+                setResult(ScheduleInfoActivity.ADD_SCHEDULE, intent);
                 finish();
             });
 
@@ -201,17 +254,41 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     //Dialog Day Click Event
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSelect(List<Calendar> calendars) {
+        arrDateDay = new ArrayList<>();
+        arrDate = new ArrayList<>();
+        String strDateTime;
+        String strDateTitle = "";
         try {
-            String strSelect = calendars.get(0).getTime().toString();
-            Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
-            long milliseconds = date.getTime();
+            for (Calendar calendar : calendars) {
+                String strSelect = calendar.getTime().toString();
+                Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
+                long milliseconds = date.getTime();
 
-            DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
-            strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
-            tvTime.setText(strMDay); //변경한 날짜로 재 표시
+                DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+
+                strDateTime = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
+                strDateTitle = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day_title));
+                arrDateDay.add(strDateTime);
+
+                String strYear = strDateTime.substring(0, 4);
+                String strMonth = strDateTime.substring(5, 7);
+                strMYearMonth = strYear + "-" + strMonth;
+                arrDate.add(strMYearMonth);
+            }
+            strMDay = arrDateDay.get(0);
+            if (calendars.size() > 1) {
+                chooseSize = calendars.size() - 1;
+                tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
+                tvTime.setText(strMDay + " 외 " + chooseSize + "일");
+                isManyDay = true;
+            } else {
+                isManyDay = false;
+                tvDate.setText(strDateTitle);
+                tvTime.setText(strMDay); //변경한 날짜로 재 표시
+            }
 
             //시, 분을 설정하는 다이얼로그 표시
             timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
@@ -221,13 +298,19 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     //Dialog Time Click Event
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
         strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
 
         String strDayTime = strMDay + " " + strMTime;
-        tvTime.setText(strDayTime);
+
+        if (isManyDay) {
+            tvTime.setText(strDayTime + " 외 " + chooseSize + "일");
+        } else {
+            tvTime.setText(strDayTime);
+        }
     }
 
     @Override
