@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -139,6 +140,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 strMYearMonth = strYear + "-" + strMonth;
                 arrDate.add(strMYearMonth);
             }
+
+            strMTime = "00:00";
             String strTime = arrDateDay.get(0);
             String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
 
@@ -227,7 +230,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                     mSchedule.setDate(arrDate.get(i));
                     mSchedule.setDateDay(arrDateDay.get(i));
                     try {
-                        String retTime = strMDay + " " + strMTime;
+                        String retTime = arrDateDay.get(i) + " " + strMTime;
                         Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
                         long milliseconds = date.getTime(); //add 9 hour
                         mSchedule.setTime(milliseconds);
