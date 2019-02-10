@@ -193,9 +193,16 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             case ADD_SCHEDULE:
                 //스케줄 입력이 완료됬을 때
                 getScheduleRealm();
+                calendarView.setSelectedDates(setSelectInit());
                 break;
         }
     }
+
+    //선택 된 날짜 초기화
+    private List<Calendar> setSelectInit() {
+        return new ArrayList<>();
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
