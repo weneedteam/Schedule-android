@@ -158,10 +158,11 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         realm.executeTransaction(realm -> {
             realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
             //해당 yyyy-MM 에 저장된 스케줄 dd 얻기.
+
             for (Schedule schedule : realmSchedule) {
                 DateTime realmTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
 
-                int realmDay = realmTime.plusHours(9).getDayOfMonth();
+                int realmDay = realmTime.getDayOfMonth();
 
                 Calendar realmCalendar = Calendar.getInstance();
                 realmCalendar.set(Calendar.YEAR, strMYear);

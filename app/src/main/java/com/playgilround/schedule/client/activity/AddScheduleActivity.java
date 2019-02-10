@@ -243,7 +243,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                     mSchedule.setDesc(etDesc.getText().toString());
                 }
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
-                setResult(ScheduleInfoActivity.ADD_SCHEDULE);
+                Intent intent = new Intent();
+                intent.putExtra("date", tvDate.getText());
+                intent.putExtra("dateDay", arrDateDay.get(0));
+                setResult(ScheduleInfoActivity.ADD_SCHEDULE, intent);
                 finish();
             });
 
