@@ -71,6 +71,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     String currentCalendar = "";
     View header;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

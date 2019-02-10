@@ -1,12 +1,8 @@
 package com.playgilround.schedule.client.activity;
 
-import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,15 +13,14 @@ import com.playgilround.schedule.client.model.Schedule;
 
 import java.util.ArrayList;
 
-import javax.annotation.Nullable;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
 import io.realm.RealmResults;
+
+import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
  * 19-02-07
@@ -44,17 +39,9 @@ public class ManyScheduleActivity extends AppCompatActivity {
 
     ManyScheduleAdapter adapter;
 
-    public static final int ADD_SCHEDULE = 1000;
-
     static ArrayList<String> arrDay;
     private String strDate;
     RealmResults<Schedule> realmSchedule;
-
-    public static ManyScheduleActivity getInstance(ArrayList<String> day) {
-        arrDay = day;
-
-        return new ManyScheduleActivity();
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -93,25 +80,9 @@ public class ManyScheduleActivity extends AppCompatActivity {
             case ADD_SCHEDULE:
                 //스케줄 입력이 완료됬을 때
                 if (data != null) {
-                    Log.d(TAG, "onActivityResult -----");
-                    Realm realm = Realm.getDefaultInstance();
-                    strDate = data.getStringExtra("date");
-//                    getMonthSchedule(realm);
+                    finish();
                     break;
                 }
         }
     }
-/*
-    //이 달에 저장된 스케줄 얻기
-    private void getMonthSchedule(Realm realm) {
-        realm.executeTransaction(realm1 -> {
-            Log.d(TAG, "strDateDay -> " + strDate);
-            realmSchedule = realm.where(Schedule.class).equalTo("date", strDate).findAll();
-            Log.d(TAG, "RealmSchedule size ->" + realmSchedule.size());
-
-            for (Schedule schedule : realmSchedule) {
-                DateTime realmTime = new Date
-            }
-        });
-    }*/
 }

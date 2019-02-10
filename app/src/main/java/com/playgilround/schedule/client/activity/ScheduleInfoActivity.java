@@ -53,7 +53,6 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
     static final String TAG = ScheduleInfoActivity.class.getSimpleName();
 
     public static final int ADD_SCHEDULE = 1000;
-    public static final int ADD_MANY_SCHEDULE = 1001;
     RecyclerView.LayoutManager mLayoutManager;
     ScheduleCardAdapter mAdapter;
     private ArrayList<ScheduleCard> arrCard;
