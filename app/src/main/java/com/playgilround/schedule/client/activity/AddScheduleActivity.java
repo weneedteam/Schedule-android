@@ -1,11 +1,13 @@
 package com.playgilround.schedule.client.activity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -69,6 +71,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     Realm realm;
 
     String strMDay, strMTime, strMYearMonth;
+    int chooseSize;
 
     //SetLocationActivity.class 에서 받은 위치정보.
     String resLocation;
@@ -80,6 +83,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     public static final String HOUR_MINUTE = "hour_minute";
 
     TimePickerDialog timePickerDialog;
+
+    //단일인지 다중인지 판단하는 플래그.
+    public boolean isManyDay = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -116,6 +122,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
             String strTime = date.substring(0, 10);
             String strRetTime = strTime + " 외 " + dateSize + "일";
+
+            isManyDay = true;
             tvDate.setText(date);
             tvTime.setText(strRetTime);
         }
@@ -138,7 +146,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @OnClick(R.id.llScheduleTime)
     void onShowTimeDialog() {
         DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
-                .pickerType(CalendarView.ONE_DAY_PICKER)
                 .headerColor(R.color.colorGreen)
                 .headerLabelColor(android.R.color.white)
                 .selectionColor(R.color.colorGreen)
@@ -146,6 +153,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 .dialogButtonsColor(android.R.color.holo_green_dark)
                 .previousButtonSrc(R.drawable.ic_chevron_left_black_24dp)
                 .forwardButtonSrc(R.drawable.ic_chevron_right_black_24dp);
+        if (isManyDay) {
+            dateBuilder.pickerType(CalendarView.MANY_DAYS_PICKER);
+        } else {
+            dateBuilder.pickerType(CalendarView.ONE_DAY_PICKER);
+        }
 
         DatePicker datePicker = dateBuilder.build();
         datePicker.show();
@@ -213,6 +225,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     //Dialog Day Click Event
+    @SuppressLint("SetTextI18n")
     @Override
     public void onSelect(List<Calendar> calendars) {
         try {
@@ -223,7 +236,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
             strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
             strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
-            tvTime.setText(strMDay); //변경한 날짜로 재 표시
+
+            if (isManyDay) {
+                chooseSize = calendars.size();
+                tvTime.setText(strMDay + " 외 " + chooseSize + "일");
+            } else {
+                tvTime.setText(strMDay); //변경한 날짜로 재 표시
+            }
 
             //시, 분을 설정하는 다이얼로그 표시
             timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
@@ -233,13 +252,19 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     //Dialog Time Click Event
+    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
         DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
         strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
 
         String strDayTime = strMDay + " " + strMTime;
-        tvTime.setText(strDayTime);
+
+        if (isManyDay) {
+            tvTime.setText(strDayTime + " 외 " + chooseSize + "일");
+        } else {
+            tvTime.setText(strDayTime);
+        }
     }
 
     @Override
