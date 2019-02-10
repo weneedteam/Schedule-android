@@ -138,9 +138,10 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
         switch (requestCode) {
             case ADD_SCHEDULE:
                 //스케줄 입력이 완료됬을 때
-                tvDate.setText(data.getStringExtra("date")); //변경 된 날짜로 표시
-                strDateDay = data.getStringExtra("dateDay");
-
+                if (data != null) {
+                    tvDate.setText(data.getStringExtra("date")); //변경 된 날짜로 표시
+                    strDateDay = data.getStringExtra("dateDay");
+                }
                 getTodaySchedule(realm);
                 break;
         }
