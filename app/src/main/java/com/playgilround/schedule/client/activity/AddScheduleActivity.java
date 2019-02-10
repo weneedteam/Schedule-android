@@ -92,21 +92,33 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         realm = Realm.getDefaultInstance();
 
         Intent intent = getIntent();
-        String date = intent.getStringExtra("date");
+        if (intent.getStringExtra("date") != null) {
+            //단일 날짜 선택 일 경우
+            String date = intent.getStringExtra("date");
 
-        String strYear = date.substring(0, 4);
-        String strMonth = date.substring(4, 6);
-        String strDay = date.substring(6, 8);
+            String strYear = date.substring(0, 4);
+            String strMonth = date.substring(4, 6);
+            String strDay = date.substring(6, 8);
 
-        String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-        strMYearMonth = strYear + "-" + strMonth;
-        strMDay = strYear + "-" + strMonth + "-" + strDay;
-        strMTime = "00:00";
+            String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
 
-        String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
-        tvDate.setText(strDate);
-        tvTime.setText(strTime);
+            strMYearMonth = strYear + "-" + strMonth;
+            strMDay = strYear + "-" + strMonth + "-" + strDay;
+            strMTime = "00:00";
 
+            String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
+            tvDate.setText(strDate);
+            tvTime.setText(strTime);
+        } else if (intent.getStringExtra("manyDate") != null) {
+            //다중 날짜 선택일 경우
+            String date = intent.getStringExtra("manyDate");
+            int dateSize = intent.getIntExtra("dateSize", 0);
+
+            String strTime = date.substring(0, 10);
+            String strRetTime = strTime + " 외 " + dateSize + "일";
+            tvDate.setText(date);
+            tvTime.setText(strRetTime);
+        }
         btnConfirm.setOnClickListener(l -> confirm());
 
         //TimePicker

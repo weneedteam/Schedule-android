@@ -36,6 +36,8 @@ public class ManyScheduleFragment extends DialogFragment {
     @BindView(R.id.btn_save)
     Button btnSave;
 
+    static final String TAG = ManyScheduleFragment.class.getSimpleName();
+
     ManyScheduleAdapter adapter;
     static ArrayList<String> arrDay;
     public static ManyScheduleFragment getInstance(ArrayList<String> day) {
@@ -53,11 +55,13 @@ public class ManyScheduleFragment extends DialogFragment {
         mRecycler.setLayoutManager(new LinearLayoutManager(this.getActivity()));
         adapter = new ManyScheduleAdapter(arrDay);
         mRecycler.setAdapter(adapter);
-        String strDate ="2019-02-03";
+
+        String strDate = arrDay.get(0) + " ~ " + arrDay.get(arrDay.size() -1);
 
         btnSave.setOnClickListener(l -> {
             Intent intent = new Intent(this.getActivity(), AddScheduleActivity.class);
-            intent.putExtra("date", strDate);
+            intent.putExtra("manyDate", strDate);
+            intent.putExtra("dateSize", arrDay.size() -1);
             startActivity(intent);
         });
 
