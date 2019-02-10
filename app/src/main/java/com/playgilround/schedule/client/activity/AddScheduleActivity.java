@@ -74,7 +74,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     String strMDay, strMTime, strMYearMonth;
 
     //Schedule DB  dateDay 컬럼에 들어갈 항목
-    ArrayList<String> arrDateDay = new ArrayList<>();
+    ArrayList<String> arrDateDay;
+
+    //Schedule DB date 컬럼에 들어갈 항목
+    ArrayList<String> arrDate;
     int chooseSize;
 
     //SetLocationActivity.class 에서 받은 위치정보.
@@ -102,6 +105,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         ButterKnife.bind(this);
         realm = Realm.getDefaultInstance();
 
+        arrDateDay = new ArrayList<>();
+        arrDate =  new ArrayList<>();
         Intent intent = getIntent();
         if (intent.getStringExtra("date") != null) {
             //단일 날짜 선택 일 경우
@@ -116,6 +121,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             strMYearMonth = strYear + "-" + strMonth;
             strMDay = strYear + "-" + strMonth + "-" + strDay;
 
+            arrDate.add(strMYearMonth);
             arrDateDay.add(strMDay);
 
             strMTime = "00:00";
@@ -125,9 +131,15 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             tvTime.setText(strTime);
         } else if (intent.getStringArrayListExtra("dateArr") != null) {
             //다중 날짜 선택일 경우
-
             arrDateDay = intent.getStringArrayListExtra("dateArr");
 
+            //yyyy-MM 포맷으로 arrDate 저장
+            for (String date : arrDateDay) {
+                String strYear = date.substring(0, 4);
+                String strMonth = date.substring(5, 7);
+                strMYearMonth = strYear + "-" + strMonth;
+                arrDate.add(strMYearMonth);
+            }
             String strTime = arrDateDay.get(0);
             String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
 
@@ -200,7 +212,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
             realm.executeTransaction(realm -> {
-                for (String strDateDay : arrDateDay) {
+//                for (String strDateDay : arrDateDay) {
+                for (int i = 0; i < arrDateDay.size(); i++) {
                     Number currentIdNum = realm.where(Schedule.class).max("id");
                     int nextId;
 
@@ -212,8 +225,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
                     Schedule mSchedule = realm.createObject(Schedule.class, nextId);
                     mSchedule.setTitle(etTitle.getText().toString());
-                    mSchedule.setDate(strMYearMonth);
-                    mSchedule.setDateDay(strDateDay);
+                    mSchedule.setDate(arrDate.get(i));
+                    mSchedule.setDateDay(arrDateDay.get(i));
                     try {
                         String retTime = strMDay + " " + strMTime;
                         Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
@@ -239,19 +252,26 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @SuppressLint("SetTextI18n")
     @Override
     public void onSelect(List<Calendar> calendars) {
+        ArrayList<DateTime> arrSelectTime = new ArrayList<>();
+        arrDateDay = new ArrayList<>();
         try {
-            String strSelect = calendars.get(0).getTime().toString();
-            Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
-            long milliseconds = date.getTime();
+            for (Calendar calendar : calendars) {
+                String strSelect = calendar.getTime().toString();
+                Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
+                long milliseconds = date.getTime();
 
-            DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-            strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
-            strMYearMonth = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month));
+                DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
+                arrSelectTime.add(dateTime);
 
-            if (isManyDay) {
+                arrDateDay.add(dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day)));
+            }
+            strMDay = arrDateDay.get(0);
+            if (calendars.size() > 1) {
                 chooseSize = calendars.size();
                 tvTime.setText(strMDay + " 외 " + chooseSize + "일");
+                isManyDay = true;
             } else {
+                isManyDay = false;
                 tvTime.setText(strMDay); //변경한 날짜로 재 표시
             }
 
