@@ -7,7 +7,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -106,7 +105,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         realm = Realm.getDefaultInstance();
 
         arrDateDay = new ArrayList<>();
-        arrDate =  new ArrayList<>();
+        arrDate = new ArrayList<>();
         Intent intent = getIntent();
         if (intent.getStringExtra("date") != null) {
             //단일 날짜 선택 일 경우
@@ -252,8 +251,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @SuppressLint("SetTextI18n")
     @Override
     public void onSelect(List<Calendar> calendars) {
-        ArrayList<DateTime> arrSelectTime = new ArrayList<>();
         arrDateDay = new ArrayList<>();
+        arrDate = new ArrayList<>();
+        String strDateTime;
         try {
             for (Calendar calendar : calendars) {
                 String strSelect = calendar.getTime().toString();
@@ -261,13 +261,18 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 long milliseconds = date.getTime();
 
                 DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-                arrSelectTime.add(dateTime);
 
-                arrDateDay.add(dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day)));
+                strDateTime = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
+                arrDateDay.add(strDateTime);
+
+                String strYear = strDateTime.substring(0, 4);
+                String strMonth = strDateTime.substring(5, 7);
+                strMYearMonth = strYear + "-" + strMonth;
+                arrDate.add(strMYearMonth);
             }
             strMDay = arrDateDay.get(0);
             if (calendars.size() > 1) {
-                chooseSize = calendars.size();
+                chooseSize = calendars.size() - 1;
                 tvTime.setText(strMDay + " 외 " + chooseSize + "일");
                 isManyDay = true;
             } else {
