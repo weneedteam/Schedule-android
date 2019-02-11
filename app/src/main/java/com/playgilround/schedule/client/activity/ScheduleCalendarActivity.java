@@ -212,6 +212,9 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         if (id == R.id.navCalendar) {
             //현재 캘린더 뷰라면 실행하지않도록 수정예정
             startActivity(new Intent(this, ScheduleCalendarActivity.class));
+        } else if (id == R.id.navFriend) {
+//            finish();
+            startActivity(new Intent(this, FriendActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

@@ -35,6 +35,7 @@
     <string name="text_not_account">아직 계정이 없어요</string>
     <string name="text_signup">회원가입</string>
     <string name="text_choice_day">선택한 날짜가 맞나요?</string>
+    <string name="text_user_find">유저 검색</string>
 
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>

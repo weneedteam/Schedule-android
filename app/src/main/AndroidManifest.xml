@@ -49,6 +49,8 @@
 
         <activity android:name=".activity.ManyScheduleActivity"
             android:theme="@style/ThemeDialog"/>
+
+        <activity android:name=".activity.FriendActivity"/>
     </application>
 
 </manifest>
