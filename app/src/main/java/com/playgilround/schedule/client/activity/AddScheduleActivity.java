@@ -43,6 +43,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
+import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+
 /**
  * 18-12-30
  * 스케줄 추가 관련 Activity
@@ -244,9 +246,15 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 }
                 Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
                 Intent intent = new Intent();
-                intent.putExtra("date", tvDate.getText());
-                intent.putExtra("dateDay", arrDateDay.get(0));
-                setResult(ScheduleInfoActivity.ADD_SCHEDULE, intent);
+
+                if (!isManyDay) {
+                    intent.putExtra("date", tvDate.getText());
+                    intent.putExtra("dateDay", arrDateDay.get(0));
+                    setResult(ADD_SCHEDULE, intent);
+                } else {
+                    intent.putExtra("date", arrDate.get(0));
+                    setResult(ADD_SCHEDULE, intent);
+                }
                 finish();
             });
 

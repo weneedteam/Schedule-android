@@ -1,9 +1,7 @@
 package com.playgilround.schedule.client.activity;
 
-import android.app.FragmentManager;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -12,7 +10,6 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.fragment.ManyScheduleFragment;
 import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -75,7 +72,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     String currentCalendar = "";
     View header;
 
-    ManyScheduleFragment manyFragment;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -137,9 +133,9 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
                     }
 
                 }
-                manyFragment = ManyScheduleFragment.getInstance(arrRetTime);
-                final FragmentManager fm = getFragmentManager();
-                manyFragment.show(fm, "TAG");
+                Intent intent = new Intent(this, ManyScheduleActivity.class);
+                intent.putExtra("manyDate", arrRetTime);
+                startActivityForResult(intent, ADD_SCHEDULE);
             }
         });
     }
@@ -197,9 +193,16 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             case ADD_SCHEDULE:
                 //스케줄 입력이 완료됬을 때
                 getScheduleRealm();
+                calendarView.setSelectedDates(setSelectInit());
                 break;
         }
     }
+
+    //선택 된 날짜 초기화
+    private List<Calendar> setSelectInit() {
+        return new ArrayList<>();
+    }
+
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
