@@ -23,7 +23,7 @@
 
         <activity android:name=".singin.SignInActivity" />
 
-        <activity android:name=".activity.ScheduleCalendarActivity" />
+        <activity android:name=".Schedule.ScheduleCalendarActivity" />
 
         <activity
             android:name=".activity.AddScheduleActivity"
@@ -49,6 +49,8 @@
 
         <activity android:name=".activity.ManyScheduleActivity"
             android:theme="@style/ThemeDialog"/>
+
+        <activity android:name=".activity.FriendActivity"/>
     </application>
 
 </manifest>

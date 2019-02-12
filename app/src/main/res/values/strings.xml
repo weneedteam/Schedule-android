@@ -50,6 +50,7 @@
     <string name="text_not_account">Not yet account</string>
     <string name="text_signup">SignUp</string>
     <string name="text_choice_day">Is the date selected?</string>
+    <string name="text_user_find">Find User</string>
 
 
     <!-- Hint -->
