@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.Schedule.ScheduleCalendarActivity;
+import com.playgilround.schedule.client.schedule.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 

@@ -1,8 +1,7 @@
-package com.playgilround.schedule.client.Schedule;
+package com.playgilround.schedule.client.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +13,6 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
 import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
-import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;

@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.Schedule;
+package com.playgilround.schedule.client.schedule;
 
 import android.util.Log;
 

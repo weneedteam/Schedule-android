@@ -23,7 +23,7 @@
 
         <activity android:name=".singin.SignInActivity" />
 
-        <activity android:name=".Schedule.ScheduleCalendarActivity" />
+        <activity android:name=".schedule.ScheduleCalendarActivity" />
 
         <activity
             android:name=".activity.AddScheduleActivity"
