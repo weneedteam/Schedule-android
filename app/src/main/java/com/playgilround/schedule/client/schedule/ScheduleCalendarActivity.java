@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -73,7 +74,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     List<EventDay> events;
     private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
 
-    String currentCalendar = "";
     View header;
 
     @Override
@@ -101,13 +101,16 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         new ScheduleCalendarPresenter(this);
 
-        //날짜 클릭 시 다이얼로그
+        // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
-            //유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
-            if (currentCalendar.equals(eventDay.getCalendar().getTime().toString())) {
-                setDialogDate(eventDay.getCalendar().getTime().toString());
+            // 유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
+            String dateString = mPresenter.convertCalendarToDateString(eventDay);
+            if (dateString == null) {
+                // Todo:: Error message
+                Log.e(TAG, "Convert Error");
+            } else if (!dateString.isEmpty()) {
+                showCalendarDialog(dateString);
             }
-            currentCalendar = eventDay.getCalendar().getTime().toString();
 
         });
 
@@ -177,16 +180,11 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         });
     }
 
-    public void setDialogDate(String date) {
-        mPresenter.setDialogDate(date);
-    }
-
     //show Dialog When User Click Calendar
-    @Override
-    public void showDialogCalendar(String date) {
+    public void showCalendarDialog(String dateString) {
         //https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
         Intent intent = new Intent(this, ScheduleInfoActivity.class);
-        intent.putExtra("date", date);
+        intent.putExtra("date", dateString);
         startActivityForResult(intent, ADD_SCHEDULE);
     }
 
@@ -243,7 +241,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     public void setPresenter(ScheduleContract.Presenter presenter) {
         mPresenter = presenter;
     }
-
 
 
 }

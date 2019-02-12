@@ -66,6 +66,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     void onSignUpClick() {
         startActivity(new Intent(this, SignUpActivity.class));
     }
+
     @Override
     public void setPresenter(SignInContract.Presenter presenter) {
         mPresenter = presenter;

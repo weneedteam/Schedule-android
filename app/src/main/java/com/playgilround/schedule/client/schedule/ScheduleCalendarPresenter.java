@@ -2,7 +2,10 @@ package com.playgilround.schedule.client.schedule;
 
 import android.util.Log;
 
+import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.model.MonthEnum;
+
+import java.util.Calendar;
 
 import io.realm.Realm;
 
@@ -13,7 +16,9 @@ import io.realm.Realm;
 public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
 
     static final String TAG = ScheduleCalendarPresenter.class.getSimpleName();
+
     private final ScheduleContract.View mView;
+    private String mCurrentCalenderString = "";
 
     ScheduleCalendarPresenter(ScheduleContract.View view) {
         mView = view;
@@ -31,17 +36,21 @@ public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
         Log.d(TAG, "getScheduleRealm ->" + realm);
     }
 
-    //다이얼로그가 필요한 형태로 날짜
+    // 다이얼로그가 필요한 형태로 날짜
     @Override
-    public void setDialogDate(String date) {
-        String[] date_arr = date.split(" "); //공백 기준
+    public String convertCalendarToDateString(EventDay eventDay) {
+        Calendar calendar = eventDay.getCalendar();
+        if (calendar != null) {
+            if (mCurrentCalenderString.equals(calendar.getTime().toString())) {
+                // 공백 기준
+                String[] date_arr = mCurrentCalenderString.split(" ");
 
-        String strYear = date_arr[5];
-        String strMonth = MonthEnum.getMonthNum(date_arr[1]);
-        String strDay = date_arr[2];
-
-        String strDate = strYear + strMonth + strDay;
-
-        mView.showDialogCalendar(strDate);
+                // Readme:: year + month + day
+                return date_arr[5] + MonthEnum.getMonthNum(date_arr[1]) + date_arr[2];
+            }
+            mCurrentCalenderString = calendar.getTime().toString();
+            return "";
+        }
+        return null;
     }
 }
