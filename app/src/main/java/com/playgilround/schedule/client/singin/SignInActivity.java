@@ -3,15 +3,12 @@ package com.playgilround.schedule.client.singin;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.Button;
 import android.widget.TextView;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.activity.MainActivity;
-import com.playgilround.schedule.client.activity.ScheduleCalendarActivity;
-import com.playgilround.schedule.client.model.User;
+import com.playgilround.schedule.client.Schedule.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;

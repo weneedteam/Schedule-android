@@ -4,13 +4,10 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gun0912.tedpermission.PermissionListener;
-import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.Schedule.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
-
-import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 import retrofit2.Retrofit;

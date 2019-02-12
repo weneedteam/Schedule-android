@@ -1,7 +1,8 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.Schedule;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -10,6 +11,9 @@ import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.activity.FriendActivity;
+import com.playgilround.schedule.client.activity.ManyScheduleActivity;
+import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
 import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -43,7 +47,7 @@ import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD
  * added by CHO
  * Test
  */
-public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScheduleContract.View {
 
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
@@ -61,6 +65,8 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     @BindView(R.id.btn_save)
     Button saveBtn;
+
+    private ScheduleContract.Presenter mPresenter;
 
     String strMDay, strManyDay;
     int strMYear, strMonth;
@@ -95,11 +101,13 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         header = navigationView.getHeaderView(0);
 
+        new ScheduleCalendarPresenter(this);
+
         //날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
             //유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
             if (currentCalendar.equals(eventDay.getCalendar().getTime().toString())) {
-                showDialogCalendar(eventDay.getCalendar().getTime().toString());
+                setDialogDate(eventDay.getCalendar().getTime().toString());
             }
             currentCalendar = eventDay.getCalendar().getTime().toString();
 
@@ -171,18 +179,16 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         });
     }
 
+    public void setDialogDate(String date) {
+        mPresenter.setDialogDate(date);
+    }
+
     //show Dialog When User Click Calendar
-    private void showDialogCalendar(String date) {
-        String[] date_arr = date.split(" "); //공백 기준
-
-        String strYear = date_arr[5];
-        String strMonth = MonthEnum.getMonthNum(date_arr[1]);
-        String strDay = date_arr[2];
-
-        String strDate = strYear + strMonth + strDay;
-
+    @Override
+    public void showDialogCalendar(String date) {
+        //https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
         Intent intent = new Intent(this, ScheduleInfoActivity.class);
-        intent.putExtra("date", strDate);
+        intent.putExtra("date", date);
         startActivityForResult(intent, ADD_SCHEDULE);
     }
 
@@ -227,4 +233,19 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             drawer.closeDrawer(GravityCompat.START);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    //실제 View 가 만들어지는 시점
+    @Override
+    public void setPresenter(ScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+
+
 }
