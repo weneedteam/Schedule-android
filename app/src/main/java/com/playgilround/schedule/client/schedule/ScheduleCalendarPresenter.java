@@ -11,9 +11,12 @@ import com.playgilround.schedule.client.model.Schedule;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
@@ -31,6 +34,9 @@ public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
     private final ScheduleContract.View mView;
 
     private List<EventDay> mEvents;
+
+    private ArrayList<String> arrManyDays;
+
     private String mCurrentCalenderString = "";
 
     ScheduleCalendarPresenter(Context context, ScheduleContract.View view) {
@@ -103,5 +109,27 @@ public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
             return "";
         }
         return null;
+    }
+
+    // 캘린더에서 선택한 날짜 (다중) 확인
+    @Override
+    public ArrayList<String> getSelectedManyDays(List<Calendar> dates) {
+        if (dates.size() > 1) {
+            arrManyDays = new ArrayList<>();
+            for (Calendar selectTime : dates) {
+                try {
+                    long milliseconds = new SimpleDateFormat(mContext.getString(R.string.text_date_all_format), Locale.ENGLISH)
+                            .parse(selectTime.getTime().toString()).getTime();
+
+                    DateTime dateTime = new DateTime(milliseconds, DateTimeZone.getDefault());
+                    String strManyDay = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+
+                    arrManyDays.add(strManyDay);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return arrManyDays;
     }
 }

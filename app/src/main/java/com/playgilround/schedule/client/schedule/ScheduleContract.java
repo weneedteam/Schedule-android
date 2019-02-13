@@ -4,6 +4,8 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -26,6 +28,9 @@ public interface ScheduleContract {
 
         // 다이얼로그가 필요한 날짜 형태 변환
         String convertCalendarToDateString(EventDay eventDay);
+
+        // 캘린더에서 선택한 날짜 (다중) 확인
+        ArrayList<String> getSelectedManyDays(List<Calendar> dates);
 
     }
 }

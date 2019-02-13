@@ -15,16 +15,9 @@ import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
 import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -99,7 +92,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             } else if (!dateString.isEmpty()) {
                 showCalendarDialog(dateString);
             }
-
         });
 
         // 다음 달로 이동
@@ -111,27 +103,13 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         callSchedules();
 
         saveBtn.setOnClickListener(v -> {
-            if (calendarView.getSelectedDates().size() > 1) {
-                //2개 이상일 경우에만 다중 저장 실행.
-                ArrayList<Calendar> arrTime = new ArrayList<>(calendarView.getSelectedDates());
-                ArrayList<String> arrRetTime = new ArrayList<>();
-                for (Calendar retTime : arrTime) {
-                    try {
-                        Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(retTime.getTime().toString());
-                        long milliseconds = date.getTime();
-
-                        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-
-                        strManyDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
-                        arrRetTime.add(strManyDay);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+            ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
+            if (arrManyDays == null) {
+                // Todo:: Error message
+                Log.e(TAG, "ManyDays is null");
+            } else {
                 Intent intent = new Intent(this, ManyScheduleActivity.class);
-                intent.putExtra("manyDate", arrRetTime);
+                intent.putExtra("manyDate", arrManyDays);
                 startActivityForResult(intent, ADD_SCHEDULE);
             }
         });
@@ -174,10 +152,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
 
         if (id == R.id.navCalendar) {
-            //현재 캘린더 뷰라면 실행하지않도록 수정예정
+            // 현재 캘린더 뷰라면 실행하지않도록 수정예정
             startActivity(new Intent(this, ScheduleCalendarActivity.class));
         } else if (id == R.id.navFriend) {
-//            finish();
+            // finish();
             startActivity(new Intent(this, FriendActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
