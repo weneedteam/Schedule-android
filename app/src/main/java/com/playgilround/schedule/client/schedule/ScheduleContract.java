@@ -4,7 +4,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
 
-import io.realm.Realm;
+import java.util.List;
 
 /**
  * 19-02-12
@@ -15,11 +15,14 @@ public interface ScheduleContract {
 
     interface View extends BaseView<Presenter> {
 
+        void addEvents(List<EventDay> events);
+
     }
 
     interface Presenter extends BasePresenter {
 
-        void getScheduleRealm(Realm realm); //저장된 스케줄 얻기
+        // 저장된 스케줄 얻기
+        void getSchedule(long currentPageDate);
 
         // 다이얼로그가 필요한 날짜 형태 변환
         String convertCalendarToDateString(EventDay eventDay);

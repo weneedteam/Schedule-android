@@ -14,7 +14,6 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
 import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
-import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -35,8 +34,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
 
@@ -67,12 +64,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     private ScheduleContract.Presenter mPresenter;
 
-    String strMDay, strManyDay;
-    int strMYear, strMonth;
-    Realm realm;
-
-    List<EventDay> events;
-    private RealmResults<Schedule> realmSchedule; //저장된 스케줄 RealmResults
+    String strManyDay;
 
     View header;
 
@@ -83,10 +75,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         ButterKnife.bind(this);
         setTitle(getString(R.string.text_schedule_calendar));
-        events = new ArrayList<>();
-        Calendar calendar = Calendar.getInstance();
-        events.add(new EventDay(calendar, R.drawable.sample_icon_3));
-        realm = Realm.getDefaultInstance();
 
         setSupportActionBar(toolbar);
 
@@ -99,7 +87,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         header = navigationView.getHeaderView(0);
 
-        new ScheduleCalendarPresenter(this);
+        new ScheduleCalendarPresenter(this, this);
 
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -114,13 +102,13 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         });
 
-        //다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(this::getScheduleRealm);
+        // 다음 달로 이동
+        calendarView.setOnForwardPageChangeListener(this::callSchedules);
 
-        //전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(this::getScheduleRealm);
+        // 전 달로 이동
+        calendarView.setOnPreviousPageChangeListener(this::callSchedules);
 
-        getScheduleRealm();
+        callSchedules();
 
         saveBtn.setOnClickListener(v -> {
             if (calendarView.getSelectedDates().size() > 1) {
@@ -149,40 +137,14 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         });
     }
 
-    //yyyy-MM 기준으로 저장된 스케줄 표시
-    private void getScheduleRealm() {
-
-        //현재 페이지 달력 시간 얻기
-        long currentPageTime = calendarView.getCurrentPageDate().getTimeInMillis();
-        DateTime dateTime = new DateTime(Long.valueOf(currentPageTime), DateTimeZone.UTC);
-
-        strMYear = dateTime.plusHours(9).getYear(); //연도
-        strMonth = dateTime.plusHours(9).getMonthOfYear() - 1; //달
-        strMDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month)); //yyyy-MM
-
-        realm.executeTransaction(realm -> {
-            realmSchedule = realm.where(Schedule.class).equalTo("date", strMDay).findAll();
-            //해당 yyyy-MM 에 저장된 스케줄 dd 얻기.
-
-            for (Schedule schedule : realmSchedule) {
-                DateTime realmTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
-
-                int realmDay = realmTime.getDayOfMonth();
-
-                Calendar realmCalendar = Calendar.getInstance();
-                realmCalendar.set(Calendar.YEAR, strMYear);
-                realmCalendar.set(Calendar.MONTH, strMonth);
-                realmCalendar.set(Calendar.DATE, realmDay);
-                events.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
-            }
-            calendarView.setEvents(events);
-
-        });
+    // yyyy-MM 기준으로 저장된 스케줄 표시
+    private void callSchedules() {
+        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
     }
 
     //show Dialog When User Click Calendar
     public void showCalendarDialog(String dateString) {
-        //https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
+        // https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
         Intent intent = new Intent(this, ScheduleInfoActivity.class);
         intent.putExtra("date", dateString);
         startActivityForResult(intent, ADD_SCHEDULE);
@@ -193,8 +155,8 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case ADD_SCHEDULE:
-                //스케줄 입력이 완료됬을 때
-                getScheduleRealm();
+                // 스케줄 입력이 완료됬을 때
+                callSchedules();
                 calendarView.setSelectedDates(setSelectInit());
                 break;
         }
@@ -243,4 +205,8 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     }
 
 
+    @Override
+    public void addEvents(List<EventDay> events) {
+        calendarView.setEvents(events);
+    }
 }
