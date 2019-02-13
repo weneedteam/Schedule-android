@@ -16,7 +16,6 @@ import com.playgilround.schedule.client.activity.ManyScheduleActivity;
 import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -56,8 +55,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     Button saveBtn;
 
     private ScheduleContract.Presenter mPresenter;
-
-    String strManyDay;
 
     View header;
 
@@ -135,16 +132,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             case ADD_SCHEDULE:
                 // 스케줄 입력이 완료됬을 때
                 callSchedules();
-                calendarView.setSelectedDates(setSelectInit());
+                calendarView.setSelectedDates(new ArrayList<>());
                 break;
         }
     }
-
-    //선택 된 날짜 초기화
-    private List<Calendar> setSelectInit() {
-        return new ArrayList<>();
-    }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
