@@ -1,0 +1,107 @@
+package com.playgilround.schedule.client.schedule;
+
+import android.content.Context;
+import android.util.Log;
+
+import com.applandeo.materialcalendarview.EventDay;
+import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.model.MonthEnum;
+import com.playgilround.schedule.client.model.Schedule;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
+
+/**
+ * 19-02-12
+ * 데이터 처리 MVP Presenter
+ */
+public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
+
+    static final String TAG = ScheduleCalendarPresenter.class.getSimpleName();
+
+    private final Realm mRealm;
+    private final Context mContext;
+    private final ScheduleContract.View mView;
+
+    private List<EventDay> mEvents;
+    private String mCurrentCalenderString = "";
+
+    ScheduleCalendarPresenter(Context context, ScheduleContract.View view) {
+        mView = view;
+        mContext = context;
+        mRealm = Realm.getDefaultInstance();
+
+        mEvents = new ArrayList<>();
+
+        Calendar calendar = Calendar.getInstance();
+        mEvents.add(new EventDay(calendar, R.drawable.sample_icon_3));
+
+        mView.setPresenter(this);
+    }
+
+    @Override
+    public void start() {
+        Log.d(TAG, "start Presenter.");
+    }
+
+    // yyyy-MM 기준으로 저장된 스케줄 표시
+    @Override
+    public void getSchedule(long currentPageDate) {
+
+        mRealm.executeTransaction(realm -> {
+
+            DateTime currentDateTime = new DateTime(currentPageDate, DateTimeZone.getDefault());
+
+            int year = currentDateTime.getYear();
+            int month = currentDateTime.getMonthOfYear() - 1;
+
+            String date = currentDateTime.toString(mContext.getString(R.string.text_date_year_month));
+            RealmResults<Schedule> result = realm.where(Schedule.class).equalTo("date", date).findAll();
+
+            mEvents = new ArrayList<>();
+
+            // 해당 yyyy-MM 에 저장된 스케줄 dd 얻기
+            for (Schedule schedule : result) {
+                DateTime scheduleDateTime = new DateTime(schedule.getTime(), DateTimeZone.getDefault());
+
+                int day = scheduleDateTime.getDayOfMonth();
+
+                Calendar realmCalendar = Calendar.getInstance();
+                realmCalendar.set(Calendar.YEAR, year);
+                realmCalendar.set(Calendar.MONTH, month);
+                realmCalendar.set(Calendar.DATE, day);
+
+                mEvents.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
+            }
+
+            mView.addEvents(mEvents);
+
+        });
+
+    }
+
+    // 다이얼로그가 필요한 형태로 날짜
+    @Override
+    public String convertCalendarToDateString(EventDay eventDay) {
+        Calendar calendar = eventDay.getCalendar();
+        if (calendar != null) {
+            if (mCurrentCalenderString.equals(calendar.getTime().toString())) {
+                // 공백 기준
+                String[] date_arr = mCurrentCalenderString.split(" ");
+
+                // Readme:: year + month + day
+                return date_arr[5] + MonthEnum.getMonthNum(date_arr[1]) + date_arr[2];
+            }
+            mCurrentCalenderString = calendar.getTime().toString();
+            return "";
+        }
+        return null;
+    }
+}
