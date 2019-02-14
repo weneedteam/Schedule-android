@@ -4,7 +4,7 @@ import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
 import com.playgilround.schedule.client.model.User;
 
-public class SignInContract {
+public interface SignInContract {
 
     interface View extends BaseView<Presenter> {
 

@@ -55,11 +55,9 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
     public static final int ADD_SCHEDULE = 1000;
     RecyclerView.LayoutManager mLayoutManager;
     ScheduleInfoAdapter mAdapter;
-    private ArrayList<ScheduleInfo> arrCard;
 
     Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
-    RealmResults<Schedule> realmSchedule;
 
     private ScheduleInfoContract.Presenter mPresenter;
 
@@ -159,7 +157,7 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
     // 오늘 저장된 스케줄 정보 얻기 완료
     @Override
     public void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo) {
-        mAdapter = new ScheduleInfoAdapter(this, arrInfo);
+        mAdapter = new ScheduleInfoAdapter(this, arrInfo, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 

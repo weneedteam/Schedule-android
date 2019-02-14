@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,13 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     private Context context;
     private ArrayList<ScheduleInfo> arrCard;
 
+    private ScheduleInfoContract.View mView;
     // private ScheduleInfoContract.Presenter mPresenter;
 
-    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard) {
+    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard, ScheduleInfoContract.View mView) {
         this.context = context;
         this.arrCard = arrCard;
+        this.mView = mView;
     }
 
     @Nonnull
@@ -66,6 +69,7 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     public void onClick(View v) {
         if (v instanceof CardView) {
             int tag = (int) v.getTag();
+            mView.onItemClick(tag);
         }
     }
 
