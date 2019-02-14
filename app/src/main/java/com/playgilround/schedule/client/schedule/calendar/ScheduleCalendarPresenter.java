@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule;
+package com.playgilround.schedule.client.schedule.calendar;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,13 +25,13 @@ import io.realm.RealmResults;
  * 19-02-12
  * 데이터 처리 MVP Presenter
  */
-public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
+public class ScheduleCalendarPresenter implements ScheduleCalendarContract.Presenter {
 
-    static final String TAG = ScheduleCalendarPresenter.class.getSimpleName();
+    private static final String TAG = ScheduleCalendarPresenter.class.getSimpleName();
 
     private final Realm mRealm;
     private final Context mContext;
-    private final ScheduleContract.View mView;
+    private final ScheduleCalendarContract.View mView;
 
     private List<EventDay> mEvents;
 
@@ -39,7 +39,7 @@ public class ScheduleCalendarPresenter implements ScheduleContract.Presenter {
 
     private String mCurrentCalenderString = "";
 
-    ScheduleCalendarPresenter(Context context, ScheduleContract.View view) {
+    ScheduleCalendarPresenter(Context context, ScheduleCalendarContract.View view) {
         mView = view;
         mContext = context;
         mRealm = Realm.getDefaultInstance();

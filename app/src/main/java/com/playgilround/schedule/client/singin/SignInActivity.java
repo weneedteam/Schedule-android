@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.schedule.ScheduleCalendarActivity;
+import com.playgilround.schedule.client.schedule.calendar.ScheduleCalendarActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.schedule.info;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,10 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.ScheduleCardAdapter;
+import com.playgilround.schedule.client.activity.AddScheduleActivity;
+import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
 import com.playgilround.schedule.client.fragment.DetailScheduleFragment;
 import com.playgilround.schedule.client.model.Schedule;
-import com.playgilround.schedule.client.model.ScheduleCard;
+import com.playgilround.schedule.client.model.ScheduleInfo;
 
 import java.util.ArrayList;
 
@@ -36,7 +36,7 @@ import io.realm.RealmResults;
  * 18-12-27
  * Calendar 에서 날짜 클릭 시 스케줄 정보가 표시되는 액티비티
  */
-public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapter.Listener {
+public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -54,12 +54,14 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
 
     public static final int ADD_SCHEDULE = 1000;
     RecyclerView.LayoutManager mLayoutManager;
-    ScheduleCardAdapter mAdapter;
-    private ArrayList<ScheduleCard> arrCard;
+    ScheduleInfoAdapter mAdapter;
+    private ArrayList<ScheduleInfo> arrCard;
 
     Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
     RealmResults<Schedule> realmSchedule;
+
+    private ScheduleInfoContract.Presenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +78,7 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        new ScheduleInfoPresenter(this);
         btnCancel.setOnClickListener(l -> finish());
 
         Intent intent = getIntent();
@@ -90,7 +93,7 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
 
         strDateDay = strYear + "-" + strMonth + "-" + strDay;
 
-        getTodaySchedule(realm);
+        callTodaySchedule();
 
     }
 
@@ -115,7 +118,7 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
         wm.height = (int) (height / 1.5);
     }
 
-    //CardView Click
+/*    //CardView Click
     @Override
     public void onItemClick(int schedule) {
         Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
@@ -129,7 +132,7 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
-    }
+    }*/
 
 
     @Override
@@ -142,26 +145,27 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
                     tvDate.setText(data.getStringExtra("date")); //변경 된 날짜로 표시
                     strDateDay = data.getStringExtra("dateDay");
                 }
-                getTodaySchedule(realm);
+                callTodaySchedule();
                 break;
         }
     }
 
-    //오늘 저장된 스케줄 정보 얻기
-    private void getTodaySchedule(Realm realm) {
-        realm.executeTransaction(realm1 -> {
-            realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
+    // 오늘 저장된 스케줄 정보 얻기
+    private void callTodaySchedule() {
+        Log.d(TAG, "callTodaySchedule ->" + strDateDay);
+        mPresenter.getTodaySchedule(strDateDay);
+    }
 
-            if (realmSchedule.size() != 0) {
-                arrCard = new ArrayList<>();
-                for (Schedule schedule : realmSchedule) {
-                    arrCard.add(new ScheduleCard(schedule.getId(), schedule.getTime(), schedule.getTitle(), schedule.getDesc()));
+    // 오늘 저장된 스케줄 정보 얻기 완료
+    @Override
+    public void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo) {
+        mAdapter = new ScheduleInfoAdapter(this, arrInfo);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
-                }
-
-                mAdapter = new ScheduleCardAdapter(this, arrCard, this);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-        });
+    // 실제 View 생성 후.
+    @Override
+    public void setPresenter(ScheduleInfoContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

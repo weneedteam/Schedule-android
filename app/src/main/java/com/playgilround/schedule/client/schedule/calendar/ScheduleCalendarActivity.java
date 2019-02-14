@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule;
+package com.playgilround.schedule.client.schedule.calendar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
-import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
+import com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-26
@@ -35,7 +35,7 @@ import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD
  * added by CHO
  * Test
  */
-public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScheduleContract.View {
+public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScheduleCalendarContract.View {
 
     static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
 
@@ -54,7 +54,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     @BindView(R.id.btn_save)
     Button saveBtn;
 
-    private ScheduleContract.Presenter mPresenter;
+    private ScheduleCalendarContract.Presenter mPresenter;
 
     View header;
 
@@ -169,7 +169,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     //실제 View 가 만들어지는 시점
     @Override
-    public void setPresenter(ScheduleContract.Presenter presenter) {
+    public void setPresenter(ScheduleCalendarContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

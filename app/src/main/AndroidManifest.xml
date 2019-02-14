@@ -23,7 +23,7 @@
 
         <activity android:name=".singin.SignInActivity" />
 
-        <activity android:name=".schedule.ScheduleCalendarActivity" />
+        <activity android:name=".schedule.calendar.ScheduleCalendarActivity" />
 
         <activity
             android:name=".activity.AddScheduleActivity"
@@ -34,7 +34,7 @@
             android:theme="@style/ThemeDialog" />
 
         <activity
-            android:name=".activity.ScheduleInfoActivity"
+            android:name=".schedule.info.ScheduleInfoActivity"
             android:theme="@style/ThemeDialog" />
 
         <activity android:name=".activity.MainActivity" />

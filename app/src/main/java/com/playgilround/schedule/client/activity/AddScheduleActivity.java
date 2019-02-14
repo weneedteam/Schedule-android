@@ -7,7 +7,6 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -43,7 +42,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-30

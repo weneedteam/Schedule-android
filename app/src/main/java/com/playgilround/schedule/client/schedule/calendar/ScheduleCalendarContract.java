@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule;
+package com.playgilround.schedule.client.schedule.calendar;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
@@ -13,7 +13,7 @@ import java.util.List;
  * MVP Pattern
  * Contract -> View와 Presenter에 대한 interface을 작성
  */
-public interface ScheduleContract {
+public interface ScheduleCalendarContract {
 
     interface View extends BaseView<Presenter> {
 

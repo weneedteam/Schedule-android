@@ -2,7 +2,6 @@ package com.playgilround.schedule.client.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -20,7 +19,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
  * 19-02-07

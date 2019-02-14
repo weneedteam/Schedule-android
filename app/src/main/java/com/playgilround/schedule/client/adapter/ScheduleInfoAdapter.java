@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.model.ScheduleCard;
+import com.playgilround.schedule.client.model.ScheduleInfo;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -22,68 +22,63 @@ import androidx.recyclerview.widget.RecyclerView;
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-public class ScheduleCardAdapter extends RecyclerView.Adapter<ScheduleCardAdapter.ScheduleViewHolder> implements View.OnClickListener  {
+public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> implements View.OnClickListener {
 
-    private Listener mListener;
-    static final String TAG = ScheduleCardAdapter.class.getSimpleName();
+    static final String TAG = ScheduleInfoAdapter.class.getSimpleName();
     private Context context;
-    private ArrayList<ScheduleCard> arrCard;
+    private ArrayList<ScheduleInfo> arrCard;
 
-    public ScheduleCardAdapter(Context context, ArrayList<ScheduleCard> arrCard, Listener listener) {
+    // private ScheduleInfoContract.Presenter mPresenter;
+
+    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard) {
         this.context = context;
         this.arrCard = arrCard;
-        mListener = listener;
     }
-
 
     @Nonnull
     @Override
     public ScheduleViewHolder onCreateViewHolder(@Nonnull ViewGroup viewGroup, int i) {
-        View v = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_schedule_card_item, viewGroup, false);
-
-        return new ScheduleViewHolder(v);
+        return new ScheduleViewHolder(LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.recycler_schedule_info_item, viewGroup, false));
     }
 
     @Override
     public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
-        DateTime dateTime = new DateTime(Long.valueOf(arrCard.get(i).time), DateTimeZone.UTC);
-        String strTime = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
-        viewHolder.tvTime.setText(strTime);
+        //  mPresenter.onBindViewScheduleInfo(viewHolder, i);
+        DateTime dateTime = new DateTime(arrCard.get(i).time, DateTimeZone.getDefault());
+        String time = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
+
+        viewHolder.tvTime.setText(time);
         viewHolder.tvTitle.setText(arrCard.get(i).title);
         viewHolder.tvDesc.setText(arrCard.get(i).desc);
 
-        if (mListener != null) {
-            viewHolder.cardView.setOnClickListener(this);
-            viewHolder.cardView.setTag(arrCard.get(i).id);
-        }
+        viewHolder.cardView.setOnClickListener(this);
+        viewHolder.cardView.setTag(arrCard.get(i).id);
     }
 
     @Override
     public int getItemCount() {
+        // return mPresenter.getScheduleCount();
         return arrCard.size();
     }
 
     @Override
     public void onClick(View v) {
         if (v instanceof CardView) {
-            int schedule = (int) v.getTag();
-            mListener.onItemClick(schedule);
+            int tag = (int) v.getTag();
+            // mPresenter.onItemClick(tag);
         }
-    }
-    public interface Listener {
-        void onItemClick(int schedule);
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
         private CardView cardView;
-//        private ImageView ivSchedule;
+        // private ImageView ivSchedule;
         private TextView tvTime;
         private TextView tvTitle;
         private TextView tvDesc;
 
         ScheduleViewHolder(View itemView) {
             super(itemView);
-//            ivSchedule = itemView.findViewById(R.id.ivSchedule);
+            // ivSchedule = itemView.findViewById(R.id.ivSchedule);
             cardView = itemView.findViewById(R.id.card_view);
             tvTime = itemView.findViewById(R.id.tvTime);
             tvTitle = itemView.findViewById(R.id.tvTitle);
