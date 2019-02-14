@@ -56,7 +56,6 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
     RecyclerView.LayoutManager mLayoutManager;
     ScheduleInfoAdapter mAdapter;
 
-    Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
 
     private ScheduleInfoContract.Presenter mPresenter;
@@ -69,7 +68,6 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
         setContentView(R.layout.dialog_calendar);
 
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
 
         mRecyclerView.setHasFixedSize(true);
 

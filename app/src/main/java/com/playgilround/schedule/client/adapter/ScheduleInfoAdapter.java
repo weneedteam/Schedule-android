@@ -20,6 +20,8 @@ import javax.annotation.Nonnull;
 
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
@@ -46,22 +48,21 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     }
 
     @Override
-    public void onBindViewHolder(@Nonnull ScheduleViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@Nonnull ScheduleViewHolder holder, int i) {
         //  mPresenter.onBindViewScheduleInfo(viewHolder, i);
         DateTime dateTime = new DateTime(arrCard.get(i).time, DateTimeZone.getDefault());
         String time = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
 
-        viewHolder.tvTime.setText(time);
-        viewHolder.tvTitle.setText(arrCard.get(i).title);
-        viewHolder.tvDesc.setText(arrCard.get(i).desc);
+        holder.tvTime.setText(time);
+        holder.tvTitle.setText(arrCard.get(i).title);
+        holder.tvDesc.setText(arrCard.get(i).desc);
 
-        viewHolder.cardView.setOnClickListener(this);
-        viewHolder.cardView.setTag(arrCard.get(i).id);
+        holder.cardView.setOnClickListener(this);
+        holder.cardView.setTag(arrCard.get(i).id);
     }
 
     @Override
     public int getItemCount() {
-        // return mPresenter.getScheduleCount();
         return arrCard.size();
     }
 
@@ -74,19 +75,23 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
-        // private ImageView ivSchedule;
-        private TextView tvTime;
-        private TextView tvTitle;
-        private TextView tvDesc;
+
+        @BindView(R.id.card_view)
+        CardView cardView;
+
+        @BindView(R.id.tvTime)
+        TextView tvTime;
+
+        @BindView(R.id.tvTitle)
+        TextView tvTitle;
+
+        @BindView(R.id.tvDesc)
+        TextView tvDesc;
 
         ScheduleViewHolder(View itemView) {
             super(itemView);
-            // ivSchedule = itemView.findViewById(R.id.ivSchedule);
-            cardView = itemView.findViewById(R.id.card_view);
-            tvTime = itemView.findViewById(R.id.tvTime);
-            tvTitle = itemView.findViewById(R.id.tvTitle);
-            tvDesc = itemView.findViewById(R.id.tvDesc);
+
+            ButterKnife.bind(this, itemView);
         }
     }
 }
