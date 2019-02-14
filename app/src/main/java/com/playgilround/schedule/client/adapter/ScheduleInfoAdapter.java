@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.ScheduleInfo;
+import com.playgilround.schedule.client.schedule.info.ScheduleInfoContract;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -65,7 +66,6 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     public void onClick(View v) {
         if (v instanceof CardView) {
             int tag = (int) v.getTag();
-            // mPresenter.onItemClick(tag);
         }
     }
 

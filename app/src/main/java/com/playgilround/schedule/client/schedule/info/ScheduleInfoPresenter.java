@@ -65,10 +65,4 @@ public class ScheduleInfoPresenter implements ScheduleInfoContract.Presenter {
     public int getScheduleCount() {
         return arrCard.size();
     }*/
-
-    @Override
-    public void onItemClick(int id) {
-
-    }
-
 }

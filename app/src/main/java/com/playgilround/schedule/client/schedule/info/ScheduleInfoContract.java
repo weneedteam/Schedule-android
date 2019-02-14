@@ -21,6 +21,7 @@ public interface ScheduleInfoContract {
         // 스케줄 정보 얻기 완료
         void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo);
 
+        void onItemClick(int id);
     }
 
     interface Presenter extends BasePresenter {
@@ -32,8 +33,6 @@ public interface ScheduleInfoContract {
         // void onBindViewScheduleInfo(int position);
 
         // int getScheduleCount();
-
-        void onItemClick(int id);
     }
 
 }

@@ -118,21 +118,21 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
         wm.height = (int) (height / 1.5);
     }
 
-/*    //CardView Click
+    //CardView Click
     @Override
     public void onItemClick(int schedule) {
-        Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onItemClick ->" + schedule);
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             final DetailScheduleFragment fragment = DetailScheduleFragment.getInstance(date, schedule);
             final FragmentManager fm = getFragmentManager();
             fragment.show(fm, "TAG");
         } else {
-            Toast.makeText(getApplicationContext(), "현재 위치를 얻기 위해 \n GPS 위치 기능을 켜주세요!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
-    }*/
+    }
 
 
     @Override
