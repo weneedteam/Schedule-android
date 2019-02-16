@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.ScheduleInfo;
+import com.playgilround.schedule.client.schedule.info.ScheduleInfoAdapterContract;
 import com.playgilround.schedule.client.schedule.info.ScheduleInfoContract;
 
 import org.joda.time.DateTime;
@@ -26,7 +27,7 @@ import butterknife.ButterKnife;
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> implements View.OnClickListener {
+public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> implements ScheduleInfoAdapterContract.Presenter {
 
     static final String TAG = ScheduleInfoAdapter.class.getSimpleName();
     private Context context;
@@ -48,18 +49,11 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     }
 
     @Override
-    public void onBindViewHolder(@Nonnull ScheduleViewHolder holder, int i) {
-        //  mPresenter.onBindViewScheduleInfo(viewHolder, i);
-        DateTime dateTime = new DateTime(arrCard.get(i).time, DateTimeZone.getDefault());
-        String time = dateTime.plusHours(9).toString(context.getString(R.string.text_date_time));
-
-        holder.tvTime.setText(time);
-        holder.tvTitle.setText(arrCard.get(i).title);
-        holder.tvDesc.setText(arrCard.get(i).desc);
-
-        holder.cardView.setOnClickListener(this);
-        holder.cardView.setTag(arrCard.get(i).id);
+    public void onBindViewHolder(@Nonnull ScheduleViewHolder holder, int position) {
+        holder.onBind(position);
     }
+
+
 
     @Override
     public int getItemCount() {
@@ -67,11 +61,8 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     }
 
     @Override
-    public void onClick(View v) {
-        if (v instanceof CardView) {
-            int tag = (int) v.getTag();
-            mView.onItemClick(tag);
-        }
+    public void start() {
+
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {
@@ -92,6 +83,17 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
             super(itemView);
 
             ButterKnife.bind(this, itemView);
+        }
+
+        void onBind(int i) {
+            DateTime dateTime = new DateTime(arrCard.get(i).time, DateTimeZone.getDefault());
+            String time = dateTime.toString(context.getString(R.string.text_date_time));
+
+            tvTime.setText(time);
+            tvTitle.setText(arrCard.get(i).title);
+            tvDesc.setText(arrCard.get(i).desc);
+
+            cardView.setOnClickListener(l -> mView.onItemClick(arrCard.get(i).id));
         }
     }
 }

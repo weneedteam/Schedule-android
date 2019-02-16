@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.schedule.info;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
+import com.playgilround.schedule.client.model.ScheduleInfo;
 
 /**
  * 19-02-14
