@@ -26,7 +26,7 @@
         <activity android:name=".schedule.calendar.ScheduleCalendarActivity" />
 
         <activity
-            android:name=".activity.AddScheduleActivity"
+            android:name=".schedule.add.AddScheduleActivity"
             android:theme="@style/ThemeDialog" />
 
         <activity

@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.schedule.add;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -7,6 +7,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
@@ -23,6 +24,7 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.activity.SetLocationActivity;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
@@ -48,7 +50,7 @@ import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivit
  * 18-12-30
  * 스케줄 추가 관련 Activity
  */
-public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener {
+public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener, AddScheduleContract.View {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
@@ -69,8 +71,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     @BindView(R.id.etScheduleDesc)
     EditText etDesc;
-
-    Realm realm;
 
     String strMDay, strMTime, strMYearMonth;
 
@@ -95,6 +95,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    private AddScheduleContract.Presenter mPresenter;
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,10 +106,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         setContentView(R.layout.dialog_add_schedule);
 
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
 
         arrDateDay = new ArrayList<>();
         arrDate = new ArrayList<>();
+
+        new AddSchedulePresenter(this, this);
         Intent intent = getIntent();
         if (intent.getStringExtra("date") != null) {
             //단일 날짜 선택 일 경우
@@ -151,7 +154,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
             tvTime.setText(strRetTime);
         }
-        btnConfirm.setOnClickListener(l -> confirm());
+        btnConfirm.setOnClickListener(l -> mPresenter.confirm(arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation));
 
         //TimePicker
         timePickerDialog = new TimePickerDialog.Builder()
@@ -209,7 +212,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         getWindow().setAttributes((WindowManager.LayoutParams) params);
     }
 
-    //Click Confirm Button
+    @Override
+    public void onScheduleSave(String state) {
+        Log.d(TAG, "onScheduleSave ->" + state);
+    }
+    /*//Click Confirm Button
     private void confirm() {
         if (etTitle.getText().length() == 0) {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
@@ -258,7 +265,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             });
 
         }
-    }
+    }*/
 
     //Dialog Day Click Event
     @SuppressLint("SetTextI18n")
@@ -343,8 +350,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     @Override
+    public void setPresenter(AddScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
+        mPresenter.realmClose();
     }
 }

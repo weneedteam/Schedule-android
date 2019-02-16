@@ -16,10 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.activity.AddScheduleActivity;
+import com.playgilround.schedule.client.schedule.add.AddScheduleActivity;
 import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
 import com.playgilround.schedule.client.fragment.DetailScheduleFragment;
-import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleInfo;
 
 import java.util.ArrayList;
@@ -29,8 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * 18-12-27

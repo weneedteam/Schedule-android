@@ -132,4 +132,9 @@ public class ScheduleCalendarPresenter implements ScheduleCalendarContract.Prese
         }
         return arrManyDays;
     }
+
+    @Override
+    public void realmClose() {
+        mRealm.close();
+    }
 }

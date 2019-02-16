@@ -32,5 +32,7 @@ public interface ScheduleCalendarContract {
         // 캘린더에서 선택한 날짜 (다중) 확인
         ArrayList<String> getSelectedManyDays(List<Calendar> dates);
 
+        void realmClose();
+
     }
 }

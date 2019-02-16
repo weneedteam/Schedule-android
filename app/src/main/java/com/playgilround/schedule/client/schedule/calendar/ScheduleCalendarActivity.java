@@ -173,6 +173,11 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         mPresenter = presenter;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.realmClose();
+    }
 
     @Override
     public void addEvents(List<EventDay> events) {
