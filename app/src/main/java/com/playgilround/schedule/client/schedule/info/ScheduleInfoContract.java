@@ -15,9 +15,6 @@ public interface ScheduleInfoContract {
 
     interface View extends BaseView<Presenter> {
 
-        // 스케줄 정보 표시
-        // void setScheduleInfo(ScheduleInfo info);
-
         // 스케줄 정보 얻기 완료
         void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo);
 
@@ -28,11 +25,6 @@ public interface ScheduleInfoContract {
 
         // 오늘 저장된 스케줄 얻기
         void getTodaySchedule(String dateString);
-
-        // 스케줄 정보 세팅
-        // void onBindViewScheduleInfo(int position);
-
-        // int getScheduleCount();
     }
 
 }

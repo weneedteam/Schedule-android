@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.ScheduleInfo;
-import com.playgilround.schedule.client.schedule.info.ScheduleInfoAdapterContract;
 import com.playgilround.schedule.client.schedule.info.ScheduleInfoContract;
 
 import org.joda.time.DateTime;
@@ -27,14 +26,13 @@ import butterknife.ButterKnife;
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> implements ScheduleInfoAdapterContract.Presenter {
+public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> {
 
     static final String TAG = ScheduleInfoAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<ScheduleInfo> arrCard;
 
     private ScheduleInfoContract.View mView;
-    // private ScheduleInfoContract.Presenter mPresenter;
 
     public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard, ScheduleInfoContract.View mView) {
         this.context = context;
@@ -53,16 +51,9 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
         holder.onBind(position);
     }
 
-
-
     @Override
     public int getItemCount() {
         return arrCard.size();
-    }
-
-    @Override
-    public void start() {
-
     }
 
     class ScheduleViewHolder extends RecyclerView.ViewHolder {

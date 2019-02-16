@@ -52,17 +52,4 @@ public class ScheduleInfoPresenter implements ScheduleInfoContract.Presenter {
             }
         });
     }
-
-  /*  // Schedule 정보 세팅
-    @Override
-    public void onBindViewScheduleInfo(int position) {
-        ScheduleInfo info = arrCard.get(position);
-        Log.d(TAG, "onBindView Schedule ->" + info.title);
-        mView.setScheduleInfo(info);
-    }
-
-    @Override
-    public int getScheduleCount() {
-        return arrCard.size();
-    }*/
 }
