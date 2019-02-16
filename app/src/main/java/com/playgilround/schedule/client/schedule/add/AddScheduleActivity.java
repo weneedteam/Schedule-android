@@ -44,6 +44,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
+import static com.playgilround.schedule.client.schedule.add.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
 import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
 
 /**
@@ -215,57 +216,24 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @Override
     public void onScheduleSave(String state) {
         Log.d(TAG, "onScheduleSave ->" + state);
-    }
-    /*//Click Confirm Button
-    private void confirm() {
-        if (etTitle.getText().length() == 0) {
+
+        if (state.equals(SCHEDULE_SAVE_FAIL)) {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
-            realm.executeTransaction(realm -> {
-//                for (String strDateDay : arrDateDay) {
-                for (int i = 0; i < arrDateDay.size(); i++) {
-                    Number currentIdNum = realm.where(Schedule.class).max("id");
-                    int nextId;
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent();
 
-                    if (currentIdNum == null) {
-                        nextId = 0;
-                    } else {
-                        nextId = currentIdNum.intValue() + 1;
-                    }
-
-                    Schedule mSchedule = realm.createObject(Schedule.class, nextId);
-                    mSchedule.setTitle(etTitle.getText().toString());
-                    mSchedule.setDate(arrDate.get(i));
-                    mSchedule.setDateDay(arrDateDay.get(i));
-                    try {
-                        String retTime = arrDateDay.get(i) + " " + strMTime;
-                        Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
-                        long milliseconds = date.getTime(); //add 9 hour
-                        mSchedule.setTime(milliseconds);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    mSchedule.setLocation(resLocation);
-                    mSchedule.setLatitude(resLatitude);
-                    mSchedule.setLongitude(resLongitude);
-                    mSchedule.setDesc(etDesc.getText().toString());
-                }
-                Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent();
-
-                if (!isManyDay) {
-                    intent.putExtra("date", tvDate.getText());
-                    intent.putExtra("dateDay", arrDateDay.get(0));
-                    setResult(ADD_SCHEDULE, intent);
-                } else {
-                    intent.putExtra("date", arrDate.get(0));
-                    setResult(ADD_SCHEDULE, intent);
-                }
-                finish();
-            });
-
+            if (!isManyDay) {
+                intent.putExtra("date", tvDate.getText());
+                intent.putExtra("dateDay", arrDateDay.get(0));
+                setResult(ADD_SCHEDULE, intent);
+            } else {
+                intent.putExtra("date", arrDate.get(0));
+                setResult(ADD_SCHEDULE, intent);
+            }
+            finish();
         }
-    }*/
+    }
 
     //Dialog Day Click Event
     @SuppressLint("SetTextI18n")
