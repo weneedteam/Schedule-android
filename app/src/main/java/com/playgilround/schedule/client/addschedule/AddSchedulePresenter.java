@@ -121,14 +121,27 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
             // 스케줄 다중 선택
             if (calendars.size() > 1) {
                 chooseSize = calendars.size();
-                mView.setDayTimeSchedule(arrDateDay, strDateTitle, chooseSize);
+                mView.setDaySchedule(arrDateDay, strDateTitle, chooseSize);
             } else {
                 chooseSize = 1;
-                mView.setDayTimeSchedule(arrDateDay, strDateTitle, chooseSize);
+                mView.setDaySchedule(arrDateDay, strDateTitle, chooseSize);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onSelectTime(String date, long milliseconds) {
+        String strTime;
+
+        DateTime dateTime = new DateTime(milliseconds, DateTimeZone.getDefault());
+
+        strTime = dateTime.toString(mContext.getString(R.string.text_date_time));
+
+        String strDayTime = date + " " + strTime;
+
+        mView.setTimeSchedule(strDayTime);
     }
 
     @Override

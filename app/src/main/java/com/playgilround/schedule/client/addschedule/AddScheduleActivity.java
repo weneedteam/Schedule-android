@@ -232,9 +232,16 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         }
     }
 
+    //Dialog Day Click Event
+    @Override
+    public void onSelect(List<Calendar> calendars) {
+        mPresenter.onSelectDay(calendars);
+    }
+
+    //날짜 재 지정
     @SuppressLint("SetTextI18n")
     @Override
-    public void setDayTimeSchedule(ArrayList<String> arrDateDay, String title, int size) {
+    public void setDaySchedule(ArrayList<String> arrDateDay, String title, int size) {
         String strDateDay = arrDateDay.get(0);
         if (size > 1) {
             chooseSize = size -1;
@@ -250,26 +257,20 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
     }
 
-    //Dialog Day Click Event
-    @SuppressLint("SetTextI18n")
-    @Override
-    public void onSelect(List<Calendar> calendars) {
-        mPresenter.onSelectDay(calendars);
-    }
-
     //Dialog Time Click Event
-    @SuppressLint("SetTextI18n")
     @Override
     public void onDateSet(TimePickerDialog timePickerDialog, long milliseconds) {
-        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-        strMTime = dateTime.plusHours(9).toString(getString(R.string.text_date_time));
+        mPresenter.onSelectTime(strMDay, milliseconds);
+    }
 
-        String strDayTime = strMDay + " " + strMTime;
-
+    //시간 재 지정
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void setTimeSchedule(String dayTime) {
         if (isManyDay) {
-            tvTime.setText(strDayTime + " 외 " + chooseSize + "일");
+            tvTime.setText(dayTime + " 외 " + chooseSize + "일");
         } else {
-            tvTime.setText(strDayTime);
+            tvTime.setText(dayTime);
         }
     }
 
