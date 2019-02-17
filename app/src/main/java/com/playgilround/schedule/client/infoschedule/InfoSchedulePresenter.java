@@ -1,14 +1,12 @@
-package com.playgilround.schedule.client.schedule.info;
+package com.playgilround.schedule.client.infoschedule;
 
 import android.util.Log;
 
-import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.model.ScheduleInfo;
 
 import java.util.ArrayList;
 
-import androidx.cardview.widget.CardView;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -16,16 +14,16 @@ import io.realm.RealmResults;
  * 19-02-13
  * Schedule Info 관련 데이터 처리 Presenter
  */
-public class ScheduleInfoPresenter implements ScheduleInfoContract.Presenter {
+public class InfoSchedulePresenter implements InfoScheduleContract.Presenter {
 
-    private static final String TAG = ScheduleInfoPresenter.class.getSimpleName();
+    private static final String TAG = InfoSchedulePresenter.class.getSimpleName();
 
     private final Realm mRealm;
-    private final ScheduleInfoContract.View mView;
+    private final InfoScheduleContract.View mView;
 
     private ArrayList<ScheduleInfo> arrCard;
 
-    ScheduleInfoPresenter(ScheduleInfoContract.View view) {
+    InfoSchedulePresenter(InfoScheduleContract.View view) {
         mView = view;
         mRealm = Realm.getDefaultInstance();
 

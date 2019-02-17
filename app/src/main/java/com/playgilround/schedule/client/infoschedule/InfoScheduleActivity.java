@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule.info;
+package com.playgilround.schedule.client.infoschedule;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.schedule.add.AddScheduleActivity;
 import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
+import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 import com.playgilround.schedule.client.fragment.DetailScheduleFragment;
 import com.playgilround.schedule.client.model.ScheduleInfo;
 
@@ -33,7 +33,7 @@ import butterknife.OnClick;
  * 18-12-27
  * Calendar 에서 날짜 클릭 시 스케줄 정보가 표시되는 액티비티
  */
-public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContract.View {
+public class InfoScheduleActivity extends Activity implements InfoScheduleContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -47,7 +47,7 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
     private String date;
     private String strDateDay;
 
-    static final String TAG = ScheduleInfoActivity.class.getSimpleName();
+    static final String TAG = InfoScheduleActivity.class.getSimpleName();
 
     public static final int ADD_SCHEDULE = 1000;
     RecyclerView.LayoutManager mLayoutManager;
@@ -55,7 +55,7 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
 
     public static final String INTENT_EXTRA_DATE = "date";
 
-    private ScheduleInfoContract.Presenter mPresenter;
+    private InfoScheduleContract.Presenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +71,7 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        new ScheduleInfoPresenter(this);
+        new InfoSchedulePresenter(this);
         btnCancel.setOnClickListener(l -> finish());
 
         Intent intent = getIntent();
@@ -158,7 +158,7 @@ public class ScheduleInfoActivity extends Activity implements  ScheduleInfoContr
 
     // 실제 View 생성 후.
     @Override
-    public void setPresenter(ScheduleInfoContract.Presenter presenter) {
+    public void setPresenter(InfoScheduleContract.Presenter presenter) {
         mPresenter = presenter;
     }
 }

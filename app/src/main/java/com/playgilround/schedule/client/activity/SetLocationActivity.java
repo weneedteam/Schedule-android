@@ -36,7 +36,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-import static com.playgilround.schedule.client.schedule.add.AddScheduleActivity.LOCATION_OK;
+import static com.playgilround.schedule.client.addschedule.AddScheduleActivity.LOCATION_OK;
 
 /**
  * 19-01-01

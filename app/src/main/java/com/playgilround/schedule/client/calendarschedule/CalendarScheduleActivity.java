@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule.calendar;
+package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +13,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
-import com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity;
+import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-26
@@ -35,9 +35,9 @@ import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivit
  * added by CHO
  * Test
  */
-public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScheduleCalendarContract.View {
+public class CalendarScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarScheduleContract.View {
 
-    static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
+    static final String TAG = CalendarScheduleActivity.class.getSimpleName();
 
     @BindView(R.id.drawerLayout)
     DrawerLayout drawer;
@@ -54,7 +54,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     @BindView(R.id.btn_save)
     Button saveBtn;
 
-    private ScheduleCalendarContract.Presenter mPresenter;
+    private CalendarScheduleContract.Presenter mPresenter;
 
     View header;
 
@@ -77,7 +77,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         header = navigationView.getHeaderView(0);
 
-        new ScheduleCalendarPresenter(this, this);
+        new CalendarSchedulePresenter(this, this);
 
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -120,7 +120,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     //show Dialog When User Click Calendar
     public void showCalendarDialog(String dateString) {
         // https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
-        Intent intent = new Intent(this, ScheduleInfoActivity.class);
+        Intent intent = new Intent(this, InfoScheduleActivity.class);
         intent.putExtra("date", dateString);
         startActivityForResult(intent, ADD_SCHEDULE);
     }
@@ -144,7 +144,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         if (id == R.id.navCalendar) {
             // 현재 캘린더 뷰라면 실행하지않도록 수정예정
-            startActivity(new Intent(this, ScheduleCalendarActivity.class));
+            startActivity(new Intent(this, CalendarScheduleActivity.class));
         } else if (id == R.id.navFriend) {
             // finish();
             startActivity(new Intent(this, FriendActivity.class));
@@ -169,7 +169,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     //실제 View 가 만들어지는 시점
     @Override
-    public void setPresenter(ScheduleCalendarContract.Presenter presenter) {
+    public void setPresenter(CalendarScheduleContract.Presenter presenter) {
         mPresenter = presenter;
     }
 

@@ -1,13 +1,10 @@
-package com.playgilround.schedule.client.schedule.add;
+package com.playgilround.schedule.client.addschedule;
 
 import android.content.Context;
 import android.util.Log;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
-
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule.info;
+package com.playgilround.schedule.client.infoschedule;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * MVP Pattern
  * Contract -> View, Presenter에 대한 interface
  */
-public interface ScheduleInfoContract {
+public interface InfoScheduleContract {
 
     interface View extends BaseView<Presenter> {
 

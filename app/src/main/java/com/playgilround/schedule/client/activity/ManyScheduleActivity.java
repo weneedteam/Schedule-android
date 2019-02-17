@@ -9,7 +9,7 @@ import android.widget.Button;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
 import com.playgilround.schedule.client.model.Schedule;
-import com.playgilround.schedule.client.schedule.add.AddScheduleActivity;
+import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.RealmResults;
 
-import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
  * 19-02-07

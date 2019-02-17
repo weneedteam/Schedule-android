@@ -1,16 +1,14 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.infoschedule.InfoScheduleContract;
 import com.playgilround.schedule.client.model.ScheduleInfo;
-import com.playgilround.schedule.client.schedule.info.ScheduleInfoContract;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -32,9 +30,9 @@ public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapte
     private Context context;
     private ArrayList<ScheduleInfo> arrCard;
 
-    private ScheduleInfoContract.View mView;
+    private InfoScheduleContract.View mView;
 
-    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard, ScheduleInfoContract.View mView) {
+    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard, InfoScheduleContract.View mView) {
         this.context = context;
         this.arrCard = arrCard;
         this.mView = mView;

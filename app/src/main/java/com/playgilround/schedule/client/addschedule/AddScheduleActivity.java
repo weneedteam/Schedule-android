@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule.add;
+package com.playgilround.schedule.client.addschedule;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -25,12 +25,10 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.SetLocationActivity;
-import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -42,10 +40,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
-import static com.playgilround.schedule.client.schedule.add.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
-import static com.playgilround.schedule.client.schedule.info.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.addschedule.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-30
