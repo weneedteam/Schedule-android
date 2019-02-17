@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.schedule;
+package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,18 +13,10 @@ import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
 import com.playgilround.schedule.client.activity.ManyScheduleActivity;
-import com.playgilround.schedule.client.activity.ScheduleInfoActivity;
+import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -35,7 +27,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-26
@@ -43,9 +35,9 @@ import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD
  * added by CHO
  * Test
  */
-public class ScheduleCalendarActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, ScheduleContract.View {
+public class CalendarScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarScheduleContract.View {
 
-    static final String TAG = ScheduleCalendarActivity.class.getSimpleName();
+    static final String TAG = CalendarScheduleActivity.class.getSimpleName();
 
     @BindView(R.id.drawerLayout)
     DrawerLayout drawer;
@@ -62,9 +54,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     @BindView(R.id.btn_save)
     Button saveBtn;
 
-    private ScheduleContract.Presenter mPresenter;
-
-    String strManyDay;
+    private CalendarScheduleContract.Presenter mPresenter;
 
     View header;
 
@@ -87,7 +77,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
         header = navigationView.getHeaderView(0);
 
-        new ScheduleCalendarPresenter(this, this);
+        new CalendarSchedulePresenter(this, this);
 
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -99,7 +89,6 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             } else if (!dateString.isEmpty()) {
                 showCalendarDialog(dateString);
             }
-
         });
 
         // 다음 달로 이동
@@ -111,27 +100,13 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         callSchedules();
 
         saveBtn.setOnClickListener(v -> {
-            if (calendarView.getSelectedDates().size() > 1) {
-                //2개 이상일 경우에만 다중 저장 실행.
-                ArrayList<Calendar> arrTime = new ArrayList<>(calendarView.getSelectedDates());
-                ArrayList<String> arrRetTime = new ArrayList<>();
-                for (Calendar retTime : arrTime) {
-                    try {
-                        Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(retTime.getTime().toString());
-                        long milliseconds = date.getTime();
-
-                        DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-
-                        strManyDay = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
-                        arrRetTime.add(strManyDay);
-
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-
-                }
+            ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
+            if (arrManyDays == null) {
+                // Todo:: Error message
+                Log.e(TAG, "ManyDays is null");
+            } else {
                 Intent intent = new Intent(this, ManyScheduleActivity.class);
-                intent.putExtra("manyDate", arrRetTime);
+                intent.putExtra("manyDate", arrManyDays);
                 startActivityForResult(intent, ADD_SCHEDULE);
             }
         });
@@ -145,7 +120,7 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
     //show Dialog When User Click Calendar
     public void showCalendarDialog(String dateString) {
         // https://hashcode.co.kr/questions/3073/mvp-패턴에서-startactivity는-어디서-해야하나요
-        Intent intent = new Intent(this, ScheduleInfoActivity.class);
+        Intent intent = new Intent(this, InfoScheduleActivity.class);
         intent.putExtra("date", dateString);
         startActivityForResult(intent, ADD_SCHEDULE);
     }
@@ -157,16 +132,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
             case ADD_SCHEDULE:
                 // 스케줄 입력이 완료됬을 때
                 callSchedules();
-                calendarView.setSelectedDates(setSelectInit());
+                calendarView.setSelectedDates(new ArrayList<>());
                 break;
         }
     }
-
-    //선택 된 날짜 초기화
-    private List<Calendar> setSelectInit() {
-        return new ArrayList<>();
-    }
-
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
@@ -174,10 +143,10 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
         int id = item.getItemId();
 
         if (id == R.id.navCalendar) {
-            //현재 캘린더 뷰라면 실행하지않도록 수정예정
-            startActivity(new Intent(this, ScheduleCalendarActivity.class));
+            // 현재 캘린더 뷰라면 실행하지않도록 수정예정
+            startActivity(new Intent(this, CalendarScheduleActivity.class));
         } else if (id == R.id.navFriend) {
-//            finish();
+            // finish();
             startActivity(new Intent(this, FriendActivity.class));
         }
         drawer.closeDrawer(GravityCompat.START);
@@ -200,10 +169,15 @@ public class ScheduleCalendarActivity extends AppCompatActivity implements Navig
 
     //실제 View 가 만들어지는 시점
     @Override
-    public void setPresenter(ScheduleContract.Presenter presenter) {
+    public void setPresenter(CalendarScheduleContract.Presenter presenter) {
         mPresenter = presenter;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mPresenter.realmClose();
+    }
 
     @Override
     public void addEvents(List<EventDay> events) {

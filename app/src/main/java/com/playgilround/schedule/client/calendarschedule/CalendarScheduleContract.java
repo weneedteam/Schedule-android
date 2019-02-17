@@ -1,9 +1,11 @@
-package com.playgilround.schedule.client.schedule;
+package com.playgilround.schedule.client.calendarschedule;
 
 import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ import java.util.List;
  * MVP Pattern
  * Contract -> View와 Presenter에 대한 interface을 작성
  */
-public interface ScheduleContract {
+public interface CalendarScheduleContract {
 
     interface View extends BaseView<Presenter> {
 
@@ -26,6 +28,11 @@ public interface ScheduleContract {
 
         // 다이얼로그가 필요한 날짜 형태 변환
         String convertCalendarToDateString(EventDay eventDay);
+
+        // 캘린더에서 선택한 날짜 (다중) 확인
+        ArrayList<String> getSelectedManyDays(List<Calendar> dates);
+
+        void realmClose();
 
     }
 }

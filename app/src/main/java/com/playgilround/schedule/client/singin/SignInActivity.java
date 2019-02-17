@@ -8,7 +8,7 @@ import android.widget.TextView;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.schedule.ScheduleCalendarActivity;
+import com.playgilround.schedule.client.calendarschedule.CalendarScheduleActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
@@ -59,7 +59,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @OnClick(R.id.btn_login)
     void onLoginClick() {
-        startActivity(new Intent(this, ScheduleCalendarActivity.class));
+        startActivity(new Intent(this, CalendarScheduleActivity.class));
     }
 
     @OnClick(R.id.tvSignUp)

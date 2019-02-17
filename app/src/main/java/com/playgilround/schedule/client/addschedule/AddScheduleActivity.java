@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.addschedule;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,12 +24,11 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.model.Schedule;
+import com.playgilround.schedule.client.activity.SetLocationActivity;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,15 +40,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
 
-import static com.playgilround.schedule.client.activity.ScheduleInfoActivity.ADD_SCHEDULE;
+import static com.playgilround.schedule.client.addschedule.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
  * 18-12-30
  * 스케줄 추가 관련 Activity
  */
-public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener {
+public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener, AddScheduleContract.View {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
@@ -70,8 +69,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     @BindView(R.id.etScheduleDesc)
     EditText etDesc;
-
-    Realm realm;
 
     String strMDay, strMTime, strMYearMonth;
 
@@ -96,6 +93,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    private AddScheduleContract.Presenter mPresenter;
+
     @SuppressLint("SetTextI18n")
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -105,10 +104,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         setContentView(R.layout.dialog_add_schedule);
 
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
 
         arrDateDay = new ArrayList<>();
         arrDate = new ArrayList<>();
+
+        new AddSchedulePresenter(this, this);
         Intent intent = getIntent();
         if (intent.getStringExtra("date") != null) {
             //단일 날짜 선택 일 경우
@@ -152,7 +152,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
             tvTime.setText(strRetTime);
         }
-        btnConfirm.setOnClickListener(l -> confirm());
+        btnConfirm.setOnClickListener(l -> mPresenter.confirm(arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation));
 
         //TimePicker
         timePickerDialog = new TimePickerDialog.Builder()
@@ -210,54 +210,25 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         getWindow().setAttributes((WindowManager.LayoutParams) params);
     }
 
-    //Click Confirm Button
-    private void confirm() {
-        if (etTitle.getText().length() == 0) {
+    @Override
+    public void onScheduleSave(String state) {
+        Log.d(TAG, "onScheduleSave ->" + state);
+
+        if (state.equals(SCHEDULE_SAVE_FAIL)) {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_input_schedule), Toast.LENGTH_LONG).show();
         } else {
-            realm.executeTransaction(realm -> {
-//                for (String strDateDay : arrDateDay) {
-                for (int i = 0; i < arrDateDay.size(); i++) {
-                    Number currentIdNum = realm.where(Schedule.class).max("id");
-                    int nextId;
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
+            Intent intent = new Intent();
 
-                    if (currentIdNum == null) {
-                        nextId = 0;
-                    } else {
-                        nextId = currentIdNum.intValue() + 1;
-                    }
-
-                    Schedule mSchedule = realm.createObject(Schedule.class, nextId);
-                    mSchedule.setTitle(etTitle.getText().toString());
-                    mSchedule.setDate(arrDate.get(i));
-                    mSchedule.setDateDay(arrDateDay.get(i));
-                    try {
-                        String retTime = arrDateDay.get(i) + " " + strMTime;
-                        Date date = new SimpleDateFormat(getString(R.string.text_date_day_time), Locale.ENGLISH).parse(retTime);
-                        long milliseconds = date.getTime(); //add 9 hour
-                        mSchedule.setTime(milliseconds);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    mSchedule.setLocation(resLocation);
-                    mSchedule.setLatitude(resLatitude);
-                    mSchedule.setLongitude(resLongitude);
-                    mSchedule.setDesc(etDesc.getText().toString());
-                }
-                Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
-                Intent intent = new Intent();
-
-                if (!isManyDay) {
-                    intent.putExtra("date", tvDate.getText());
-                    intent.putExtra("dateDay", arrDateDay.get(0));
-                    setResult(ADD_SCHEDULE, intent);
-                } else {
-                    intent.putExtra("date", arrDate.get(0));
-                    setResult(ADD_SCHEDULE, intent);
-                }
-                finish();
-            });
-
+            if (!isManyDay) {
+                intent.putExtra("date", tvDate.getText());
+                intent.putExtra("dateDay", arrDateDay.get(0));
+                setResult(ADD_SCHEDULE, intent);
+            } else {
+                intent.putExtra("date", arrDate.get(0));
+                setResult(ADD_SCHEDULE, intent);
+            }
+            finish();
         }
     }
 
@@ -344,8 +315,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     @Override
+    public void setPresenter(AddScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    @Override
     protected void onDestroy() {
         super.onDestroy();
-        realm.close();
+        mPresenter.realmClose();
     }
 }

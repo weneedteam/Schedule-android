@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.schedule.ScheduleCalendarActivity;
+import com.playgilround.schedule.client.calendarschedule.CalendarScheduleActivity;
 import com.playgilround.schedule.client.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 
@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         findViewById(R.id.button_test).setOnClickListener(v ->
-            startActivity(new Intent(MainActivity.this, ScheduleCalendarActivity.class)));
+            startActivity(new Intent(MainActivity.this, CalendarScheduleActivity.class)));
 
         findViewById(R.id.button_calendar).setOnClickListener(v -> {
 

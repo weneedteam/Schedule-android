@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.infoschedule;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -17,10 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.ScheduleCardAdapter;
+import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
+import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 import com.playgilround.schedule.client.fragment.DetailScheduleFragment;
-import com.playgilround.schedule.client.model.Schedule;
-import com.playgilround.schedule.client.model.ScheduleCard;
+import com.playgilround.schedule.client.model.ScheduleInfo;
 
 import java.util.ArrayList;
 
@@ -29,14 +28,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.realm.Realm;
-import io.realm.RealmResults;
 
 /**
  * 18-12-27
  * Calendar 에서 날짜 클릭 시 스케줄 정보가 표시되는 액티비티
  */
-public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapter.Listener {
+public class InfoScheduleActivity extends Activity implements InfoScheduleContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -50,16 +47,15 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
     private String date;
     private String strDateDay;
 
-    static final String TAG = ScheduleInfoActivity.class.getSimpleName();
+    static final String TAG = InfoScheduleActivity.class.getSimpleName();
 
     public static final int ADD_SCHEDULE = 1000;
     RecyclerView.LayoutManager mLayoutManager;
-    ScheduleCardAdapter mAdapter;
-    private ArrayList<ScheduleCard> arrCard;
+    ScheduleInfoAdapter mAdapter;
 
-    Realm realm;
     public static final String INTENT_EXTRA_DATE = "date";
-    RealmResults<Schedule> realmSchedule;
+
+    private InfoScheduleContract.Presenter mPresenter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -69,13 +65,13 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
         setContentView(R.layout.dialog_calendar);
 
         ButterKnife.bind(this);
-        realm = Realm.getDefaultInstance();
 
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        new InfoSchedulePresenter(this);
         btnCancel.setOnClickListener(l -> finish());
 
         Intent intent = getIntent();
@@ -90,7 +86,7 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
 
         strDateDay = strYear + "-" + strMonth + "-" + strDay;
 
-        getTodaySchedule(realm);
+        callTodaySchedule();
 
     }
 
@@ -118,14 +114,14 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
     //CardView Click
     @Override
     public void onItemClick(int schedule) {
-        Toast.makeText(getApplicationContext(), "Schedule Click ->" + schedule, Toast.LENGTH_LONG).show();
+        Log.d(TAG, "onItemClick ->" + schedule);
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             final DetailScheduleFragment fragment = DetailScheduleFragment.getInstance(date, schedule);
             final FragmentManager fm = getFragmentManager();
             fragment.show(fm, "TAG");
         } else {
-            Toast.makeText(getApplicationContext(), "현재 위치를 얻기 위해 \n GPS 위치 기능을 켜주세요!", Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
             startActivity(intent);
         }
@@ -142,26 +138,27 @@ public class ScheduleInfoActivity extends Activity implements ScheduleCardAdapte
                     tvDate.setText(data.getStringExtra("date")); //변경 된 날짜로 표시
                     strDateDay = data.getStringExtra("dateDay");
                 }
-                getTodaySchedule(realm);
+                callTodaySchedule();
                 break;
         }
     }
 
-    //오늘 저장된 스케줄 정보 얻기
-    private void getTodaySchedule(Realm realm) {
-        realm.executeTransaction(realm1 -> {
-            realmSchedule = realm.where(Schedule.class).equalTo("dateDay", strDateDay).findAll();
+    // 오늘 저장된 스케줄 정보 얻기
+    private void callTodaySchedule() {
+        Log.d(TAG, "callTodaySchedule ->" + strDateDay);
+        mPresenter.getTodaySchedule(strDateDay);
+    }
 
-            if (realmSchedule.size() != 0) {
-                arrCard = new ArrayList<>();
-                for (Schedule schedule : realmSchedule) {
-                    arrCard.add(new ScheduleCard(schedule.getId(), schedule.getTime(), schedule.getTitle(), schedule.getDesc()));
+    // 오늘 저장된 스케줄 정보 얻기 완료
+    @Override
+    public void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo) {
+        mAdapter = new ScheduleInfoAdapter(this, arrInfo, this);
+        mRecyclerView.setAdapter(mAdapter);
+    }
 
-                }
-
-                mAdapter = new ScheduleCardAdapter(this, arrCard, this);
-                mRecyclerView.setAdapter(mAdapter);
-            }
-        });
+    // 실제 View 생성 후.
+    @Override
+    public void setPresenter(InfoScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
