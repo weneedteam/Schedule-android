@@ -232,48 +232,29 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         }
     }
 
+    @SuppressLint("SetTextI18n")
+    @Override
+    public void setDayTimeSchedule(ArrayList<String> arrDateDay, String title, int size) {
+        String strDateDay = arrDateDay.get(0);
+        if (size > 1) {
+            chooseSize = size -1;
+            tvDate.setText(strDateDay + " ~ " + arrDateDay.get(size -1));
+            tvTime.setText(strDateDay + " 외 " + chooseSize + "일");
+            isManyDay = true;
+        } else {
+            tvDate.setText(title);
+            tvTime.setText(strDateDay);
+            isManyDay = false;
+        }
+        //시, 분을 설정하는 다이얼로그 표시
+        timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
+    }
+
     //Dialog Day Click Event
     @SuppressLint("SetTextI18n")
     @Override
     public void onSelect(List<Calendar> calendars) {
-        arrDateDay = new ArrayList<>();
-        arrDate = new ArrayList<>();
-        String strDateTime;
-        String strDateTitle = "";
-        try {
-            for (Calendar calendar : calendars) {
-                String strSelect = calendar.getTime().toString();
-                Date date = new SimpleDateFormat(getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
-                long milliseconds = date.getTime();
-
-                DateTime dateTime = new DateTime(Long.valueOf(milliseconds), DateTimeZone.UTC);
-
-                strDateTime = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day));
-                strDateTitle = dateTime.plusHours(9).toString(getString(R.string.text_date_year_month_day_title));
-                arrDateDay.add(strDateTime);
-
-                String strYear = strDateTime.substring(0, 4);
-                String strMonth = strDateTime.substring(5, 7);
-                strMYearMonth = strYear + "-" + strMonth;
-                arrDate.add(strMYearMonth);
-            }
-            strMDay = arrDateDay.get(0);
-            if (calendars.size() > 1) {
-                chooseSize = calendars.size() - 1;
-                tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
-                tvTime.setText(strMDay + " 외 " + chooseSize + "일");
-                isManyDay = true;
-            } else {
-                isManyDay = false;
-                tvDate.setText(strDateTitle);
-                tvTime.setText(strMDay); //변경한 날짜로 재 표시
-            }
-
-            //시, 분을 설정하는 다이얼로그 표시
-            timePickerDialog.show(getSupportFragmentManager(), HOUR_MINUTE);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mPresenter.onSelectDay(calendars);
     }
 
     //Dialog Time Click Event

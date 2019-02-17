@@ -6,10 +6,15 @@ import android.util.Log;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
@@ -82,8 +87,48 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
             });
             mView.onScheduleSave(SCHEDULE_SAVE_SUCCESS);
         }
+    }
 
-        Log.d(TAG, "Confirm presenter..");
+    @Override
+    public void onSelectDay(List<Calendar> calendars) {
+        ArrayList<String> arrDateDay = new ArrayList<>();
+        ArrayList<String> arrDate = new ArrayList<>();
+
+        String strDateTime;
+        String strDateTitle = "";
+
+        String strMYearMonth;
+        int chooseSize;
+
+        try {
+            for (Calendar calendar : calendars) {
+                String strSelect = calendar.getTime().toString();
+                Date date = new SimpleDateFormat(mContext.getString(R.string.text_date_all_format), Locale.ENGLISH).parse(strSelect);
+                long milliseconds = date.getTime();
+
+                DateTime dateTime = new DateTime(milliseconds, DateTimeZone.getDefault());
+
+                strDateTime = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+                strDateTitle = dateTime.toString(mContext.getString(R.string.text_date_year_month_day_title));
+
+                String strYear = strDateTime.substring(0, 4);
+                String strMonth = strDateTime.substring(5, 7);
+
+                strMYearMonth = strYear + "-" + strMonth;
+                arrDate.add(strMYearMonth);
+                arrDateDay.add(strDateTime);
+            }
+            // 스케줄 다중 선택
+            if (calendars.size() > 1) {
+                chooseSize = calendars.size();
+                mView.setDayTimeSchedule(arrDateDay, strDateTitle, chooseSize);
+            } else {
+                chooseSize = 1;
+                mView.setDayTimeSchedule(arrDateDay, strDateTitle, chooseSize);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
