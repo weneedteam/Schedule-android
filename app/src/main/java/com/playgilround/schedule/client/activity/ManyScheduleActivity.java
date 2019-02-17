@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -39,7 +40,7 @@ public class ManyScheduleActivity extends AppCompatActivity {
 
     ManyScheduleAdapter adapter;
 
-    static ArrayList<String> arrDay;
+    ArrayList<String> arrDay;
     private String strDate;
     RealmResults<Schedule> realmSchedule;
 

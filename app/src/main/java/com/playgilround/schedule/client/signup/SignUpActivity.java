@@ -36,7 +36,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up2);
+        setContentView(R.layout.activity_sign_up);
         ButterKnife.bind(this);
 
         mEditText.post(() -> {
