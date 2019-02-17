@@ -2,7 +2,7 @@ package com.playgilround.schedule.client.singin;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
-import com.playgilround.schedule.client.model.User;
+import com.playgilround.schedule.client.signup.model.User;
 
 public interface SignInContract {
 

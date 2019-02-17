@@ -2,7 +2,7 @@ package com.playgilround.schedule.client.retrofit;
 
 import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.model.ResponseMessage;
-import com.playgilround.schedule.client.model.User;
+import com.playgilround.schedule.client.signup.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

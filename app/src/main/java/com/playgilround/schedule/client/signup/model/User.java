@@ -1,11 +1,9 @@
-package com.playgilround.schedule.client.model;
+package com.playgilround.schedule.client.signup.model;
 
 
 import androidx.annotation.NonNull;
 
 public class User {
-
-    //
 
     private String user_name;
     private String nick_name;
