@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId "com.playgilround.schedule.client"
 
-        minSdkVersion 16
+        minSdkVersion 17
         targetSdkVersion 28
         multiDexEnabled true
         versionCode 14
