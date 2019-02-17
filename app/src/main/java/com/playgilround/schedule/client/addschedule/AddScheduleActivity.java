@@ -108,27 +108,28 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         arrDateDay = new ArrayList<>();
         arrDate = new ArrayList<>();
 
+
         new AddSchedulePresenter(this, this);
         Intent intent = getIntent();
+        strMTime = "00:00";
+
         if (intent.getStringExtra("date") != null) {
             //단일 날짜 선택 일 경우
             String date = intent.getStringExtra("date");
 
             String strYear = date.substring(0, 4);
-            String strMonth = date.substring(4, 6);
-            String strDay = date.substring(6, 8);
+            String strMonth = date.substring(5, 7);
+            String strDay = date.substring(8, 10);
 
             String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
 
             strMYearMonth = strYear + "-" + strMonth;
-            strMDay = strYear + "-" + strMonth + "-" + strDay;
+            strMDay = date;
 
             arrDate.add(strMYearMonth);
             arrDateDay.add(strMDay);
 
-            strMTime = "00:00";
-
-            String strTime = strYear + "-" + strMonth + "-" + strDay + " " + strMTime;
+            String strTime = date + " " + strMTime;
             tvDate.setText(strDate);
             tvTime.setText(strTime);
         } else if (intent.getStringArrayListExtra("dateArr") != null) {
@@ -143,7 +144,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 arrDate.add(strMYearMonth);
             }
 
-            strMTime = "00:00";
             String strTime = arrDateDay.get(0);
             String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
 
@@ -152,6 +152,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
             tvTime.setText(strRetTime);
         }
+
         btnConfirm.setOnClickListener(l -> mPresenter.confirm(arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation));
 
         //TimePicker
@@ -266,11 +267,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //시간 재 지정
     @SuppressLint("SetTextI18n")
     @Override
-    public void setTimeSchedule(String dayTime) {
+    public void setTimeSchedule(String dayTime, String time) {
         if (isManyDay) {
             tvTime.setText(dayTime + " 외 " + chooseSize + "일");
+            strMTime = time;
         } else {
             tvTime.setText(dayTime);
+            strMTime = time;
         }
     }
 

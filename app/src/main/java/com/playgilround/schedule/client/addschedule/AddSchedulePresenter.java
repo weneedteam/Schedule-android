@@ -139,7 +139,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
         strTime = dateTime.toString(mContext.getString(R.string.text_date_time));
         String strDayTime = date + " " + strTime;
 
-        mView.setTimeSchedule(strDayTime);
+        mView.setTimeSchedule(strDayTime, strTime);
     }
 
     @Override

@@ -23,7 +23,7 @@ public interface AddScheduleContract {
         void setDaySchedule(ArrayList<String> arrDateDay, String dateTitle, int size);
 
         // 스케줄 시간 설정 완료
-        void setTimeSchedule(String dayTime);
+        void setTimeSchedule(String dayTime, String time);
     }
 
     interface Presenter extends BasePresenter {

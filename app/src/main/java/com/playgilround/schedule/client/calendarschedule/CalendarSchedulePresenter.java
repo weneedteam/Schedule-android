@@ -103,7 +103,7 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
                 String[] date_arr = mCurrentCalenderString.split(" ");
 
                 // Readme:: year + month + day
-                return date_arr[5] + MonthEnum.getMonthNum(date_arr[1]) + date_arr[2];
+                return date_arr[5] + "-" + MonthEnum.getMonthNum(date_arr[1]) + "-" +date_arr[2];
             }
             mCurrentCalenderString = calendar.getTime().toString();
             return "";

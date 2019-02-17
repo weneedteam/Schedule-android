@@ -78,8 +78,8 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
         date = intent.getStringExtra(INTENT_EXTRA_DATE);
 
         String strYear = date.substring(0, 4);
-        String strMonth = date.substring(4, 6);
-        String strDay = date.substring(6, 8);
+        String strMonth = date.substring(5, 7);
+        String strDay = date.substring(8, 10);
 
         String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
         tvDate.setText(strDate);
@@ -93,7 +93,7 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
     @OnClick(R.id.ivAddBtn)
     void onAddScheduleClick() {
         Intent intent = new Intent(this, AddScheduleActivity.class);
-        intent.putExtra("date", date);
+        intent.putExtra("date", strDateDay);
         startActivityForResult(intent, ADD_SCHEDULE);
     }
 
