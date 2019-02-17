@@ -37,8 +37,6 @@
             android:name=".infoschedule.InfoScheduleActivity"
             android:theme="@style/ThemeDialog" />
 
-        <activity android:name=".activity.MainActivity" />
-
         <activity android:name=".activity.TutorialActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

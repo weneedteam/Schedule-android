@@ -3,7 +3,7 @@ package com.playgilround.schedule.client.singin;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
-import com.playgilround.schedule.client.model.User;
+import com.playgilround.schedule.client.signup.model.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 
