@@ -5,6 +5,8 @@ import androidx.annotation.NonNull;
 
 public class User {
 
+    //
+
     private String user_name;
     private String nick_name;
     private String birth;
