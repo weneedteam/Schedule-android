@@ -242,15 +242,15 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @SuppressLint("SetTextI18n")
     @Override
     public void setDaySchedule(ArrayList<String> arrDateDay, String title, int size) {
-        String strDateDay = arrDateDay.get(0);
+        strMDay = arrDateDay.get(0);
         if (size > 1) {
             chooseSize = size -1;
-            tvDate.setText(strDateDay + " ~ " + arrDateDay.get(size -1));
-            tvTime.setText(strDateDay + " 외 " + chooseSize + "일");
+            tvDate.setText(strMDay + " ~ " + arrDateDay.get(size -1));
+            tvTime.setText(strMDay + " 외 " + chooseSize + "일");
             isManyDay = true;
         } else {
             tvDate.setText(title);
-            tvTime.setText(strDateDay);
+            tvTime.setText(strMDay);
             isManyDay = false;
         }
         //시, 분을 설정하는 다이얼로그 표시
