@@ -1,13 +1,12 @@
 package com.playgilround.schedule.client.locationschedule;
 
-import android.location.Location;
-
-import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
+import com.playgilround.schedule.client.model.LocationInfo;
+
+import java.util.ArrayList;
 
 public interface LocationScheduleContract {
 
@@ -26,6 +25,8 @@ public interface LocationScheduleContract {
          void onSearchConfirmed(CharSequence text);
 
         // Google Map 준비 완료
-        void setMapDisplay(final GoogleMap map, double latitude, double longitude);
+        void setMapDisplay(double latitude, double longitude);
+
+        ArrayList<LocationInfo> getLocationInfo();
     }
 }

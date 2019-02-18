@@ -4,13 +4,10 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.os.Bundle;
-import android.util.Log;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.playgilround.schedule.client.model.LocationInfo;
 import com.playgilround.schedule.client.model.ZoomLevel;
 
 import java.io.IOException;
@@ -54,9 +51,10 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     }
 
     @Override
-    public void setMapDisplay(final GoogleMap map, double latitude, double longitude) {
-        mMap = map;
+    public void setMapDisplay(double latitude, double longitude) {
         geocoder = new Geocoder(mContext);
+        this.latitude = latitude;
+        this.longitude = longitude;
 
         LatLng destMap = new LatLng(latitude, longitude);
 
@@ -108,5 +106,14 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
             // 장소 결과가 없을 경우 View 로 어떻게 넘길 지?
             // Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public ArrayList<LocationInfo> getLocationInfo() {
+        ArrayList<LocationInfo> arrLocationInfo = new ArrayList<>();
+
+        arrLocationInfo.add(new LocationInfo(searchLocation, searchLatitude, searchLongitude));
+
+        return arrLocationInfo;
     }
 }

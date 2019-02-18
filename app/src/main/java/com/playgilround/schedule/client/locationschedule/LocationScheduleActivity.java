@@ -6,7 +6,6 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
@@ -28,10 +27,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.model.ZoomLevel;
+import com.playgilround.schedule.client.model.LocationInfo;
 
-import java.io.IOException;
-import java.util.List;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,10 +49,6 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     double latitude; //위도
     double longitude; //경도
 
-    double searchLatitude;
-    double searchLongitude;
-    String searchLocation;
-
     //현재 SearchBar 에 적힌 텍스트 확인.
     String strSearchBar;
     static final String TAG = LocationScheduleActivity.class.getSimpleName();
@@ -67,7 +61,6 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     public static final String INTENT_EXTRA_LONGITUDE = "longitude";
 
     private GoogleMap mMap;
-    private Geocoder geocoder;
 
     ProgressDialog progress;
 
@@ -181,7 +174,6 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
         public void onLocationChanged(Location location) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
-            Log.d(TAG, "LocationListener ->" + latitude + "//" + longitude);
 
             finishLocation();
         }
@@ -205,7 +197,7 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     @Override
     public void onMapReady(final GoogleMap map) {
         mMap = map;
-        mPresenter.setMapDisplay(mMap, latitude, longitude);
+        mPresenter.setMapDisplay(latitude, longitude);
     }
 
     @Override
@@ -242,6 +234,12 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     @OnClick(R.id.tvConfirm)
     void onConfirmClick() {
         //Search Bar 텍스트와, 지정된 Location이 같을 때만 finish
+        ArrayList<LocationInfo> arrLocationInfo = mPresenter.getLocationInfo();
+
+        double searchLatitude = arrLocationInfo.get(0).latitude;
+        double searchLongitude = arrLocationInfo.get(0).longitude;
+        String searchLocation = arrLocationInfo.get(0).location;
+
         if (strSearchBar == null || searchLocation == null) {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_null_location), Toast.LENGTH_LONG).show();
         } else if (strSearchBar.equals(searchLocation)) {
