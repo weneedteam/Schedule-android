@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.locationschedule;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -14,6 +14,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,8 +43,8 @@ import static com.playgilround.schedule.client.addschedule.AddScheduleActivity.L
  * 19-01-01
  * 위치 관련 Activity
  */
-public class SetLocationActivity extends Activity implements OnMapReadyCallback,
-        MaterialSearchBar.OnSearchActionListener {
+public class LocationScheduleActivity extends Activity implements OnMapReadyCallback,
+        MaterialSearchBar.OnSearchActionListener, LocationScheduleContract.View{
 
     @BindView(R.id.searchBar)
     MaterialSearchBar searchBar;
@@ -56,7 +57,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
 
     //현재 SearchBar 에 적힌 텍스트 확인.
     String strSearchBar;
-    static final String TAG = SetLocationActivity.class.getSimpleName();
+    static final String TAG = LocationScheduleActivity.class.getSimpleName();
 
     public static final String LOCATION_CURRENT = "current";
     public static final String LOCATION_DESTINATION = "destination";
@@ -80,12 +81,16 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     private boolean isInit = false;
     private boolean isSearch = true;
 
+    private LocationScheduleContract.Presenter mPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_location);
 
         ButterKnife.bind(this);
+
+        new LocationSchedulePresenter(this, this);
         final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
             //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
@@ -147,6 +152,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     public void onSearchConfirmed(CharSequence text) {
         if (isSearch) {
             if (isInit) {
+//                mPresenter.onSearchConfirmed(text);
                 List<Address> addressList = null;
 
                 try {
@@ -213,6 +219,7 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         public void onLocationChanged(Location location) {
             latitude = location.getLatitude();
             longitude = location.getLongitude();
+            Log.d(TAG, "LocationListener ->" + latitude + "//" + longitude);
 
             finishLocation();
         }
@@ -236,15 +243,12 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
     @Override
     public void onMapReady(final GoogleMap map) {
         mMap = map;
+        mPresenter.setMapDisplay(mMap, latitude, longitude);
+    }
 
-        geocoder = new Geocoder(this);
+    @Override
+    public void setMapMarker(LatLng destMap, MarkerOptions markerOptions) {
         progress.cancel();
-        MarkerOptions markerOptions = new MarkerOptions();
-
-        LatLng destMap = new LatLng(latitude, longitude);
-
-        markerOptions.position(destMap);
-
         //반경 500M 원
         CircleOptions circle = new CircleOptions().center(destMap)
                 .radius(500)     //반지름 단위 : m
@@ -252,10 +256,10 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
                 .fillColor(getResources().getColor(R.color.color_map_background));//배경색
         markerOptions.title(getString(R.string.text_my_location));
         markerOptions.snippet(getString(R.string.text_my_location));
-        map.addMarker(markerOptions);
-        map.addCircle(circle);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
-        map.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.addMarker(markerOptions);
+        mMap.addCircle(circle);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     //위도 경도 탐색완료.
@@ -285,5 +289,10 @@ public class SetLocationActivity extends Activity implements OnMapReadyCallback,
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_check_location), Toast.LENGTH_LONG).show();
         }
+    }
+
+    @Override
+    public void setPresenter(LocationScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

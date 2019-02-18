@@ -30,7 +30,7 @@
             android:theme="@style/ThemeDialog" />
 
         <activity
-            android:name=".activity.SetLocationActivity"
+            android:name=".locationschedule.LocationScheduleActivity"
             android:theme="@style/ThemeDialog" />
 
         <activity
