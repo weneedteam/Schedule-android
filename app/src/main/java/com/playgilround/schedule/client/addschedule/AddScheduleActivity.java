@@ -24,17 +24,11 @@ import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.activity.SetLocationActivity;
+import com.playgilround.schedule.client.locationschedule.LocationScheduleActivity;
 
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -79,7 +73,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     ArrayList<String> arrDate;
     int chooseSize;
 
-    //SetLocationActivity.class 에서 받은 위치정보.
+    //LocationScheduleActivity.class 에서 받은 위치정보.
     String resLocation;
     Double resLatitude = 0.0;
     Double resLongitude = 0.0;
@@ -193,7 +187,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     void onShowLocationActivity() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-            Intent intent = new Intent(this, SetLocationActivity.class);
+            Intent intent = new Intent(this, LocationScheduleActivity.class);
             startActivityForResult(intent, LOCATION_START);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
@@ -285,9 +279,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             switch (requestCode) {
                 case LOCATION_START:
 
-                    resLocation = data.getStringExtra(SetLocationActivity.INTENT_EXTRA_LOCATION);
-                    resLatitude = data.getDoubleExtra(SetLocationActivity.INTENT_EXTRA_LATITUDE, 0);
-                    resLongitude = data.getDoubleExtra(SetLocationActivity.INTENT_EXTRA_LONGITUDE, 0);
+                    resLocation = data.getStringExtra(LocationScheduleActivity.INTENT_EXTRA_LOCATION);
+                    resLatitude = data.getDoubleExtra(LocationScheduleActivity.INTENT_EXTRA_LATITUDE, 0);
+                    resLongitude = data.getDoubleExtra(LocationScheduleActivity.INTENT_EXTRA_LONGITUDE, 0);
 
                     if (TextUtils.isEmpty(resLocation)) {
                         tvLocation.setText(R.string.text_add_location);

@@ -12,7 +12,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
-import com.playgilround.schedule.client.activity.ManyScheduleActivity;
+import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 
 import java.util.ArrayList;
