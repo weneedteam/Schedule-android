@@ -70,9 +70,9 @@
 
     <!-- Tutorial Text -->
     <string-array name="tutorial_text_array">
-        <item>일정을 신경 쓰지 마세요.\n 일공이 챙겨줄게요.</item>
+        <item>일정을 신경 쓰지 마세요.\n일공이 챙겨줄게요.</item>
         <item>일정을 등록할 때,\n 장소를 설정해주세요.</item>
-        <item>서로의 위치를 실시간으로 확인해 보세요.</item>
+        <item>서로의 위치를\n 실시간으로 확인해 보세요.</item>
         <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
     </string-array>
 </resources>

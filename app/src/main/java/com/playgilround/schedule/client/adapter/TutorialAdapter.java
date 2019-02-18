@@ -20,10 +20,10 @@ import butterknife.ButterKnife;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
-    private static final String image1 = "tutorial";
-    private static final String image2 = "illustration";
+    private static final String image1 = "illustration";
+    private static final String image2 = "logo";
 
-    private String[] images = new String[]{image1, image2, image2};
+    private String[] images = new String[]{image1, image2, image1, image1};
 
     private Context mContext;
 
@@ -80,14 +80,17 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             int startText;
             int lastText;
             if (position == 0) {
+                startText = 15;
+                lastText = 17;
+            } else if (position == 1) {
                 startText = 12;
                 lastText = 14;
-            } else if (position == 1) {
-                startText = 10;
+            } else if (position == 2) {
+                startText = 9;
                 lastText = 12;
             } else {
-                startText = 19;
-                lastText = 21;
+                startText = 8;
+                lastText = 11;
             }
             ssb.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_indigo)), startText, lastText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
