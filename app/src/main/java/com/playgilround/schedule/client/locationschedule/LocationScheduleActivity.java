@@ -152,66 +152,28 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     public void onSearchConfirmed(CharSequence text) {
         if (isSearch) {
             if (isInit) {
-//                mPresenter.onSearchConfirmed(text);
-                List<Address> addressList = null;
-
-                try {
-                    addressList = geocoder.getFromLocationName(text.toString(), 1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if (addressList.size() != 0) {
-                    String title = addressList.get(0).getFeatureName();
-                    String snippet = addressList.get(0).getCountryName();
-
-                    searchLatitude = addressList.get(0).getLatitude();
-                    searchLongitude = addressList.get(0).getLongitude();
-
-                    //현재 자기 위치 좌표 생성
-                    LatLng currentMap = new LatLng(latitude, longitude);
-
-                    //검색 된 위치 좌표 생성
-                    LatLng searchMap = new LatLng(searchLatitude, searchLongitude);
-
-                    //Create Marker
-                    MarkerOptions mOption = new MarkerOptions();
-                    mOption.title(title);
-                    mOption.snippet(snippet);
-                    mOption.position(searchMap);
-                    mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
-                    //Add Marker
-                    mMap.addMarker(mOption);
-
-                    //내 위치와 목적지 거리 계산
-                    Location currentLocation = new Location(LOCATION_CURRENT);
-                    currentLocation.setLatitude(latitude);
-                    currentLocation.setLongitude(longitude);
-
-                    Location destLocation = new Location(LOCATION_DESTINATION);
-                    destLocation.setLatitude(searchLatitude);
-                    destLocation.setLongitude(searchLongitude);
-
-                    double distance = currentLocation.distanceTo(destLocation);
-
-                    //해당된 좌표로 화면 줌.
-                    int zoomLevel = ZoomLevel.getZoomLevel(distance);
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchMap, zoomLevel));
-
-                    //내위치 -> 목적지 거리를 선으로 표시.
-                    mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
-
-                    searchLocation = text.toString();
-
-                } else if (addressList.size() == 0) {
-                    Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
-                }
+                mPresenter.onSearchConfirmed(text);
                 isSearch = false;
             }
         } else {
             isSearch = true;
         }
+    }
+
+    //검색 된 결과 지도에 표시
+    @Override
+    public void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel) {
+        //Create Marker
+        MarkerOptions mOption = new MarkerOptions();
+        mOption.title(title);
+        mOption.snippet(snippet);
+        mOption.position(searchMap);
+        mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+        mMap.addMarker(mOption);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchMap, zoomLevel));
+        //내위치 -> 목적지 거리를 선으로 표시.
+        mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
     }
 
     private final LocationListener mLocationListener = new LocationListener() {
@@ -247,13 +209,16 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     }
 
     @Override
-    public void setMapMarker(LatLng destMap, MarkerOptions markerOptions) {
+    public void setMapMarker(LatLng destMap) {
         progress.cancel();
         //반경 500M 원
         CircleOptions circle = new CircleOptions().center(destMap)
                 .radius(500)     //반지름 단위 : m
                 .strokeWidth(0f) //선 없음
                 .fillColor(getResources().getColor(R.color.color_map_background));//배경색
+
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(destMap);
         markerOptions.title(getString(R.string.text_my_location));
         markerOptions.snippet(getString(R.string.text_my_location));
         mMap.addMarker(markerOptions);
