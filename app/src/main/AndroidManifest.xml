@@ -45,7 +45,7 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.ManyScheduleActivity"
+        <activity android:name=".manyschedule.ManyScheduleActivity"
             android:theme="@style/ThemeDialog"/>
 
         <activity android:name=".activity.FriendActivity"/>

@@ -8,6 +8,11 @@ import com.playgilround.schedule.client.model.LocationInfo;
 
 import java.util.ArrayList;
 
+/**
+ * 19-02-18
+ * MVP Pattern
+ * Contract -> View와 Presenter에 대한 interface를 작성
+ */
 public interface LocationScheduleContract {
 
     interface View extends BaseView<Presenter> {

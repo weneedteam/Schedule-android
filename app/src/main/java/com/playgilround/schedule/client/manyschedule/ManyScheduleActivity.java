@@ -1,8 +1,7 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.manyschedule;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -11,6 +10,8 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
+
+import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -28,7 +29,7 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * 스케줄 날짜 다중 선택 시,
  * 선택 한 날짜로 저장할 지 표시되는 Activity
  */
-public class ManyScheduleActivity extends AppCompatActivity {
+public class ManyScheduleActivity extends AppCompatActivity implements ManyScheduleContract.View {
 
     @BindView(R.id.mRecycler)
     RecyclerView mRecycler;
@@ -44,6 +45,11 @@ public class ManyScheduleActivity extends AppCompatActivity {
     private String strDate;
     RealmResults<Schedule> realmSchedule;
 
+    private ManyScheduleContract.Presenter mPresenter;
+
+    public static final String INTENT_EXTRA_MANY_DATE = "manyDate";
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,10 +60,12 @@ public class ManyScheduleActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         Intent intent = getIntent();
-        arrDay = intent.getStringArrayListExtra("manyDate");
+        arrDay = intent.getStringArrayListExtra(INTENT_EXTRA_MANY_DATE);
+
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.setHasFixedSize(true);
 
+        new ManySchedulePresenter(this);
         adapter = new ManyScheduleAdapter(arrDay);
         mRecycler.setAdapter(adapter);
 
@@ -85,5 +93,10 @@ public class ManyScheduleActivity extends AppCompatActivity {
                     break;
                 }
         }
+    }
+
+    @Override
+    public void setPresenter(ManyScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
