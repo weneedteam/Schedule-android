@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
@@ -8,24 +9,32 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.singin.SignInActivity;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
     private static final String image1 = "illustration";
     private static final String image2 = "logo";
 
+    private static final String btnImage1 = "button";
+    private static final String btnImage2 = "checkbutton";
+
     private String[] images = new String[]{image1, image2, image1, image1};
+
+    private String[] btnImages = new String[]{btnImage1, btnImage1, btnImage1, btnImage2};
 
     private Context mContext;
 
@@ -36,9 +45,8 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_tutorial, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.item_tutorial, parent, false));
     }
 
     @Override
@@ -62,6 +70,9 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         @BindView(R.id.progress)
         ProgressBar mProgress;
 
+        @BindView(R.id.iv_next)
+        ImageView mImageNext;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -74,10 +85,17 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
 
             String text = texts[position];
 
+            String btnImage = btnImages[position];
+
             int resourceID = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
 
+            int btnResourceID = mContext.getResources().getIdentifier(btnImage, "mipmap", mContext.getPackageName());
+
             mImageView.setTag(position);
+            mImageNext.setTag(position);
+
             Picasso.get().load(resourceID).into(mImageView);
+            Picasso.get().load(btnResourceID).into(mImageNext);
 
             //특정 글자만 색깔 변경
             //ViewHolder 여러개 만들기
