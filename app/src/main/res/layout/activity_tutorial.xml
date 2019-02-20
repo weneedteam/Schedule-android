@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context=".activity.TutorialActivity">
 
 
@@ -14,27 +12,13 @@
         android:layout_height="match_parent"
         tools:ignore="NestedWeights" />
 
-
-    <com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator
-        android:id="@+id/pager_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="80dp"
-        app:dotColor="@color/colorPrimary"
-        app:dotCount="3"
-        app:selectedDotColor="@color/colorAccent" />
-
-    <Button
+    <ImageView
         android:id="@+id/btn_next"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:background="@color/light_indigo"
-        android:fontFamily="sans-serif"
-        android:text="@string/button_next"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/button"/>
 </RelativeLayout>

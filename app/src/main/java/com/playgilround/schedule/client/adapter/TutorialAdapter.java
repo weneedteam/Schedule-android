@@ -4,10 +4,12 @@ import android.content.Context;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
@@ -57,6 +59,9 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         @BindView(R.id.tvtutorial)
         TextView mTextView;
 
+        @BindView(R.id.progress)
+        ProgressBar mProgress;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -95,6 +100,8 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             ssb.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_indigo)), startText, lastText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             mTextView.setText(ssb);
+
+            mProgress.setProgress(position +1);
         }
     }
 }

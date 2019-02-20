@@ -11,7 +11,6 @@ import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 
-import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
