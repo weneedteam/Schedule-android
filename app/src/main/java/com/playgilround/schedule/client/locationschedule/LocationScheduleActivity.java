@@ -1,12 +1,10 @@
 package com.playgilround.schedule.client.locationschedule;
 
-import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,10 +25,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.locationschedule.model.SearchLocationResult;
 import com.playgilround.schedule.client.model.LocationInfo;
 
 import java.util.ArrayList;
 
+import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -41,16 +41,9 @@ import static com.playgilround.schedule.client.addschedule.AddScheduleActivity.L
  * 19-01-01
  * 위치 관련 Activity
  */
-public class LocationScheduleActivity extends Activity implements OnMapReadyCallback,
-        MaterialSearchBar.OnSearchActionListener, LocationScheduleContract.View{
+public class LocationScheduleActivity extends AppCompatActivity implements OnMapReadyCallback,
+        MaterialSearchBar.OnSearchActionListener, LocationScheduleContract.View {
 
-    @BindView(R.id.searchBar)
-    MaterialSearchBar searchBar;
-    double latitude; //위도
-    double longitude; //경도
-
-    //현재 SearchBar 에 적힌 텍스트 확인.
-    String strSearchBar;
     static final String TAG = LocationScheduleActivity.class.getSimpleName();
 
     public static final String LOCATION_CURRENT = "current";
@@ -59,6 +52,14 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
     public static final String INTENT_EXTRA_LOCATION = "location";
     public static final String INTENT_EXTRA_LATITUDE = "latitude";
     public static final String INTENT_EXTRA_LONGITUDE = "longitude";
+
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
+    double latitude; // 위도
+    double longitude; // 경도
+
+    // 현재 SearchBar 에 적힌 텍스트 확인.
+    String strSearchBar;
 
     private GoogleMap mMap;
 
@@ -76,6 +77,31 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
 
     private LocationScheduleContract.Presenter mPresenter;
 
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+
+            finishLocation();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,20 +110,23 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
         ButterKnife.bind(this);
 
         new LocationSchedulePresenter(this, this);
-        final LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
-            //GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
+            // GPS 제공자의 정보가 바뀌면 콜백하도록 리스너 등록
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
-
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
+
             progress = new ProgressDialog(this);
             progress.setCanceledOnTouchOutside(false);
             progress.setTitle(getString(R.string.text_location));
-
             progress.setMessage(getString(R.string.text_find_current_location));
             progress.show();
         } catch (SecurityException e) {
-            e.printStackTrace();
+            Log.e(TAG, "Set location manager error - " + e.toString());
+            // e.printStackTrace();
+
+            // Crash 에러 등록 코드
+            // CrashlyticsCore.getInstance().logException(e);
         }
 
         //Material Search Bar 관련 작업
@@ -169,33 +198,29 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
         mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
     }
 
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+    // 검색 결과 성공 시
+    @Override
+    public void mapSearchResultComplete(SearchLocationResult result) {
+        MarkerOptions mOption = new MarkerOptions();
+        mOption.title(result.getTitle());
+        mOption.snippet(result.getSnippet());
+        mOption.position(result.getSearchResultLocation());
+        mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-            finishLocation();
-        }
+        mMap.addMarker(mOption);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(result.getSearchResultLocation(), result.getZoomLevel()));
+        // 내위치 -> 목적지 거리를 선으로 표시.
+        mMap.addPolyline(new PolylineOptions().add(result.getCurrentLocation(), result.getSearchResultLocation()).width(5).color(Color.RED));
+    }
 
-        @Override
-        public void onStatusChanged(String s, int i, Bundle bundle) {
-
-        }
-
-        @Override
-        public void onProviderEnabled(String s) {
-
-        }
-
-        @Override
-        public void onProviderDisabled(String s) {
-
-        }
-    };
+    // 검색 결과 실패 시
+    @Override
+    public void mapSearchResultError() {
+        Toast.makeText(this, getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
+    }
 
     @Override
-    public void onMapReady(final GoogleMap map) {
+    public void onMapReady(GoogleMap map) {
         mMap = map;
         mPresenter.setMapDisplay(latitude, longitude);
     }
@@ -221,6 +246,7 @@ public class LocationScheduleActivity extends Activity implements OnMapReadyCall
 
     //위도 경도 탐색완료.
     private void finishLocation() {
+        // Todo:: Android X에 맞춰서 코드 정리 할 필요가 있음.
         FragmentManager fragmentManager = getFragmentManager();
         MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
