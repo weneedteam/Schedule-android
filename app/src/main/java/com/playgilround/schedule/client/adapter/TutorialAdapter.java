@@ -29,14 +29,11 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
     private static final String image1 = "illustration";
     private static final String image2 = "logo";
 
-    private static final String btnImage1 = "button";
-    private static final String btnImage2 = "checkbutton";
-
     private String[] images = new String[]{image1, image2, image1, image1};
 
-    private String[] btnImages = new String[]{btnImage1, btnImage1, btnImage1, btnImage2};
-
     private Context mContext;
+
+    private static final String TAG = TutorialAdapter.class.getSimpleName();
 
     public TutorialAdapter(Context context) {
         mContext = context;
@@ -70,32 +67,22 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         @BindView(R.id.progress)
         ProgressBar mProgress;
 
-        @BindView(R.id.iv_next)
-        ImageView mImageNext;
-
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void bindView(int position) {
+
             String image = images[position];
-
             String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
-
             String text = texts[position];
-
-            String btnImage = btnImages[position];
 
             int resourceID = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
 
-            int btnResourceID = mContext.getResources().getIdentifier(btnImage, "mipmap", mContext.getPackageName());
-
             mImageView.setTag(position);
-            mImageNext.setTag(position);
 
             Picasso.get().load(resourceID).into(mImageView);
-            Picasso.get().load(btnResourceID).into(mImageNext);
 
             //특정 글자만 색깔 변경
             //ViewHolder 여러개 만들기

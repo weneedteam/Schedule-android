@@ -1,10 +1,12 @@
 package com.playgilround.schedule.client.tutorial;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.TutorialAdapter;
+import com.playgilround.schedule.client.singin.SignInActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * 19-01-31
@@ -22,6 +25,9 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
     @BindView(R.id.recycler_image)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.iv_next)
+    ImageView mImageNext;
 
     int retPosition;
 
@@ -54,12 +60,32 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
                 LinearLayoutManager mLinear = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
+                if (adapter.getItemCount() -1 == retPosition) {
+                    mImageNext.setImageResource(R.mipmap.check_btn);
+                } else {
+                    mImageNext.setImageResource(R.mipmap.next_btn);
+                }
             }
         });
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
+    }
+
+    @OnClick(R.id.iv_next)
+    void onButtonClick() {
+        if (adapter.getItemCount() -1 == retPosition) {
+            startActivity(new Intent(this, SignInActivity.class));
+            overridePendingTransition(R.anim.enter, R.anim.exit);
+            finish();
+        } else if (adapter.getItemCount() -2 == retPosition) {
+            mImageNext.setImageResource(R.mipmap.check_btn);
+            mRecyclerView.smoothScrollToPosition(retPosition +1);
+        } else {
+            mImageNext.setImageResource(R.mipmap.next_btn);
+            mRecyclerView.smoothScrollToPosition(retPosition +1);
+        }
     }
 
     @Override

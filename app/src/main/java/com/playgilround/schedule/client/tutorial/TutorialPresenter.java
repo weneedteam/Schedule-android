@@ -1,9 +1,5 @@
 package com.playgilround.schedule.client.tutorial;
 
-import com.playgilround.schedule.client.infoschedule.InfoScheduleContract;
-
-import io.realm.Realm;
-
 /**
  * 19-02-20
  * Tutorial 관련 데이터 처리 Presenter
