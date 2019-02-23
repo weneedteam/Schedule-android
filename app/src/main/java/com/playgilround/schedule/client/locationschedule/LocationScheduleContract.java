@@ -1,9 +1,9 @@
 package com.playgilround.schedule.client.locationschedule;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
+import com.playgilround.schedule.client.locationschedule.model.SearchLocationResult;
 import com.playgilround.schedule.client.model.LocationInfo;
 
 import java.util.ArrayList;
@@ -22,12 +22,16 @@ public interface LocationScheduleContract {
 
         //검색 된 결과 지도 표시
         void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel);
+
+        void mapSearchResultComplete(SearchLocationResult result);
+
+        void mapSearchResultError();
     }
 
     interface Presenter extends BasePresenter {
 
         // text로 장소 검색.
-         void onSearchConfirmed(CharSequence text);
+        void onSearchConfirmed(CharSequence text);
 
         // Google Map 준비 완료
         void setMapDisplay(double latitude, double longitude);
