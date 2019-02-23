@@ -30,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
+        new SignUpPresenter(this);
+
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);
 
@@ -45,7 +47,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mEditText,0);
         });*/
-        new SignUpPresenter(this);
     }
 
     @Override

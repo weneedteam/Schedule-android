@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="53dp"
@@ -19,7 +19,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="85dp"
         android:fontFamily="sans-serif"
         android:textColor="@android:color/black"
         android:textSize="24sp"
@@ -30,9 +30,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="39dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="165dp"
         android:fontFamily="sans-serif-medium"
         android:textColor="@color/light_indigo"
         android:textSize="12sp"
         android:textStyle="normal" />
-</LinearLayout>
+
+    <EditText
+        android:id="@+id/etSignUpContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/light_indigo"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:layout_marginTop="210dp"
+        android:textStyle="normal"/>
+
+    <ImageView
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="23dp"
+        android:layout_marginEnd="20dp"
+        android:src="@mipmap/next_btn"/>
+</RelativeLayout>
