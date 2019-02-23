@@ -5,8 +5,8 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 
-import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
+import com.playgilround.schedule.client.locationschedule.model.SearchLocationResult;
 import com.playgilround.schedule.client.model.LocationInfo;
 import com.playgilround.schedule.client.model.ZoomLevel;
 
@@ -28,11 +28,10 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     private final LocationScheduleContract.View mView;
     private final Context mContext;
 
-    private GoogleMap mMap;
     private Geocoder geocoder;
 
-    private double latitude; //위도
-    private double longitude; //경도
+    private double currentLatitude; //위도
+    private double currentLongitude; //경도
 
     private double searchLatitude;
     private double searchLongitude;
@@ -53,8 +52,8 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     @Override
     public void setMapDisplay(double latitude, double longitude) {
         geocoder = new Geocoder(mContext);
-        this.latitude = latitude;
-        this.longitude = longitude;
+        currentLatitude = latitude;
+        currentLongitude = longitude;
 
         LatLng destMap = new LatLng(latitude, longitude);
 
@@ -64,7 +63,8 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     //장소 검색
     @Override
     public void onSearchConfirmed(CharSequence text) {
-        List<Address> addressList = null;
+        // java.lang.NullPointerException error fixed.
+        List<Address> addressList = new ArrayList<>();
 
         try {
             addressList = geocoder.getFromLocationName(text.toString(), 1);
@@ -80,15 +80,15 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
             searchLongitude = addressList.get(0).getLongitude();
 
             //현재 자기 위치 좌표 생성
-            LatLng currentMap = new LatLng(latitude, longitude);
+            LatLng currentMap = new LatLng(currentLatitude, currentLongitude);
 
             //검색 된 위치 좌표 생성
             LatLng searchMap = new LatLng(searchLatitude, searchLongitude);
 
             //내 위치와 목적지 거리 계산
             Location currentLocation = new Location(LOCATION_CURRENT);
-            currentLocation.setLatitude(latitude);
-            currentLocation.setLongitude(longitude);
+            currentLocation.setLatitude(currentLatitude);
+            currentLocation.setLongitude(currentLongitude);
 
             Location destLocation = new Location(LOCATION_DESTINATION);
             destLocation.setLatitude(searchLatitude);
@@ -101,10 +101,17 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
 
             searchLocation = text.toString();
 
-            mView.setMapSearchConfirmed(title, snippet, currentMap, searchMap, zoomLevel);
-        } else  {
+            SearchLocationResult result = new SearchLocationResult();
+            result.setTitle(title);
+            result.setSnippet(snippet);
+            result.setCurrentLocation(currentMap);
+            result.setSearchResultLocation(searchMap);
+            result.setZoomLevel(zoomLevel);
+
+            mView.mapSearchResultComplete(result);
+        } else {
             // 장소 결과가 없을 경우 View 로 어떻게 넘길 지?
-            // Toast.makeText(getApplicationContext(), getString(R.string.toast_error_msg_find_location), Toast.LENGTH_LONG).show();
+            mView.mapSearchResultError();
         }
     }
 
