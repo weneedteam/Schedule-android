@@ -92,4 +92,14 @@
         <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
     </string-array>
 
+    <!-- SignUp Text-->
+    <!-- Tutorial Text-->
+    <string-array name="signup_text_array">
+        <item>이름을 입력해 주세요.</item>
+        <item>이메일을 입력하세요.</item>
+        <item>비밀번호를 설정해주세요.</item>
+        <item>비밀번호를 재입력해주세요.</item>
+        <item>닉네임을 설정해주세요.</item>
+        <item>생일을 설정해주세요.</item>
+    </string-array>
 </resources>

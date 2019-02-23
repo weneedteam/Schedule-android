@@ -6,8 +6,12 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.signup.view.SignUpAdapter;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -16,35 +20,31 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     private SignUpContract.Presenter mPresenter;
 
-   /* @BindView(R.id.emailInput)
-    EditText mEmailEditText;
+    @BindView(R.id.recycler_signup)
+    RecyclerView mRecyclerView;
 
-    @BindView(R.id.pwInput)
-    EditText mPasswordEditText;
-
-    @BindView(R.id.nameInput)
-    EditText mNameEditText;
-
-    @BindView(R.id.nicknameInput)
-    EditText mNickNameEditText;
-
-    @BindView(R.id.birthInput)
-    EditText mBirthEditText;*/
-
-   @BindView(R.id.etText)
-   EditText mEditText;
+    SignUpAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        setContentView(R.layout.activity_signup);
         ButterKnife.bind(this);
 
-        mEditText.post(() -> {
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mRecyclerView.setHasFixedSize(true);
+
+        adapter = new SignUpAdapter(this);
+        mRecyclerView.setAdapter(adapter);
+
+        PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
+        pagerSnapHelper.attachToRecyclerView(mRecyclerView);
+
+       /* mEditText.post(() -> {
             mEditText.setFocusableInTouchMode(true);
             mEditText.requestFocus();
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.showSoftInput(mEditText,0);
-        });
+        });*/
         new SignUpPresenter(this);
     }
 
@@ -59,10 +59,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         mPresenter = presenter;
     }
 
-    @OnClick(R.id.btnNext)
+  /*  @OnClick(R.id.btnNext)
     public void signUp() {
 
-       /* User user = new User();
+       *//* User user = new User();
 
         user.setNickName(mNickNameEditText.getText().toString());
         user.setUserName(mNameEditText.getText().toString());
@@ -71,8 +71,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         user.setBirth(mBirthEditText.getText().toString());
         user.setLanguage("Korean");
 
-        mPresenter.signUp(user);*/
-    }
+        mPresenter.signUp(user);*//*
+    }*/
 
     @Override
     public void signUpError() {
