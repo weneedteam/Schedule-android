@@ -1,28 +1,23 @@
-package com.playgilround.schedule.client.adapter;
+package com.playgilround.schedule.client.tutorial.view;
 
 import android.content.Context;
-import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.singin.SignInActivity;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
@@ -73,7 +68,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         }
 
         void bindView(int position) {
-
             String image = images[position];
             String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
             String text = texts[position];
@@ -106,7 +100,7 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
 
             mTextView.setText(ssb);
 
-            mProgress.setProgress(position +1);
+            mProgress.setProgress(position + 1);
         }
     }
 }

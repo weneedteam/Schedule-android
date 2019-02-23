@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.TutorialAdapter;
+import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
 import com.playgilround.schedule.client.singin.SignInActivity;
 
 import androidx.annotation.NonNull;
@@ -26,7 +26,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
     @BindView(R.id.recycler_image)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.iv_next)
+    @BindView(R.id.ivnext)
     ImageView mImageNext;
 
     int retPosition;
@@ -73,7 +73,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
     }
 
-    @OnClick(R.id.iv_next)
+    @OnClick(R.id.ivnext)
     void onButtonClick() {
         if (adapter.getItemCount() -1 == retPosition) {
             startActivity(new Intent(this, SignInActivity.class));
