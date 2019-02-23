@@ -25,7 +25,7 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <include
-        android:id="@+id/btn_next"
+        android:id="@+id/btnNext"
         layout="@layout/next_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -51,7 +51,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.btn_save)
+    @BindView(R.id.btnSave)
     Button saveBtn;
 
     private CalendarScheduleContract.Presenter mPresenter;

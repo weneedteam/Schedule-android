@@ -3,26 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="70dp"
-        android:background="@mipmap/logo" />
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="19dp"
+        android:layout_marginEnd="13dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/text_signin_forget_password"
+        android:textColor="@color/light_indigo"
+        android:textSize="14sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="52dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/text_login"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="normal" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="243dp"
+        android:layout_marginTop="105dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="46dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginStart="44dp"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/text_email"
-            android:textColor="@android:color/black"
+            android:textColor="@color/light_indigo"
             android:textSize="12sp"
             android:textStyle="normal" />
 
@@ -31,34 +47,32 @@
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginEnd="26dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginEnd="29dp"
             android:backgroundTint="@color/light_indigo"
             android:fontFamily="sans-serif"
-            android:hint="@string/hint_email"
             android:inputType="textEmailAddress"
-            android:paddingStart="11dp"
+            android:paddingStart="13dp"
             android:textColor="@color/light_indigo"
-            android:textSize="16sp"
+            android:textSize="12sp"
             android:textStyle="normal" />
-
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="328dp"
+        android:layout_marginTop="182dp"
         android:orientation="vertical">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="46dp"
-            android:fontFamily="sans-serif"
+            android:layout_marginStart="44dp"
+            android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.05"
             android:text="@string/text_password"
-            android:textColor="@android:color/black"
+            android:textColor="@color/light_indigo"
             android:textSize="12sp"
             android:textStyle="normal" />
 
@@ -67,43 +81,70 @@
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="34dp"
-            android:layout_marginEnd="26dp"
+            android:layout_marginStart="31dp"
+            android:layout_marginEnd="29dp"
             android:backgroundTint="@color/light_indigo"
             android:fontFamily="sans-serif"
-            android:hint="@string/hint_password"
             android:inputType="textPassword"
             android:paddingStart="11dp"
             android:textColor="@color/light_indigo"
-            android:textSize="16sp"
-            android:textStyle="normal" />
-
-
-        <TextView
-            android:id="@+id/tvSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="63dp"
-            android:fontFamily="sans-serif"
-            android:text="@string/text_not_account"
-            android:textColor="@color/light_indigo_70"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:textStyle="normal" />
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_login"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/ivlogin"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="256dp"
+        android:src="@mipmap/check_btn" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/light_indigo"
-        android:fontFamily="sans-serif"
-        android:text="@string/button_signin"
-        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="372dp">
+
+        <ImageView
+            android:id="@+id/ivfacebook"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:src="@mipmap/sign_in_fb"/>
+
+        <ImageView
+            android:id="@+id/ivnaver"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="20dp"
+            android:src="@mipmap/sign_in_naver"/>
+
+        <ImageView
+            android:id="@+id/ivkakao"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="20dp"
+            android:src="@mipmap/sign_in_kakao"/>
+
+        <ImageView
+            android:id="@+id/ivgoogle"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_marginStart="20dp"
+            android:src="@mipmap/sign_in_google"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="487dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/text_not_account"
+        android:textColor="@color/light_indigo"
         android:textSize="14sp"
-        android:textStyle="bold" />
-
-
+        android:textStyle="normal" />
 </RelativeLayout>

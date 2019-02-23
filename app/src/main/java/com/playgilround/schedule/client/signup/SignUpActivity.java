@@ -59,7 +59,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         mPresenter = presenter;
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick(R.id.btnNext)
     public void signUp() {
 
        /* User user = new User();

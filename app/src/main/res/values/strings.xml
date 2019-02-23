@@ -45,13 +45,14 @@
     <string name="text_logo" translatable="false">PlayGilRound</string>
     <string name="text_schedule_desc">Schedule Desc..</string>
     <string name="text_schedule_title">Schedule Title</string>
-    <string name="text_email">Email</string>
+    <string name="text_email">E-mail</string>
     <string name="text_password">Password</string>
     <string name="text_not_account">Not yet account</string>
     <string name="text_signup">SignUp</string>
     <string name="text_choice_day">Is the date selected?</string>
     <string name="text_user_find">Find User</string>
-
+    <string name="text_signin_forget_password">Do not remember your password?</string>
+    <string name="text_login">Login</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>

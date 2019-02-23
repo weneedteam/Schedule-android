@@ -6,7 +6,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/btn_next"
+        android:id="@+id/btnNext"
         android:background="@color/light_indigo_38"
         android:text="@string/button_next"
         android:textSize="14sp"
