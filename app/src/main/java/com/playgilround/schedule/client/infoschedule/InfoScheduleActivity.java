@@ -38,10 +38,10 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.btn_cancel)
+    @BindView(R.id.btnCancel)
     Button btnCancel;
 
-    @BindView(R.id.tv_date)
+    @BindView(R.id.tvdate)
     TextView tvDate;
 
     private String date;

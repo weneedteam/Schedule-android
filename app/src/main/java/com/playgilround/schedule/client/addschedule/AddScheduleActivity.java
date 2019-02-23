@@ -46,7 +46,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
-    @BindView(R.id.tv_date)
+    @BindView(R.id.tvdate)
     TextView tvDate;
 
     @BindView(R.id.tvScheduleTime)
@@ -55,7 +55,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @BindView(R.id.tvScheduleLocation)
     TextView tvLocation;
 
-    @BindView(R.id.btn_confirm)
+    @BindView(R.id.btnConfirm)
     Button btnConfirm;
 
     @BindView(R.id.etScheduleTitle)

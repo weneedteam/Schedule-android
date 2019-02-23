@@ -45,13 +45,14 @@
     <string name="text_logo" translatable="false">PlayGilRound</string>
     <string name="text_schedule_desc">Schedule Desc..</string>
     <string name="text_schedule_title">Schedule Title</string>
-    <string name="text_email">Email</string>
+    <string name="text_email">E-mail</string>
     <string name="text_password">Password</string>
     <string name="text_not_account">Not yet account</string>
     <string name="text_signup">SignUp</string>
     <string name="text_choice_day">Is the date selected?</string>
     <string name="text_user_find">Find User</string>
-
+    <string name="text_signin_forget_password">Do not remember your password?</string>
+    <string name="text_login">Login</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
@@ -85,9 +86,28 @@
 
     <!-- Tutorial Text-->
     <string-array name="tutorial_text_array">
+        <item>일정을 신경 쓰지 마세요.\n 일공이 챙겨줄게요.</item>
         <item>일정을 등록할 때,\n 장소를 설정해주세요.</item>
-        <item>장소에 가까워지면\n도착 버튼이 활성화됩니다.</item>
-        <item>도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</item>
+        <item>서로의 위치를\n 실시간으로 확인해 보세요.</item>
+        <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
     </string-array>
 
+    <!-- SignUp Text-->
+    <string-array name="signup_text_title_array">
+        <item>이름을 입력해 주세요.</item>
+        <item>이메일을 입력하세요.</item>
+        <item>비밀번호를 설정해주세요.</item>
+        <item>비밀번호를 재입력해주세요.</item>
+        <item>닉네임을 설정해주세요.</item>
+        <item>생일을 설정해주세요.</item>
+    </string-array>
+
+    <string-array name="signup_text_content_array">
+        <item>이름</item>
+        <item>이메일</item>
+        <item>비밀번호</item>
+        <item>비밀번호</item>
+        <item>닉네임</item>
+        <item></item>
+    </string-array>
 </resources>

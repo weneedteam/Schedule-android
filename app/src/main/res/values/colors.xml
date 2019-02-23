@@ -79,6 +79,8 @@
     <color name="color_menu_line">#303054</color>
 
     <color name="color_map_background">#880000ff</color>
+
+    <color name="color_tutorial_progress">#5c4b69</color>
     
     <!-- Design Zeplin-->
     <color name="light_indigo">#7165cd</color>

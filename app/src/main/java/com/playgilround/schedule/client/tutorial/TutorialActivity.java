@@ -1,15 +1,12 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.tutorial;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Button;
+import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.TutorialAdapter;
+import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
 import com.playgilround.schedule.client.singin.SignInActivity;
-import com.rbrooks.indefinitepagerindicator.IndefinitePagerIndicator;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,31 +21,35 @@ import butterknife.OnClick;
  * 19-01-31
  * Tutorial Activity
  */
-public class TutorialActivity extends AppCompatActivity {
+public class TutorialActivity extends AppCompatActivity implements TutorialContract.View {
 
     @BindView(R.id.recycler_image)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.pager_indicator)
-    IndefinitePagerIndicator indefinite;
-
-    @BindView(R.id.btn_next)
-    Button mNextBtn;
+    @BindView(R.id.ivnext)
+    ImageView mImageNext;
 
     int retPosition;
 
     TutorialAdapter adapter;
+
+    private TutorialContract.Presenter mPresenter;
 
     static final String TAG = TutorialActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_tutorial);
+
         ButterKnife.bind(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);
+
+        new TutorialPresenter(this);
+
         adapter = new TutorialAdapter(this);
         mRecyclerView.setAdapter(adapter);
 
@@ -59,10 +60,10 @@ public class TutorialActivity extends AppCompatActivity {
                 LinearLayoutManager mLinear = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
-                if (retPosition == adapter.getItemCount() -1) {
-                    mNextBtn.setText(R.string.button_start);
+                if (adapter.getItemCount() -1 == retPosition) {
+                    mImageNext.setImageResource(R.mipmap.check_btn);
                 } else {
-                    mNextBtn.setText(R.string.button_next);
+                    mImageNext.setImageResource(R.mipmap.next_btn);
                 }
             }
         });
@@ -70,18 +71,25 @@ public class TutorialActivity extends AppCompatActivity {
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
-        indefinite.attachToRecyclerView(mRecyclerView);
     }
 
-    @OnClick(R.id.btn_next)
+    @OnClick(R.id.ivnext)
     void onButtonClick() {
         if (adapter.getItemCount() -1 == retPosition) {
-            Log.d(TAG, "Button Click -----");
             startActivity(new Intent(this, SignInActivity.class));
-            this.overridePendingTransition(R.anim.enter, R.anim.exit);
+            overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
+        } else if (adapter.getItemCount() -2 == retPosition) {
+            mImageNext.setImageResource(R.mipmap.check_btn);
+            mRecyclerView.smoothScrollToPosition(retPosition +1);
         } else {
-            mRecyclerView.smoothScrollToPosition(retPosition + 1);
+            mImageNext.setImageResource(R.mipmap.next_btn);
+            mRecyclerView.smoothScrollToPosition(retPosition +1);
         }
+    }
+
+    @Override
+    public void setPresenter(TutorialContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

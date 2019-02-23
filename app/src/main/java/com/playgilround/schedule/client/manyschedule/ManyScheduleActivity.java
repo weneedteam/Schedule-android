@@ -11,7 +11,6 @@ import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 
-import org.jetbrains.annotations.Contract;
 
 import java.util.ArrayList;
 
@@ -34,7 +33,7 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
     @BindView(R.id.mRecycler)
     RecyclerView mRecycler;
 
-    @BindView(R.id.btn_save)
+    @BindView(R.id.btnSave)
     Button btnSave;
 
     static final String TAG = ManyScheduleActivity.class.getSimpleName();

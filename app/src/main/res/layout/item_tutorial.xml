@@ -24,6 +24,16 @@
         android:lineSpacingExtra="4sp"
         android:textColor="@android:color/black"
         android:textSize="16sp"
-        android:textStyle="normal" />
+        android:textStyle="normal"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="47dp"
+        android:max="4"
+        android:progressTint="@color/color_tutorial_progress" />
 
 </RelativeLayout>
