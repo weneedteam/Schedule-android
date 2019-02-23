@@ -50,6 +50,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @BindView(R.id.tvSignUpTitle)
         TextView tvTitle;
 
+        @BindView(R.id.tvSignUpContent)
+        TextView tvContent;
+
         @BindView(R.id.progress)
         ProgressBar mProgress;
 
@@ -59,10 +62,14 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         }
 
         void bindView(int position) {
-            String[] texts = mContext.getResources().getStringArray(R.array.signup_text_array);
-            String text = texts[position];
+            String[] titles = mContext.getResources().getStringArray(R.array.signup_text_title_array);
+            String title = titles[position];
 
-            tvTitle.setText(text);
+            String[] contents = mContext.getResources().getStringArray(R.array.signup_text_content_array);
+            String content = contents[position];
+
+            tvTitle.setText(title);
+            tvContent.setText(content);
             mProgress.setProgress(position +1);
         }
     }
