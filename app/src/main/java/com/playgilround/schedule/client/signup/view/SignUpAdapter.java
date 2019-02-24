@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -78,6 +79,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @BindView(R.id.ivNext)
         ImageView ivNext;
 
+        @BindView(R.id.datePicker)
+        DatePicker datePicker;
+
         String snackContent;
 
         ViewHolder(View itemView) {
@@ -94,7 +98,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
             String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
             snackContent = snackContents[position];
-            
+
             etContent.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -151,6 +155,13 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             ivNext.setImageResource(R.mipmap.next_btn);
                             showSnackbar(snackContent);
                             break;
+                        case 5:
+                            //생년월일 설정
+                            Log.d(TAG, "show datePicker");
+                            etContent.setVisibility(View.GONE);
+                            datePicker.setVisibility(View.VISIBLE);
+                            break;
+
                     }
 
                 }

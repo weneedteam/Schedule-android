@@ -41,21 +41,32 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
+        android:layout_marginTop="210dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="@color/light_indigo"
         android:fontFamily="sans-serif-medium"
         android:textColor="@android:color/black"
         android:textSize="18sp"
-        android:layout_marginTop="210dp"
-        android:textStyle="normal"/>
+        android:textStyle="normal" />
 
     <ImageView
         android:id="@+id/ivNext"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginBottom="23dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:src="@mipmap/nav_card"/>
+        android:layout_marginBottom="23dp"
+        android:src="@mipmap/nav_card" />
+
+    <DatePicker
+        android:id="@+id/datePicker"
+        android:layout_marginTop="190dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:visibility="gone"/>
+
 </RelativeLayout>
