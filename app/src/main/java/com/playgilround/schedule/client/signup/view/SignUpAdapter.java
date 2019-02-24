@@ -17,11 +17,19 @@ import android.widget.TextView;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
+import org.joda.time.DateTime;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -62,7 +70,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         return 6;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
 
         @BindView(R.id.tvSignUpTitle)
         TextView tvTitle;
@@ -79,10 +87,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @BindView(R.id.ivNext)
         ImageView ivNext;
 
-        @BindView(R.id.datePicker)
-        DatePicker datePicker;
-
         String snackContent;
+
+        String strName, strEmail, strPw, strNickName, strBirth;
+
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -159,7 +167,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             //생년월일 설정
                             Log.d(TAG, "show datePicker");
                             etContent.setVisibility(View.GONE);
-                            datePicker.setVisibility(View.VISIBLE);
                             break;
 
                     }
@@ -171,9 +178,19 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
                 }
             });
+
             tvTitle.setText(title);
             tvContent.setText(content);
             mProgress.setProgress(position + 1);
+
+            if (position == 5) {
+                etContent.setVisibility(View.GONE);
+                DateTime dateTime = new DateTime();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthOfYear() -1;
+                int day = dateTime.getDayOfMonth();
+                showBirthDialog(year,month,day, R.style.birthDatePicker);
+            }
         }
 
         void showSnackbar(String snack) {
@@ -190,6 +207,22 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             SnackbarManager.dismiss();
         }
 
+        void showBirthDialog(int year, int month, int day, int spinnerTheme) {
+            new SpinnerDatePickerDialogBuilder()
+                    .context(mContext)
+                    .callback(this)
+                    .spinnerTheme(spinnerTheme)
+                    .defaultDate(year, month, day)
+                    .build()
+                    .show();
+        }
+        @Override
+        public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
+            ivNext.setImageResource(R.mipmap.next_btn);
+            DateTime dateTime = new DateTime(year, month +1, day, 0, 0);
+
+            Log.d(TAG, "dateTime -> " + dateTime.toString(mContext.getString(R.string.text_date_year_month_day)));
+        }
         /**
          * 이메일 형식 체크
          */

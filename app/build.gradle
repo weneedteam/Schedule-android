@@ -67,6 +67,7 @@ dependencies {
 
     //TimePicker
     implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+    implementation 'com.github.drawers:SpinnerDatePicker:2.0.1'
 
 
     //Stetho
