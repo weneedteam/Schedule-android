@@ -89,6 +89,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         String snackContent;
 
+        String strContent;
         String strName, strEmail, strPw, strNickName, strBirth;
 
 
@@ -115,11 +116,12 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
                     switch (position) {
                         case 0:
                             //이름은 2글자 이상
-                            if (etContent.getText().toString().trim().length() > 1) {
-                                //Todo:: 다음 버튼 활성화
+                            if (strContent.length() > 1) {
+                                strName = strContent;
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
@@ -129,8 +131,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 1:
                             //이메일 형식
-                            if (checkEmail(etContent.getText().toString().trim())) {
-                                //Todo:: 다음 버튼 활성화
+                            if (checkEmail(strContent)) {
+                                strEmail = strContent;
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
@@ -139,8 +141,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 2:
                             //비밀번호 형식
-                            if (checkPassWord(etContent.getText().toString().trim())) {
-                                //Todo:: 다음 버튼 활성화
+                            if (checkPassWord(strContent)) {
                                 password = etContent.getText().toString().trim();
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
@@ -150,8 +151,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 3:
                             //비밀번호 전과 같은지 비교
-                            if (password.equals(etContent.getText().toString().trim())) {
-                                //Todo:: 다음 버튼 활성화
+                            if (password.equals(strContent)) {
+                                //추후에 암호화
+                                strPw = strContent;
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
@@ -160,6 +162,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 4:
                             //닉네임 중복 확인
+                            strNickName = strContent;
                             ivNext.setImageResource(R.mipmap.next_btn);
                             showSnackbar(snackContent);
                             break;
@@ -221,7 +224,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             ivNext.setImageResource(R.mipmap.next_btn);
             DateTime dateTime = new DateTime(year, month +1, day, 0, 0);
 
-            Log.d(TAG, "dateTime -> " + dateTime.toString(mContext.getString(R.string.text_date_year_month_day)));
+            strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+
+            Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
         }
         /**
          * 이메일 형식 체크
@@ -239,7 +244,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
          * 정규식 (영문, 숫자 8자리 이상)
          */
         private boolean checkPassWord(String password) {
-            String valiPass =  "^(?=.*[a-z]).{8,}$";
+            String valiPass =  "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
 
             Pattern pattern = Pattern.compile(valiPass);
             Matcher matcher = pattern.matcher(password);
