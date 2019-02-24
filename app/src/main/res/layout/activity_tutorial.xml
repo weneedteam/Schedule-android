@@ -13,7 +13,7 @@
         tools:ignore="NestedWeights" />
 
     <ImageView
-        android:id="@+id/ivnext"
+        android:id="@+id/ivNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

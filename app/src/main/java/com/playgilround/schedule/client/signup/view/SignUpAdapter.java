@@ -2,11 +2,14 @@ package com.playgilround.schedule.client.signup.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,8 +24,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-import static com.nispok.snackbar.Snackbar.*;
+import static com.nispok.snackbar.Snackbar.SnackbarDuration;
+import static com.nispok.snackbar.Snackbar.with;
 
 /**
  * 19-02-23
@@ -34,6 +39,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     private static final String TAG = SignUpAdapter.class.getSimpleName();
 
+    private static String password;
     public SignUpAdapter(Context context) {
         mContext = context;
     }
@@ -69,8 +75,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @BindView(R.id.etSignUpContent)
         EditText etContent;
 
+        @BindView(R.id.ivNext)
+        ImageView ivNext;
+
         String snackContent;
-        String password;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -86,22 +94,33 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
             String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
             snackContent = snackContents[position];
+            
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            etContent.setOnFocusChangeListener((v, hasFocus) -> {
-                if (hasFocus) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                     switch (position) {
                         case 0:
                             //이름은 2글자 이상
                             if (etContent.getText().toString().trim().length() > 1) {
-                               //Todo:: 다음 버튼 활성화
+                                //Todo:: 다음 버튼 활성화
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
                             } else {
-                                 showSnackbar(snackContent);
+                                //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                                showSnackbar(snackContent);
                             }
                             break;
                         case 1:
                             //이메일 형식
                             if (checkEmail(etContent.getText().toString().trim())) {
                                 //Todo:: 다음 버튼 활성화
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
                             } else {
                                 showSnackbar(snackContent);
                             }
@@ -111,6 +130,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             if (checkPassWord(etContent.getText().toString().trim())) {
                                 //Todo:: 다음 버튼 활성화
                                 password = etContent.getText().toString().trim();
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
                             } else {
                                 showSnackbar(snackContent);
                             }
@@ -119,16 +140,24 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             //비밀번호 전과 같은지 비교
                             if (password.equals(etContent.getText().toString().trim())) {
                                 //Todo:: 다음 버튼 활성화
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
                             } else {
                                 showSnackbar(snackContent);
                             }
                             break;
                         case 4:
                             //닉네임 중복 확인
+                            ivNext.setImageResource(R.mipmap.next_btn);
                             showSnackbar(snackContent);
                             break;
-
                     }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
                 }
             });
             tvTitle.setText(title);
@@ -137,13 +166,17 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         }
 
         void showSnackbar(String snack) {
-           SnackbarManager.show(
+            SnackbarManager.show(
                     with(mContext)
                             .type(SnackbarType.MULTI_LINE)
                             .actionLabel("Close")
                             .actionColor(Color.parseColor("#FF8A80"))
                             .duration(SnackbarDuration.LENGTH_INDEFINITE)
                             .text(snack));
+        }
+
+        void dismissSnackbar() {
+            SnackbarManager.dismiss();
         }
 
         /**
@@ -162,12 +195,17 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
          * 정규식 (영문, 숫자 8자리 이상)
          */
         private boolean checkPassWord(String password) {
-            String valiPass =  "/^.*(?=.{8,})(?=.*[0-9])(?=.*[a-zA-Z]).*$";
+            String valiPass =  "^(?=.*[a-z]).{8,}$";
 
             Pattern pattern = Pattern.compile(valiPass);
             Matcher matcher = pattern.matcher(password);
 
             return matcher.matches();
+        }
+
+        @OnClick(R.id.ivNext)
+        void onButtonClick() {
+
         }
     }
 

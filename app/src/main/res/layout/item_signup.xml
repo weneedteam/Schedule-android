@@ -50,11 +50,12 @@
         android:textStyle="normal"/>
 
     <ImageView
+        android:id="@+id/ivNext"
         android:layout_width="56dp"
         android:layout_height="56dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="23dp"
         android:layout_marginEnd="20dp"
-        android:src="@mipmap/next_btn"/>
+        android:src="@mipmap/nav_card"/>
 </RelativeLayout>
