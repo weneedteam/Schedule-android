@@ -1,15 +1,18 @@
 package com.playgilround.schedule.client.signup.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
-
-import javax.annotation.Nonnull;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -24,6 +27,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     private Context mContext;
 
+    private static final String TAG = SignUpAdapter.class.getSimpleName();
+
     public SignUpAdapter(Context context) {
         mContext = context;
     }
@@ -32,7 +37,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_signup, parent,false));
+                R.layout.item_signup, parent, false));
     }
 
     @Override
@@ -56,6 +61,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @BindView(R.id.progress)
         ProgressBar mProgress;
 
+        @BindView(R.id.etSignUpContent)
+        EditText etContent;
+
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -68,9 +76,21 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             String[] contents = mContext.getResources().getStringArray(R.array.signup_text_content_array);
             String content = contents[position];
 
+            String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
+            String snackContent = snackContents[position];
+
+            etContent.setOnFocusChangeListener((view, b) -> {
+                SnackbarManager.show(
+                        com.nispok.snackbar.Snackbar.with(mContext)
+                                .type(SnackbarType.MULTI_LINE)
+                                .actionLabel("Close")
+                                .actionColor(Color.parseColor("#FF8A80"))
+                                .duration(com.nispok.snackbar.Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                                .text(snackContent));
+            });
             tvTitle.setText(title);
             tvContent.setText(content);
-            mProgress.setProgress(position +1);
+            mProgress.setProgress(position + 1);
         }
     }
 }
