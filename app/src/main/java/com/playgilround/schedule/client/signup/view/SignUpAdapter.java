@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -22,14 +21,10 @@ import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
 import org.joda.time.DateTime;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.VisibleForTesting;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,9 +43,18 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     private static final String TAG = SignUpAdapter.class.getSimpleName();
 
-    private static String password;
-    public SignUpAdapter(Context context) {
+    private String password;
+    private String strName;
+    private String strEmail;
+    private String strPw;
+    private String strNickName;
+
+    private int retPosition;
+    private OnButtonClick mCallback;
+
+    public SignUpAdapter(Context context, OnButtonClick listener) {
         mContext = context;
+        mCallback = listener;
     }
 
     @NonNull
@@ -90,7 +94,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         String snackContent;
 
         String strContent;
-        String strName, strEmail, strPw, strNickName, strBirth;
 
 
         ViewHolder(View itemView) {
@@ -99,6 +102,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         }
 
         void bindView(int position) {
+            retPosition = position;
             String[] titles = mContext.getResources().getStringArray(R.array.signup_text_title_array);
             String title = titles[position];
 
@@ -126,6 +130,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                                 dismissSnackbar();
                             } else {
                                 //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                                ivNext.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -136,6 +141,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -146,6 +152,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -157,6 +164,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -168,7 +176,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 5:
                             //생년월일 설정
-                            Log.d(TAG, "show datePicker");
                             etContent.setVisibility(View.GONE);
                             break;
 
@@ -186,13 +193,13 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             tvContent.setText(content);
             mProgress.setProgress(position + 1);
 
-            if (position == 5) {
+            if (position == getItemCount() -1) {
                 etContent.setVisibility(View.GONE);
                 DateTime dateTime = new DateTime();
                 int year = dateTime.getYear();
-                int month = dateTime.getMonthOfYear() -1;
+                int month = dateTime.getMonthOfYear() - 1;
                 int day = dateTime.getDayOfMonth();
-                showBirthDialog(year,month,day, R.style.birthDatePicker);
+                showBirthDialog(year, month, day, R.style.birthDatePicker);
             }
         }
 
@@ -219,15 +226,17 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                     .build()
                     .show();
         }
+
         @Override
         public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
             ivNext.setImageResource(R.mipmap.next_btn);
-            DateTime dateTime = new DateTime(year, month +1, day, 0, 0);
+            DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
 
-            strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+            String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
 
             Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
         }
+
         /**
          * 이메일 형식 체크
          */
@@ -244,7 +253,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
          * 정규식 (영문, 숫자 8자리 이상)
          */
         private boolean checkPassWord(String password) {
-            String valiPass =  "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
+            String valiPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
 
             Pattern pattern = Pattern.compile(valiPass);
             Matcher matcher = pattern.matcher(password);
@@ -254,8 +263,16 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         @OnClick(R.id.ivNext)
         void onButtonClick() {
-
+            if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                mCallback.onBtnClick(retPosition);
+            }
         }
     }
+
+    public interface OnButtonClick {
+        void onBtnClick(int position);
+    }
+
+
 
 }
