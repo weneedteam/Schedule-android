@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.signup.model.User;
 import com.tsongkha.spinnerdatepicker.DatePickerDialog;
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
@@ -102,7 +103,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         }
 
         void bindView(int position) {
-            retPosition = position;
             String[] titles = mContext.getResources().getStringArray(R.array.signup_text_title_array);
             String title = titles[position];
 
@@ -174,11 +174,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             ivNext.setImageResource(R.mipmap.next_btn);
                             showSnackbar(snackContent);
                             break;
-                        case 5:
-                            //생년월일 설정
-                            etContent.setVisibility(View.GONE);
-                            break;
-
                     }
 
                 }
@@ -188,12 +183,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
                 }
             });
-
-            tvTitle.setText(title);
-            tvContent.setText(content);
-            mProgress.setProgress(position + 1);
-
-            if (position == getItemCount() -1) {
+            if (position == getItemCount()) {
                 etContent.setVisibility(View.GONE);
                 DateTime dateTime = new DateTime();
                 int year = dateTime.getYear();
@@ -201,7 +191,13 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                 int day = dateTime.getDayOfMonth();
                 showBirthDialog(year, month, day, R.style.birthDatePicker);
             }
-        }
+
+            tvTitle.setText(title);
+            tvContent.setText(content);
+            mProgress.setProgress(position +1);
+
+
+        }/**/
 
         void showSnackbar(String snack) {
             SnackbarManager.show(
@@ -233,8 +229,15 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
 
             String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
-
             Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
+
+            User user = new User();
+
+            user.setUserName(strName);
+            user.setEmail(strEmail);
+            user.setPassword(strPw);
+            user.setNickName(strNickName);
+            user.setBirth(strBirth);
         }
 
         /**
@@ -264,6 +267,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         @OnClick(R.id.ivNext)
         void onButtonClick() {
             if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                retPosition = retPosition + 1;
                 mCallback.onBtnClick(retPosition);
             }
         }
@@ -272,7 +276,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
     public interface OnButtonClick {
         void onBtnClick(int position);
     }
-
 
 
 }

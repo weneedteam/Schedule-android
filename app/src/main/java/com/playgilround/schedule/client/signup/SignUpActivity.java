@@ -91,7 +91,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
         } else {
-            mRecyclerView.smoothScrollToPosition(position + 1);
+            mRecyclerView.smoothScrollToPosition(position);
         }
     }
 
