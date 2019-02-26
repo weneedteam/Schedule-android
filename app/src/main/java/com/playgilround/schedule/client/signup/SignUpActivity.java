@@ -3,11 +3,14 @@ package com.playgilround.schedule.client.signup;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
 import com.playgilround.schedule.client.singin.SignInActivity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -34,21 +37,25 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
         new SignUpPresenter(this);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        LinearLayoutManager linearLayout = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                recyclerView.stopScroll();
+
+            }
+        });
+
+        mRecyclerView.setLayoutManager(linearLayout);
         mRecyclerView.setHasFixedSize(true);
+
 
         adapter = new SignUpAdapter(this, this);
         mRecyclerView.setAdapter(adapter);
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
-
-       /* mEditText.post(() -> {
-            mEditText.setFocusableInTouchMode(true);
-            mEditText.requestFocus();
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.showSoftInput(mEditText,0);
-        });*/
     }
 
     @Override

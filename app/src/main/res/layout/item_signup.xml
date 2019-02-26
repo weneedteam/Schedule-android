@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="53dp"
     android:orientation="vertical">
 
     <ProgressBar
@@ -10,6 +9,7 @@
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
         android:max="6"
         android:progress="1"
         android:progressTint="@color/color_tutorial_progress" />
@@ -41,7 +41,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="210dp"
+        android:layout_marginTop="184dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="@color/light_indigo"
         android:fontFamily="sans-serif-medium"
