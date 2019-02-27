@@ -4,14 +4,23 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <!-- 이미지 받는대로 사이즈 변경 예정 -->
+    <ImageView
+        android:id="@+id/ivBackBtn"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/next_btn"
+        android:layout_marginTop="19dp"
+        android:layout_marginStart="17dp"/>
+
     <ProgressBar
         android:id="@+id/progress"
         style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="53dp"
         android:max="6"
         android:progress="1"
+        android:layout_marginTop="53dp"
         android:progressTint="@color/color_tutorial_progress" />
 
     <TextView
@@ -41,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="195dp"
         android:layout_marginEnd="30dp"
         android:backgroundTint="@color/light_indigo"
         android:fontFamily="sans-serif-medium"
@@ -57,6 +66,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="23dp"
-        android:src="@mipmap/nav_card" />
+        android:src="@mipmap/next_btn" />
 
 </RelativeLayout>

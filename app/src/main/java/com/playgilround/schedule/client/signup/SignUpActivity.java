@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
@@ -24,6 +25,9 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     RecyclerView mRecyclerView;
 
     SignUpAdapter adapter;
+
+    int retPosition;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,16 +83,30 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     }*/
 
     @Override
-    public void onBtnClick(int position) {
-        if (adapter.getItemCount() == position) {
+    public void onNextClick(int position) {
+        retPosition = position;
+
+        if (adapter.getItemCount() == retPosition) {
             Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, SignInActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
         } else {
-            mRecyclerView.smoothScrollToPosition(position);
+            mRecyclerView.smoothScrollToPosition(retPosition);
         }
     }
+
+    @Override
+    public void onBackClick(int position) {
+        retPosition = position;
+        if (retPosition == -1) {
+            finish();
+        } else {
+            mRecyclerView.smoothScrollToPosition(retPosition);
+        }
+    }
+
+
 
     @Override
     public void signUpError() {
