@@ -1,20 +1,39 @@
 package com.playgilround.schedule.client.signup.view;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.signup.model.User;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
-import javax.annotation.Nonnull;
+import org.joda.time.DateTime;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+import static com.nispok.snackbar.Snackbar.SnackbarDuration;
+import static com.nispok.snackbar.Snackbar.with;
 
 /**
  * 19-02-23
@@ -24,15 +43,29 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     private Context mContext;
 
-    public SignUpAdapter(Context context) {
+    private static final String TAG = SignUpAdapter.class.getSimpleName();
+
+    private String password;
+    private String strName;
+    private String strEmail;
+    private String strPw;
+    private String strNickName;
+
+    private int retPosition = 0;
+    private OnButtonClick mCallback;
+
+    private static final int SIGNUP_MAX = 6;
+
+    public SignUpAdapter(Context context, OnButtonClick listener) {
         mContext = context;
+        mCallback = listener;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_signup, parent,false));
+                R.layout.item_signup, parent, false));
     }
 
     @Override
@@ -42,10 +75,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 6;
+        return SIGNUP_MAX;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
 
         @BindView(R.id.tvSignUpTitle)
         TextView tvTitle;
@@ -55,6 +88,16 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         @BindView(R.id.progress)
         ProgressBar mProgress;
+
+        @BindView(R.id.etSignUpContent)
+        EditText etContent;
+
+        @BindView(R.id.ivNext)
+        ImageView ivNext;
+
+        String snackContent;
+
+        String strContent;
 
         ViewHolder(View itemView) {
             super(itemView);
@@ -68,9 +111,182 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             String[] contents = mContext.getResources().getStringArray(R.array.signup_text_content_array);
             String content = contents[position];
 
+            String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
+            snackContent = snackContents[position];
+
+            //닉네임 쪽만 왜 이름부분에서 적었던 텍스트가 보이는 지?
+            if (position == 4) {
+                etContent.setText("");
+            }
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    switch (position) {
+                        case 0:
+                            //이름은 2글자 이상
+                            if (strContent.length() > 1) {
+                                strName = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
+                            } else {
+                                //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                                ivNext.setImageResource(R.mipmap.nav_card);
+                                showSnackbar(snackContent);
+                            }
+                            break;
+                        case 1:
+                            //이메일 형식
+                            if (checkEmail(strContent)) {
+                                strEmail = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
+                            } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
+                                showSnackbar(snackContent);
+                            }
+                            break;
+                        case 2:
+                            //비밀번호 형식
+                            if (checkPassWord(strContent)) {
+                                password = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
+                            } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
+                                showSnackbar(snackContent);
+                            }
+                            break;
+                        case 3:
+                            //비밀번호 전과 같은지 비교
+                            if (password.equals(strContent)) {
+                                //추후에 암호화
+                                strPw = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+                                dismissSnackbar();
+                            } else {
+                                ivNext.setImageResource(R.mipmap.nav_card);
+                                showSnackbar(snackContent);
+                            }
+                            break;
+                        case 4:
+                            //닉네임 중복 확인
+                            if (strContent.equals("")) {
+                                ivNext.setImageResource(R.mipmap.next_btn);
+//                                showSnackbar(snackContent);
+                            } else {
+                                strNickName = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+//                                dismissSnackbar();
+                            }
+                            break;
+                    }
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
             tvTitle.setText(title);
             tvContent.setText(content);
-            mProgress.setProgress(position +1);
+            mProgress.setProgress(position + 1);
         }
+
+        @OnClick(R.id.ivNext)
+        void onClick() {
+            retPosition = retPosition + 1;
+            if (retPosition == 5) {
+                tvTitle.setText("생일을 설정해주세요.");
+                tvContent.setVisibility(View.GONE);
+                etContent.setVisibility(View.GONE);
+                DateTime dateTime = new DateTime();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthOfYear() - 1;
+                int day = dateTime.getDayOfMonth();
+                showBirthDialog(year, month, day, R.style.birthDatePicker);
+            } else {
+                if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                    mCallback.onBtnClick(retPosition);
+                }
+            }
+        }
+
+
+        void showSnackbar(String snack) {
+            SnackbarManager.show(
+                    with(mContext)
+                            .type(SnackbarType.MULTI_LINE)
+                            .actionLabel("Close")
+                            .actionColor(Color.parseColor("#FF8A80"))
+                            .duration(SnackbarDuration.LENGTH_INDEFINITE)
+                            .text(snack));
+        }
+
+        void dismissSnackbar() {
+            SnackbarManager.dismiss();
+        }
+
+        void showBirthDialog(int year, int month, int day, int spinnerTheme) {
+            new SpinnerDatePickerDialogBuilder()
+                    .context(mContext)
+                    .callback(this)
+                    .spinnerTheme(spinnerTheme)
+                    .defaultDate(year, month, day)
+                    .build()
+                    .show();
+        }
+
+        @Override
+        public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
+            DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
+
+            String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+            Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
+
+            User user = new User();
+
+            user.setUserName(strName);
+            user.setEmail(strEmail);
+            user.setPassword(strPw);
+            user.setNickName(strNickName);
+            user.setBirth(strBirth);
+
+            mCallback.onBtnClick(SIGNUP_MAX);
+        }
+
+        /**
+         * 이메일 형식 체크
+         */
+        private boolean checkEmail(String email) {
+            String mail = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+            Pattern p = Pattern.compile(mail);
+            Matcher m = p.matcher(email);
+            return m.matches();
+        }
+
+        /**
+         * 패스워드 유효성검사
+         * 영문, 숫자입력
+         * 정규식 (영문, 숫자 8자리 이상)
+         */
+        private boolean checkPassWord(String password) {
+            String valiPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
+
+            Pattern pattern = Pattern.compile(valiPass);
+            Matcher matcher = pattern.matcher(password);
+
+            return matcher.matches();
+        }
+    }
+
+    public interface OnButtonClick {
+        void onBtnClick(int position);
     }
 }

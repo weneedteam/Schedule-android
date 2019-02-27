@@ -39,7 +39,6 @@
     <string name="text_signin_forget_password">비밀번호가 생각나지 않으세요?</string>
     <string name="text_login">로그인</string>
 
-
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
     <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
@@ -95,5 +94,6 @@
         <item>비밀번호</item>
         <item>비밀번호</item>
         <item>닉네임</item>
+        <item></item>
     </string-array>
 </resources>

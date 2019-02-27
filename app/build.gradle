@@ -67,6 +67,7 @@ dependencies {
 
     //TimePicker
     implementation 'com.jzxiang.pickerview:TimePickerDialog:1.0.1'
+    implementation 'com.github.drawers:SpinnerDatePicker:2.0.1'
 
 
     //Stetho
@@ -100,6 +101,10 @@ dependencies {
 
     //Picasso
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //SnackBar
+    implementation 'com.nispok:snackbar:2.11.0'
+
 
 }
 apply plugin: 'com.google.gms.google-services'

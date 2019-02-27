@@ -28,6 +28,11 @@
 
     </style>
 
-    <style name="ThemeDialog" parent="Base.Theme.AppCompat.Light.Dialog"/>
+    <style name="ThemeDialog" parent="Base.Theme.AppCompat.Light.Dialog" />
 
+    <style name="birthDatePicker">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColorPrimary">@color/light_indigo</item>
+        <item name="android:colorControlNormal">@color/light_indigo</item>
+    </style>
 </resources>
