@@ -2,15 +2,12 @@ package com.playgilround.schedule.client.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
 import com.playgilround.schedule.client.singin.SignInActivity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
@@ -28,7 +25,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     SignUpAdapter adapter;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,19 +33,17 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
         new SignUpPresenter(this);
 
-        LinearLayoutManager linearLayout = new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 recyclerView.stopScroll();
-
             }
         });
 
-        mRecyclerView.setLayoutManager(linearLayout);
         mRecyclerView.setHasFixedSize(true);
-
 
         adapter = new SignUpAdapter(this, this);
         mRecyclerView.setAdapter(adapter);
@@ -86,7 +80,8 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     @Override
     public void onBtnClick(int position) {
-        if (adapter.getItemCount() - 1 == position) {
+        if (adapter.getItemCount() == position) {
+            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
             startActivity(new Intent(this, SignInActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();

@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -50,8 +51,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
     private String strPw;
     private String strNickName;
 
-    private int retPosition;
+    private int retPosition = 0;
     private OnButtonClick mCallback;
+
+    private static final int SIGNUP_MAX = 6;
 
     public SignUpAdapter(Context context, OnButtonClick listener) {
         mContext = context;
@@ -72,7 +75,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return 6;
+        return SIGNUP_MAX;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
@@ -96,7 +99,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         String strContent;
 
-
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -112,6 +114,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
             snackContent = snackContents[position];
 
+            //닉네임 쪽만 왜 이름부분에서 적었던 텍스트가 보이는 지?
+            if (position == 4) {
+                etContent.setText("");
+            }
             etContent.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -148,7 +154,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                         case 2:
                             //비밀번호 형식
                             if (checkPassWord(strContent)) {
-                                password = etContent.getText().toString().trim();
+                                password = strContent;
                                 ivNext.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
@@ -170,9 +176,14 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                             break;
                         case 4:
                             //닉네임 중복 확인
-                            strNickName = strContent;
-                            ivNext.setImageResource(R.mipmap.next_btn);
-                            showSnackbar(snackContent);
+                            if (strContent.equals("")) {
+                                ivNext.setImageResource(R.mipmap.next_btn);
+//                                showSnackbar(snackContent);
+                            } else {
+                                strNickName = strContent;
+                                ivNext.setImageResource(R.mipmap.next_btn);
+//                                dismissSnackbar();
+                            }
                             break;
                     }
 
@@ -183,21 +194,30 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
                 }
             });
-            if (position == getItemCount()) {
+            tvTitle.setText(title);
+            tvContent.setText(content);
+            mProgress.setProgress(position + 1);
+        }
+
+        @OnClick(R.id.ivNext)
+        void onClick() {
+            retPosition = retPosition + 1;
+            if (retPosition == 5) {
+                tvTitle.setText("생일을 설정해주세요.");
+                tvContent.setVisibility(View.GONE);
                 etContent.setVisibility(View.GONE);
                 DateTime dateTime = new DateTime();
                 int year = dateTime.getYear();
                 int month = dateTime.getMonthOfYear() - 1;
                 int day = dateTime.getDayOfMonth();
                 showBirthDialog(year, month, day, R.style.birthDatePicker);
+            } else {
+                if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                    mCallback.onBtnClick(retPosition);
+                }
             }
+        }
 
-            tvTitle.setText(title);
-            tvContent.setText(content);
-            mProgress.setProgress(position +1);
-
-
-        }/**/
 
         void showSnackbar(String snack) {
             SnackbarManager.show(
@@ -225,7 +245,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         @Override
         public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
-            ivNext.setImageResource(R.mipmap.next_btn);
             DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
 
             String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
@@ -238,6 +257,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             user.setPassword(strPw);
             user.setNickName(strNickName);
             user.setBirth(strBirth);
+
+            mCallback.onBtnClick(SIGNUP_MAX);
         }
 
         /**
@@ -263,19 +284,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
             return matcher.matches();
         }
-
-        @OnClick(R.id.ivNext)
-        void onButtonClick() {
-            if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
-                retPosition = retPosition + 1;
-                mCallback.onBtnClick(retPosition);
-            }
-        }
     }
 
     public interface OnButtonClick {
         void onBtnClick(int position);
     }
-
-
 }
