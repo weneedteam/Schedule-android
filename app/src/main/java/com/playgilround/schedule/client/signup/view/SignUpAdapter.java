@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
@@ -54,7 +53,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
     private int retPosition = 0;
     private OnButtonClick mCallback;
 
-    private static final int SIGNUP_MAX = 6;
+    private static final int SIGN_UP_MAX = 6;
 
     public SignUpAdapter(Context context, OnButtonClick listener) {
         mContext = context;
@@ -75,7 +74,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return SIGNUP_MAX;
+        return SIGN_UP_MAX;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
@@ -94,6 +93,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
         @BindView(R.id.ivNext)
         ImageView ivNext;
+
+        @BindView(R.id.ivBackBtn)
+        ImageView ivBackBtn;
 
         String snackContent;
 
@@ -200,7 +202,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
         }
 
         @OnClick(R.id.ivNext)
-        void onClick() {
+        void onNextClick() {
             retPosition = retPosition + 1;
             if (retPosition == 5) {
                 tvTitle.setText("생일을 설정해주세요.");
@@ -213,11 +215,16 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
                 showBirthDialog(year, month, day, R.style.birthDatePicker);
             } else {
                 if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
-                    mCallback.onBtnClick(retPosition);
+                    mCallback.onNextClick(retPosition);
                 }
             }
         }
 
+        @OnClick(R.id.ivBackBtn)
+        void onBackButton() {
+            retPosition = retPosition -1;
+            mCallback.onBackClick(retPosition);
+        }
 
         void showSnackbar(String snack) {
             SnackbarManager.show(
@@ -258,7 +265,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
             user.setNickName(strNickName);
             user.setBirth(strBirth);
 
-            mCallback.onBtnClick(SIGNUP_MAX);
+            mCallback.onNextClick(SIGN_UP_MAX);
         }
 
         /**
@@ -284,9 +291,11 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
 
             return matcher.matches();
         }
+
     }
 
     public interface OnButtonClick {
-        void onBtnClick(int position);
+        void onNextClick(int position);
+        void onBackClick(int position);
     }
 }

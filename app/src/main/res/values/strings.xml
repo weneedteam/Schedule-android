@@ -117,7 +117,7 @@
     <string-array name="signup_text_snackbar">
         <item>올바른 이름을 입력해주세요.</item>
         <item>올바르지 않은 형식의 이메일입니다.</item>
-        <item>잘못된 형식입니다.</item>
+        <item>패스워드는 소문자와 숫자 8자리 이상입니다.</item>
         <item>비밀번호가 일치하지 않습니다.</item>
         <item>중복된 닉네임입니다.</item>
         <item />
