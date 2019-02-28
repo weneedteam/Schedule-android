@@ -66,9 +66,9 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
 
         Intent intent = getIntent();
         arrDay = intent.getStringArrayListExtra(INTENT_EXTRA_MANY_DATE);
-        strDate = intent.getStringExtra(INTENT_EXTRA_INPUT_TEXT);
+        strInput = intent.getStringExtra(INTENT_EXTRA_INPUT_TEXT);
 
-        tvInput.setText(strDate);
+        tvInput.setText(strInput);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.setHasFixedSize(true);
@@ -80,6 +80,7 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
         btnSave.setOnClickListener(l -> {
             Intent newIntent = new Intent(this, AddScheduleActivity.class);
             newIntent.putExtra("dateArr", arrDay);
+            newIntent.putExtra("inputText", strInput);
             startActivityForResult(newIntent, ADD_SCHEDULE);
         });
     }
