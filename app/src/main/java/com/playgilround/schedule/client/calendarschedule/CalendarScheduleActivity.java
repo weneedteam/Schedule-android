@@ -1,11 +1,14 @@
 package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -51,8 +54,11 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.btnSave)
-    Button saveBtn;
+    @BindView(R.id.ivSave)
+    ImageView ivSave;
+
+    @BindView(R.id.etInputContent)
+    EditText etInput;
 
     private CalendarScheduleContract.Presenter mPresenter;
 
@@ -99,7 +105,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
 
         callSchedules();
 
-        saveBtn.setOnClickListener(v -> {
+        ivSave.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
             if (arrManyDays == null) {
                 // Todo:: Error message

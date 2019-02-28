@@ -38,6 +38,7 @@
     <string name="text_user_find">유저 검색</string>
     <string name="text_signin_forget_password">비밀번호가 생각나지 않으세요?</string>
     <string name="text_login">로그인</string>
+    <string name="text_schedule_content">할 일을 적으세요!</string>
 
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
