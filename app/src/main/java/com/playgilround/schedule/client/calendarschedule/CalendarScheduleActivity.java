@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.EventDay;
@@ -107,12 +108,16 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
 
         ivSave.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
+            String strInput = etInput.getText().toString();
             if (arrManyDays == null) {
                 // Todo:: Error message
                 Log.e(TAG, "ManyDays is null");
+            } else if (strInput.equals("")) {
+                Toast.makeText(getApplicationContext(), "스케줄을 적어주세요.", Toast.LENGTH_LONG).show();
             } else {
                 Intent intent = new Intent(this, ManyScheduleActivity.class);
                 intent.putExtra("manyDate", arrManyDays);
+                intent.putExtra("inputText", strInput);
                 startActivityForResult(intent, ADD_SCHEDULE);
             }
         });

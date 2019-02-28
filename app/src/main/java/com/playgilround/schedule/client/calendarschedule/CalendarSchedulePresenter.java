@@ -114,7 +114,7 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
     // 캘린더에서 선택한 날짜 (다중) 확인
     @Override
     public ArrayList<String> getSelectedManyDays(List<Calendar> dates) {
-        if (dates.size() > 1) {
+        if (dates.size() > 0) {
             arrManyDays = new ArrayList<>();
             for (Calendar selectTime : dates) {
                 try {
