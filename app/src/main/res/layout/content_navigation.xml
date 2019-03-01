@@ -25,7 +25,7 @@
         app:daysLabelsColor="@android:color/white"
         app:eventsEnabled="true"
         app:headerColor="@color/colorGreen"
-        app:pagesColor="#3F51B5"
+        app:pagesColor="@color/pages_color"
         app:selectionColor="@android:color/white"
         app:selectionLabelColor="@android:color/holo_blue_dark"
         app:todayLabelColor="@color/color_pink"
@@ -33,28 +33,35 @@
 
 
     <RelativeLayout
-        android:background="@color/colorGreen"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGreen">
 
-    <EditText
-        android:id="@+id/etInputContent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingStart="30dp"
-        android:paddingEnd="30dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_centerInParent="true"
-        android:background="@drawable/schedule_input_edit_text"
-        android:hint="@string/text_schedule_content"/>
+        <ImageView
+            android:id="@+id/ivRange"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/nav_calendar" />
 
-    <ImageView
-        android:id="@+id/ivSave"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:src="@mipmap/check_btn" />
+        <EditText
+            android:id="@+id/etInputContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/schedule_input_edit_text"
+            android:hint="@string/text_schedule_content"
+            android:paddingStart="30dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="10dp" />
+
+        <ImageView
+            android:id="@+id/ivSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/check_btn" />
     </RelativeLayout>
 </RelativeLayout>

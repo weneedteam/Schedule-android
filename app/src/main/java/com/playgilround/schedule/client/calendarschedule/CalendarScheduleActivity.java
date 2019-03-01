@@ -12,7 +12,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.applandeo.materialcalendarview.CalendarView;
+import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
+import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
+import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
 import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.activity.FriendActivity;
@@ -20,7 +23,9 @@ import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.stream.Stream;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -31,6 +36,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+import static com.annimon.stream.Stream.*;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
@@ -39,7 +45,7 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * added by CHO
  * Test
  */
-public class CalendarScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarScheduleContract.View {
+public class CalendarScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarScheduleContract.View, OnSelectDateListener {
 
     static final String TAG = CalendarScheduleActivity.class.getSimpleName();
 
@@ -57,6 +63,9 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
 
     @BindView(R.id.ivSave)
     ImageView ivSave;
+
+    @BindView(R.id.ivRange)
+    ImageView ivRange;
 
     @BindView(R.id.etInputContent)
     EditText etInput;
@@ -121,6 +130,41 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
                 startActivityForResult(intent, ADD_SCHEDULE);
             }
         });
+        
+        ivRange.setOnClickListener(v -> openRangePicker());
+    }
+
+    private void openRangePicker() {
+
+        Calendar today = Calendar.getInstance();
+
+        List<Calendar> selectDays = new ArrayList<>();
+        selectDays.add(today);
+
+        DatePickerBuilder rangeBuilder = new DatePickerBuilder(this, this)
+                .pickerType(CalendarView.RANGE_PICKER)
+                .headerColor(R.color.colorGreen)
+                .abbreviationsBarColor(R.color.light_indigo)
+                .abbreviationsLabelsColor(android.R.color.white)
+                .pagesColor(R.color.pages_color)
+                .selectionColor(android.R.color.white)
+                .selectionLabelColor(R.color.color_pink)
+                .todayLabelColor(R.color.colorAccent)
+                .dialogButtonsColor(android.R.color.white)
+                .anotherMonthsDaysLabelsColor(R.color.pages_color)
+                .daysLabelsColor(android.R.color.white)
+                .selectedDays(selectDays);
+
+        DatePicker rangePicker = rangeBuilder.build();
+        rangePicker.show();
+    }
+
+    @Override
+    public void onSelect(List<Calendar> calendars) {
+        of(calendars).forEach(calendar ->
+                Toast.makeText(getApplicationContext(),
+                        calendar.getTime().toString(),
+                        Toast.LENGTH_SHORT).show());
     }
 
     // yyyy-MM 기준으로 저장된 스케줄 표시
