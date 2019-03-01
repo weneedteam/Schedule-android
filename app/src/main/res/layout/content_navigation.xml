@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:showIn="@layout/app_bar_navigation">
-    
+
     <!--<com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
@@ -21,21 +21,47 @@
         android:layout_marginTop="8dp"
         app:abbreviationsBarColor="#303F9F"
         app:abbreviationsLabelsColor="@android:color/white"
+        app:anotherMonthsDaysLabelsColor="#3F51B5"
         app:daysLabelsColor="@android:color/white"
-        app:headerColor="@color/colorGreen"
-        app:pagesColor="#3F51B5"
         app:eventsEnabled="true"
+        app:headerColor="@color/colorGreen"
+        app:pagesColor="@color/pages_color"
         app:selectionColor="@android:color/white"
         app:selectionLabelColor="@android:color/holo_blue_dark"
-        app:anotherMonthsDaysLabelsColor="#3F51B5"
         app:todayLabelColor="@color/color_pink"
         app:type="many_days_picker" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_width="wrap_content"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/button_schedule_save"/>
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGreen">
+
+        <ImageView
+            android:id="@+id/ivRange"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/nav_calendar" />
+
+        <EditText
+            android:id="@+id/etInputContent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:background="@drawable/schedule_input_edit_text"
+            android:hint="@string/text_schedule_content"
+            android:paddingStart="30dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="10dp" />
+
+        <ImageView
+            android:id="@+id/ivSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@mipmap/check_btn" />
+    </RelativeLayout>
 </RelativeLayout>

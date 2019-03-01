@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -38,11 +39,11 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.btnCancel)
-    Button btnCancel;
-
     @BindView(R.id.tvdate)
     TextView tvDate;
+
+    @BindView(R.id.btnCancel)
+    Button btnCancel;
 
     private String date;
     private String strDateDay;
@@ -72,7 +73,6 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         new InfoSchedulePresenter(this);
-        btnCancel.setOnClickListener(l -> finish());
 
         Intent intent = getIntent();
         date = intent.getStringExtra(INTENT_EXTRA_DATE);
@@ -88,13 +88,7 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
 
         callTodaySchedule();
 
-    }
-
-    @OnClick(R.id.ivAddBtn)
-    void onAddScheduleClick() {
-        Intent intent = new Intent(this, AddScheduleActivity.class);
-        intent.putExtra("date", strDateDay);
-        startActivityForResult(intent, ADD_SCHEDULE);
+        btnCancel.setOnClickListener(view -> finish());
     }
 
     @Override

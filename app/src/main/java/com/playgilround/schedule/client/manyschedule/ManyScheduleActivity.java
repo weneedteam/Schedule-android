@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
@@ -30,6 +31,9 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  */
 public class ManyScheduleActivity extends AppCompatActivity implements ManyScheduleContract.View {
 
+    @BindView(R.id.tvInputSchedule)
+    TextView tvInput;
+
     @BindView(R.id.mRecycler)
     RecyclerView mRecycler;
 
@@ -41,12 +45,14 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
     ManyScheduleAdapter adapter;
 
     ArrayList<String> arrDay;
+    String strInput;
     private String strDate;
     RealmResults<Schedule> realmSchedule;
 
     private ManyScheduleContract.Presenter mPresenter;
 
     public static final String INTENT_EXTRA_MANY_DATE = "manyDate";
+    public static final String INTENT_EXTRA_INPUT_TEXT = "inputText";
 
 
     @Override
@@ -60,6 +66,9 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
 
         Intent intent = getIntent();
         arrDay = intent.getStringArrayListExtra(INTENT_EXTRA_MANY_DATE);
+        strInput = intent.getStringExtra(INTENT_EXTRA_INPUT_TEXT);
+
+        tvInput.setText(strInput);
 
         mRecycler.setLayoutManager(new LinearLayoutManager(this));
         mRecycler.setHasFixedSize(true);
@@ -71,6 +80,7 @@ public class ManyScheduleActivity extends AppCompatActivity implements ManySched
         btnSave.setOnClickListener(l -> {
             Intent newIntent = new Intent(this, AddScheduleActivity.class);
             newIntent.putExtra("dateArr", arrDay);
+            newIntent.putExtra("inputText", strInput);
             startActivityForResult(newIntent, ADD_SCHEDULE);
         });
     }

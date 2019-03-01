@@ -64,7 +64,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @BindView(R.id.etScheduleDesc)
     EditText etDesc;
 
-    String strMDay, strMTime, strMYearMonth;
+    String strMDay, strMTime, strMYearMonth, strInput;
 
     //Schedule DB  dateDay 컬럼에 들어갈 항목
     ArrayList<String> arrDateDay;
@@ -105,6 +105,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
         new AddSchedulePresenter(this, this);
         Intent intent = getIntent();
+        strInput = intent.getStringExtra("inputText");
+        etTitle.setText(strInput);
+        
         strMTime = "00:00";
 
         if (intent.getStringExtra("date") != null) {
