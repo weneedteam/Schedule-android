@@ -29,7 +29,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     @Override
     public void signUp(User user) {
 
-        Retrofit retrofit = APIClient.getClient();
+        /*Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
 
         userAPI.signUp(user).enqueue(new Callback<ResponseMessage>() {
@@ -49,7 +49,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                 Log.e("SignUpPresenter", t.toString());
                 mView.signUpError();
             }
-        });
+        });*/
 
     }
 }

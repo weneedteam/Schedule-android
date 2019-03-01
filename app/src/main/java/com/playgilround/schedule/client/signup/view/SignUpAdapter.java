@@ -16,6 +16,8 @@ import android.widget.TextView;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.signup.SignUpAdapterContract;
+import com.playgilround.schedule.client.signup.SignUpAdapterPresenter;
 import com.playgilround.schedule.client.signup.model.User;
 import com.tsongkha.spinnerdatepicker.DatePickerDialog;
 import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
@@ -38,11 +40,21 @@ import static com.nispok.snackbar.Snackbar.with;
  * 19-02-23
  * SignUp Adapter
  */
-public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder> {
-
-    private Context mContext;
+public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHolder> implements SignUpAdapterContract.View {
 
     private static final String TAG = SignUpAdapter.class.getSimpleName();
+
+    private static final int SIGN_UP_MAX = 6;
+
+    private static final int TYPE_NAME = 0;
+    private static final int TYPE_EMAIL = 1;
+    private static final int TYPE_PASSWORD = 2;
+    private static final int TYPE_REPEAT_PASSWORD = 3;
+    private static final int TYPE_NICK_NAME = 4;
+    private static final int TYPE_BIRTH = 5;
+
+    private SignUpAdapterContract.Presenter mPresenter;
+    private Context mContext;
 
     private String password;
     private String strName;
@@ -53,28 +65,153 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.ViewHolder
     private int retPosition = 0;
     private OnButtonClick mCallback;
 
-    private static final int SIGN_UP_MAX = 6;
-
     public SignUpAdapter(Context context, OnButtonClick listener) {
+        new SignUpAdapterPresenter(this);
         mContext = context;
         mCallback = listener;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_signup, parent, false));
+    public RootViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view;
+        switch (viewType) {
+            case TYPE_NAME:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new NameViewHolder(view);
+            case TYPE_EMAIL:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new EmailViewHolder(view);
+            case TYPE_PASSWORD:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new PasswordViewHolder(view);
+            case TYPE_REPEAT_PASSWORD:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new RepeatPasswordViewHolder(view);
+            case TYPE_NICK_NAME:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new NickNameViewHolder(view);
+            case TYPE_BIRTH:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new BirthViewHolder(view);
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                return new EmptyViewHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bindView(position);
+    public void onBindViewHolder(@NonNull RootViewHolder holder, int position) {
+        holder.bind(position);
     }
 
     @Override
     public int getItemCount() {
         return SIGN_UP_MAX;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public void setPresenter(SignUpAdapterContract.Presenter presenter) {
+        mPresenter = presenter;
+    }
+
+    abstract class RootViewHolder extends RecyclerView.ViewHolder {
+
+        RootViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        abstract void bind(int position);
+
+    }
+
+    class NameViewHolder extends RootViewHolder {
+
+        NameViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class EmailViewHolder extends RootViewHolder {
+
+        EmailViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class PasswordViewHolder extends RootViewHolder {
+
+        PasswordViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class RepeatPasswordViewHolder extends RootViewHolder {
+
+        RepeatPasswordViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class NickNameViewHolder extends RootViewHolder {
+
+        NickNameViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class BirthViewHolder extends RootViewHolder {
+
+        BirthViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
+    }
+
+    class EmptyViewHolder extends RootViewHolder {
+
+        EmptyViewHolder(@NonNull View itemView) {
+            super(itemView);
+        }
+
+        @Override
+        void bind(int position) {
+
+        }
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
