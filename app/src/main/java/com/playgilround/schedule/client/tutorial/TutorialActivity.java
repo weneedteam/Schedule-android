@@ -61,7 +61,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
                 if (adapter.getItemCount() -1 == retPosition) {
-                    mImageNext.setImageResource(R.mipmap.check_btn);
+                    mImageNext.setImageResource(R.mipmap.check);
                 } else {
                     mImageNext.setImageResource(R.mipmap.next_btn);
                 }
@@ -80,10 +80,10 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
         } else if (adapter.getItemCount() -2 == retPosition) {
-            mImageNext.setImageResource(R.mipmap.check_btn);
+            mImageNext.setImageResource(R.mipmap.check);
             mRecyclerView.smoothScrollToPosition(retPosition +1);
         } else {
-            mImageNext.setImageResource(R.mipmap.next_btn);
+            mImageNext.setImageResource(R.mipmap.tutorial_btn);
             mRecyclerView.smoothScrollToPosition(retPosition +1);
         }
     }
