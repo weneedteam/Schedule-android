@@ -2,12 +2,11 @@ package com.playgilround.schedule.client.signup;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
-import com.playgilround.schedule.client.singin.SignInActivity;
+import com.playgilround.schedule.client.signin.SignInActivity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;

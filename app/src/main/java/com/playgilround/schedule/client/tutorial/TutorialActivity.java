@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
-import com.playgilround.schedule.client.singin.SignInActivity;
+import com.playgilround.schedule.client.signin.SignInActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
