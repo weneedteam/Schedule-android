@@ -77,25 +77,25 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         View view;
         switch (viewType) {
             case TYPE_NAME:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_name, parent, false);
                 return new NameViewHolder(view);
             case TYPE_EMAIL:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_email, parent, false);
                 return new EmailViewHolder(view);
             case TYPE_PASSWORD:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_password, parent, false);
                 return new PasswordViewHolder(view);
             case TYPE_REPEAT_PASSWORD:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_password_check, parent, false);
                 return new RepeatPasswordViewHolder(view);
             case TYPE_NICK_NAME:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_nickname, parent, false);
                 return new NickNameViewHolder(view);
             case TYPE_BIRTH:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_birth, parent, false);
                 return new BirthViewHolder(view);
             default:
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup, parent, false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_signup_name, parent, false);
                 return new EmptyViewHolder(view);
         }
     }
@@ -120,14 +120,85 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         mPresenter = presenter;
     }
 
-    abstract class RootViewHolder extends RecyclerView.ViewHolder {
+    abstract class RootViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
+        @BindView(R.id.ivBackBtn)
+        ImageView ivBackBtn;
+
+        @BindView(R.id.progress)
+        ProgressBar mProgress;
+
+        @BindView(R.id.tvSignUpTitle)
+        TextView tvTitle;
+
+        @BindView(R.id.tvSignUpContent)
+        TextView tvContent;
+
+        @BindView(R.id.etSignUpContent)
+        EditText etContent;
+
+        @BindView(R.id.ivNextBtn)
+        ImageView ivNextBtn;
 
         RootViewHolder(@NonNull View itemView) {
             super(itemView);
+            ButterKnife.bind(this, itemView);
         }
 
         abstract void bind(int position);
 
+        @OnClick(R.id.ivBackBtn)
+        void onBackButton() {
+            retPosition = retPosition -1;
+            mCallback.onBackClick(retPosition);
+        }
+
+        @OnClick(R.id.ivNextBtn)
+        void onNextButton() {
+            retPosition = retPosition + 1;
+            if (retPosition == 5) {
+                tvTitle.setText(mContext.getString(R.string.text_signup_title_birth));
+                mProgress.setProgress(6);
+                tvContent.setVisibility(View.GONE);
+                etContent.setVisibility(View.GONE);
+                DateTime dateTime = new DateTime();
+                int year = dateTime.getYear();
+                int month = dateTime.getMonthOfYear() - 1;
+                int day = dateTime.getDayOfMonth();
+                showBirthDialog(year, month, day, R.style.birthDatePicker);
+            } else {
+                if (ivNextBtn.getDrawable().getConstantState() == ivNextBtn.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                    mCallback.onNextClick(retPosition);
+                }
+            }
+        }
+
+        void showBirthDialog(int year, int month, int day, int spinnerTheme) {
+            new SpinnerDatePickerDialogBuilder()
+                    .context(mContext)
+                    .callback(this)
+                    .spinnerTheme(spinnerTheme)
+                    .defaultDate(year, month, day)
+                    .build()
+                    .show();
+        }
+
+        @Override
+        public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
+            DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
+
+            String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
+            Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
+
+            User user = new User();
+
+            user.setUserName(strName);
+            user.setEmail(strEmail);
+            user.setPassword(strPw);
+            user.setNickName(strNickName);
+            user.setBirth(strBirth);
+
+            mCallback.onNextClick(SIGN_UP_MAX);
+        }
     }
 
     class NameViewHolder extends RootViewHolder {
@@ -198,7 +269,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
-
+            
         }
     }
 
@@ -214,25 +285,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         }
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
-
-        @BindView(R.id.tvSignUpTitle)
-        TextView tvTitle;
-
-        @BindView(R.id.tvSignUpContent)
-        TextView tvContent;
-
-        @BindView(R.id.progress)
-        ProgressBar mProgress;
-
-        @BindView(R.id.etSignUpContent)
-        EditText etContent;
-
-        @BindView(R.id.ivNext)
-        ImageView ivNext;
-
-        @BindView(R.id.ivBackBtn)
-        ImageView ivBackBtn;
+    /*class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
 
         String snackContent;
 
@@ -271,11 +324,11 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                             //이름은 2글자 이상
                             if (strContent.length() > 1) {
                                 strName = strContent;
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
                                 //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
-                                ivNext.setImageResource(R.mipmap.nav_card);
+                                ivNextBtn.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -283,10 +336,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                             //이메일 형식
                             if (checkEmail(strContent)) {
                                 strEmail = strContent;
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
-                                ivNext.setImageResource(R.mipmap.nav_card);
+                                ivNextBtn.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -294,10 +347,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                             //비밀번호 형식
                             if (checkPassWord(strContent)) {
                                 password = strContent;
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
-                                ivNext.setImageResource(R.mipmap.nav_card);
+                                ivNextBtn.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
@@ -306,21 +359,21 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                             if (password.equals(strContent)) {
                                 //추후에 암호화
                                 strPw = strContent;
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
                                 dismissSnackbar();
                             } else {
-                                ivNext.setImageResource(R.mipmap.nav_card);
+                                ivNextBtn.setImageResource(R.mipmap.nav_card);
                                 showSnackbar(snackContent);
                             }
                             break;
                         case 4:
                             //닉네임 중복 확인
                             if (strContent.equals("")) {
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
 //                                showSnackbar(snackContent);
                             } else {
                                 strNickName = strContent;
-                                ivNext.setImageResource(R.mipmap.next_btn);
+                                ivNextBtn.setImageResource(R.mipmap.next_btn);
 //                                dismissSnackbar();
                             }
                             break;
@@ -338,7 +391,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             mProgress.setProgress(position + 1);
         }
 
-        @OnClick(R.id.ivNext)
+        @OnClick(R.id.ivNextBtn)
         void onNextClick() {
             retPosition = retPosition + 1;
             if (retPosition == 5) {
@@ -351,7 +404,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                 int day = dateTime.getDayOfMonth();
                 showBirthDialog(year, month, day, R.style.birthDatePicker);
             } else {
-                if (ivNext.getDrawable().getConstantState() == ivNext.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
+                if (ivNextBtn.getDrawable().getConstantState() == ivNextBtn.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
                     mCallback.onNextClick(retPosition);
                 }
             }
@@ -376,38 +429,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         void dismissSnackbar() {
             SnackbarManager.dismiss();
         }
-
-        void showBirthDialog(int year, int month, int day, int spinnerTheme) {
-            new SpinnerDatePickerDialogBuilder()
-                    .context(mContext)
-                    .callback(this)
-                    .spinnerTheme(spinnerTheme)
-                    .defaultDate(year, month, day)
-                    .build()
-                    .show();
-        }
-
-        @Override
-        public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
-            DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
-
-            String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
-            Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
-
-            User user = new User();
-
-            user.setUserName(strName);
-            user.setEmail(strEmail);
-            user.setPassword(strPw);
-            user.setNickName(strNickName);
-            user.setBirth(strBirth);
-
-            mCallback.onNextClick(SIGN_UP_MAX);
-        }
-
-        /**
+        *//**
          * 이메일 형식 체크
-         */
+         *//*
         private boolean checkEmail(String email) {
             String mail = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
             Pattern p = Pattern.compile(mail);
@@ -415,11 +439,11 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             return m.matches();
         }
 
-        /**
+        *//**
          * 패스워드 유효성검사
          * 영문, 숫자입력
          * 정규식 (영문, 숫자 8자리 이상)
-         */
+         *//*
         private boolean checkPassWord(String password) {
             String valiPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
 
@@ -429,7 +453,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             return matcher.matches();
         }
 
-    }
+    }*/
 
     public interface OnButtonClick {
         void onNextClick(int position);

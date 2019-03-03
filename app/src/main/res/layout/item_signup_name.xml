@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 이미지 받는대로 사이즈 변경 예정 -->
+    <ImageView
+        android:id="@+id/ivBackBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="19dp"
+        android:src="@mipmap/back_btn" />
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:max="6"
+        android:progress="1"
+        android:progressTint="@color/color_tutorial_progress" />
+
+    <TextView
+        android:id="@+id/tvSignUpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="85dp"
+        android:fontFamily="sans-serif"
+        android:text="@string/text_signup_title_name"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="normal" />
+
+    <TextView
+        android:id="@+id/tvSignUpContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="39dp"
+        android:layout_marginTop="165dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/text_signup_content_name"
+        android:textColor="@color/light_indigo"
+        android:textSize="12sp"
+        android:textStyle="normal" />
+
+    <EditText
+        android:id="@+id/etSignUpContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="195dp"
+        android:layout_marginEnd="30dp"
+        android:backgroundTint="@color/light_indigo"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+    <ImageView
+        android:id="@+id/ivNextBtn"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="23dp"
+        android:src="@mipmap/next_btn" />
+
+</RelativeLayout>

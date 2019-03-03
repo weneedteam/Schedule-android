@@ -26,7 +26,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
     @BindView(R.id.recycler_image)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.ivNext)
+    @BindView(R.id.ivNextBtn)
     ImageView mImageNext;
 
     int retPosition;
@@ -73,7 +73,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
     }
 
-    @OnClick(R.id.ivNext)
+    @OnClick(R.id.ivNextBtn)
     void onButtonClick() {
         if (adapter.getItemCount() -1 == retPosition) {
             startActivity(new Intent(this, SignInActivity.class));

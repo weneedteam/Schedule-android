@@ -59,6 +59,22 @@
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
     <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
+
+    <!-- SignUp Text-->
+    <string name="text_signup_title_name">이름을 입력해 주세요.</string>
+    <string name="text_signup_title_email">이메일을 입력하세요.</string>
+    <string name="text_signup_title_password">비밀번호를 설정해주세요.</string>
+    <string name="text_signup_title_password_check">비밀번호를 재입력해주세요.</string>
+    <string name="text_signup_title_nickname">닉네임을 설정해주세요.</string>
+    <string name="text_signup_title_birth">생일을 설정해주세요.</string>
+
+    <string name="text_signup_content_name">이름</string>
+    <string name="text_signup_content_email">이메일</string>
+    <string name="text_signup_content_password">비밀번호</string>
+    <string name="text_signup_content_password_check">비밀번호</string>
+    <string name="text_signup_content_nickname">닉네임</string>
+    <string name="text_signup_content_birth" />
+
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
@@ -95,25 +111,6 @@
         <item>일정을 등록할 때,\n 장소를 설정해주세요.</item>
         <item>서로의 위치를\n 실시간으로 확인해 보세요.</item>
         <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
-    </string-array>
-
-    <!-- SignUp Text-->
-    <string-array name="signup_text_title_array">
-        <item>이름을 입력해 주세요.</item>
-        <item>이메일을 입력하세요.</item>
-        <item>비밀번호를 설정해주세요.</item>
-        <item>비밀번호를 재입력해주세요.</item>
-        <item>닉네임을 설정해주세요.</item>
-        <item>생일을 설정해주세요.</item>
-    </string-array>
-
-    <string-array name="signup_text_content_array">
-        <item>이름</item>
-        <item>이메일</item>
-        <item>비밀번호</item>
-        <item>비밀번호</item>
-        <item>닉네임</item>
-        <item />
     </string-array>
 
     <string-array name="signup_text_snackbar">
