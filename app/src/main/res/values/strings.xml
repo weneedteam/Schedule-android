@@ -75,6 +75,12 @@
     <string name="text_signup_content_nickname">닉네임</string>
     <string name="text_signup_content_birth" />
 
+    <string name="text_signup_snackbar_name">올바른 이름을 입력해주세요.</string>
+    <string name="text_signup_snackbar_email">올바르지 않은 형식의 이메일입니다.</string>
+    <string name="text_signup_snackbar_password">패스워드는 소문자와 숫자 8자리 이상입니다.</string>
+    <string name="text_signup_snackbar_password_check">비밀번호가 일치하지 않습니다.</string>
+    <string name="text_signup_snackbar_nickname">중복된 닉네임입니다.</string>
+
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
     <string name="hint_schedule_contents">Edit schedule contents.</string>
@@ -111,14 +117,5 @@
         <item>일정을 등록할 때,\n 장소를 설정해주세요.</item>
         <item>서로의 위치를\n 실시간으로 확인해 보세요.</item>
         <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
-    </string-array>
-
-    <string-array name="signup_text_snackbar">
-        <item>올바른 이름을 입력해주세요.</item>
-        <item>올바르지 않은 형식의 이메일입니다.</item>
-        <item>패스워드는 소문자와 숫자 8자리 이상입니다.</item>
-        <item>비밀번호가 일치하지 않습니다.</item>
-        <item>중복된 닉네임입니다.</item>
-        <item />
     </string-array>
 </resources>

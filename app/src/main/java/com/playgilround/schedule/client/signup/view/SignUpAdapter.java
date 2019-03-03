@@ -139,6 +139,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         @BindView(R.id.ivNextBtn)
         ImageView ivNextBtn;
 
+        String strContent = "";
+
         RootViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
@@ -148,7 +150,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @OnClick(R.id.ivBackBtn)
         void onBackButton() {
-            retPosition = retPosition -1;
+            retPosition = retPosition - 1;
             mCallback.onBackClick(retPosition);
         }
 
@@ -199,6 +201,63 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
             mCallback.onNextClick(SIGN_UP_MAX);
         }
+
+        void showSnackbar(int position) {
+            String snackContent = "";
+            switch (position) {
+                case 0:
+                    snackContent = mContext.getString(R.string.text_signup_snackbar_name);
+                    break;
+                case 1:
+                    snackContent = mContext.getString(R.string.text_signup_snackbar_email);
+                    break;
+                case 2:
+                    snackContent = mContext.getString(R.string.text_signup_snackbar_password);
+                    break;
+                case 3:
+                    snackContent = mContext.getString(R.string.text_signup_snackbar_password_check);
+                    break;
+                case 4:
+                    snackContent = mContext.getString(R.string.text_signup_snackbar_nickname);
+                    break;
+            }
+
+            SnackbarManager.show(
+                    with(mContext)
+                            .type(SnackbarType.MULTI_LINE)
+                            .actionLabel("Close")
+                            .actionColor(Color.parseColor("#FF8A80"))
+                            .duration(SnackbarDuration.LENGTH_INDEFINITE)
+                            .text(snackContent));
+        }
+
+        void dismissSnackbar() {
+            SnackbarManager.dismiss();
+        }
+
+        /**
+         * 이메일 형식 체크
+         */
+        boolean checkEmail(String email) {
+            String mail = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+            Pattern p = Pattern.compile(mail);
+            Matcher m = p.matcher(email);
+            return m.matches();
+        }
+
+        /**
+         * 패스워드 유효성검사
+         * 영문, 숫자입력
+         * 정규식 (영문, 숫자 8자리 이상)
+         */
+        boolean checkPassWord(String password) {
+            String valiPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
+
+            Pattern pattern = Pattern.compile(valiPass);
+            Matcher matcher = pattern.matcher(password);
+
+            return matcher.matches();
+        }
     }
 
     class NameViewHolder extends RootViewHolder {
@@ -209,7 +268,31 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    if (strContent.length() > 1) {
+                        strName = strContent;
+                        ivNextBtn.setImageResource(R.mipmap.next_btn);
+                        dismissSnackbar();
+                    } else {
+                        //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                        ivNextBtn.setImageResource(R.mipmap.disable_btn);
+                        showSnackbar(0);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }
     }
 
@@ -221,6 +304,31 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    if (checkEmail(strContent)) {
+                        strEmail = strContent;
+                        ivNextBtn.setImageResource(R.mipmap.next_btn);
+                        dismissSnackbar();
+                    } else {
+                        //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                        ivNextBtn.setImageResource(R.mipmap.disable_btn);
+                        showSnackbar(1);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
 
         }
     }
@@ -233,7 +341,31 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    if (checkPassWord(strContent)) {
+                        password = strContent;
+                        ivNextBtn.setImageResource(R.mipmap.next_btn);
+                        dismissSnackbar();
+                    } else {
+                        //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                        ivNextBtn.setImageResource(R.mipmap.disable_btn);
+                        showSnackbar(2);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }
     }
 
@@ -245,7 +377,31 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    if (password.equals(strContent)) {
+                        strPw = strContent;
+                        ivNextBtn.setImageResource(R.mipmap.next_btn);
+                        dismissSnackbar();
+                    } else {
+                        //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
+                        ivNextBtn.setImageResource(R.mipmap.disable_btn);
+                        showSnackbar(3);
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
         }
     }
 
@@ -257,6 +413,25 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
+            etContent.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                    strContent = etContent.getText().toString().trim();
+                    strNickName = strContent;
+                    ivNextBtn.setImageResource(R.mipmap.next_btn);
+                    dismissSnackbar();
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+
+                }
+            });
 
         }
     }
@@ -269,7 +444,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         void bind(int position) {
-            
+
         }
     }
 
@@ -285,178 +460,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         }
     }
 
-    /*class ViewHolder extends RecyclerView.ViewHolder implements DatePickerDialog.OnDateSetListener {
-
-        String snackContent;
-
-        String strContent;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
-
-        void bindView(int position) {
-            String[] titles = mContext.getResources().getStringArray(R.array.signup_text_title_array);
-            String title = titles[position];
-
-            String[] contents = mContext.getResources().getStringArray(R.array.signup_text_content_array);
-            String content = contents[position];
-
-            String[] snackContents = mContext.getResources().getStringArray(R.array.signup_text_snackbar);
-            snackContent = snackContents[position];
-
-            //닉네임 쪽만 왜 이름부분에서 적었던 텍스트가 보이는 지?
-            if (position == 4) {
-                etContent.setText("");
-            }
-            etContent.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                    strContent = etContent.getText().toString().trim();
-                    switch (position) {
-                        case 0:
-                            //이름은 2글자 이상
-                            if (strContent.length() > 1) {
-                                strName = strContent;
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-                                dismissSnackbar();
-                            } else {
-                                //다음 버튼 비활성화 아이콘 디자이너한테 받아야 함.
-                                ivNextBtn.setImageResource(R.mipmap.nav_card);
-                                showSnackbar(snackContent);
-                            }
-                            break;
-                        case 1:
-                            //이메일 형식
-                            if (checkEmail(strContent)) {
-                                strEmail = strContent;
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-                                dismissSnackbar();
-                            } else {
-                                ivNextBtn.setImageResource(R.mipmap.nav_card);
-                                showSnackbar(snackContent);
-                            }
-                            break;
-                        case 2:
-                            //비밀번호 형식
-                            if (checkPassWord(strContent)) {
-                                password = strContent;
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-                                dismissSnackbar();
-                            } else {
-                                ivNextBtn.setImageResource(R.mipmap.nav_card);
-                                showSnackbar(snackContent);
-                            }
-                            break;
-                        case 3:
-                            //비밀번호 전과 같은지 비교
-                            if (password.equals(strContent)) {
-                                //추후에 암호화
-                                strPw = strContent;
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-                                dismissSnackbar();
-                            } else {
-                                ivNextBtn.setImageResource(R.mipmap.nav_card);
-                                showSnackbar(snackContent);
-                            }
-                            break;
-                        case 4:
-                            //닉네임 중복 확인
-                            if (strContent.equals("")) {
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-//                                showSnackbar(snackContent);
-                            } else {
-                                strNickName = strContent;
-                                ivNextBtn.setImageResource(R.mipmap.next_btn);
-//                                dismissSnackbar();
-                            }
-                            break;
-                    }
-
-                }
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-
-                }
-            });
-            tvTitle.setText(title);
-            tvContent.setText(content);
-            mProgress.setProgress(position + 1);
-        }
-
-        @OnClick(R.id.ivNextBtn)
-        void onNextClick() {
-            retPosition = retPosition + 1;
-            if (retPosition == 5) {
-                tvTitle.setText("생일을 설정해주세요.");
-                tvContent.setVisibility(View.GONE);
-                etContent.setVisibility(View.GONE);
-                DateTime dateTime = new DateTime();
-                int year = dateTime.getYear();
-                int month = dateTime.getMonthOfYear() - 1;
-                int day = dateTime.getDayOfMonth();
-                showBirthDialog(year, month, day, R.style.birthDatePicker);
-            } else {
-                if (ivNextBtn.getDrawable().getConstantState() == ivNextBtn.getResources().getDrawable(R.mipmap.next_btn).getConstantState()) {
-                    mCallback.onNextClick(retPosition);
-                }
-            }
-        }
-
-        @OnClick(R.id.ivBackBtn)
-        void onBackButton() {
-            retPosition = retPosition -1;
-            mCallback.onBackClick(retPosition);
-        }
-
-        void showSnackbar(String snack) {
-            SnackbarManager.show(
-                    with(mContext)
-                            .type(SnackbarType.MULTI_LINE)
-                            .actionLabel("Close")
-                            .actionColor(Color.parseColor("#FF8A80"))
-                            .duration(SnackbarDuration.LENGTH_INDEFINITE)
-                            .text(snack));
-        }
-
-        void dismissSnackbar() {
-            SnackbarManager.dismiss();
-        }
-        *//**
-         * 이메일 형식 체크
-         *//*
-        private boolean checkEmail(String email) {
-            String mail = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
-            Pattern p = Pattern.compile(mail);
-            Matcher m = p.matcher(email);
-            return m.matches();
-        }
-
-        *//**
-         * 패스워드 유효성검사
-         * 영문, 숫자입력
-         * 정규식 (영문, 숫자 8자리 이상)
-         *//*
-        private boolean checkPassWord(String password) {
-            String valiPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
-
-            Pattern pattern = Pattern.compile(valiPass);
-            Matcher matcher = pattern.matcher(password);
-
-            return matcher.matches();
-        }
-
-    }*/
-
     public interface OnButtonClick {
         void onNextClick(int position);
+
         void onBackClick(int position);
     }
 }
