@@ -6,7 +6,7 @@ import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
-import com.playgilround.schedule.client.singin.SignInActivity;
+import com.playgilround.schedule.client.signin.SignInActivity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +26,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
     @BindView(R.id.recycler_image)
     RecyclerView mRecyclerView;
 
-    @BindView(R.id.ivNext)
+    @BindView(R.id.ivNextBtn)
     ImageView mImageNext;
 
     int retPosition;
@@ -61,7 +61,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
                 if (adapter.getItemCount() -1 == retPosition) {
-                    mImageNext.setImageResource(R.mipmap.check_btn);
+                    mImageNext.setImageResource(R.mipmap.check);
                 } else {
                     mImageNext.setImageResource(R.mipmap.next_btn);
                 }
@@ -73,17 +73,17 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
     }
 
-    @OnClick(R.id.ivNext)
+    @OnClick(R.id.ivNextBtn)
     void onButtonClick() {
         if (adapter.getItemCount() -1 == retPosition) {
             startActivity(new Intent(this, SignInActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
         } else if (adapter.getItemCount() -2 == retPosition) {
-            mImageNext.setImageResource(R.mipmap.check_btn);
+            mImageNext.setImageResource(R.mipmap.check);
             mRecyclerView.smoothScrollToPosition(retPosition +1);
         } else {
-            mImageNext.setImageResource(R.mipmap.next_btn);
+            mImageNext.setImageResource(R.mipmap.tutorial_btn);
             mRecyclerView.smoothScrollToPosition(retPosition +1);
         }
     }

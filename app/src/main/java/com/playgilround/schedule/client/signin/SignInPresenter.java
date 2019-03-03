@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.singin;
+package com.playgilround.schedule.client.signin;
 
 import android.util.Log;
 

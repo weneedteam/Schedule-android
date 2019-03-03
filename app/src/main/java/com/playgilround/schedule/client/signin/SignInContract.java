@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.singin;
+package com.playgilround.schedule.client.signin;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;

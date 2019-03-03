@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.applandeo.materialcalendarview.CalendarUtils;
 import com.applandeo.materialcalendarview.CalendarView;
 import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
@@ -130,7 +131,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
                 startActivityForResult(intent, ADD_SCHEDULE);
             }
         });
-        
+
         ivRange.setOnClickListener(v -> openRangePicker());
     }
 
@@ -165,6 +166,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
                 Toast.makeText(getApplicationContext(),
                         calendar.getTime().toString(),
                         Toast.LENGTH_SHORT).show());
+
+        calendarView.setSelectedDates(calendars);
     }
 
     // yyyy-MM 기준으로 저장된 스케줄 표시
