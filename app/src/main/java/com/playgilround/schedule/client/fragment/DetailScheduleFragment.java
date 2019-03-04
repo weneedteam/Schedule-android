@@ -9,6 +9,7 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -184,5 +185,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             anim.start();
             flag = true;
         }
+    }
+
+    @OnClick(R.id.btnDelete)
+    void onScheduleDelete() {
+        Log.d(TAG, "onClick Schedule Delete.");
     }
 }

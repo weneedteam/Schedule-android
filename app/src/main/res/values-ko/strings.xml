@@ -14,6 +14,8 @@
     <string name="button_start">시작하기</string>
     <string name="button_schedule_save">스케줄 저장</string>
     <string name="button_yes">네</string>
+    <string name="button_delete">삭제</string>
+
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>

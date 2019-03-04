@@ -23,6 +23,8 @@
     <string name="button_start">Start</string>
     <string name="button_schedule_save">Schedule save</string>
     <string name="button_yes">Yes</string>
+    <string name="button_delete">Delete</string>
+
     <!-- Text -->
     <string name="text_add_location">Add Location</string>
     <string name="text_add_schedule">Add schedule</string>
