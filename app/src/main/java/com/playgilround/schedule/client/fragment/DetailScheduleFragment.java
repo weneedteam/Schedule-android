@@ -189,6 +189,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
     @OnClick(R.id.btnDelete)
     void onScheduleDelete() {
-        Log.d(TAG, "onClick Schedule Delete.");
+        realm.executeTransaction(realm -> {
+            Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
+            schedule.deleteFromRealm();
+            getActivity().finish();
+        });
     }
 }
