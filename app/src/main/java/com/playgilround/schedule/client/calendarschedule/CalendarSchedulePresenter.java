@@ -99,15 +99,15 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
                 realmCalendar.set(Calendar.DATE, arrInt.get(i));
 
                 if (retCount == 1) {
-                    mEvents.add(new EventDay(realmCalendar, R.drawable.sample_one_icons));
+                    mEvents.add(new EventDay(realmCalendar, mView.getOneIcon(mContext)));
                 } else if (retCount == 2) {
-                    mEvents.add(new EventDay(realmCalendar, R.drawable.sample_two_icons));
+                    mEvents.add(new EventDay(realmCalendar, mView.getTwoIcon(mContext)));
                 } else if (retCount == 3) {
-                    mEvents.add(new EventDay(realmCalendar, R.drawable.sample_three_icons));
+                    mEvents.add(new EventDay(realmCalendar, mView.getThreeIcon(mContext)));
                 } else if (retCount == 4) {
-                    mEvents.add(new EventDay(realmCalendar, R.drawable.sample_four_icons));
+                    mEvents.add(new EventDay(realmCalendar, mView.getFourIcon(mContext)));
                 } else {
-                    mEvents.add(new EventDay(realmCalendar, R.drawable.sample_four_icons));
+                    mEvents.add(new EventDay(realmCalendar, mView.getFourIcon(mContext)));
                 }
                 retCount = 0;
             }
