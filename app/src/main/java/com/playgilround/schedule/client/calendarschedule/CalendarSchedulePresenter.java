@@ -39,9 +39,7 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
 
     private String mCurrentCalenderString = "";
 
-    private ArrayList<Integer> arrInt;
-
-    int retCount;
+    private int retCount;
 
     CalendarSchedulePresenter(Context context, CalendarScheduleContract.View view) {
         mView = view;
@@ -76,27 +74,21 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
             RealmResults<Schedule> result = realm.where(Schedule.class).equalTo("date", date).findAll();
 
             mEvents = new ArrayList<>();
-            arrInt = new ArrayList<>();
             // 해당 yyyy-MM 에 저장된 스케줄 dd 얻기
-            for (Schedule schedule : result) {
-                DateTime scheduleDateTime = new DateTime(schedule.getTime(), DateTimeZone.getDefault());
+            for (int i = 0; i < result.size(); i++) {
+                DateTime scheduleDateTime = new DateTime(result.get(i).getTime(), DateTimeZone.getDefault());
 
                 int day = scheduleDateTime.getDayOfMonth();
 
-                arrInt.add(day);
-            }
-            for (int i = 0; i < arrInt.size(); i++) {
-                for (int j = 0; j < arrInt.size(); j++) {
-                    if (arrInt.get(i).equals(arrInt.get(j))) {
+                for (int j = 0; j < result.size(); j++) {
+                    if (result.get(i).getDateDay().equals(result.get(j).getDateDay())) {
                         retCount++;
-
                     }
                 }
-
                 Calendar realmCalendar = Calendar.getInstance();
                 realmCalendar.set(Calendar.YEAR, year);
                 realmCalendar.set(Calendar.MONTH, month);
-                realmCalendar.set(Calendar.DATE, arrInt.get(i));
+                realmCalendar.set(Calendar.DATE, day);
 
                 if (retCount == 1) {
                     mEvents.add(new EventDay(realmCalendar, mView.getOneIcon(mContext)));
@@ -111,10 +103,7 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
                 }
                 retCount = 0;
             }
-
-            arrInt = null;
             mView.addEvents(mEvents);
-
         });
 
     }
