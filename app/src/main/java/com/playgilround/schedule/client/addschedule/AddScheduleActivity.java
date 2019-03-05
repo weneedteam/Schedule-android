@@ -34,8 +34,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 import static com.playgilround.schedule.client.addschedule.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
+import static com.playgilround.schedule.client.fragment.DetailScheduleFragment.INTENT_MODIFY_ID;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
@@ -87,6 +89,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    Realm realm;
+
     private AddScheduleContract.Presenter mPresenter;
 
     @SuppressLint("SetTextI18n")
@@ -110,11 +114,11 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         
         strMTime = "00:00";
 
-        if (intent.getStringExtra("date") != null) {
-            //단일 날짜 선택 일 경우
-            String date = intent.getStringExtra("date");
-
-            String strYear = date.substring(0, 4);
+        int scheduleId = intent.getIntExtra(INTENT_MODIFY_ID, -1);
+        if (scheduleId != -1) {
+            //스케줄 수정 모드
+            mPresenter.getScheduleInfo(scheduleId);
+           /* String strYear = date.substring(0, 4);
             String strMonth = date.substring(5, 7);
             String strDay = date.substring(8, 10);
 
@@ -128,7 +132,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
             String strTime = date + " " + strMTime;
             tvDate.setText(strDate);
-            tvTime.setText(strTime);
+            tvTime.setText(strTime);*/
         } else if (intent.getStringArrayListExtra("dateArr") != null) {
             //다중 날짜 선택일 경우
             arrDateDay = intent.getStringArrayListExtra("dateArr");

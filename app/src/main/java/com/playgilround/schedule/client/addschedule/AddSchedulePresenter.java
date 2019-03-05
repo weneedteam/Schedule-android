@@ -143,6 +143,14 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
     }
 
     @Override
+    public void getScheduleInfo(int id) {
+        mRealm.executeTransaction(realm -> {
+            Schedule schedule = realm.where(Schedule.class).equalTo("id", id).findFirst();
+            Log.d(TAG, "Schedule ->" + schedule.getTitle());
+        });
+    }
+
+    @Override
     public void realmClose() {
         mRealm.close();
     }

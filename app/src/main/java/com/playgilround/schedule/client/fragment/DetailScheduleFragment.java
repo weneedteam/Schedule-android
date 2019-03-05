@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.fragment;
 
 import android.animation.Animator;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
+import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
@@ -26,6 +29,8 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
+
+import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.INTENT_EXTRA_DATE;
 
 /**
  * 19-01-23
@@ -61,8 +66,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     float pixelDensity;
     Animation animation;
 
+    String strDay;
+    String strTitle;
+    String strLocation;
     boolean flag = true;
 
+//    public static final String INTENT_EXTRA_MODIFY_TITLE = "inputText";
+//    public static final String INTENT_EXTRA_MODIFY_DATE = "modifyDate";
+    public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
     public static DetailScheduleFragment getInstance(String date, int id) {
@@ -90,9 +101,9 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
             DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
-            String strDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day_time));
-            String strTitle = schedule.getTitle();
-            String strLocation = schedule.getLocation();
+            strDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day_time));
+            strTitle = schedule.getTitle();
+            strLocation = schedule.getLocation();
 
             tvTime.setText(strDay);
             tvTitle.setText(strTitle);
@@ -194,5 +205,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             schedule.deleteFromRealm();
             getActivity().finish();
         });
+    }
+
+    @OnClick(R.id.btnModify)
+    void onScheduleModify() {
+        Log.d(TAG, "strDate ->" + scheduleId);
+        startActivity(new Intent(getActivity(), AddScheduleActivity.class)
+                .putExtra(INTENT_MODIFY_ID, scheduleId));
+//                .putExtra(INTENT_EXTRA_MODIFY_DATE, strDate)
+//                .putExtra(INTENT_EXTRA_MODIFY_TITLE, strTitle));
     }
 }

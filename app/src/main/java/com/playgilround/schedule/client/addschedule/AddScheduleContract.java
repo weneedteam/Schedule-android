@@ -38,5 +38,8 @@ public interface AddScheduleContract {
         void onSelectTime(String date, long milliseconds);
 
         void realmClose();
+
+        //스케줄 정보 얻기
+        void getScheduleInfo(int id);
     }
 }
