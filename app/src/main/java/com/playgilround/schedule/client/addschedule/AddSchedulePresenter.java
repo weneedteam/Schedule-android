@@ -147,6 +147,8 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
         mRealm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", id).findFirst();
             Log.d(TAG, "Schedule ->" + schedule.getTitle());
+
+            mView.setScheduleInfo(schedule);
         });
     }
 

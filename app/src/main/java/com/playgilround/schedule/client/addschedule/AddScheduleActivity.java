@@ -25,10 +25,16 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.locationschedule.LocationScheduleActivity;
+import com.playgilround.schedule.client.model.Schedule;
 
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
@@ -210,6 +216,20 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
         params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         getWindow().setAttributes((WindowManager.LayoutParams) params);
+    }
+
+    @Override
+    public void setScheduleInfo(Schedule schedule) {
+        tvDate.setText(schedule.getDateDay());
+        etTitle.setText(schedule.getTitle());
+
+        long time = schedule.getTime();
+        DateTime dateTime = new DateTime(time, DateTimeZone.getDefault());
+        String strTime = dateTime.toString(getString(R.string.text_date_year_month_day));
+
+        tvTime.setText(strTime);
+        tvLocation.setText(schedule.getLocation());
+        etDesc.setText(schedule.getDesc());
     }
 
     @Override
