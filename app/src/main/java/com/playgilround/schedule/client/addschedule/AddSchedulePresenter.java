@@ -56,7 +56,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
             mView.onScheduleSave(SCHEDULE_SAVE_FAIL);
         } else {
             mRealm.executeTransaction(realm -> {
-                if (arrDateDay.size() != 0) {
+                if (scheduleId == -1) {
                     for (int i = 0; i < arrDateDay.size(); i++) {
 
                         Number currentIdNum = realm.where(Schedule.class).max("id");
@@ -89,6 +89,20 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
                     //MODIFY
                     Schedule mSchedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
                     mSchedule.setTitle(title);
+                    mSchedule.setDate(arrDate.get(0));
+                    mSchedule.setDateDay(arrDateDay.get(0));
+                    mSchedule.setLocation(location);
+                    mSchedule.setLatitude(latitude);
+                    mSchedule.setLongitude(longitude);
+                    mSchedule.setDesc(desc);
+                    try {
+                        String strTime = arrDateDay.get(0) + " " + time;
+                        Date date = new SimpleDateFormat(mContext.getString(R.string.text_date_day_time), Locale.ENGLISH).parse(strTime);
+                        long millisecond = date.getTime();
+                        mSchedule.setTime(millisecond);
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
                 }
             });
             mView.onScheduleSave(SCHEDULE_SAVE_SUCCESS);

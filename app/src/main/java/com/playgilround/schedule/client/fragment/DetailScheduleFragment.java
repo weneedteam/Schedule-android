@@ -100,8 +100,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
-            DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.UTC);
-            strDay = dateTime.plusHours(9).toString(getString(R.string.text_date_day_time));
+            DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.getDefault());
+            strDay = dateTime.toString(getString(R.string.text_date_day_time));
             strTitle = schedule.getTitle();
             strLocation = schedule.getLocation();
 
@@ -212,7 +212,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         Log.d(TAG, "strDate ->" + scheduleId);
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
-//                .putExtra(INTENT_EXTRA_MODIFY_DATE, strDate)
-//                .putExtra(INTENT_EXTRA_MODIFY_TITLE, strTitle));
+        getActivity().finish();
     }
 }
