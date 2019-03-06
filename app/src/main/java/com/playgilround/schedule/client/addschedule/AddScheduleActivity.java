@@ -95,7 +95,12 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    //추가인지, 수정인지 판단하는 플래그
+    public boolean isModify = false;
+
     Realm realm;
+
+    int scheduleId;
 
     private AddScheduleContract.Presenter mPresenter;
 
@@ -160,7 +165,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             tvTime.setText(strRetTime);
         }
 
-        btnConfirm.setOnClickListener(l -> mPresenter.confirm(arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation));
+        btnConfirm.setOnClickListener(l -> {
+            Log.d(TAG, "onSave Click");
+                    mPresenter.confirm(scheduleId, arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation);
+        });
 
         //TimePicker
         timePickerDialog = new TimePickerDialog.Builder()
@@ -220,6 +228,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     @Override
     public void setScheduleInfo(Schedule schedule) {
+        scheduleId = schedule.getId();
         tvDate.setText(schedule.getDateDay());
         etTitle.setText(schedule.getTitle());
 
@@ -230,6 +239,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         tvTime.setText(strTime);
         tvLocation.setText(schedule.getLocation());
         etDesc.setText(schedule.getDesc());
+
+        isModify = true;
     }
 
     @Override
@@ -242,7 +253,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
 
-            if (!isManyDay) {
+            if (isModify) {
+                setResult(ADD_SCHEDULE, intent);
+            } else if (!isManyDay) {
                 intent.putExtra("date", tvDate.getText());
                 intent.putExtra("dateDay", arrDateDay.get(0));
                 setResult(ADD_SCHEDULE, intent);

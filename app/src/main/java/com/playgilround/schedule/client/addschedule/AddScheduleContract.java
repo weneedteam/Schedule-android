@@ -33,7 +33,7 @@ public interface AddScheduleContract {
     interface Presenter extends BasePresenter {
 
         // 확인 버튼 클릭 시 스케줄 저장
-        void confirm(ArrayList<String> date, ArrayList<String> dateDay, String title, String desc, String time, double latitude, double longitude, String location);
+        void confirm(int id, ArrayList<String> date, ArrayList<String> dateDay, String title, String desc, String time, double latitude, double longitude, String location);
 
         // 날짜 선택
         void onSelectDay(List<Calendar> calendars);

@@ -49,40 +49,46 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
     }
 
     @Override
-    public void confirm(ArrayList<String> arrDate, ArrayList<String> arrDateDay, String title, String desc, String time,
+    public void confirm(int scheduleId, ArrayList<String> arrDate, ArrayList<String> arrDateDay, String title, String desc, String time,
                         double latitude, double longitude, String location) {
 
         if (title.length() == 0) {
             mView.onScheduleSave(SCHEDULE_SAVE_FAIL);
         } else {
             mRealm.executeTransaction(realm -> {
-                for (int i = 0; i < arrDateDay.size(); i++) {
+                if (arrDateDay.size() != 0) {
+                    for (int i = 0; i < arrDateDay.size(); i++) {
 
-                    Number currentIdNum = realm.where(Schedule.class).max("id");
-                    int nextId;
+                        Number currentIdNum = realm.where(Schedule.class).max("id");
+                        int nextId;
 
-                    if (currentIdNum == null) {
-                        nextId = 0;
-                    } else {
-                        nextId = currentIdNum.intValue() + 1;
+                        if (currentIdNum == null) {
+                            nextId = 0;
+                        } else {
+                            nextId = currentIdNum.intValue() + 1;
+                        }
+
+                        Schedule mSchedule = realm.createObject(Schedule.class, nextId);
+                        mSchedule.setTitle(title);
+                        mSchedule.setDate(arrDate.get(i));
+                        mSchedule.setDateDay(arrDateDay.get(i));
+                        mSchedule.setLocation(location);
+                        mSchedule.setLatitude(latitude);
+                        mSchedule.setLongitude(longitude);
+                        mSchedule.setDesc(desc);
+                        try {
+                            String strTime = arrDateDay.get(i) + " " + time;
+                            Date date = new SimpleDateFormat(mContext.getString(R.string.text_date_day_time), Locale.ENGLISH).parse(strTime);
+                            long millisecond = date.getTime();
+                            mSchedule.setTime(millisecond);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
                     }
-
-                    Schedule mSchedule = realm.createObject(Schedule.class, nextId);
+                } else {
+                    //MODIFY
+                    Schedule mSchedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
                     mSchedule.setTitle(title);
-                    mSchedule.setDate(arrDate.get(i));
-                    mSchedule.setDateDay(arrDateDay.get(i));
-                    mSchedule.setLocation(location);
-                    mSchedule.setLatitude(latitude);
-                    mSchedule.setLongitude(longitude);
-                    mSchedule.setDesc(desc);
-                    try {
-                        String strTime = arrDateDay.get(i) + " " + time;
-                        Date date = new SimpleDateFormat(mContext.getString(R.string.text_date_day_time), Locale.ENGLISH).parse(strTime);
-                        long millisecond = date.getTime();
-                        mSchedule.setTime(millisecond);
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
                 }
             });
             mView.onScheduleSave(SCHEDULE_SAVE_SUCCESS);
