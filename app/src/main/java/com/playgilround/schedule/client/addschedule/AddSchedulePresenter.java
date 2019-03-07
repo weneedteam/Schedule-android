@@ -31,8 +31,8 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
     private final AddScheduleContract.View mView;
     private final Context mContext;
 
-    public static final String SCHEDULE_SAVE_FAIL = "fail";
-    public static final String SCHEDULE_SAVE_SUCCESS = "SUCCESS";
+    static final String SCHEDULE_SAVE_FAIL = "fail";
+    private static final String SCHEDULE_SAVE_SUCCESS = "SUCCESS";
 
 
     AddSchedulePresenter(Context context, AddScheduleContract.View view) {

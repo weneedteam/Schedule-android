@@ -67,6 +67,8 @@
     <string name="text_signup_snackbar_password_check">비밀번호가 일치하지 않습니다.</string>
     <string name="text_signup_snackbar_nickname">중복된 닉네임입니다.</string>
 
+    <string name="text_destination">목적지</string>
+
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>
     <string name="hint_schedule_contents">내용을 적어주세요..</string>

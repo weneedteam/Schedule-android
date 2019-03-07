@@ -18,7 +18,7 @@ public interface LocationScheduleContract {
     interface View extends BaseView<Presenter> {
 
         //주변 반경, 핀 지도 관련 표시
-        void setMapMarker(LatLng destMap);
+        void setMapMarker(LatLng curMap, LatLng destMap);
 
         //검색 된 결과 지도 표시
         void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel);
@@ -34,7 +34,7 @@ public interface LocationScheduleContract {
         void onSearchConfirmed(CharSequence text);
 
         // Google Map 준비 완료
-        void setMapDisplay(double latitude, double longitude);
+        void setMapDisplay(double latitude, double longitude, double intentLatitude, double intentLongitude);
 
         ArrayList<LocationInfo> getLocationInfo();
     }

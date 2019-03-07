@@ -71,8 +71,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     String strLocation;
     boolean flag = true;
 
-//    public static final String INTENT_EXTRA_MODIFY_TITLE = "inputText";
-//    public static final String INTENT_EXTRA_MODIFY_DATE = "modifyDate";
     public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
@@ -209,7 +207,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
 
     @OnClick(R.id.btnModify)
     void onScheduleModify() {
-        Log.d(TAG, "strDate ->" + scheduleId);
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
         getActivity().finish();

@@ -102,7 +102,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     private AddScheduleContract.Presenter mPresenter;
 
-    @SuppressLint("SetTextI18n")
+    Double latitude;
+    Double longitude;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,21 +129,6 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         if (scheduleId != -1) {
             //스케줄 수정 모드
             mPresenter.getScheduleInfo(scheduleId);
-           /* String strYear = date.substring(0, 4);
-            String strMonth = date.substring(5, 7);
-            String strDay = date.substring(8, 10);
-
-            String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-
-            strMYearMonth = strYear + "-" + strMonth;
-            strMDay = date;
-
-            arrDate.add(strMYearMonth);
-            arrDateDay.add(strMDay);
-
-            String strTime = date + " " + strMTime;
-            tvDate.setText(strDate);
-            tvTime.setText(strTime);*/
         } else if (intent.getStringArrayListExtra("dateArr") != null) {
             //다중 날짜 선택일 경우
             arrDateDay = intent.getStringArrayListExtra("dateArr");
@@ -165,6 +152,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
         btnConfirm.setOnClickListener(l -> {
             //arrDateDay, arrDate 부분 추후 수정 예정.
+            Log.d(TAG, "arrDateDay ->" + strMDay);
+            Log.d(TAG, "arrDateDay2 ->" + tvTime.getText().toString());
+            Log.d(TAG, "arrDate->" + strMYearMonth);
+            Log.d(TAG, "arrDate ->" + tvTime.getText().toString().substring(0, 7));
             if (arrDateDay.size() == 0) {
                 if (strMDay == null) {
                     arrDateDay.add(tvTime.getText().toString());
@@ -217,11 +208,16 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         datePicker.show();
     }
 
+
+    //최초 null
     @OnClick(R.id.llScheduleLocation)
     void onShowLocationActivity() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Intent intent = new Intent(this, LocationScheduleActivity.class);
+            Log.d(TAG, "latitude ->" + latitude + "--" + longitude);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
             startActivityForResult(intent, LOCATION_START);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
@@ -252,6 +248,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         tvTime.setText(strTime);
         tvLocation.setText(schedule.getLocation());
         etDesc.setText(schedule.getDesc());
+
+        latitude = schedule.getLatitude();
+        longitude = schedule.getLongitude();
 
         isModify = true;
     }
