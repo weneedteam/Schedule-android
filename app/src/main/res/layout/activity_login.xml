@@ -95,11 +95,11 @@
 
     <ImageView
         android:id="@+id/ivlogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="256dp"
-        android:src="@mipmap/check" />
+        android:src="@mipmap/check_btn" />
 
 
     <LinearLayout
@@ -110,28 +110,28 @@
 
         <ImageView
             android:id="@+id/ivfacebook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:src="@mipmap/login_fb"/>
 
         <ImageView
             android:id="@+id/ivnaver"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_marginStart="20dp"
             android:src="@mipmap/login_naver"/>
 
         <ImageView
             android:id="@+id/ivkakao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_marginStart="20dp"
             android:src="@mipmap/login_kakao"/>
 
         <ImageView
             android:id="@+id/ivgoogle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_marginStart="20dp"
             android:src="@mipmap/login_google"/>
     </LinearLayout>
