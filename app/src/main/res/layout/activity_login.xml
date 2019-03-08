@@ -99,7 +99,7 @@
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="256dp"
-        android:src="@mipmap/check" />
+        android:src="@mipmap/check_btn" />
 
 
     <LinearLayout

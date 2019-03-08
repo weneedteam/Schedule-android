@@ -25,6 +25,10 @@ import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.locationschedule.LocationScheduleActivity;
+import com.playgilround.schedule.client.model.Schedule;
+
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -34,8 +38,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.realm.Realm;
 
 import static com.playgilround.schedule.client.addschedule.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
+import static com.playgilround.schedule.client.fragment.DetailScheduleFragment.INTENT_MODIFY_ID;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
@@ -87,9 +93,18 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     //단일인지 다중인지 판단하는 플래그.
     public boolean isManyDay = false;
 
+    //추가인지, 수정인지 판단하는 플래그
+    public boolean isModify = false;
+
+    Realm realm;
+
+    int scheduleId;
+
     private AddScheduleContract.Presenter mPresenter;
 
-    @SuppressLint("SetTextI18n")
+    Double latitude;
+    Double longitude;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,28 +122,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         Intent intent = getIntent();
         strInput = intent.getStringExtra("inputText");
         etTitle.setText(strInput);
-        
+
         strMTime = "00:00";
 
-        if (intent.getStringExtra("date") != null) {
-            //단일 날짜 선택 일 경우
-            String date = intent.getStringExtra("date");
-
-            String strYear = date.substring(0, 4);
-            String strMonth = date.substring(5, 7);
-            String strDay = date.substring(8, 10);
-
-            String strDate = strYear + "년 " + strMonth + "월 " + strDay + "일";
-
-            strMYearMonth = strYear + "-" + strMonth;
-            strMDay = date;
-
-            arrDate.add(strMYearMonth);
-            arrDateDay.add(strMDay);
-
-            String strTime = date + " " + strMTime;
-            tvDate.setText(strDate);
-            tvTime.setText(strTime);
+        int scheduleId = intent.getIntExtra(INTENT_MODIFY_ID, -1);
+        if (scheduleId != -1) {
+            //스케줄 수정 모드
+            mPresenter.getScheduleInfo(scheduleId);
         } else if (intent.getStringArrayListExtra("dateArr") != null) {
             //다중 날짜 선택일 경우
             arrDateDay = intent.getStringArrayListExtra("dateArr");
@@ -142,15 +142,37 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             }
 
             String strTime = arrDateDay.get(0);
-            String strRetTime = strTime + " 외 " + (arrDateDay.size() -1) + "일";
+            String strRetTime = strTime + " 외 " + (arrDateDay.size() - 1) + "일";
 
             chooseSize = arrDateDay.size();
             isManyDay = true;
-            tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() -1));
+            tvDate.setText(arrDateDay.get(0) + " ~ " + arrDateDay.get(arrDateDay.size() - 1));
             tvTime.setText(strRetTime);
         }
 
-        btnConfirm.setOnClickListener(l -> mPresenter.confirm(arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation));
+        btnConfirm.setOnClickListener(l -> {
+            //arrDateDay, arrDate 부분 추후 수정 예정.
+            Log.d(TAG, "arrDateDay ->" + strMDay);
+            Log.d(TAG, "arrDateDay2 ->" + tvTime.getText().toString());
+            Log.d(TAG, "arrDate->" + strMYearMonth);
+            Log.d(TAG, "arrDate ->" + tvTime.getText().toString().substring(0, 7));
+            if (arrDateDay.size() == 0) {
+                if (strMDay == null) {
+                    arrDateDay.add(tvTime.getText().toString());
+                } else {
+                    arrDateDay.add(strMDay);
+                }
+            }
+
+            if (arrDate.size() == 0) {
+                if (strMYearMonth == null) {
+                    arrDate.add(tvTime.getText().toString().substring(0, 7));
+                } else {
+                    arrDate.add(strMYearMonth);
+                }
+            }
+            mPresenter.confirm(scheduleId, arrDate, arrDateDay, etTitle.getText().toString(), etDesc.getText().toString(), strMTime, resLatitude, resLongitude, resLocation);
+        });
 
         //TimePicker
         timePickerDialog = new TimePickerDialog.Builder()
@@ -186,11 +208,16 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         datePicker.show();
     }
 
+
+    //최초 null
     @OnClick(R.id.llScheduleLocation)
     void onShowLocationActivity() {
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             Intent intent = new Intent(this, LocationScheduleActivity.class);
+            Log.d(TAG, "latitude ->" + latitude + "--" + longitude);
+            intent.putExtra("latitude", latitude);
+            intent.putExtra("longitude", longitude);
             startActivityForResult(intent, LOCATION_START);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_gps_enable), Toast.LENGTH_LONG).show();
@@ -209,6 +236,26 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     @Override
+    public void setScheduleInfo(Schedule schedule) {
+        scheduleId = schedule.getId();
+        tvDate.setText(schedule.getDateDay());
+        etTitle.setText(schedule.getTitle());
+
+        long time = schedule.getTime();
+        DateTime dateTime = new DateTime(time, DateTimeZone.getDefault());
+        String strTime = dateTime.toString(getString(R.string.text_date_year_month_day));
+
+        tvTime.setText(strTime);
+        tvLocation.setText(schedule.getLocation());
+        etDesc.setText(schedule.getDesc());
+
+        latitude = schedule.getLatitude();
+        longitude = schedule.getLongitude();
+
+        isModify = true;
+    }
+
+    @Override
     public void onScheduleSave(String state) {
         Log.d(TAG, "onScheduleSave ->" + state);
 
@@ -218,7 +265,9 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             Toast.makeText(getApplicationContext(), getString(R.string.toast_msg_save_schedule), Toast.LENGTH_LONG).show();
             Intent intent = new Intent();
 
-            if (!isManyDay) {
+            if (isModify) {
+                setResult(ADD_SCHEDULE, intent);
+            } else if (!isManyDay) {
                 intent.putExtra("date", tvDate.getText());
                 intent.putExtra("dateDay", arrDateDay.get(0));
                 setResult(ADD_SCHEDULE, intent);
@@ -242,8 +291,8 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     public void setDaySchedule(ArrayList<String> arrDateDay, String title, int size) {
         strMDay = arrDateDay.get(0);
         if (size > 1) {
-            chooseSize = size -1;
-            tvDate.setText(strMDay + " ~ " + arrDateDay.get(size -1));
+            chooseSize = size - 1;
+            tvDate.setText(strMDay + " ~ " + arrDateDay.get(size - 1));
             tvTime.setText(strMDay + " 외 " + chooseSize + "일");
             isManyDay = true;
         } else {

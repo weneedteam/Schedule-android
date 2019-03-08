@@ -58,6 +58,9 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     double latitude; // 위도
     double longitude; // 경도
 
+    double intentLatitude;
+    double intentLongitude;
+
     // 현재 SearchBar 에 적힌 텍스트 확인.
     String strSearchBar;
 
@@ -109,6 +112,10 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
 
         ButterKnife.bind(this);
 
+        Intent intent = getIntent();
+        intentLatitude = intent.getDoubleExtra("latitude", 0);
+        intentLongitude = intent.getDoubleExtra("longitude", 0);
+        
         new LocationSchedulePresenter(this, this);
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -222,11 +229,11 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-        mPresenter.setMapDisplay(latitude, longitude);
+        mPresenter.setMapDisplay(latitude, longitude, intentLatitude, intentLongitude);
     }
 
     @Override
-    public void setMapMarker(LatLng destMap) {
+    public void setMapMarker(LatLng curMap, LatLng destMap) {
         progress.cancel();
         //반경 500M 원
         CircleOptions circle = new CircleOptions().center(destMap)
@@ -234,11 +241,20 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
                 .strokeWidth(0f) //선 없음
                 .fillColor(getResources().getColor(R.color.color_map_background));//배경색
 
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(destMap);
-        markerOptions.title(getString(R.string.text_my_location));
-        markerOptions.snippet(getString(R.string.text_my_location));
-        mMap.addMarker(markerOptions);
+        MarkerOptions currentMarker = new MarkerOptions();
+        currentMarker.position(curMap);
+        currentMarker.title(getString(R.string.text_my_location));
+        currentMarker.snippet(getString(R.string.text_my_location));
+
+        if (destMap.latitude != 0.0) {
+            MarkerOptions destMarker = new MarkerOptions();
+            destMarker.position(destMap);
+            destMarker.title(getString(R.string.text_destination));
+            destMarker.snippet(getString(R.string.text_destination));
+            mMap.addMarker(destMarker);
+        }
+
+        mMap.addMarker(currentMarker);
         mMap.addCircle(circle);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));

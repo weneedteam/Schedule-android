@@ -1,6 +1,9 @@
 package com.playgilround.schedule.client.calendarschedule;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.InsetDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
@@ -32,6 +35,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
@@ -240,5 +244,29 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
     @Override
     public void addEvents(List<EventDay> events) {
         calendarView.setEvents(events);
+    }
+
+    @Override
+    public Drawable getOneIcon(Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.sample_one_icons);
+        return new InsetDrawable(drawable, 100, 0, 100, 0);
+    }
+
+    @Override
+    public Drawable getTwoIcon(Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.sample_two_icons);
+        return new InsetDrawable(drawable, 100, 0, 100, 0);
+    }
+
+    @Override
+    public Drawable getThreeIcon(Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.sample_three_icons);
+        return new InsetDrawable(drawable, 100, 0, 100, 0);
+    }
+
+    @Override
+    public Drawable getFourIcon(Context context) {
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.sample_four_icons);
+        return new InsetDrawable(drawable, 100, 0, 100, 0);
     }
 }

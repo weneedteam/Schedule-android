@@ -14,6 +14,8 @@
     <string name="button_start">시작하기</string>
     <string name="button_schedule_save">스케줄 저장</string>
     <string name="button_yes">네</string>
+    <string name="button_delete">삭제</string>
+
 
     <!-- Text -->
     <string name="text_add_location">위치 추가</string>
@@ -64,6 +66,8 @@
     <string name="text_signup_snackbar_password">패스워드는 소문자와 숫자 8자리 이상입니다.</string>
     <string name="text_signup_snackbar_password_check">비밀번호가 일치하지 않습니다.</string>
     <string name="text_signup_snackbar_nickname">중복된 닉네임입니다.</string>
+
+    <string name="text_destination">목적지</string>
 
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>

@@ -57,13 +57,15 @@
 
                             <Button
                                 style="@style/Button"
+                                android:id="@+id/btnModify"
                                 android:layout_marginBottom="16dp"
                                 android:text="@string/button_modify" />
 
                             <Button
                                 style="@style/Button"
+                                android:id="@+id/btnDelete"
                                 android:layout_marginBottom="16dp"
-                                android:text="@string/button_confirm" />
+                                android:text="@string/button_delete" />
 
                             <Button
                                 style="@style/Button"

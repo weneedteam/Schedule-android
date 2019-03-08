@@ -33,6 +33,9 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     private double currentLatitude; //위도
     private double currentLongitude; //경도
 
+    private double intentLatitude; //저장된 위도
+    private double intentLongitude; //저장된 경도
+
     private double searchLatitude;
     private double searchLongitude;
     private String searchLocation;
@@ -50,14 +53,18 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
     }
 
     @Override
-    public void setMapDisplay(double latitude, double longitude) {
+    public void setMapDisplay(double latitude, double longitude, double intentLatitude, double intentLongitude) {
         geocoder = new Geocoder(mContext);
         currentLatitude = latitude;
         currentLongitude = longitude;
 
-        LatLng destMap = new LatLng(latitude, longitude);
+        this.intentLatitude = intentLatitude;
+        this.intentLongitude = intentLongitude;
 
-        mView.setMapMarker(destMap);
+        LatLng curMap = new LatLng(latitude, longitude);
+        LatLng destMap = new LatLng(intentLatitude, intentLongitude);
+
+        mView.setMapMarker(curMap, destMap);
     }
 
     //장소 검색

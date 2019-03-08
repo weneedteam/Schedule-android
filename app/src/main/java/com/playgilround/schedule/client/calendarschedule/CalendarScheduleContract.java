@@ -1,5 +1,8 @@
 package com.playgilround.schedule.client.calendarschedule;
 
+import android.content.Context;
+import android.graphics.drawable.Drawable;
+
 import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
@@ -19,6 +22,13 @@ public interface CalendarScheduleContract {
 
         void addEvents(List<EventDay> events);
 
+        Drawable getOneIcon(Context context);
+
+        Drawable getTwoIcon(Context context);
+
+        Drawable getThreeIcon(Context context);
+
+        Drawable getFourIcon(Context context);
     }
 
     interface Presenter extends BasePresenter {

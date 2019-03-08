@@ -39,6 +39,8 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
 
     private String mCurrentCalenderString = "";
 
+    private int retCount;
+
     CalendarSchedulePresenter(Context context, CalendarScheduleContract.View view) {
         mView = view;
         mContext = context;
@@ -72,23 +74,36 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
             RealmResults<Schedule> result = realm.where(Schedule.class).equalTo("date", date).findAll();
 
             mEvents = new ArrayList<>();
-
             // 해당 yyyy-MM 에 저장된 스케줄 dd 얻기
-            for (Schedule schedule : result) {
-                DateTime scheduleDateTime = new DateTime(schedule.getTime(), DateTimeZone.getDefault());
+            for (int i = 0; i < result.size(); i++) {
+                DateTime scheduleDateTime = new DateTime(result.get(i).getTime(), DateTimeZone.getDefault());
 
                 int day = scheduleDateTime.getDayOfMonth();
 
+                for (int j = 0; j < result.size(); j++) {
+                    if (result.get(i).getDateDay().equals(result.get(j).getDateDay())) {
+                        retCount++;
+                    }
+                }
                 Calendar realmCalendar = Calendar.getInstance();
                 realmCalendar.set(Calendar.YEAR, year);
                 realmCalendar.set(Calendar.MONTH, month);
                 realmCalendar.set(Calendar.DATE, day);
 
-                mEvents.add(new EventDay(realmCalendar, R.mipmap.schedule_star));
+                if (retCount == 1) {
+                    mEvents.add(new EventDay(realmCalendar, mView.getOneIcon(mContext)));
+                } else if (retCount == 2) {
+                    mEvents.add(new EventDay(realmCalendar, mView.getTwoIcon(mContext)));
+                } else if (retCount == 3) {
+                    mEvents.add(new EventDay(realmCalendar, mView.getThreeIcon(mContext)));
+                } else if (retCount == 4) {
+                    mEvents.add(new EventDay(realmCalendar, mView.getFourIcon(mContext)));
+                } else {
+                    mEvents.add(new EventDay(realmCalendar, mView.getFourIcon(mContext)));
+                }
+                retCount = 0;
             }
-
             mView.addEvents(mEvents);
-
         });
 
     }
@@ -103,7 +118,7 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
                 String[] date_arr = mCurrentCalenderString.split(" ");
 
                 // Readme:: year + month + day
-                return date_arr[5] + "-" + MonthEnum.getMonthNum(date_arr[1]) + "-" +date_arr[2];
+                return date_arr[5] + "-" + MonthEnum.getMonthNum(date_arr[1]) + "-" + date_arr[2];
             }
             mCurrentCalenderString = calendar.getTime().toString();
             return "";
