@@ -91,6 +91,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
 
     private GoogleMap mMap;
 
+    private MapFragment mapFragment;
     public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
@@ -278,12 +279,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     private void finishLocation() {
         // Todo:: Android X에 맞춰서 코드 정리 할 필요가 있음.
         FragmentManager fragmentManager = getFragmentManager();
-        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
     }
 
     @Override
     public void setMapMarker(LatLng destMap) {
+        progress.cancel();
         MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
                 .snippet(getString(R.string.text_destination)).position(destMap).icon(null);
 
@@ -310,6 +312,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         getActivity().finish();
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d(TAG, "onDestroy View....");
+        if (mapFragment != null)
+            getFragmentManager().beginTransaction().remove(mapFragment).commit();
+    }
     @Override
     public void setPresenter(DetailScheduleContract.Presenter presenter) {
         mPresenter = presenter;
