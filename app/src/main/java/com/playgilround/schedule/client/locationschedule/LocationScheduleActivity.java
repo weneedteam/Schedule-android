@@ -158,6 +158,14 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         });
     }
 
+    //반경 500M 원
+    protected CircleOptions showCircleAround(LatLng aroundMap) {
+        return new CircleOptions().center(aroundMap)
+                .radius(500)     //반지름 단위 : m
+                .strokeWidth(0f) //선 없음
+                .fillColor(getResources().getColor(R.color.color_map_background));
+    }
+
     //SearchBar Clicked
     @Override
     public void onButtonClicked(int buttonCode) {
@@ -214,14 +222,7 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         mOption.position(result.getSearchResultLocation());
         mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
-
-        //반경 500M 원
-        CircleOptions circle = new CircleOptions().center(result.getSearchResultLocation())
-                .radius(500)     //반지름 단위 : m
-                .strokeWidth(0f) //선 없음
-                .fillColor(getResources().getColor(R.color.color_map_background));//배경색
-
-        mMap.addCircle(circle);
+        mMap.addCircle(showCircleAround(result.getSearchResultLocation()));
         mMap.addMarker(mOption);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(result.getSearchResultLocation(), result.getZoomLevel()));
         // 내위치 -> 목적지 거리를 선으로 표시.
@@ -243,12 +244,6 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     @Override
     public void setMapMarker(LatLng curMap, LatLng destMap) {
         progress.cancel();
-        //반경 500M 원
-        CircleOptions circle = new CircleOptions().center(curMap)
-                .radius(500)     //반지름 단위 : m
-                .strokeWidth(0f) //선 없음
-                .fillColor(getResources().getColor(R.color.color_map_background));//배경색
-
         MarkerOptions currentMarker = new MarkerOptions();
         currentMarker.position(curMap);
         currentMarker.title(getString(R.string.text_my_location));
@@ -263,7 +258,7 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         }
 
         mMap.addMarker(currentMarker);
-        mMap.addCircle(circle);
+        mMap.addCircle(showCircleAround(curMap));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curMap, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
