@@ -23,6 +23,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
@@ -203,18 +204,6 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         }
     }
 
-    //검색 된 결과 지도에 표시
-    @Override
-    public void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel) {
-        //Create Marker
-        MarkerOptions mOption = showMarkerDisplay(title, snippet, searchMap,
-                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-        mMap.addMarker(mOption);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchMap, zoomLevel));
-        //내위치 -> 목적지 거리를 선으로 표시.
-        mMap.addPolyline(new PolylineOptions().add(currentMap, searchMap).width(5).color(Color.RED));
-    }
-
     // 검색 결과 성공 시
     @Override
     public void mapSearchResultComplete(SearchLocationResult result) {
@@ -223,8 +212,9 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         mMap.addCircle(showCircleAround(result.getSearchResultLocation()));
         mMap.addMarker(mOption);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(result.getSearchResultLocation(), result.getZoomLevel()));
-        // 내위치 -> 목적지 거리를 선으로 표시.
+
         mMap.addPolyline(new PolylineOptions().add(result.getCurrentLocation(), result.getSearchResultLocation()).width(5).color(Color.RED));
+
     }
 
     // 검색 결과 실패 시

@@ -41,7 +41,7 @@ import butterknife.OnClick;
 import io.realm.Realm;
 
 import static com.playgilround.schedule.client.addschedule.AddSchedulePresenter.SCHEDULE_SAVE_FAIL;
-import static com.playgilround.schedule.client.fragment.DetailScheduleFragment.INTENT_MODIFY_ID;
+import static com.playgilround.schedule.client.detailschedule.DetailScheduleFragment.INTENT_MODIFY_ID;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**

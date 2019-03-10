@@ -1,25 +1,25 @@
-package com.playgilround.schedule.client.fragment;
+package com.playgilround.schedule.client.detailschedule;
 
 import android.animation.Animator;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
-import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
@@ -30,13 +30,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.INTENT_EXTRA_DATE;
-
 /**
  * 19-01-23
  * 저장된 스케줄 정보가 나오는 Activity
  */
-public class DetailScheduleFragment extends android.app.DialogFragment {
+public class DetailScheduleFragment extends android.app.DialogFragment implements OnMapReadyCallback, DetailScheduleContract.View{
 
     @BindView(R.id.ivMap)
     ImageView ivMap;
@@ -71,8 +69,15 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     String strLocation;
     boolean flag = true;
 
+    ProgressDialog progress;
+
+    private GoogleMap mMap;
+
     public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
+
+    private DetailScheduleContract.Presenter mPresenter;
+
 
     public static DetailScheduleFragment getInstance(String date, int id) {
         strDate = date;
@@ -196,6 +201,12 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
+    }
+
     @OnClick(R.id.btnDelete)
     void onScheduleDelete() {
         realm.executeTransaction(realm -> {
@@ -210,5 +221,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
         getActivity().finish();
+    }
+
+    @Override
+    public void setPresenter(DetailScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

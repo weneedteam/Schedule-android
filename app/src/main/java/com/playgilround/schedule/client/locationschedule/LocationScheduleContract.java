@@ -21,8 +21,6 @@ public interface LocationScheduleContract {
         void setMapMarker(LatLng curMap, LatLng destMap);
 
         //검색 된 결과 지도 표시
-        void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel);
-
         void mapSearchResultComplete(SearchLocationResult result);
 
         void mapSearchResultError();
