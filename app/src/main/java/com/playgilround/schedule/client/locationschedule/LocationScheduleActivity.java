@@ -18,6 +18,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
@@ -158,12 +159,17 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         });
     }
 
-    //반경 500M 원
+    //위치 주변 원 표시 작업
     protected CircleOptions showCircleAround(LatLng aroundMap) {
         return new CircleOptions().center(aroundMap)
                 .radius(500)     //반지름 단위 : m
                 .strokeWidth(0f) //선 없음
                 .fillColor(getResources().getColor(R.color.color_map_background));
+    }
+
+    //MarkerOption 설정 작업
+    protected MarkerOptions showMarkerDisplay(String title, String snippet, LatLng latLng, BitmapDescriptor icon) {
+        return new MarkerOptions().title(title).snippet(snippet).position(latLng).icon(icon);
     }
 
     //SearchBar Clicked
@@ -201,12 +207,8 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     @Override
     public void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel) {
         //Create Marker
-        MarkerOptions mOption = new MarkerOptions();
-        mOption.title(title);
-        mOption.snippet(snippet);
-        mOption.position(searchMap);
-        mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
+        MarkerOptions mOption = showMarkerDisplay(title, snippet, searchMap,
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mMap.addMarker(mOption);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(searchMap, zoomLevel));
         //내위치 -> 목적지 거리를 선으로 표시.
@@ -216,12 +218,8 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     // 검색 결과 성공 시
     @Override
     public void mapSearchResultComplete(SearchLocationResult result) {
-        MarkerOptions mOption = new MarkerOptions();
-        mOption.title(result.getTitle());
-        mOption.snippet(result.getSnippet());
-        mOption.position(result.getSearchResultLocation());
-        mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
-
+        MarkerOptions mOption = showMarkerDisplay(result.getTitle(), result.getSnippet(), result.getSearchResultLocation(),
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
         mMap.addCircle(showCircleAround(result.getSearchResultLocation()));
         mMap.addMarker(mOption);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(result.getSearchResultLocation(), result.getZoomLevel()));
@@ -244,16 +242,10 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     @Override
     public void setMapMarker(LatLng curMap, LatLng destMap) {
         progress.cancel();
-        MarkerOptions currentMarker = new MarkerOptions();
-        currentMarker.position(curMap);
-        currentMarker.title(getString(R.string.text_my_location));
-        currentMarker.snippet(getString(R.string.text_my_location));
+        MarkerOptions currentMarker = showMarkerDisplay(getString(R.string.text_my_location), getString(R.string.text_my_location), curMap, null);
 
         if (destMap.latitude != 0.0) {
-            MarkerOptions destMarker = new MarkerOptions();
-            destMarker.position(destMap);
-            destMarker.title(getString(R.string.text_destination));
-            destMarker.snippet(getString(R.string.text_destination));
+            MarkerOptions destMarker = showMarkerDisplay(getString(R.string.text_destination), getString(R.string.text_destination), destMap, null);
             mMap.addMarker(destMarker);
         }
 
