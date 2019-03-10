@@ -3,7 +3,11 @@ package com.playgilround.schedule.client.detailschedule;
 import android.animation.Animator;
 import android.app.FragmentManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -75,8 +79,11 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     String strTitle;
     String strLocation;
 
-    double latitude;
-    double longitude;
+    private double latitude;
+    private double longitude;
+
+    private double currentLatitude;
+    private double currentLongitude;
 
     boolean flag = true;
 
@@ -88,7 +95,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
     private DetailScheduleContract.Presenter mPresenter;
-
 
     public static DetailScheduleFragment getInstance(String date, int id) {
         strDate = date;
@@ -102,14 +108,52 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
         ButterKnife.bind(this, rootView);
 
-        new DetailSchedulePresenter(getContext(), this);
+        Context mContext = getContext();
+        new DetailSchedulePresenter(mContext, this);
+
+        LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
+
+            progress = new ProgressDialog(mContext);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setTitle(getString(R.string.text_location));
+            progress.setMessage(getString(R.string.text_find_current_location));
+            progress.show();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+
         pixelDensity = getResources().getDisplayMetrics().density;
 
-        animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.alpha_anim);
         findScheduleInfo();
         return rootView;
     }
 
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            currentLatitude = location.getLatitude();
+            currentLongitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
     private void findScheduleInfo() {
         realm = Realm.getDefaultInstance();
 
@@ -221,6 +265,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
+
+        //저장된 위치가 없을 경우엔 현재 위치가 표시 되도록.
+        if (latitude == 0.0) {
+            latitude = currentLatitude;
+            longitude = currentLongitude;
+        }
+
         mPresenter.setMapDisplay(latitude, longitude);
     }
 
