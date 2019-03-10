@@ -115,7 +115,7 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         Intent intent = getIntent();
         intentLatitude = intent.getDoubleExtra("latitude", 0);
         intentLongitude = intent.getDoubleExtra("longitude", 0);
-        
+
         new LocationSchedulePresenter(this, this);
         LocationManager lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -214,6 +214,14 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         mOption.position(result.getSearchResultLocation());
         mOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
 
+
+        //반경 500M 원
+        CircleOptions circle = new CircleOptions().center(result.getSearchResultLocation())
+                .radius(500)     //반지름 단위 : m
+                .strokeWidth(0f) //선 없음
+                .fillColor(getResources().getColor(R.color.color_map_background));//배경색
+
+        mMap.addCircle(circle);
         mMap.addMarker(mOption);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(result.getSearchResultLocation(), result.getZoomLevel()));
         // 내위치 -> 목적지 거리를 선으로 표시.
@@ -236,7 +244,7 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
     public void setMapMarker(LatLng curMap, LatLng destMap) {
         progress.cancel();
         //반경 500M 원
-        CircleOptions circle = new CircleOptions().center(destMap)
+        CircleOptions circle = new CircleOptions().center(curMap)
                 .radius(500)     //반지름 단위 : m
                 .strokeWidth(0f) //선 없음
                 .fillColor(getResources().getColor(R.color.color_map_background));//배경색
@@ -256,7 +264,7 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
 
         mMap.addMarker(currentMarker);
         mMap.addCircle(circle);
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curMap, 15));
         mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
