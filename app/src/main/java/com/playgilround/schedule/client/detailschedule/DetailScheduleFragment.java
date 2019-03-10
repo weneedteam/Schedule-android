@@ -1,7 +1,13 @@
-package com.playgilround.schedule.client.fragment;
+package com.playgilround.schedule.client.detailschedule;
 
 import android.animation.Animator;
+import android.app.FragmentManager;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,16 +16,21 @@ import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
-import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 import com.playgilround.schedule.client.model.Schedule;
 
 import org.joda.time.DateTime;
@@ -30,13 +41,11 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.realm.Realm;
 
-import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.INTENT_EXTRA_DATE;
-
 /**
  * 19-01-23
  * 저장된 스케줄 정보가 나오는 Activity
  */
-public class DetailScheduleFragment extends android.app.DialogFragment {
+public class DetailScheduleFragment extends android.app.DialogFragment implements OnMapReadyCallback, DetailScheduleContract.View{
 
     @BindView(R.id.ivMap)
     ImageView ivMap;
@@ -69,10 +78,23 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
     String strDay;
     String strTitle;
     String strLocation;
+
+    private double latitude;
+    private double longitude;
+
+    private double currentLatitude;
+    private double currentLongitude;
+
     boolean flag = true;
+
+    ProgressDialog progress;
+
+    private GoogleMap mMap;
 
     public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
+
+    private DetailScheduleContract.Presenter mPresenter;
 
     public static DetailScheduleFragment getInstance(String date, int id) {
         strDate = date;
@@ -86,13 +108,52 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
         ButterKnife.bind(this, rootView);
 
+        Context mContext = getContext();
+        new DetailSchedulePresenter(mContext, this);
+
+        LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
+        try {
+            lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
+            lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
+
+            progress = new ProgressDialog(mContext);
+            progress.setCanceledOnTouchOutside(false);
+            progress.setTitle(getString(R.string.text_location));
+            progress.setMessage(getString(R.string.text_find_current_location));
+            progress.show();
+        } catch (SecurityException e) {
+            e.printStackTrace();
+        }
+
         pixelDensity = getResources().getDisplayMetrics().density;
 
-        animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
+        animation = AnimationUtils.loadAnimation(mContext, R.anim.alpha_anim);
         findScheduleInfo();
         return rootView;
     }
 
+    private LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            currentLatitude = location.getLatitude();
+            currentLongitude = location.getLongitude();
+        }
+
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(String s) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(String s) {
+
+        }
+    };
     private void findScheduleInfo() {
         realm = Realm.getDefaultInstance();
 
@@ -103,9 +164,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
             strTitle = schedule.getTitle();
             strLocation = schedule.getLocation();
 
+            latitude = schedule.getLatitude();
+            longitude = schedule.getLongitude();
+
             tvTime.setText(strDay);
             tvTitle.setText(strTitle);
             tvLocation.setText(strLocation);
+
+            finishLocation();
         });
     }
 
@@ -196,6 +262,38 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         }
     }
 
+    @Override
+    public void onMapReady(GoogleMap map) {
+        mMap = map;
+
+        //저장된 위치가 없을 경우엔 현재 위치가 표시 되도록.
+        if (latitude == 0.0) {
+            latitude = currentLatitude;
+            longitude = currentLongitude;
+        }
+
+        mPresenter.setMapDisplay(latitude, longitude);
+    }
+
+    private void finishLocation() {
+        // Todo:: Android X에 맞춰서 코드 정리 할 필요가 있음.
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void setMapMarker(LatLng destMap) {
+        MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
+                .snippet(getString(R.string.text_destination)).position(destMap).icon(null);
+
+        mMap.addMarker(destMarker);
+        mMap.addCircle(new CircleOptions().center(destMap).radius(500).strokeWidth(0f).fillColor(getResources().getColor(R.color.color_map_background)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
+
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+    }
+
     @OnClick(R.id.btnDelete)
     void onScheduleDelete() {
         realm.executeTransaction(realm -> {
@@ -210,5 +308,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment {
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
         getActivity().finish();
+    }
+
+    @Override
+    public void setPresenter(DetailScheduleContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

@@ -21,8 +21,6 @@ public interface LocationScheduleContract {
         void setMapMarker(LatLng curMap, LatLng destMap);
 
         //검색 된 결과 지도 표시
-        void setMapSearchConfirmed(String title, String snippet, LatLng currentMap, LatLng searchMap, int zoomLevel);
-
         void mapSearchResultComplete(SearchLocationResult result);
 
         void mapSearchResultError();
@@ -37,5 +35,8 @@ public interface LocationScheduleContract {
         void setMapDisplay(double latitude, double longitude, double intentLatitude, double intentLongitude);
 
         ArrayList<LocationInfo> getLocationInfo();
+
+        //현재 위치와 목적지 카메라 줌 레벨 계산
+        int setMapZoomLevel(LatLng currentMap, LatLng destMap);
     }
 }
