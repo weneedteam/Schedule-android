@@ -1,9 +1,11 @@
 package com.playgilround.schedule.client.detailschedule;
 
 import android.animation.Animator;
+import android.app.FragmentManager;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -16,8 +18,13 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CircleOptions;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 import com.playgilround.schedule.client.model.Schedule;
@@ -67,6 +74,10 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     String strDay;
     String strTitle;
     String strLocation;
+
+    double latitude;
+    double longitude;
+
     boolean flag = true;
 
     ProgressDialog progress;
@@ -91,6 +102,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         View rootView = inflater.inflate(R.layout.fragment_detail_schedule, container);
         ButterKnife.bind(this, rootView);
 
+        new DetailSchedulePresenter(getContext(), this);
         pixelDensity = getResources().getDisplayMetrics().density;
 
         animation = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_anim);
@@ -108,9 +120,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
             strTitle = schedule.getTitle();
             strLocation = schedule.getLocation();
 
+            latitude = schedule.getLatitude();
+            longitude = schedule.getLongitude();
+
             tvTime.setText(strDay);
             tvTitle.setText(strTitle);
             tvLocation.setText(strLocation);
+
+            finishLocation();
         });
     }
 
@@ -204,7 +221,26 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
+        mPresenter.setMapDisplay(latitude, longitude);
+    }
 
+    private void finishLocation() {
+        // Todo:: Android X에 맞춰서 코드 정리 할 필요가 있음.
+        FragmentManager fragmentManager = getFragmentManager();
+        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment.getMapAsync(this);
+    }
+
+    @Override
+    public void setMapMarker(LatLng destMap) {
+        MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
+                .snippet(getString(R.string.text_destination)).position(destMap).icon(null);
+
+        mMap.addMarker(destMarker);
+        mMap.addCircle(new CircleOptions().center(destMap).radius(500).strokeWidth(0f).fillColor(getResources().getColor(R.color.color_map_background)));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
+
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     @OnClick(R.id.btnDelete)
