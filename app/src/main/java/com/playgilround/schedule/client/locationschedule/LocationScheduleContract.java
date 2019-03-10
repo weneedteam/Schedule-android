@@ -37,5 +37,8 @@ public interface LocationScheduleContract {
         void setMapDisplay(double latitude, double longitude, double intentLatitude, double intentLongitude);
 
         ArrayList<LocationInfo> getLocationInfo();
+
+        //현재 위치와 목적지 카메라 줌 레벨 계산
+        int setMapZoomLevel(LatLng currentMap, LatLng destMap);
     }
 }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
+import android.util.Log;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.playgilround.schedule.client.locationschedule.model.SearchLocationResult;
@@ -92,20 +93,6 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
             //검색 된 위치 좌표 생성
             LatLng searchMap = new LatLng(searchLatitude, searchLongitude);
 
-            //내 위치와 목적지 거리 계산
-            Location currentLocation = new Location(LOCATION_CURRENT);
-            currentLocation.setLatitude(currentLatitude);
-            currentLocation.setLongitude(currentLongitude);
-
-            Location destLocation = new Location(LOCATION_DESTINATION);
-            destLocation.setLatitude(searchLatitude);
-            destLocation.setLongitude(searchLongitude);
-
-            double distance = currentLocation.distanceTo(destLocation);
-
-            //해당 좌표로 화면 줌
-            int zoomLevel = ZoomLevel.getZoomLevel(distance);
-
             searchLocation = text.toString();
 
             SearchLocationResult result = new SearchLocationResult();
@@ -113,13 +100,30 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
             result.setSnippet(snippet);
             result.setCurrentLocation(currentMap);
             result.setSearchResultLocation(searchMap);
-            result.setZoomLevel(zoomLevel);
+            result.setZoomLevel(setMapZoomLevel(currentMap, searchMap));
 
             mView.mapSearchResultComplete(result);
         } else {
             // 장소 결과가 없을 경우 View 로 어떻게 넘길 지?
             mView.mapSearchResultError();
         }
+    }
+
+    @Override
+    public int setMapZoomLevel(LatLng currentMap, LatLng destMap) {
+        //내 위치와 목적지 거리 계산
+        Location currentLocation = new Location(LOCATION_CURRENT);
+        currentLocation.setLatitude(currentMap.latitude);
+        currentLocation.setLongitude(currentMap.longitude);
+
+        Location destLocation = new Location(LOCATION_DESTINATION);
+        destLocation.setLatitude(destMap.latitude);
+        destLocation.setLongitude(destMap.longitude);
+
+        double distance = currentLocation.distanceTo(destLocation);
+
+        Log.d(TAG, "distance ----> " + distance);
+        return ZoomLevel.getZoomLevel(distance);
     }
 
     @Override
@@ -130,4 +134,6 @@ public class LocationSchedulePresenter implements LocationScheduleContract.Prese
 
         return arrLocationInfo;
     }
+
+
 }

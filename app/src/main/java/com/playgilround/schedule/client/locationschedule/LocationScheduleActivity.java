@@ -247,12 +247,16 @@ public class LocationScheduleActivity extends AppCompatActivity implements OnMap
         if (destMap.latitude != 0.0) {
             MarkerOptions destMarker = showMarkerDisplay(getString(R.string.text_destination), getString(R.string.text_destination), destMap, null);
             mMap.addMarker(destMarker);
+            mMap.addCircle(showCircleAround(destMap));
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
         }
-
         mMap.addMarker(currentMarker);
         mMap.addCircle(showCircleAround(curMap));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curMap, 15));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+
+        int zoomLevel = mPresenter.setMapZoomLevel(curMap, destMap);
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(zoomLevel));
+        mMap.addPolyline(new PolylineOptions().add(curMap, destMap).width(5).color(Color.RED));
     }
 
     //위도 경도 탐색완료.
