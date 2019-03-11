@@ -12,5 +12,23 @@
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         app:mt_placeholder="@string/text_user_find"/>
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="54dp"
+        android:max="5"
+        android:progress="3"
+        android:progressTint="@color/light_indigo"/>
+
+    <include
+        layout="@layout/menu_lower"
+        android:layout_marginBottom="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"></include>
     <!-- 자기 프로필 사진 -->
 </RelativeLayout>
