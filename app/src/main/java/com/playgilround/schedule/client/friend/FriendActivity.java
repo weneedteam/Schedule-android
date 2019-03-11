@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.activity;
+package com.playgilround.schedule.client.friend;
 
 import android.app.Activity;
 import android.os.Bundle;
