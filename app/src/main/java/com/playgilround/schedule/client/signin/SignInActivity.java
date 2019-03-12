@@ -3,7 +3,8 @@ package com.playgilround.schedule.client.signin;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -22,14 +23,17 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     private SignInContract.Presenter mPresenter;
 
+    @BindView(R.id.etEmail)
+    EditText mEditTextEmail;
+
+    @BindView(R.id.etPassword)
+    EditText mEditTextPassword;
+
     private String[] PERMISSION_STORAGE = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.INTERNET
     };
-
-    @BindView(R.id.tvSignUp)
-    TextView tvSignUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,13 +57,19 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
                 .check();
 
         ButterKnife.bind(this);
+        new SignInPresenter(this, this);
 
-        new SignInPresenter(this);
+        if (mPresenter.checkAutoSignIn()) {
+            mPresenter.autoSignIn();
+        }
     }
 
     @OnClick(R.id.ivlogin)
     void onLoginClick() {
-        startActivity(new Intent(this, CalendarScheduleActivity.class));
+        String email = mEditTextEmail.getText().toString();
+        String password = mEditTextPassword.getText().toString();
+
+        mPresenter.signIn(email, password);
     }
 
     @OnClick(R.id.tvSignUp)
@@ -74,11 +84,25 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @Override
     public void signInComplete() {
-
+        startActivity(new Intent(this, CalendarScheduleActivity.class));
     }
 
+    // Todo:: View 코드 작성 (현욱)
     @Override
-    public void signInError() {
-
+    public void signInError(int status) {
+        switch (status) {
+            case SignInPresenter.ERROR_EMAIL:
+                Toast.makeText(this, "Error Email", Toast.LENGTH_SHORT).show();
+                break;
+            case SignInPresenter.ERROR_PASSWORD:
+                Toast.makeText(this, "Error Password", Toast.LENGTH_SHORT).show();
+                break;
+            case SignInPresenter.ERROR_FAIL_SIGN_IN:
+                Toast.makeText(this, "Not match email and password", Toast.LENGTH_SHORT).show();
+                break;
+            case SignInPresenter.ERROR_NETWORK_CUSTOM:
+                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 }
