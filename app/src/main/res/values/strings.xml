@@ -85,6 +85,7 @@
     <string name="text_signup_snackbar_nickname">중복된 닉네임입니다.</string>
 
     <string name="text_destination">Destination</string>
+    <string name="text_my_profile">My Profile</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>

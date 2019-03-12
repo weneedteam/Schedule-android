@@ -69,6 +69,7 @@
 
     <string name="text_destination">목적지</string>
     <string name="text_search_nickname">닉네임 검색</string>
+    <string name="text_my_profile">내 프로필</string>
 
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>

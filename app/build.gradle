@@ -105,6 +105,7 @@ dependencies {
     //SnackBar
     implementation 'com.nispok:snackbar:2.11.0'
 
-
+    //CiecleView
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }
 apply plugin: 'com.google.gms.google-services'
