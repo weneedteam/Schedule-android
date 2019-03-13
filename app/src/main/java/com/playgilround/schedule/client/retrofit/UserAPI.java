@@ -6,7 +6,10 @@ import com.playgilround.schedule.client.signup.model.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.Headers;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 
 public interface UserAPI {
@@ -17,10 +20,10 @@ public interface UserAPI {
 
     @Headers({"Accept: application/json"})
     @POST(BaseUrl.PATH_EMAIL_SIGN_IN)
-    Call<JsonObject> emailSignIn(@Body User user);
+    Call<User> emailSignIn(@Body JsonObject user);
 
-    /*@Headers({"Accept: application/json"})
+    @Headers({"Accept: application/json"})
     @POST(BaseUrl.PATH_TOKEN_SIGN_IN)
-    Call<JsonObject> tokenSignIn(@Body User user);*/
+    Call<User> tokenSignIn(@Body JsonObject token);
 
 }
