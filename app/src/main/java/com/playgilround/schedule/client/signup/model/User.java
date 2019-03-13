@@ -1,24 +1,35 @@
 package com.playgilround.schedule.client.signup.model;
 
 
-import androidx.annotation.NonNull;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class User {
 
-    private String user_name;
-    private String nick_name;
+    private String username;
+    private String nickname;
     private String birth;
     private String email;
     private String password;
-    private String language;
+    private String password2;
+    private String language = "KR";
     private String token;
 
-    public void setUserName(String user_name) {
-        this.user_name = user_name;
+    public User() {
+
     }
 
-    public void setNickName(String nick_name) {
-        this.nick_name = nick_name;
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
 
     public void setBirth(String birth) {
@@ -33,6 +44,10 @@ public class User {
         this.password = password;
     }
 
+    public void setPassword2(String password2) {
+        this.password2 = password2;
+    }
+
     public void setLanguage(String language) {
         this.language = language;
     }
@@ -41,12 +56,12 @@ public class User {
         this.token = token;
     }
 
-    public String getUserName() {
-        return user_name;
+    public String getUsername() {
+        return username;
     }
 
-    public String getNickName() {
-        return nick_name;
+    public String getNickname() {
+        return nickname;
     }
 
     public String getBirth() {
@@ -61,6 +76,10 @@ public class User {
         return password;
     }
 
+    public String getPassword2() {
+        return password2;
+    }
+
     public String getLanguage() {
         return language;
     }
@@ -69,17 +88,11 @@ public class User {
         return token;
     }
 
-    @NonNull
-    @Override
-    public String toString() {
-        return "{ " +
-                " 'user_name' : '" + user_name + "', " +
-                " 'nick_name' : '" + nick_name + "', " +
-                " 'birth' : '" + birth + "', " +
-                " 'email' : '" + email + "', " +
-                " 'password' : '" + password + "', " +
-                " 'language' : '" + language + "', " +
-                " 'token' : '" + token + "'" +
-                "}";
+    public static boolean checkEmail(String email) {
+        String mail = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
+        Pattern p = Pattern.compile(mail);
+        Matcher m = p.matcher(email);
+        return m.matches();
     }
+
 }

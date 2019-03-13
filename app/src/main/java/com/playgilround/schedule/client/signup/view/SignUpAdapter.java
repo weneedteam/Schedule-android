@@ -193,10 +193,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
             User user = new User();
 
-            user.setUserName(strName);
+            user.setUsername(strName);
             user.setEmail(strEmail);
             user.setPassword(strPw);
-            user.setNickName(strNickName);
+            user.setNickname(strNickName);
             user.setBirth(strBirth);
 
             mCallback.onNextClick(SIGN_UP_MAX);

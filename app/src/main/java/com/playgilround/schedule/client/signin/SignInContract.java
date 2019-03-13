@@ -10,13 +10,17 @@ public interface SignInContract {
 
         void signInComplete();
 
-        void signInError();
+        void signInError(int status);
 
     }
 
     interface Presenter extends BasePresenter {
 
-        void signIn(User user);
+        boolean checkAutoSignIn();
+
+        void autoSignIn();
+
+        void signIn(String email, String password);
 
     }
 
