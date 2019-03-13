@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.ScheduleInfoAdapter;
+import com.playgilround.schedule.client.infoschedule.view.InfoScheduleAdapter;
 import com.playgilround.schedule.client.detailschedule.DetailScheduleFragment;
 import com.playgilround.schedule.client.model.ScheduleInfo;
 
@@ -49,7 +49,7 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
 
     public static final int ADD_SCHEDULE = 1000;
     RecyclerView.LayoutManager mLayoutManager;
-    ScheduleInfoAdapter mAdapter;
+    InfoScheduleAdapter mAdapter;
 
     public static final String INTENT_EXTRA_DATE = "date";
 
@@ -143,7 +143,7 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
     // 오늘 저장된 스케줄 정보 얻기 완료
     @Override
     public void onGetSuccessInfo(ArrayList<ScheduleInfo> arrInfo) {
-        mAdapter = new ScheduleInfoAdapter(this, arrInfo, this);
+        mAdapter = new InfoScheduleAdapter(this, arrInfo, this);
         mRecyclerView.setAdapter(mAdapter);
     }
 

@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.adapter.ManyScheduleAdapter;
+import com.playgilround.schedule.client.manyschedule.view.ManyScheduleAdapter;
 import com.playgilround.schedule.client.model.Schedule;
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity;
 

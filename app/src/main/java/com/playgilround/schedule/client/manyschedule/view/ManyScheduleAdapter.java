@@ -1,16 +1,11 @@
-package com.playgilround.schedule.client.adapter;
+package com.playgilround.schedule.client.manyschedule.view;
 
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.playgilround.schedule.client.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="62dp">
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivFriendProfile"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="13dp"
+        android:src="@color/color_simple_gray" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ivConnected"
+        android:layout_width="13dp"
+        android:layout_height="13dp"
+        android:layout_marginStart="41dp"
+        android:layout_marginTop="37dp"
+        android:src="@color/light_indigo"
+        app:civ_border_width="1.5dp"
+        app:civ_border_color="@android:color/white"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_toEndOf="@+id/ivFriendProfile"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvMyNickName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="17dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="닉네임"
+            android:textColor="@android:color/black"
+            android:textSize="13sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/tvMyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="조현욱"
+            android:textColor="@color/color_simple_gray"
+            android:textSize="10sp"
+            android:textStyle="normal" />
+
+    </LinearLayout>
+</RelativeLayout>
