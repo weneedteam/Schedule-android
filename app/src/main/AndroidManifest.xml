@@ -48,7 +48,7 @@
         <activity android:name=".manyschedule.ManyScheduleActivity"
             android:theme="@style/ThemeDialog"/>
 
-        <activity android:name=".activity.FriendActivity"/>
+        <activity android:name=".friend.FriendActivity"/>
     </application>
 
 </manifest>

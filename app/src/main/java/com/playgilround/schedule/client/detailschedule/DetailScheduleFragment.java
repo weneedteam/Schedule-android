@@ -45,7 +45,7 @@ import io.realm.Realm;
  * 19-01-23
  * 저장된 스케줄 정보가 나오는 Activity
  */
-public class DetailScheduleFragment extends android.app.DialogFragment implements OnMapReadyCallback, DetailScheduleContract.View{
+public class DetailScheduleFragment extends android.app.DialogFragment implements OnMapReadyCallback, DetailScheduleContract.View {
 
     @BindView(R.id.ivMap)
     ImageView ivMap;
@@ -91,6 +91,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
 
     private GoogleMap mMap;
 
+    private MapFragment mapFragment;
     public static final String INTENT_MODIFY_ID = "modifyId";
     static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
@@ -111,16 +112,16 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         Context mContext = getContext();
         new DetailSchedulePresenter(mContext, this);
 
+        progress = new ProgressDialog(mContext);
+        progress.setCanceledOnTouchOutside(false);
+        progress.setTitle(getString(R.string.text_location));
+        progress.setMessage(getString(R.string.text_find_current_location));
+        progress.show();
+
         LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         try {
             lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 100, 1, mLocationListener);
             lm.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 100, 1, mLocationListener);
-
-            progress = new ProgressDialog(mContext);
-            progress.setCanceledOnTouchOutside(false);
-            progress.setTitle(getString(R.string.text_location));
-            progress.setMessage(getString(R.string.text_find_current_location));
-            progress.show();
         } catch (SecurityException e) {
             e.printStackTrace();
         }
@@ -137,6 +138,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         public void onLocationChanged(Location location) {
             currentLatitude = location.getLatitude();
             currentLongitude = location.getLongitude();
+
+            finishLocation();
         }
 
         @Override
@@ -154,9 +157,9 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
 
         }
     };
+
     private void findScheduleInfo() {
         realm = Realm.getDefaultInstance();
-
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
             DateTime dateTime = new DateTime(Long.valueOf(schedule.getTime()), DateTimeZone.getDefault());
@@ -171,7 +174,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
             tvTitle.setText(strTitle);
             tvLocation.setText(strLocation);
 
-            finishLocation();
         });
     }
 
@@ -278,12 +280,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     private void finishLocation() {
         // Todo:: Android X에 맞춰서 코드 정리 할 필요가 있음.
         FragmentManager fragmentManager = getFragmentManager();
-        MapFragment mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
+        mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
     }
 
     @Override
     public void setMapMarker(LatLng destMap) {
+        progress.cancel();
         MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
                 .snippet(getString(R.string.text_destination)).position(destMap).icon(null);
 
@@ -308,6 +311,13 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
         getActivity().finish();
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if (mapFragment != null)
+            getFragmentManager().beginTransaction().remove(mapFragment).commit();
     }
 
     @Override

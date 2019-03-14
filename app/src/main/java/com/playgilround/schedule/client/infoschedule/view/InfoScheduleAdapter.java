@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.adapter;
+package com.playgilround.schedule.client.infoschedule.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -24,15 +24,15 @@ import butterknife.ButterKnife;
 /**
  * 19-01-13 스케줄 관련 CardView Adapter
  */
-public class ScheduleInfoAdapter extends RecyclerView.Adapter<ScheduleInfoAdapter.ScheduleViewHolder> {
+public class InfoScheduleAdapter extends RecyclerView.Adapter<InfoScheduleAdapter.ScheduleViewHolder> {
 
-    static final String TAG = ScheduleInfoAdapter.class.getSimpleName();
+    static final String TAG = InfoScheduleAdapter.class.getSimpleName();
     private Context context;
     private ArrayList<ScheduleInfo> arrCard;
 
     private InfoScheduleContract.View mView;
 
-    public ScheduleInfoAdapter(Context context, ArrayList<ScheduleInfo> arrCard, InfoScheduleContract.View mView) {
+    public InfoScheduleAdapter(Context context, ArrayList<ScheduleInfo> arrCard, InfoScheduleContract.View mView) {
         this.context = context;
         this.arrCard = arrCard;
         this.mView = mView;

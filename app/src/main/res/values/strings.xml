@@ -56,6 +56,7 @@
     <string name="text_signin_forget_password">Do not remember your password?</string>
     <string name="text_login">Login</string>
     <string name="text_schedule_content">Please Input your work!</string>
+    <string name="text_search_nickname">NickName Search</string>
 
 
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
@@ -84,6 +85,8 @@
     <string name="text_signup_snackbar_nickname">중복된 닉네임입니다.</string>
 
     <string name="text_destination">Destination</string>
+    <string name="text_my_profile">My Profile</string>
+    <string name="text_friend">Friend</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
