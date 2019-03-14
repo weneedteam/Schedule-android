@@ -2,6 +2,8 @@ package com.playgilround.schedule.client.friend;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
+import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
@@ -19,6 +21,9 @@ public class FriendActivity extends Activity {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.ivMyProfile)
+    ImageView ivMyProfile;
 
     private static final String TAG = FriendActivity.class.getSimpleName();
 
@@ -38,6 +43,8 @@ public class FriendActivity extends Activity {
 
         mAdapter = new FriendAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
+
+        ivMyProfile.setOnClickListener(l -> Log.d(TAG, "My Profile Click"));
 
     }
 }
