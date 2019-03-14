@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
  * 19-02-11
  * 친구 관련 Fragment
  */
-public class FriendActivity extends Activity {
+public class FriendActivity extends Activity implements FriendContract.View {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -30,12 +30,15 @@ public class FriendActivity extends Activity {
     RecyclerView.LayoutManager mLayoutManager;
     FriendAdapter mAdapter;
 
+    private FriendContract.Presenter mPresenter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend);
         ButterKnife.bind(this);
 
+        new FriendPresenter(this, this);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -45,6 +48,10 @@ public class FriendActivity extends Activity {
         mRecyclerView.setAdapter(mAdapter);
 
         ivMyProfile.setOnClickListener(l -> Log.d(TAG, "My Profile Click"));
+    }
 
+    @Override
+    public void setPresenter(FriendContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }
