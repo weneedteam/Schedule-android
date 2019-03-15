@@ -1,12 +1,13 @@
 package com.playgilround.schedule.client.friend;
 
 import android.app.Activity;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
+import com.playgilround.schedule.client.profile.ProfileFragment;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -47,7 +48,11 @@ public class FriendActivity extends Activity implements FriendContract.View {
         mAdapter = new FriendAdapter(this);
         mRecyclerView.setAdapter(mAdapter);
 
-        ivMyProfile.setOnClickListener(l -> Log.d(TAG, "My Profile Click"));
+        ivMyProfile.setOnClickListener(l -> {
+            final ProfileFragment fragment = ProfileFragment.getInstance();
+            final FragmentManager fm = getFragmentManager();
+            fragment.show(fm, "TAG");
+        });
     }
 
     @Override
