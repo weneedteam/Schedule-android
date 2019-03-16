@@ -1,58 +1,83 @@
 package com.playgilround.schedule.client.signup;
 
-import android.content.Intent;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
-import com.playgilround.schedule.client.signin.SignInActivity;
+import com.playgilround.schedule.client.signup.view.OnSignUpAdapterListener;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SignUpActivity extends AppCompatActivity implements SignUpContract.View, SignUpAdapter.OnButtonClick {
+public class SignUpActivity extends AppCompatActivity implements SignUpContract.View {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
-    private SignUpContract.Presenter mPresenter;
 
-    @BindView(R.id.recycler_signup)
+    @BindView(R.id.recycler_sign_up)
     RecyclerView mRecyclerView;
 
-    SignUpAdapter adapter;
+    @BindView(R.id.progress_sign_up)
+    ProgressBar mProgressBar;
 
-    int retPosition;
+    @BindView(R.id.button_sign_up_next)
+    ImageView mNextButton;
 
+    private SignUpContract.Presenter mPresenter;
+    private SignUpAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.activity_sign_up);
+
         ButterKnife.bind(this);
 
-        new SignUpPresenter(this);
-
+        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
-
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 recyclerView.stopScroll();
             }
         });
 
-        mRecyclerView.setHasFixedSize(true);
+        mAdapter = new SignUpAdapter(this);
+        mAdapter.setOnSignUpNextFieldListener(new OnSignUpAdapterListener() {
+            @Override
+            public void onNextField(int position) {
+                mPresenter.onClickNext(position);
+            }
 
-        adapter = new SignUpAdapter(this, this);
-        mRecyclerView.setAdapter(adapter);
+            @Override
+            public void disableNextButton() {
+                mNextButton.setImageResource(R.mipmap.disable_btn);
+            }
+
+            @Override
+            public void ableNextButton() {
+                mNextButton.setImageResource(R.mipmap.next_btn);
+            }
+        });
+
+        mRecyclerView.setAdapter(mAdapter);
 
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
+
+        new SignUpPresenter(this, mAdapter);
     }
 
     @Override
@@ -62,8 +87,36 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     }
 
     @Override
+    public void onBackPressed() {
+        onBack();
+    }
+
+    @Override
     public void setPresenter(SignUpContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @OnClick(R.id.button_sign_up_next)
+    public void onNext() {
+        mPresenter.onClickNext(mAdapter.getPosition());
+    }
+
+    @OnClick(R.id.button_sign_up_back)
+    public void onBack() {
+        if (mAdapter.getPosition() != 0) {
+            mPresenter.onClickBack(mAdapter.getPosition());
+
+            ObjectAnimator animator = ObjectAnimator.ofInt(mProgressBar,
+                    "progress", mProgressBar.getProgress() - 10);
+            animator.setDuration(500);
+            animator.setInterpolator(new DecelerateInterpolator());
+            animator.start();
+
+            mAdapter.setPosition(mAdapter.getPosition() - 1);
+            mRecyclerView.smoothScrollToPosition(mAdapter.getPosition());
+        } else {
+            finish();
+        }
     }
 
   /*  @OnClick(R.id.btnNext)
@@ -82,30 +135,32 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     }*/
 
     @Override
-    public void onNextClick(int position) {
-        retPosition = position;
+    public void fieldCheck(boolean check) {
+        if (check) {
+            if (mAdapter.getPosition() + 1 != mAdapter.getItemCount()) {
+                ObjectAnimator animator = ObjectAnimator.ofInt(mProgressBar,
+                        "progress", mProgressBar.getProgress() + 10);
+                animator.setDuration(500);
+                animator.setInterpolator(new DecelerateInterpolator());
+                animator.start();
 
-        if (adapter.getItemCount() == retPosition) {
-            Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this, SignInActivity.class));
-            overridePendingTransition(R.anim.enter, R.anim.exit);
-            finish();
+                mAdapter.setPosition(mAdapter.getPosition() + 1);
+                mRecyclerView.smoothScrollToPosition(mAdapter.getPosition());
+                new Handler().postDelayed(() -> mAdapter.setFocus(), 500);
+
+                mNextButton.setImageResource(R.mipmap.disable_btn);
+            } else {
+                Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
+                // 이전 activity 에서 finish() 된게 아니라서 startActivity 할 필요가 없음.
+                // 애니메이션 동작 안함.
+                /*startActivity(new Intent(this, SignInActivity.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);*/
+                finish();
+            }
         } else {
-            mRecyclerView.smoothScrollToPosition(retPosition);
+            mAdapter.showSnackBar();
         }
     }
-
-    @Override
-    public void onBackClick(int position) {
-        retPosition = position;
-        if (retPosition == -1) {
-            finish();
-        } else {
-            mRecyclerView.smoothScrollToPosition(retPosition);
-        }
-    }
-
-
 
     @Override
     public void signUpError() {
