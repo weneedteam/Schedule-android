@@ -3,6 +3,7 @@ package com.playgilround.schedule.client.signup.view;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -222,15 +223,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             mEditSignUp.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    String text = mEditSignUp.getText().toString().trim();
-                    if (checkEditText(text)) {
-                        content = text;
-                        mOnSignUpAdapterListener.ableNextButton();
-                        dismissSnackBar();
-                    } else {
-                        mOnSignUpAdapterListener.disableNextButton();
-                        dismissSnackBar();
-                    }
+
                 }
 
                 @Override
