@@ -1,8 +1,6 @@
 package com.playgilround.schedule.client.signup;
 
 import com.crashlytics.android.core.CrashlyticsCore;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
@@ -99,6 +97,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
 
         Retrofit retrofit = APIClient.getLoggingClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
+
+        mUser.setPassword(User.base64Encoding(mUser.getPassword()));
+        mUser.setPassword2(User.base64Encoding(mUser.getPassword2()));
 
         userAPI.signUp(mUser).enqueue(new Callback<ResponseMessage>() {
             @Override
