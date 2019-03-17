@@ -1,13 +1,17 @@
 package com.playgilround.schedule.client.signup.view;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -17,11 +21,16 @@ import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.signup.model.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
+import com.tsongkha.spinnerdatepicker.DatePickerDialog;
+import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
+
+import org.joda.time.DateTime;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 import static com.nispok.snackbar.Snackbar.with;
 
@@ -133,6 +142,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                 break;
             case TYPE_BIRTH:
                 mBirthViewHolder.setFocus();
+                mBirthViewHolder.hideKeyboard();
                 break;
         }
     }
@@ -222,15 +232,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             mEditSignUp.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                    String text = mEditSignUp.getText().toString().trim();
-                    if (checkEditText(text)) {
-                        content = text;
-                        mOnSignUpAdapterListener.ableNextButton();
-                        dismissSnackBar();
-                    } else {
-                        mOnSignUpAdapterListener.disableNextButton();
-                        dismissSnackBar();
-                    }
+
                 }
 
                 @Override
@@ -261,44 +263,11 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             mEditSignUp.requestFocus();
         }
 
-        /*void showBirthDialog(int year, int month, int day, int spinnerTheme) {
-                tvTitle.setText(mContext.getString(R.string.text_signup_title_birth));
-                mProgress.setProgress(6);
-                tvContent.setVisibility(android.view.View.GONE);
-                etContent.setVisibility(android.view.View.GONE);
-                DateTime dateTime = new DateTime();
-                int year = dateTime.getYear();
-                int month = dateTime.getMonthOfYear() - 1;
-                int day = dateTime.getDayOfMonth();
-                showBirthDialog(year, month, day, R.style.birthDatePicker);
-
-            new SpinnerDatePickerDialogBuilder()
-                    .context(mContext)
-                    .callback(this)
-                    .spinnerTheme(spinnerTheme)
-                    .defaultDate(year, month, day)
-                    .build()
-                    .show();
+        void hideKeyboard() {
+            InputMethodManager imm = (InputMethodManager) mEditSignUp.getContext().getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditSignUp.getWindowToken(), 0);
         }
 
-        @Override
-        public void onDateSet(com.tsongkha.spinnerdatepicker.DatePicker view, int year, int month, int day) {
-            DateTime dateTime = new DateTime(year, month + 1, day, 0, 0);
-
-            String strBirth = dateTime.toString(mContext.getString(R.string.text_date_year_month_day));
-            Log.d(TAG, "Result ->" + strName + "//" + strEmail + "//" + strPw + "//" + strNickName + "//" + strBirth);
-
-            User user = new User();
-
-            user.setUsername(strName);
-            user.setEmail(strEmail);
-            user.setPassword(strPw);
-            user.setNickname(strNickName);
-            user.setBirth(strBirth);
-
-            // mCallback.onNextClick(SIGN_UP_MAX);
-        }
-        */
     }
 
     class NameViewHolder extends RootViewHolder {
@@ -309,7 +278,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
         @Override
         boolean checkEditText(String content) {
-            return content.length() > 1;
+            return content.length() > 0;
         }
 
     }
@@ -367,15 +336,67 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
     class BirthViewHolder extends RootViewHolder {
 
+        @BindView(R.id.text_sign_up_year)
+        TextView mTextYear;
+
+        @BindView(R.id.text_sign_up_month)
+        TextView mTextMonth;
+
+        @BindView(R.id.text_sign_up_day)
+        TextView mTextDay;
+
         BirthViewHolder(View itemView) {
             super(itemView);
         }
 
         @Override
         boolean checkEditText(String content) {
-            return false;
+            return content != null;
         }
 
+        @Override
+        public void bind(int position) {
+            this.position = position;
+
+            DateTime dateTime = new DateTime();
+
+            mTextYear.setText(String.valueOf(dateTime.getYear()));
+            mTextMonth.setText(String.valueOf(dateTime.getMonthOfYear() - 1));
+            mTextDay.setText(String.valueOf(dateTime.getDayOfMonth()));
+
+            content = String.valueOf(dateTime.getYear()) + "-" +
+                    (dateTime.getMonthOfYear() + 1) + "-" +
+                    dateTime.getDayOfMonth();
+        }
+
+        @OnClick(R.id.view_sign_up_birth)
+        void onChangeBirth() {
+            showDateDialog(
+                    Integer.valueOf(mTextYear.getText().toString()),
+                    Integer.valueOf(mTextMonth.getText().toString()),
+                    Integer.valueOf(mTextDay.getText().toString())
+            );
+        }
+
+        void showDateDialog(int year, int month, int day) {
+            new SpinnerDatePickerDialogBuilder()
+                    .context(mContext)
+                    .callback((view, year1, monthOfYear, dayOfMonth) -> {
+                        mTextYear.setText(String.valueOf(year1));
+                        mTextMonth.setText(String.valueOf(monthOfYear + 1));
+                        mTextDay.setText(String.valueOf(dayOfMonth));
+
+                        content = String.valueOf(year1) + "-" +
+                                (monthOfYear + 1) + "-" +
+                                dayOfMonth;
+
+                        mOnSignUpAdapterListener.ableNextButton();
+                    })
+                    .spinnerTheme(R.style.birthDatePicker)
+                    .defaultDate(year, month, day)
+                    .build()
+                    .show();
+        }
     }
 
     class EmptyViewHolder extends RootViewHolder {

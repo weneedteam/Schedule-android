@@ -17,6 +17,49 @@
         android:textSize="24sp"
         android:textStyle="normal" />
 
+    <LinearLayout
+        android:id="@+id/view_sign_up_birth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="122dp"
+        android:layout_marginEnd="92dp">
+
+        <TextView
+            android:id="@+id/text_sign_up_year"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="2019"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/light_indigo" />
+
+        <TextView
+            android:id="@+id/text_sign_up_month"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="03"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/light_indigo" />
+
+        <TextView
+            android:id="@+id/text_sign_up_day"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="17"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            android:textColor="@color/light_indigo" />
+
+    </LinearLayout>
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

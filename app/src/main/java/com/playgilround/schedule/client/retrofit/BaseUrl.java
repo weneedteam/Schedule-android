@@ -2,7 +2,8 @@ package com.playgilround.schedule.client.retrofit;
 
 public class BaseUrl {
 
-    static final String BASE_URL = "http://192.168.0.5:8000/";
+    // static final String BASE_URL = "http://192.168.0.5:8000/";
+    static final String BASE_URL = "http://172.16.6.234:8000/";
     // static final String BASE_URL = "http://schedule-prod.ap-northeast-2.elasticbeanstalk.com/api/v1/";
 
     static final String PATH_SIGN_UP = "v1/user/user/";

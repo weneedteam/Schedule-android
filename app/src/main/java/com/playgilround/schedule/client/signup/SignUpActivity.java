@@ -119,21 +119,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         }
     }
 
-  /*  @OnClick(R.id.btnNext)
-    public void signUp() {
-
-       *//* User user = new User();
-
-        user.setNickName(mNickNameEditText.getText().toString());
-        user.setUserName(mNameEditText.getText().toString());
-        user.setEmail(mEmailEditText.getText().toString());
-        user.setPassword(mPasswordEditText.getText().toString());
-        user.setBirth(mBirthEditText.getText().toString());
-        user.setLanguage("Korean");
-
-        mPresenter.signUp(user);*//*
-    }*/
-
     @Override
     public void fieldCheck(boolean check) {
         if (check) {
