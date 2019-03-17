@@ -97,7 +97,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     @Override
     public void signUp() {
 
-        Retrofit retrofit = APIClient.getLoggingClient();
+        Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
 
         mUser.setPassword(User.base64Encoding(mUser.getPassword()));
