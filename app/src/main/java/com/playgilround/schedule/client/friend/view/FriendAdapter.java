@@ -1,15 +1,18 @@
 package com.playgilround.schedule.client.friend.view;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
 
 import javax.annotation.Nonnull;
 
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 /**
@@ -19,6 +22,8 @@ import butterknife.ButterKnife;
 public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendViewHolder> {
 
     private Context context;
+
+    private static final String TAG = FriendAdapter.class.getSimpleName();
 
     public FriendAdapter(Context context) {
         this.context = context;
@@ -41,6 +46,9 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
     }
     class FriendViewHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.ivFriendProfile)
+        ImageView ivFriendProfile;
+
         FriendViewHolder(View itemView) {
             super(itemView);
 
@@ -48,7 +56,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
         }
 
         void onBind(int i) {
-
+            ivFriendProfile.setOnClickListener(l -> Log.d(TAG, "Friend Adapter Click ->" + i));
         }
     }
 }
