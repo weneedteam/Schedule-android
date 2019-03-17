@@ -1,6 +1,8 @@
 package com.playgilround.schedule.client.signup.model;
 
 
+import android.util.Base64;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -105,6 +107,14 @@ public class User {
         Pattern pattern = Pattern.compile(vailPass);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    public static String base64Encoding(String content) {
+        return Base64.encodeToString(content.getBytes(), 0);
+    }
+
+    public static String base64Decoding(String content) {
+        return new String(Base64.decode(content, 0));
     }
 
 }

@@ -10,7 +10,7 @@ public interface SignUpContract {
 
         void fieldCheck(boolean check);
 
-        void signUpError();
+        void signUpError(int status);
 
         void singUpComplete();
 
@@ -22,7 +22,7 @@ public interface SignUpContract {
 
         void onClickBack(int position);
 
-        void signUp(User user);
+        void signUp();
 
     }
 }
