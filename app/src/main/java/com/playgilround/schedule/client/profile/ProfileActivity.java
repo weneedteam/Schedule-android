@@ -19,10 +19,6 @@ import butterknife.ButterKnife;
  */
 public class ProfileActivity extends Activity {
 
-    public static ProfileActivity getInstance() {
-        return new ProfileActivity();
-    }
-
     @BindView(R.id.fabTop)
     FloatingActionButton fabTop;
 

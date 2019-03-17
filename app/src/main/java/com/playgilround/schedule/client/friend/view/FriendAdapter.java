@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.friend.FriendContract;
 
 import javax.annotation.Nonnull;
 
@@ -25,8 +26,11 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
 
     private static final String TAG = FriendAdapter.class.getSimpleName();
 
-    public FriendAdapter(Context context) {
+    private FriendContract.View mView;
+
+    public FriendAdapter(Context context, FriendContract.View mView) {
         this.context = context;
+        this.mView = mView;
     }
 
     @Nonnull
@@ -42,7 +46,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
 
     @Override
     public int getItemCount() {
-        return 5;
+        return 10;
     }
     class FriendViewHolder extends RecyclerView.ViewHolder {
 
@@ -56,7 +60,7 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendAdapter.FriendView
         }
 
         void onBind(int i) {
-            ivFriendProfile.setOnClickListener(l -> Log.d(TAG, "Friend Adapter Click ->" + i));
+            ivFriendProfile.setOnClickListener(l -> mView.onProfileClick(i));
         }
     }
 }
