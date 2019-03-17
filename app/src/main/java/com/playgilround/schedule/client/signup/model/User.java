@@ -95,4 +95,16 @@ public class User {
         return m.matches();
     }
 
+    /*
+     * 패스워드 유효성검사
+     * 영문, 숫자입력
+     * 정규식 (영문, 숫자 8자리 이상)
+     */
+    public static boolean checkPassWord(String password) {
+        String vailPass = "^(?=.*[a-z])(?=.*[0-9]).{8,}$";
+        Pattern pattern = Pattern.compile(vailPass);
+        Matcher matcher = pattern.matcher(password);
+        return matcher.matches();
+    }
+
 }

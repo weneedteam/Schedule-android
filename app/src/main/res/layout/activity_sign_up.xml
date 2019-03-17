@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/button_sign_up_back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="19dp"
+        android:src="@mipmap/back_btn" />
+
+    <ProgressBar
+        android:id="@+id/progress_sign_up"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="53dp"
+        android:max="60"
+        android:progress="10"
+        android:indeterminate="false"
+        android:progressTint="@color/color_tutorial_progress" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/progress_sign_up" />
+
+    <ImageView
+        android:id="@+id/button_sign_up_next"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="23dp"
+        android:src="@mipmap/disable_btn" />
+
+</RelativeLayout>
