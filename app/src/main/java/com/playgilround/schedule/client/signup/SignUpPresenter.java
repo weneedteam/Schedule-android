@@ -1,6 +1,8 @@
 package com.playgilround.schedule.client.signup;
 
 import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
@@ -101,7 +103,21 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         mUser.setPassword(User.base64Encoding(mUser.getPassword()));
         mUser.setPassword2(User.base64Encoding(mUser.getPassword2()));
 
-        userAPI.signUp(mUser).enqueue(new Callback<ResponseMessage>() {
+        // Todo:: 나중에 시간이 나면 SignUp Request Body 의 구현체를 User.class 형태로 바꾸기
+        JsonObject jsonObject = new JsonObject();
+
+        JsonObject user = new JsonObject();
+        user.addProperty("username", mUser.getUsername());
+        user.addProperty("nickname", mUser.getNickname());
+        user.addProperty("email", mUser.getEmail());
+        user.addProperty("password", mUser.getPassword());
+        user.addProperty("password2", mUser.getPassword2());
+
+        jsonObject.add("user", user);
+        jsonObject.addProperty("birth", mUser.getBirth());
+        jsonObject.addProperty("language", mUser.getLanguage());
+
+        userAPI.signUp(jsonObject).enqueue(new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
                 if (response.isSuccessful() && response.body() != null) {

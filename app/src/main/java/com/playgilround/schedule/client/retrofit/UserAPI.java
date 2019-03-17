@@ -16,7 +16,7 @@ public interface UserAPI {
 
     @Headers({"Accept: application/json"})
     @POST(BaseUrl.PATH_SIGN_UP)
-    Call<ResponseMessage> signUp(@Body User user);
+    Call<ResponseMessage> signUp(@Body JsonObject user);
 
     @Headers({"Accept: application/json"})
     @POST(BaseUrl.PATH_EMAIL_SIGN_IN)
