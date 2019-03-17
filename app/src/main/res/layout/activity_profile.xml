@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <ImageView
         android:id="@+id/ivProfile"
         android:layout_width="match_parent"
         android:layout_height="254dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/test_profile"/>
+        android:src="@drawable/test_profile" />
 
     <TextView
         android:id="@+id/tvNickName"
@@ -21,18 +22,18 @@
         android:text="한큐에 쏜다"
         android:textColor="@android:color/white"
         android:textSize="24sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="276dp"
-        android:layout_marginStart="17dp">
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="276dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile"/>
+            android:src="@drawable/friend_profile" />
 
         <TextView
             android:id="@+id/tvName"
@@ -44,20 +45,20 @@
             android:text="한규언"
             android:textColor="@color/light_indigo"
             android:textSize="18sp"
-            android:textStyle="normal"/>
+            android:textStyle="normal" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="322dp"
-        android:layout_marginStart="17dp">
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="322dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile_birth"/>
+            android:src="@drawable/friend_profile_birth" />
 
         <TextView
             android:id="@+id/tvBirth"
@@ -69,20 +70,20 @@
             android:text="2001.03.18"
             android:textColor="@color/color_profile_gray"
             android:textSize="16sp"
-            android:textStyle="normal"/>
+            android:textStyle="normal" />
     </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="353dp"
-        android:layout_marginStart="17dp">
+        android:layout_marginStart="17dp"
+        android:layout_marginTop="353dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile_email"/>
+            android:src="@drawable/friend_profile_email" />
 
         <TextView
             android:id="@+id/tvEmail"
@@ -94,7 +95,45 @@
             android:text="hanku@gmail.com"
             android:textColor="@color/color_profile_gray"
             android:textSize="16sp"
-            android:textStyle="normal"/>
+            android:textStyle="normal" />
     </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="157dp"
+        android:src="@drawable/favorite_on"
+        app:fabSize="mini"
+        android:visibility="invisible"
+        app:backgroundTint="@color/color_profile_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabMiddle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="28dp"
+        android:layout_marginBottom="102dp"
+        android:src="@drawable/ic_detail_location"
+        android:visibility="invisible"
+        app:fabSize="mini"
+        app:backgroundTint="@color/color_profile_menu" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="26dp"
+        android:layout_marginEnd="20dp"
+        android:scaleType="center"
+        app:fabSize="normal"
+        app:backgroundTint="@color/light_indigo" />
 
 </RelativeLayout>

@@ -36,7 +36,7 @@
                         android:adjustViewBounds="true"
                         android:contentDescription="@string/image"
                         android:scaleType="fitXY"
-                        android:src="@mipmap/test_fragment_img"
+                        android:src="@drawable/test_fragment_img"
                         android:visibility="invisible"/>
                     <fragment
                         android:id="@+id/google_map"

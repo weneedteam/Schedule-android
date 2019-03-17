@@ -72,7 +72,7 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
             String text = texts[position];
 
-            int resourceID = mContext.getResources().getIdentifier(image, "mipmap", mContext.getPackageName());
+            int resourceID = mContext.getResources().getIdentifier(image, "drawable", mContext.getPackageName());
 
             mImageView.setTag(position);
 
