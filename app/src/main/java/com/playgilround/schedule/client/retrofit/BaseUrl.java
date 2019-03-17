@@ -11,8 +11,12 @@ public class BaseUrl {
     static final String PATH_EMAIL_SIGN_IN = "api-token-auth/";
     static final String PATH_TOKEN_SIGN_IN = "api-token-verify/";
 
+    static final String PATH_USER_SEARCH = "v1/user/user/search";
+
     public static final String PARAM_SIGN_IN_EMAIL = "email";
     public static final String PARAM_SIGN_IN_PASSWORD = "password";
     public static final String PARAM_SIGN_IN_TOKEN = "token";
+
+    static final String PARAM_USER_NAME_SEARCH = "name";
 
 }

@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
 import com.playgilround.schedule.client.profile.ProfileFragment;
+import com.playgilround.schedule.client.signup.model.User;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,5 +60,19 @@ public class FriendActivity extends Activity implements FriendContract.View {
     @Override
     public void setPresenter(FriendContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void searchError(int status) {
+        switch (status) {
+            case FriendPresenter.ERROR_NETWORK_CUSTOM:
+                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void searchResult(User result) {
+
     }
 }
