@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 
 public class User {
 
+    private int id;
     private String username;
     private String nickname;
     private String birth;
@@ -24,6 +25,10 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {
@@ -56,6 +61,10 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {
