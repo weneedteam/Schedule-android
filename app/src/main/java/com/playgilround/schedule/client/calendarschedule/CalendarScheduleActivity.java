@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,6 +75,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
     private CalendarScheduleContract.Presenter mPresenter;
 
     View header;
+
+    private long[] mNotes = new long[2]; //back button save.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -216,6 +219,15 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
+        } else {
+            //http://forum.falinux.com/zbxe/index.php?document_srl=571358&mid=lecture_tip
+            System.arraycopy(mNotes, 1, mNotes, 0, mNotes.length -1);
+            mNotes[mNotes.length - 1] = SystemClock.uptimeMillis();
+            if (SystemClock.uptimeMillis() - mNotes[0] < 1000) {
+                finish();
+            } else {
+                Toast.makeText(this, getString(R.string.text_exit_app), Toast.LENGTH_LONG).show();
+            }
         }
     }
 

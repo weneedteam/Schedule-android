@@ -80,6 +80,7 @@
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">My Profile</string>
     <string name="text_friend">Friend</string>
+    <string name="text_exit_app">Exit App?</string>
 
     <string name="error_text_close">Close</string>
 
