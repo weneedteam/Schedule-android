@@ -83,6 +83,9 @@
     <color name="color_tutorial_progress">#5c4b69</color>
 
     <color name="pages_color">#3F51B5</color>
+
+    <!-- Error -->
+    <color name="error_snack_bar">#FF8A80</color>
     
     <!-- Design Zeplin-->
     <color name="light_indigo">#7165cd</color>
