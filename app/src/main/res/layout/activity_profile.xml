@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="254dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/test_profile" />
+        android:src="@drawable/test_profile" />
 
     <TextView
         android:id="@+id/tvNickName"
@@ -33,7 +33,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile" />
+            android:src="@drawable/friend_profile" />
 
         <TextView
             android:id="@+id/tvName"
@@ -58,7 +58,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile_birth" />
+            android:src="@drawable/friend_profile_birth" />
 
         <TextView
             android:id="@+id/tvBirth"
@@ -83,7 +83,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@mipmap/friend_profile_email" />
+            android:src="@drawable/friend_profile_email" />
 
         <TextView
             android:id="@+id/tvEmail"
@@ -100,26 +100,28 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabTop"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="157dp"
-        android:src="@mipmap/favorite_on"
+        android:src="@drawable/favorite_on"
+        app:fabSize="mini"
         android:visibility="invisible"
         app:backgroundTint="@color/color_profile_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fabMiddle"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="28dp"
         android:layout_marginBottom="102dp"
-        android:src="@mipmap/ic_detail_location"
+        android:src="@drawable/ic_detail_location"
         android:visibility="invisible"
+        app:fabSize="mini"
         app:backgroundTint="@color/color_profile_menu" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -128,12 +130,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
         android:layout_marginBottom="26dp"
+        android:layout_marginEnd="20dp"
         android:scaleType="center"
         app:fabSize="normal"
-        android:src="@mipmap/friend_profile_menu"
-        app:backgroundTint="@color/light_indigo"
-        app:useCompatPadding="true"/>
+        app:backgroundTint="@color/light_indigo" />
 
 </RelativeLayout>

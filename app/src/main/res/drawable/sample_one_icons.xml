@@ -4,7 +4,7 @@
         <bitmap
             android:gravity="center"
             android:tint="@android:color/holo_red_dark"
-            android:src="@mipmap/ic_dot" />
+            android:src="@drawable/ic_dot" />
     </item>
 
 </layer-list>

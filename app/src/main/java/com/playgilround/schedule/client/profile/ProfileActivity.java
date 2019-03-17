@@ -1,12 +1,9 @@
 package com.playgilround.schedule.client.profile;
 
 
-import android.app.DialogFragment;
+import android.app.Activity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -20,10 +17,10 @@ import butterknife.ButterKnife;
  * 19-03-15
  * 나(친구) 프로필 관련 Fragment
  */
-public class ProfileFragment extends DialogFragment {
+public class ProfileActivity extends Activity {
 
-    public static ProfileFragment getInstance() {
-        return new ProfileFragment();
+    public static ProfileActivity getInstance() {
+        return new ProfileActivity();
     }
 
     @BindView(R.id.fabTop)
@@ -41,17 +38,18 @@ public class ProfileFragment extends DialogFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_profile);
 
-        View rootView = inflater.inflate(R.layout.fragment_profile, container);
-        ButterKnife.bind(this, rootView);
+        ButterKnife.bind(this);
 
-        animOpen = AnimationUtils.loadAnimation(getContext(), R.anim.fab_open);
-        animClose = AnimationUtils.loadAnimation(getContext(), R.anim.fab_close);
+        animOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open);
+        animClose = AnimationUtils.loadAnimation(this, R.anim.fab_close);
 
         fabBottom.setOnClickListener(l -> floatingAnim());
-
-        return rootView;
+        fabMiddle.setOnClickListener(l -> floatingAnim());
+        fabTop.setOnClickListener(l -> floatingAnim());
     }
 
     public void floatingAnim() {
@@ -75,6 +73,5 @@ public class ProfileFragment extends DialogFragment {
     @Override
     public void onStart() {
         super.onStart();
-        getDialog().getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.MATCH_PARENT);
     }
 }

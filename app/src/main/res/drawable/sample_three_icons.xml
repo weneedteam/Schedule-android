@@ -4,21 +4,21 @@
         <bitmap
             android:gravity="left"
             android:tint="@android:color/holo_red_dark"
-            android:src="@mipmap/ic_dot" />
+            android:src="@drawable/ic_dot" />
     </item>
     <item
         android:left="40dp">
         <bitmap
             android:gravity="left"
             android:tint="@android:color/holo_green_dark"
-            android:src="@mipmap/ic_dot" />
+            android:src="@drawable/ic_dot" />
     </item>
 
     <item android:left="80dp">
         <bitmap
             android:gravity="left"
             android:tint="@android:color/holo_blue_dark"
-            android:src="@mipmap/ic_dot"/>
+            android:src="@drawable/ic_dot"/>
     </item>
 
 </layer-list>

@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="17dp"
         android:layout_marginTop="19dp"
-        android:src="@mipmap/back_btn" />
+        android:src="@drawable/back_btn" />
 
     <ProgressBar
         android:id="@+id/progress_sign_up"
@@ -36,6 +36,6 @@
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="23dp"
-        android:src="@mipmap/disable_btn" />
+        android:src="@drawable/disable_btn" />
 
 </RelativeLayout>

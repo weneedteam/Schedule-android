@@ -99,7 +99,7 @@
         android:layout_height="56dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="256dp"
-        android:src="@mipmap/check_btn" />
+        android:src="@drawable/check_btn" />
 
 
     <LinearLayout
@@ -112,28 +112,28 @@
             android:id="@+id/ivfacebook"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@mipmap/login_fb"/>
+            android:src="@drawable/login_fb"/>
 
         <ImageView
             android:id="@+id/ivnaver"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@mipmap/login_naver"/>
+            android:src="@drawable/login_naver"/>
 
         <ImageView
             android:id="@+id/ivkakao"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@mipmap/login_kakao"/>
+            android:src="@drawable/login_kakao"/>
 
         <ImageView
             android:id="@+id/ivgoogle"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@mipmap/login_google"/>
+            android:src="@drawable/login_google"/>
     </LinearLayout>
 
     <TextView
