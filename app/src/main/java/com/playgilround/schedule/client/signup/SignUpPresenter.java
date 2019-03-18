@@ -1,13 +1,27 @@
 package com.playgilround.schedule.client.signup;
 
-import com.playgilround.schedule.client.signup.view.SignUpAdapter;
+import com.crashlytics.android.core.CrashlyticsCore;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.model.ResponseMessage;
+import com.playgilround.schedule.client.retrofit.APIClient;
+import com.playgilround.schedule.client.retrofit.UserAPI;
 import com.playgilround.schedule.client.signup.model.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
+import com.playgilround.schedule.client.signup.view.SignUpAdapter;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 public class SignUpPresenter implements SignUpContract.Presenter {
 
     private final SignUpContract.View mView;
     private final UserDataModel mUserDataModel;
+
+    static final int ERROR_SIGN_UP = 0x0001;
+    static final int ERROR_NETWORK_CUSTOM = 0x0002;
 
     private User mUser;
 
@@ -81,29 +95,45 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     }
 
     @Override
-    public void signUp(User user) {
+    public void signUp() {
 
-        /*Retrofit retrofit = APIClient.getClient();
+        Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
 
-        userAPI.signUp(user).enqueue(new Callback<ResponseMessage>() {
+        mUser.setPassword(User.base64Encoding(mUser.getPassword()));
+        mUser.setPassword2(User.base64Encoding(mUser.getPassword2()));
+
+        // Todo:: 나중에 시간이 나면 SignUp Request Body 의 구현체를 User.class 형태로 바꾸기
+        JsonObject jsonObject = new JsonObject();
+
+        JsonObject user = new JsonObject();
+        user.addProperty("username", mUser.getUsername());
+        user.addProperty("nickname", mUser.getNickname());
+        user.addProperty("email", mUser.getEmail());
+        user.addProperty("password", mUser.getPassword());
+        user.addProperty("password2", mUser.getPassword2());
+
+        jsonObject.add("user", user);
+        jsonObject.addProperty("birth", mUser.getBirth());
+        jsonObject.addProperty("language", mUser.getLanguage());
+
+        userAPI.signUp(jsonObject).enqueue(new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
-                if (response.isSuccessful()) {
-                    Log.v("SignUpPresenter", response.body().toString());
+                if (response.isSuccessful() && response.body() != null) {
                     mView.singUpComplete();
                 } else {
-                    Log.e("SignUpPresenter", response.body().toString());
-                    mView.signUpError();
+                    CrashlyticsCore.getInstance().log(response.toString());
+                    mView.signUpError(ERROR_SIGN_UP);
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseMessage> call, Throwable t) {
-                Log.e("SignUpPresenter", t.toString());
-                mView.signUpError();
+                CrashlyticsCore.getInstance().log(t.toString());
+                mView.signUpError(ERROR_NETWORK_CUSTOM);
             }
-        });*/
+        });
 
     }
 }

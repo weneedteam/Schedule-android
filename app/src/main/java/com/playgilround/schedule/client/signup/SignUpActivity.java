@@ -119,21 +119,6 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
         }
     }
 
-  /*  @OnClick(R.id.btnNext)
-    public void signUp() {
-
-       *//* User user = new User();
-
-        user.setNickName(mNickNameEditText.getText().toString());
-        user.setUserName(mNameEditText.getText().toString());
-        user.setEmail(mEmailEditText.getText().toString());
-        user.setPassword(mPasswordEditText.getText().toString());
-        user.setBirth(mBirthEditText.getText().toString());
-        user.setLanguage("Korean");
-
-        mPresenter.signUp(user);*//*
-    }*/
-
     @Override
     public void fieldCheck(boolean check) {
         if (check) {
@@ -150,12 +135,13 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
                 mNextButton.setImageResource(R.drawable.disable_btn);
             } else {
-                Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
+                mPresenter.signUp();
+                /*Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
                 // 이전 activity 에서 finish() 된게 아니라서 startActivity 할 필요가 없음.
                 // 애니메이션 동작 안함.
-                /*startActivity(new Intent(this, SignInActivity.class));
-                overridePendingTransition(R.anim.enter, R.anim.exit);*/
-                finish();
+                startActivity(new Intent(this, SignInActivity.class));
+                overridePendingTransition(R.anim.enter, R.anim.exit);
+                finish();*/
             }
         } else {
             mAdapter.showSnackBar();
@@ -163,8 +149,15 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
     }
 
     @Override
-    public void signUpError() {
-
+    public void signUpError(int status) {
+        switch (status) {
+            case SignUpPresenter.ERROR_SIGN_UP:
+                Toast.makeText(this, "Sign up Error", Toast.LENGTH_SHORT).show();
+                break;
+            case SignUpPresenter.ERROR_NETWORK_CUSTOM:
+                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
 
     @Override

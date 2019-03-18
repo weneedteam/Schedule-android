@@ -108,7 +108,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_EMAIL, email);
-        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, password);
+        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, User.base64Encoding(password));
 
         userAPI.emailSignIn(jsonObject).enqueue(new Callback<User>() {
             @Override

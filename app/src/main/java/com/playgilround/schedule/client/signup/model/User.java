@@ -1,11 +1,14 @@
 package com.playgilround.schedule.client.signup.model;
 
 
+import android.util.Base64;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class User {
 
+    private int id;
     private String username;
     private String nickname;
     private String birth;
@@ -22,6 +25,10 @@ public class User {
     public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setUsername(String username) {
@@ -54,6 +61,10 @@ public class User {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getUsername() {
@@ -105,6 +116,14 @@ public class User {
         Pattern pattern = Pattern.compile(vailPass);
         Matcher matcher = pattern.matcher(password);
         return matcher.matches();
+    }
+
+    public static String base64Encoding(String content) {
+        return Base64.encodeToString(content.getBytes(), 0);
+    }
+
+    public static String base64Decoding(String content) {
+        return new String(Base64.decode(content, 0));
     }
 
 }

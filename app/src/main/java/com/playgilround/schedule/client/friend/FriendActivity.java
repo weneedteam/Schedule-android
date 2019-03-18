@@ -5,6 +5,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.friend.view.FriendAdapter;
+import com.playgilround.schedule.client.profile.ProfileFragment;
+import com.playgilround.schedule.client.signup.model.User;
 import android.widget.RelativeLayout;
 
 import com.playgilround.schedule.client.R;
@@ -60,6 +66,18 @@ public class FriendActivity extends Activity implements FriendContract.View {
     }
 
     @Override
+    public void searchError(int status) {
+        switch (status) {
+            case FriendPresenter.ERROR_NETWORK_CUSTOM:
+                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    @Override
+    public void searchResult(User result) {
+
+    }
     public void onProfileClick(int id) {
         startActivity(new Intent(this, ProfileActivity.class));
     }
