@@ -63,7 +63,7 @@ public class InfoScheduleActivity extends Activity implements InfoScheduleContra
         setContentView(R.layout.dialog_calendar);
 
         ButterKnife.bind(this);
-
+        setFinishOnTouchOutside(false);
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);

@@ -124,7 +124,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
             String strInput = etInput.getText().toString();
             if (arrManyDays == null) {
                 // Todo:: Error message
-                Log.e(TAG, "ManyDays is null");
+                Toast.makeText(getApplicationContext(), "날짜를 지정해주세요.", Toast.LENGTH_LONG).show();
             } else if (strInput.equals("")) {
                 Toast.makeText(getApplicationContext(), "스케줄을 적어주세요.", Toast.LENGTH_LONG).show();
             } else {

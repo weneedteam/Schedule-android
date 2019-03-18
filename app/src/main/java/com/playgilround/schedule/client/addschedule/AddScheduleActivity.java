@@ -70,7 +70,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     @BindView(R.id.etScheduleDesc)
     EditText etDesc;
 
-    String strMDay, strMTime, strMYearMonth, strInput;
+    String strMDay, strMTime, strMYearMonth, strInput, strRetTime;
 
     //Schedule DB  dateDay 컬럼에 들어갈 항목
     ArrayList<String> arrDateDay;
@@ -142,7 +142,13 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
             }
 
             String strTime = arrDateDay.get(0);
-            String strRetTime = strTime + " 외 " + (arrDateDay.size() - 1) + "일";
+            int checkDate = arrDateDay.size() -1;
+
+            if (checkDate == 0) {
+                strRetTime = strTime;
+            } else {
+                strRetTime = strTime + " 외 " + (arrDateDay.size() - 1) + "일";
+            }
 
             chooseSize = arrDateDay.size();
             isManyDay = true;
