@@ -262,7 +262,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     @Override
-    public void onScheduleSave(String state) {
+    public void onScheduleSave(String state, Schedule schedule) {
         Log.d(TAG, "onScheduleSave ->" + state);
 
         if (state.equals(SCHEDULE_SAVE_FAIL)) {
@@ -281,6 +281,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
                 intent.putExtra("date", arrDate.get(0));
                 setResult(ADD_SCHEDULE, intent);
             }
+            mPresenter.onNewSchedule(schedule);
             finish();
         }
     }
