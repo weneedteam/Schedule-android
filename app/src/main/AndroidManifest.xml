@@ -49,6 +49,8 @@
             android:theme="@style/ThemeDialog"/>
 
         <activity android:name=".friend.FriendActivity"/>
+
+        <activity android:name=".profile.ProfileActivity"/>
     </application>
 
 </manifest>

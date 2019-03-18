@@ -1,8 +1,9 @@
 package com.playgilround.schedule.client.friend;
 
 import android.app.Activity;
-import android.app.FragmentManager;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -10,6 +11,11 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
 import com.playgilround.schedule.client.profile.ProfileFragment;
 import com.playgilround.schedule.client.signup.model.User;
+import android.widget.RelativeLayout;
+
+import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.friend.view.FriendAdapter;
+import com.playgilround.schedule.client.profile.ProfileActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,19 +48,16 @@ public class FriendActivity extends Activity implements FriendContract.View {
         ButterKnife.bind(this);
 
         new FriendPresenter(this, this);
+
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        mAdapter = new FriendAdapter(this);
+        mAdapter = new FriendAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
 
-        ivMyProfile.setOnClickListener(l -> {
-            final ProfileFragment fragment = ProfileFragment.getInstance();
-            final FragmentManager fm = getFragmentManager();
-            fragment.show(fm, "TAG");
-        });
+        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
     }
 
     @Override
@@ -74,5 +77,8 @@ public class FriendActivity extends Activity implements FriendContract.View {
     @Override
     public void searchResult(User result) {
 
+    }
+    public void onProfileClick(int id) {
+        startActivity(new Intent(this, ProfileActivity.class));
     }
 }

@@ -71,7 +71,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="16dp"
-                    android:src="@mipmap/ic_detail_clock"/>
+                    android:src="@drawable/ic_detail_clock"/>
 
                 <TextView
                     android:id="@+id/tvScheduleTime"
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:src="@mipmap/ic_detail_arrow_normal"/>
+                    android:src="@drawable/ic_detail_arrow_normal"/>
             </LinearLayout>
 
             <View
@@ -109,7 +109,7 @@
                     android:layout_width="30dp"
                     android:layout_height="30dp"
                     android:layout_marginLeft="16dp"
-                    android:src="@mipmap/ic_detail_location"/>
+                    android:src="@drawable/ic_detail_location"/>
 
                 <TextView
                     android:id="@+id/tvScheduleLocation"
@@ -129,7 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="12dp"
-                    android:src="@mipmap/ic_detail_arrow_normal"/>
+                    android:src="@drawable/ic_detail_arrow_normal"/>
             </LinearLayout>
 
             <View
@@ -149,7 +149,7 @@
                     android:layout_height="30dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="16dp"
-                    android:src="@mipmap/ic_detail_remarks"/>
+                    android:src="@drawable/ic_detail_remarks"/>
 
                 <TextView
                     android:layout_width="wrap_content"

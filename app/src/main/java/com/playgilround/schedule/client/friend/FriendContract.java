@@ -16,6 +16,8 @@ public interface FriendContract {
 
         void searchResult(User result);
 
+        //친구 프로필 클릭 시
+        void onProfileClick(int id);
     }
 
     interface Presenter extends BasePresenter {

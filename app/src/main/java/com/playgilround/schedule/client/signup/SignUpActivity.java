@@ -63,12 +63,12 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
             @Override
             public void disableNextButton() {
-                mNextButton.setImageResource(R.mipmap.disable_btn);
+                mNextButton.setImageResource(R.drawable.disable_btn);
             }
 
             @Override
             public void ableNextButton() {
-                mNextButton.setImageResource(R.mipmap.next_btn);
+                mNextButton.setImageResource(R.drawable.next_btn);
             }
         });
 
@@ -133,7 +133,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
                 mRecyclerView.smoothScrollToPosition(mAdapter.getPosition());
                 new Handler().postDelayed(() -> mAdapter.setFocus(), 500);
 
-                mNextButton.setImageResource(R.mipmap.disable_btn);
+                mNextButton.setImageResource(R.drawable.disable_btn);
             } else {
                 mPresenter.signUp();
                 /*Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
