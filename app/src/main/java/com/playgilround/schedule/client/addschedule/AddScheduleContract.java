@@ -18,7 +18,7 @@ public interface AddScheduleContract {
     interface View extends BaseView<Presenter> {
 
         // 스케줄 저장 완료
-        void onScheduleSave(String state);
+        void onScheduleSave(String state, Schedule schedule);
 
         // 스케줄 날짜 설정 완료
         void setDaySchedule(ArrayList<String> arrDateDay, String dateTitle, int size);
@@ -45,5 +45,8 @@ public interface AddScheduleContract {
 
         //스케줄 정보 얻기
         void getScheduleInfo(int id);
+
+        //스케줄 생성 api
+        void onNewSchedule(Schedule schedule);
     }
 }

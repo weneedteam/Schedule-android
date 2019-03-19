@@ -3,11 +3,16 @@ package com.playgilround.schedule.client.addschedule;
 import android.content.Context;
 import android.util.Log;
 
+import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.model.Schedule;
+import com.playgilround.schedule.client.retrofit.APIClient;
+import com.playgilround.schedule.client.retrofit.ScheduleAPI;
+import com.playgilround.schedule.client.retrofit.UserAPI;
 
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
+import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,6 +23,10 @@ import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 /**
  * 19-02-17
@@ -33,6 +42,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
 
     static final String SCHEDULE_SAVE_FAIL = "fail";
     private static final String SCHEDULE_SAVE_SUCCESS = "SUCCESS";
+    Schedule mSchedule;
 
 
     AddSchedulePresenter(Context context, AddScheduleContract.View view) {
@@ -53,7 +63,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
                         double latitude, double longitude, String location) {
 
         if (title.length() == 0) {
-            mView.onScheduleSave(SCHEDULE_SAVE_FAIL);
+            mView.onScheduleSave(SCHEDULE_SAVE_FAIL, null);
         } else {
             mRealm.executeTransaction(realm -> {
                 if (scheduleId == -1) {
@@ -68,7 +78,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
                             nextId = currentIdNum.intValue() + 1;
                         }
 
-                        Schedule mSchedule = realm.createObject(Schedule.class, nextId);
+                        mSchedule = realm.createObject(Schedule.class, nextId);
                         mSchedule.setTitle(title);
                         mSchedule.setDate(arrDate.get(i));
                         mSchedule.setDateDay(arrDateDay.get(i));
@@ -87,7 +97,7 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
                     }
                 } else {
                     //MODIFY
-                    Schedule mSchedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
+                    mSchedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
                     mSchedule.setTitle(title);
                     mSchedule.setDate(arrDate.get(0));
                     mSchedule.setDateDay(arrDateDay.get(0));
@@ -105,8 +115,41 @@ public class AddSchedulePresenter implements AddScheduleContract.Presenter {
                     }
                 }
             });
-            mView.onScheduleSave(SCHEDULE_SAVE_SUCCESS);
+            mView.onScheduleSave(SCHEDULE_SAVE_SUCCESS, mSchedule);
         }
+    }
+
+    //스케줄 저장 api 연결
+    @Override
+    public void onNewSchedule(Schedule schedule) {
+
+        Retrofit retrofit = APIClient.getClient();
+        ScheduleAPI scheduleAPI = retrofit.create(ScheduleAPI.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("title", "string");
+        jsonObject.addProperty("state", 0);
+        jsonObject.addProperty("start_time", "2019-03-18 23:11:00");
+        jsonObject.addProperty("latitude", 0);
+        jsonObject.addProperty("longitude", 0);
+        jsonObject.addProperty("content", "string");
+        jsonObject.addProperty("registrant", 0);
+
+        scheduleAPI.newSchedule(jsonObject).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override

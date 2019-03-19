@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -86,6 +85,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     private double currentLongitude;
 
     boolean flag = true;
+    boolean firstFlag = true;
 
     ProgressDialog progress;
 
@@ -93,7 +93,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
 
     private MapFragment mapFragment;
     public static final String INTENT_MODIFY_ID = "modifyId";
-    static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
     private DetailScheduleContract.Presenter mPresenter;
 
@@ -110,13 +109,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         ButterKnife.bind(this, rootView);
 
         Context mContext = getContext();
-        new DetailSchedulePresenter(mContext, this);
 
-        progress = new ProgressDialog(mContext);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setTitle(getString(R.string.text_location));
-        progress.setMessage(getString(R.string.text_find_current_location));
-        progress.show();
+        new DetailSchedulePresenter(mContext, this);
 
         LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -133,13 +127,25 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        progress = new ProgressDialog(getContext());
+        progress.setTitle(getString(R.string.text_location));
+        progress.setMessage(getString(R.string.text_find_set_location));
+        progress.setCancelable(false);
+        progress.show();
+    }
+
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            currentLatitude = location.getLatitude();
-            currentLongitude = location.getLongitude();
+            if (firstFlag) {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
 
-            finishLocation();
+                finishLocation();
+            }
         }
 
         @Override
@@ -267,13 +273,11 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-
         //저장된 위치가 없을 경우엔 현재 위치가 표시 되도록.
         if (latitude == 0.0) {
             latitude = currentLatitude;
             longitude = currentLongitude;
         }
-
         mPresenter.setMapDisplay(latitude, longitude);
     }
 
@@ -282,10 +286,12 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         FragmentManager fragmentManager = getFragmentManager();
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
+        firstFlag = false;
     }
 
     @Override
     public void setMapMarker(LatLng destMap) {
+
         progress.cancel();
         MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
                 .snippet(getString(R.string.text_destination)).position(destMap).icon(null);
@@ -294,7 +300,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         mMap.addCircle(new CircleOptions().center(destMap).radius(500).strokeWidth(0f).fillColor(getResources().getColor(R.color.color_map_background)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
     }
 
     @OnClick(R.id.btnDelete)
@@ -302,7 +308,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
             schedule.deleteFromRealm();
-            getActivity().finish();
+            removeView();
         });
     }
 
@@ -310,14 +316,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     void onScheduleModify() {
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
-        getActivity().finish();
+        removeView();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mapFragment != null)
+    public void removeView() {
+        if (mapFragment != null) {
             getFragmentManager().beginTransaction().remove(mapFragment).commit();
+            getActivity().finish();
+        }
     }
 
     @Override

@@ -3,19 +3,13 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
-import com.playgilround.schedule.client.profile.ProfileFragment;
-import com.playgilround.schedule.client.signup.model.User;
-import android.widget.RelativeLayout;
-
-import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.friend.view.FriendAdapter;
 import com.playgilround.schedule.client.profile.ProfileActivity;
+import com.playgilround.schedule.client.signup.model.User;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;

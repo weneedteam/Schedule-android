@@ -3,7 +3,10 @@ package com.playgilround.schedule.client.retrofit;
 public class BaseUrl {
 
     // static final String BASE_URL = "http://192.168.0.5:8000/";
-    static final String BASE_URL = "http://172.16.6.234:8000/";
+//    static final String BASE_URL = "http://192.168.10.45:8000/";
+    public static final String BASE_URL = "http://192.168.219.101:8000/";
+
+
     // static final String BASE_URL = "http://schedule-prod.ap-northeast-2.elasticbeanstalk.com/api/v1/";
 
     static final String PATH_SIGN_UP = "v1/user/user/";
@@ -18,5 +21,8 @@ public class BaseUrl {
     public static final String PARAM_SIGN_IN_TOKEN = "token";
 
     static final String PARAM_USER_NAME_SEARCH = "name";
+
+    //Schedule
+    static final String PATH_NEW_SCHEDULE = "/v1/schedule/schedule/";
 
 }
