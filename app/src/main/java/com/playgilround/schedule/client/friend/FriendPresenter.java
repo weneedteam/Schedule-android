@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.friend;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
@@ -49,6 +50,8 @@ public class FriendPresenter implements FriendContract.Presenter {
                 if (response.isSuccessful() && response.body() != null) {
                     User user = new Gson().fromJson(response.body().get("user"), User.class);
                     mView.searchResult(user);
+                } else {
+
                 }
             }
 

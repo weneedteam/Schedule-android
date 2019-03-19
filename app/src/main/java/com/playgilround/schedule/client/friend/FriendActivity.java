@@ -3,9 +3,13 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
 import com.playgilround.schedule.client.profile.ProfileActivity;
@@ -20,7 +24,7 @@ import butterknife.ButterKnife;
  * 19-02-11
  * 친구 관련 Fragment
  */
-public class FriendActivity extends Activity implements FriendContract.View {
+public class FriendActivity extends Activity implements FriendContract.View, MaterialSearchBar.OnSearchActionListener {
 
     @BindView(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -28,7 +32,8 @@ public class FriendActivity extends Activity implements FriendContract.View {
     @BindView(R.id.ivMyProfile)
     ImageView ivMyProfile;
 
-    private static final String TAG = FriendActivity.class.getSimpleName();
+    @BindView(R.id.searchBar)
+    MaterialSearchBar searchBar;
 
     RecyclerView.LayoutManager mLayoutManager;
     FriendAdapter mAdapter;
@@ -52,7 +57,27 @@ public class FriendActivity extends Activity implements FriendContract.View {
         mRecyclerView.setAdapter(mAdapter);
 
         ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
+
+        searchBar.setOnSearchActionListener(this);
     }
+
+    //SearchBar Click
+    @Override
+    public void onButtonClicked(int buttonCode) {
+
+    }
+    //SearchBar InputText Changed
+    @Override
+    public void onSearchStateChanged(boolean enabled) {
+
+    }
+
+    //Call SearchBar Search
+    @Override
+    public void onSearchConfirmed(CharSequence text) {
+        mPresenter.onSearch(text.toString());
+    }
+
 
     @Override
     public void setPresenter(FriendContract.Presenter presenter) {
