@@ -93,7 +93,6 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
 
     private MapFragment mapFragment;
     public static final String INTENT_MODIFY_ID = "modifyId";
-    static final String TAG = DetailScheduleFragment.class.getSimpleName();
 
     private DetailScheduleContract.Presenter mPresenter;
 
@@ -133,7 +132,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         super.onStart();
         progress = new ProgressDialog(getContext());
         progress.setTitle(getString(R.string.text_location));
-        progress.setMessage(getString(R.string.text_find_current_location));
+        progress.setMessage(getString(R.string.text_find_set_location));
         progress.setCancelable(false);
         progress.show();
     }
@@ -301,7 +300,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         mMap.addCircle(new CircleOptions().center(destMap).radius(500).strokeWidth(0f).fillColor(getResources().getColor(R.color.color_map_background)));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(destMap, 15));
 
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(15));
+        mMap.animateCamera(CameraUpdateFactory.zoomTo(14));
     }
 
     @OnClick(R.id.btnDelete)
@@ -309,7 +308,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         realm.executeTransaction(realm -> {
             Schedule schedule = realm.where(Schedule.class).equalTo("id", scheduleId).findFirst();
             schedule.deleteFromRealm();
-            getActivity().finish();
+            removeView();
         });
     }
 
@@ -317,14 +316,14 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     void onScheduleModify() {
         startActivity(new Intent(getActivity(), AddScheduleActivity.class)
                 .putExtra(INTENT_MODIFY_ID, scheduleId));
-        getActivity().finish();
+        removeView();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        if (mapFragment != null)
+    public void removeView() {
+        if (mapFragment != null) {
             getFragmentManager().beginTransaction().remove(mapFragment).commit();
+            getActivity().finish();
+        }
     }
 
     @Override
