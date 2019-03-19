@@ -57,6 +57,7 @@
     <string name="text_login">Login</string>
     <string name="text_schedule_content">Please Input your work!</string>
     <string name="text_search_nickname">NickName Search</string>
+    <string name="text_find_set_location">Finding set your location..</string>
 
 
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>

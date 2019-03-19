@@ -9,7 +9,6 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewAnimationUtils;
@@ -86,6 +85,7 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     private double currentLongitude;
 
     boolean flag = true;
+    boolean firstFlag = true;
 
     ProgressDialog progress;
 
@@ -110,13 +110,8 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         ButterKnife.bind(this, rootView);
 
         Context mContext = getContext();
-        new DetailSchedulePresenter(mContext, this);
 
-        progress = new ProgressDialog(mContext);
-        progress.setCanceledOnTouchOutside(false);
-        progress.setTitle(getString(R.string.text_location));
-        progress.setMessage(getString(R.string.text_find_current_location));
-        progress.show();
+        new DetailSchedulePresenter(mContext, this);
 
         LocationManager lm = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
         try {
@@ -133,13 +128,25 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         return rootView;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        progress = new ProgressDialog(getContext());
+        progress.setTitle(getString(R.string.text_location));
+        progress.setMessage(getString(R.string.text_find_current_location));
+        progress.setCancelable(false);
+        progress.show();
+    }
+
     private LocationListener mLocationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            currentLatitude = location.getLatitude();
-            currentLongitude = location.getLongitude();
+            if (firstFlag) {
+                currentLatitude = location.getLatitude();
+                currentLongitude = location.getLongitude();
 
-            finishLocation();
+                finishLocation();
+            }
         }
 
         @Override
@@ -267,13 +274,11 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
     @Override
     public void onMapReady(GoogleMap map) {
         mMap = map;
-
         //저장된 위치가 없을 경우엔 현재 위치가 표시 되도록.
         if (latitude == 0.0) {
             latitude = currentLatitude;
             longitude = currentLongitude;
         }
-
         mPresenter.setMapDisplay(latitude, longitude);
     }
 
@@ -282,10 +287,12 @@ public class DetailScheduleFragment extends android.app.DialogFragment implement
         FragmentManager fragmentManager = getFragmentManager();
         mapFragment = (MapFragment) fragmentManager.findFragmentById(R.id.google_map);
         mapFragment.getMapAsync(this);
+        firstFlag = false;
     }
 
     @Override
     public void setMapMarker(LatLng destMap) {
+
         progress.cancel();
         MarkerOptions destMarker = new MarkerOptions().title(getString(R.string.text_destination))
                 .snippet(getString(R.string.text_destination)).position(destMap).icon(null);

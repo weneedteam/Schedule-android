@@ -66,6 +66,9 @@
     <string name="text_friend">친구</string>
     <string name="text_exit_app">앱을 종료하시겠어요? </string>
 
+    <string name="text_find_set_location">설정된 위치를 찾고있습니다..</string>
+
+
     <string name="error_text_close">Close</string>
 
     <string-array name="error_sign_up_field_check">
