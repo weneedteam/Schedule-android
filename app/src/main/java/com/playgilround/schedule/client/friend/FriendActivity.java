@@ -3,16 +3,12 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
-import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.profile.ProfileActivity;
 import com.playgilround.schedule.client.signup.model.User;
 
@@ -67,6 +63,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     public void onButtonClicked(int buttonCode) {
 
     }
+
     //SearchBar InputText Changed
     @Override
     public void onSearchStateChanged(boolean enabled) {
@@ -89,21 +86,19 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     public void searchError(int status) {
         switch (status) {
             case FriendPresenter.ERROR_NETWORK_CUSTOM:
-                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.toast_msg_network_error), Toast.LENGTH_SHORT).show();
                 break;
+            case FriendPresenter.FAIL_USER_FOUND:
+                Toast.makeText(this, getString(R.string.toast_msg_user_not_found), Toast.LENGTH_LONG).show();
+
         }
     }
 
     @Override
     public void searchFind(User result) {
-        Toast.makeText(getApplicationContext(), result.getNickname(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, result.getNickname(), Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public void searchFail(ResponseMessage result) {
-        Toast.makeText(getApplicationContext(), result.getMessage(), Toast.LENGTH_LONG).show();
-
-    }
     public void onProfileClick(int id) {
         startActivity(new Intent(this, ProfileActivity.class));
     }

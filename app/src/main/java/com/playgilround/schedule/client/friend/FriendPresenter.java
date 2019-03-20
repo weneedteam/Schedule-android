@@ -5,7 +5,6 @@ import android.content.Context;
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 import com.playgilround.schedule.client.signup.model.User;
@@ -25,6 +24,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     private final Context mContext;
 
     static final int ERROR_NETWORK_CUSTOM = 0x0001;
+    static final int FAIL_USER_FOUND = 0x0002;
 
     FriendPresenter(Context context, FriendContract.View view) {
         mView = view;
@@ -51,20 +51,15 @@ public class FriendPresenter implements FriendContract.Presenter {
                     if (user != null) {
                         mView.searchFind(user);
                     } else {
-                        ResponseMessage responseMessage = new Gson().fromJson(response.body(), ResponseMessage.class);
-                        mView.searchFail(responseMessage);
+                        mView.searchError(FAIL_USER_FOUND);
                     }
-                } else {
-
                 }
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 CrashlyticsCore.getInstance().log(t.toString());
                 mView.searchError(ERROR_NETWORK_CUSTOM);
             }
         });
-
     }
 }

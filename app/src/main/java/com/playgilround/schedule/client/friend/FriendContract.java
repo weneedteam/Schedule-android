@@ -17,8 +17,6 @@ public interface FriendContract {
 
         void searchFind(User result);
 
-        void searchFail(ResponseMessage result);
-
         //친구 프로필 클릭 시
         void onProfileClick(int id);
     }

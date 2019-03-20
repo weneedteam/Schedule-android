@@ -115,6 +115,8 @@
     <string name="toast_msg_gps_enable">Turn on the GPS.</string>
     <string name="toast_msg_check_location">Please Check Input Location.</string>
     <string name="toast_msg_null_location">Input Location is Null.</string>
+    <string name="toast_msg_user_not_found">User Not Found.</string>
+    <string name="toast_msg_network_error">Network Error.</string>
 
     <!-- Navigation -->
     <string name="nav_calendar">Calendar</string>
