@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.friend;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
+import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.signup.model.User;
 
 /**
@@ -14,7 +15,9 @@ public interface FriendContract {
 
         void searchError(int status);
 
-        void searchResult(User result);
+        void searchFind(User result);
+
+        void searchFail(ResponseMessage result);
 
         //친구 프로필 클릭 시
         void onProfileClick(int id);

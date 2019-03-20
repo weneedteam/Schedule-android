@@ -6,13 +6,13 @@ import androidx.annotation.NonNull;
 public class ResponseMessage {
 
     private int status;
-    private String[] message;
+    private String message;
 
     public void setStatus(int status) {
         this.status = status;
     }
 
-    public void setMessage(String[] message) {
+    public void setMessage(String message) {
         this.message = message;
     }
 
@@ -20,7 +20,7 @@ public class ResponseMessage {
         return status;
     }
 
-    public String[] getMessage() {
+    public String getMessage() {
         return message;
     }
 
@@ -30,9 +30,7 @@ public class ResponseMessage {
 
         StringBuilder builder = new StringBuilder();
         builder.append("{ 'status' = '").append(status).append("', 'message' : '[");
-        for(String msg : message) {
-            builder.append(msg).append("', ");
-        }
+        builder.append(message).append("', ");
         builder.append("]}");
         return builder.toString();
     }

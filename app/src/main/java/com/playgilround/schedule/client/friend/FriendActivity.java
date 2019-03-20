@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
+import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.profile.ProfileActivity;
 import com.playgilround.schedule.client.signup.model.User;
 
@@ -94,7 +95,13 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     }
 
     @Override
-    public void searchResult(User result) {
+    public void searchFind(User result) {
+        Toast.makeText(getApplicationContext(), result.getNickname(), Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void searchFail(ResponseMessage result) {
+        Toast.makeText(getApplicationContext(), result.getMessage(), Toast.LENGTH_LONG).show();
 
     }
     public void onProfileClick(int id) {

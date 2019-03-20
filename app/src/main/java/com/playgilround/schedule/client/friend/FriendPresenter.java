@@ -1,11 +1,11 @@
 package com.playgilround.schedule.client.friend;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 import com.playgilround.schedule.client.signup.model.User;
@@ -43,13 +43,17 @@ public class FriendPresenter implements FriendContract.Presenter {
 
         Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
-
         userAPI.searchUserName(name).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     User user = new Gson().fromJson(response.body().get("user"), User.class);
-                    mView.searchResult(user);
+                    if (user != null) {
+                        mView.searchFind(user);
+                    } else {
+                        ResponseMessage responseMessage = new Gson().fromJson(response.body(), ResponseMessage.class);
+                        mView.searchFail(responseMessage);
+                    }
                 } else {
 
                 }
