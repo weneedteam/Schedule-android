@@ -24,6 +24,7 @@ public class FriendPresenter implements FriendContract.Presenter {
     private final Context mContext;
 
     static final int ERROR_NETWORK_CUSTOM = 0x0001;
+    static final int FAIL_USER_FOUND = 0x0002;
 
     FriendPresenter(Context context, FriendContract.View view) {
         mView = view;
@@ -42,22 +43,23 @@ public class FriendPresenter implements FriendContract.Presenter {
 
         Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
-
         userAPI.searchUserName(name).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     User user = new Gson().fromJson(response.body().get("user"), User.class);
-                    mView.searchResult(user);
+                    if (user != null) {
+                        mView.searchFind(user);
+                    } else {
+                        mView.searchError(FAIL_USER_FOUND);
+                    }
                 }
             }
-
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 CrashlyticsCore.getInstance().log(t.toString());
                 mView.searchError(ERROR_NETWORK_CUSTOM);
             }
         });
-
     }
 }

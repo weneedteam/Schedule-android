@@ -25,4 +25,6 @@ public class BaseUrl {
     //Schedule
     static final String PATH_NEW_SCHEDULE = "/v1/schedule/schedule/";
 
+    //Friend
+    static final String PATH_REQUEST_FRIEND = "/v1/user/friend-request/";
 }
