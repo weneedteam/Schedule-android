@@ -23,6 +23,8 @@ public interface FriendContract {
         void onCheckResult(User result);
 
         void setFriendList();
+
+        void updateFriendList();
     }
 
     interface Presenter extends BasePresenter {
@@ -32,6 +34,8 @@ public interface FriendContract {
         void onCheckFriend(User result);
 
         void getFriendList();
+
+        void onRequestFriend();
 
     }
 }

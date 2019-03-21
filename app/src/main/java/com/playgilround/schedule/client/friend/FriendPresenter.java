@@ -111,6 +111,34 @@ public class FriendPresenter implements FriendContract.Presenter {
 
             }
         });
+    }
 
+    @Override
+    public void onRequestFriend() {
+        
+        Retrofit retrofit = APIClient.getClient();
+        FriendAPI friendAPI = retrofit.create(FriendAPI.class);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("assent", true);
+        jsonObject.addProperty("assented_at", "");
+        jsonObject.addProperty("request_user", 0);
+        jsonObject.addProperty("response_user", 2);
+
+        friendAPI.postFriendRequest(jsonObject).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                } else {
+                    mView.updateFriendList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 }

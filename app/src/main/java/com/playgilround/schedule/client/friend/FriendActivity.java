@@ -3,6 +3,7 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -47,10 +48,15 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     @BindView(R.id.ivFriendRequest)
     ImageView ivRequest;
 
+    @BindView(R.id.tvFriendRequest)
+    TextView tvRequest;
+
     RecyclerView.LayoutManager mLayoutManager;
     FriendAdapter mAdapter;
 
     private FriendContract.Presenter mPresenter;
+
+    private static final String TAG = FriendPresenter.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,6 +69,14 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         mPresenter.getFriendList();
 
         ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
+
+        //친구 요청
+        ivRequest.setOnClickListener(view -> mPresenter.onRequestFriend());
+
+        //친구 요청 취소
+        tvRequest.setOnClickListener(view -> {
+
+        });
 
         searchBar.setOnSearchActionListener(this);
     }
@@ -123,6 +137,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     //검색 한 유저  결과
     @Override
     public void onCheckResult(User result) {
+
         linearFriend.setVisibility(View.GONE);
 
         //추후에 프로필 사진까지 표시.
@@ -132,6 +147,11 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         ivRequest.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void updateFriendList() {
+        linearFriend.setVisibility(View.VISIBLE);
+        mPresenter.getFriendList();
+    }
     public void onProfileClick(int id) {
         startActivity(new Intent(this, ProfileActivity.class));
     }
