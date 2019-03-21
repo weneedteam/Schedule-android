@@ -19,11 +19,15 @@ public interface FriendContract {
 
         //친구 프로필 클릭 시
         void onProfileClick(int id);
+
+        void onCheckResult(User result);
     }
 
     interface Presenter extends BasePresenter {
 
         void onSearch(String name);
+
+        void onCheckFriend(User result);
 
     }
 }

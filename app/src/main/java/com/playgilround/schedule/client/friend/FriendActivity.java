@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +43,9 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
     @BindView(R.id.tvMyName)
     TextView tvMyName;
+
+    @BindView(R.id.ivFriendRequest)
+    ImageView ivRequest;
 
     RecyclerView.LayoutManager mLayoutManager;
     FriendAdapter mAdapter;
@@ -110,11 +112,19 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     @Override
     public void searchFind(User result) {
         Toast.makeText(this, result.getNickname(), Toast.LENGTH_LONG).show();
+        mPresenter.onCheckFriend(result);
+    }
+
+    //검색 한 유저  결과
+    @Override
+    public void onCheckResult(User result) {
         linearFriend.setVisibility(View.GONE);
 
         //추후에 프로필 사진까지 표시.
         tvMyNickName.setText(result.getNickname());
         tvMyName.setText(result.getUsername());
+
+        ivRequest.setVisibility(View.VISIBLE);
     }
 
     public void onProfileClick(int id) {

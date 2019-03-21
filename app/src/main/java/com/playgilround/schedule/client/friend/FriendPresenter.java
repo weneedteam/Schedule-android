@@ -1,11 +1,13 @@
 package com.playgilround.schedule.client.friend;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.retrofit.APIClient;
+import com.playgilround.schedule.client.retrofit.FriendAPI;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 import com.playgilround.schedule.client.signup.model.User;
 
@@ -61,5 +63,28 @@ public class FriendPresenter implements FriendContract.Presenter {
                 mView.searchError(ERROR_NETWORK_CUSTOM);
             }
         });
+    }
+
+    @Override
+    public void onCheckFriend(User result) {
+
+        Retrofit retrofit = APIClient.getClient();
+        FriendAPI friendAPI = retrofit.create(FriendAPI.class);
+        friendAPI.getCheckRequest(0).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    //이미 친구 인지, 친구가 아닌지, 친구 요청중인지 판단 후 처리
+                } else {
+                    mView.onCheckResult(result);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+
     }
 }

@@ -27,4 +27,9 @@ public class BaseUrl {
 
     //Friend
     static final String PATH_REQUEST_FRIEND = "/v1/user/friend-request/";
+    static final String PATH_CHECK_REQUEST_FRIEND = "/v1/user/friend-request/{userId}";
+    static final String PATH_CANCEL_REQUEST_FRIEND = "/v1/user/friend-request/{userId}";
+
+    static final String PARAM_FRIEND_CHECK = "friend";
+
 }
