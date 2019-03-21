@@ -74,9 +74,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         ivRequest.setOnClickListener(view -> mPresenter.onRequestFriend());
 
         //친구 요청 취소
-        tvRequest.setOnClickListener(view -> {
-
-        });
+        tvRequest.setOnClickListener(view -> mPresenter.onRequestCancel());
 
         searchBar.setOnSearchActionListener(this);
     }
@@ -134,7 +132,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         mPresenter.onCheckFriend(result);
     }
 
-    //검색 한 유저  결과
+    //검색 한 유저 결과
     @Override
     public void onCheckResult(User result) {
 
@@ -144,12 +142,14 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         tvMyNickName.setText(result.getNickname());
         tvMyName.setText(result.getUsername());
 
-        ivRequest.setVisibility(View.VISIBLE);
+        tvRequest.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void updateFriendList() {
         linearFriend.setVisibility(View.VISIBLE);
+        tvRequest.setVisibility(View.GONE);
+        ivRequest.setVisibility(View.GONE);
         mPresenter.getFriendList();
     }
     public void onProfileClick(int id) {

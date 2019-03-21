@@ -37,5 +37,6 @@ public interface FriendContract {
 
         void onRequestFriend();
 
+        void onRequestCancel();
     }
 }

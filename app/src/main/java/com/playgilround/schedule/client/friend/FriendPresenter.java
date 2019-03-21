@@ -1,7 +1,6 @@
 package com.playgilround.schedule.client.friend;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
@@ -115,7 +114,7 @@ public class FriendPresenter implements FriendContract.Presenter {
 
     @Override
     public void onRequestFriend() {
-        
+
         Retrofit retrofit = APIClient.getClient();
         FriendAPI friendAPI = retrofit.create(FriendAPI.class);
 
@@ -126,6 +125,29 @@ public class FriendPresenter implements FriendContract.Presenter {
         jsonObject.addProperty("response_user", 2);
 
         friendAPI.postFriendRequest(jsonObject).enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                } else {
+                    mView.updateFriendList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onRequestCancel() {
+
+        Retrofit retrofit = APIClient.getClient();
+        FriendAPI friendAPI = retrofit.create(FriendAPI.class);
+
+        friendAPI.deleteFriendRequest(1).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
