@@ -60,6 +60,15 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
         new FriendPresenter(this, this);
 
+        mPresenter.getFriendList();
+
+        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
+
+        searchBar.setOnSearchActionListener(this);
+    }
+
+    @Override
+    public void setFriendList() {
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -67,10 +76,6 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
         mAdapter = new FriendAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
-
-        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
-
-        searchBar.setOnSearchActionListener(this);
     }
 
     //SearchBar Click

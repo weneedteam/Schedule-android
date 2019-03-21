@@ -21,6 +21,8 @@ public interface FriendContract {
         void onProfileClick(int id);
 
         void onCheckResult(User result);
+
+        void setFriendList();
     }
 
     interface Presenter extends BasePresenter {
@@ -28,6 +30,8 @@ public interface FriendContract {
         void onSearch(String name);
 
         void onCheckFriend(User result);
+
+        void getFriendList();
 
     }
 }

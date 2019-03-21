@@ -13,6 +13,11 @@ import retrofit2.http.Query;
 
 public interface FriendAPI {
 
+    //친구 리스트 확인
+    @Headers({"Accept: application/json"})
+    @GET(BaseUrl.PATH_REQUEST_FRIEND)
+    Call<JsonObject> getFriendList();
+
     //친구 요청
     @Headers({"Accept: application/json"})
     @POST(BaseUrl.PATH_REQUEST_FRIEND)

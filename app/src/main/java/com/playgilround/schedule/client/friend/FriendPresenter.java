@@ -28,6 +28,9 @@ public class FriendPresenter implements FriendContract.Presenter {
     static final int ERROR_NETWORK_CUSTOM = 0x0001;
     static final int FAIL_USER_FOUND = 0x0002;
 
+    private static final String TAG = FriendPresenter.class.getSimpleName();
+
+
     FriendPresenter(Context context, FriendContract.View view) {
         mView = view;
         mContext = context;
@@ -38,6 +41,28 @@ public class FriendPresenter implements FriendContract.Presenter {
     @Override
     public void start() {
 
+    }
+
+    @Override
+    public void getFriendList() {
+
+        Retrofit retrofit = APIClient.getClient();
+        FriendAPI friendAPI = retrofit.create(FriendAPI.class);
+        friendAPI.getFriendList().enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                if (response.isSuccessful() && response.body() != null) {
+
+                } else {
+                    mView.setFriendList();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+
+            }
+        });
     }
 
     @Override
@@ -57,6 +82,7 @@ public class FriendPresenter implements FriendContract.Presenter {
                     }
                 }
             }
+
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
                 CrashlyticsCore.getInstance().log(t.toString());
