@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.friend;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
@@ -47,18 +48,20 @@ public class FriendPresenter implements FriendContract.Presenter {
 
         Retrofit retrofit = APIClient.getClient();
         FriendAPI friendAPI = retrofit.create(FriendAPI.class);
-        friendAPI.getFriendList().enqueue(new Callback<JsonObject>() {
+        friendAPI.getCheckRequest(1).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
-                } else {
+                    Log.d(TAG, "Response Friend List ->" + response.body());
                     mView.setFriendList();
+                } else {
+                    Log.d(TAG, "Response Friend Fail ->" + response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d(TAG, "Response Friend Fail2 ->" + t.toString());
 
             }
         });
@@ -95,18 +98,21 @@ public class FriendPresenter implements FriendContract.Presenter {
 
         Retrofit retrofit = APIClient.getClient();
         FriendAPI friendAPI = retrofit.create(FriendAPI.class);
-        friendAPI.getCheckRequest(0).enqueue(new Callback<JsonObject>() {
+        friendAPI.getCheckRequest(1).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
+                    Log.d(TAG, "Check Request get ->" + response.body());
                     //이미 친구 인지, 친구가 아닌지, 친구 요청중인지 판단 후 처리
-                } else {
                     mView.onCheckResult(result);
+                } else {
+                    Log.d(TAG, "Check Request ge2t ->" + response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
+                Log.d(TAG, "Check Request get3 ->" + t.toString());
 
             }
         });
@@ -114,29 +120,28 @@ public class FriendPresenter implements FriendContract.Presenter {
 
     @Override
     public void onRequestFriend() {
-
+        
         Retrofit retrofit = APIClient.getClient();
         FriendAPI friendAPI = retrofit.create(FriendAPI.class);
 
         JsonObject jsonObject = new JsonObject();
-        jsonObject.addProperty("assent", true);
-        jsonObject.addProperty("assented_at", "");
-        jsonObject.addProperty("request_user", 0);
+        jsonObject.addProperty("request_user", 1);
         jsonObject.addProperty("response_user", 2);
 
         friendAPI.postFriendRequest(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-
-                } else {
+                    Log.d(TAG, "Request Friend ->" + response.body());
                     mView.updateFriendList();
+                } else {
+                    Log.d(TAG, "Request Friend Fail->" + response.body());
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-
+                Log.d(TAG, "Request Friend err ->" + t.toString());
             }
         });
     }

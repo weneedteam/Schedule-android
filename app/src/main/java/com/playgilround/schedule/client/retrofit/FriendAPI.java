@@ -24,11 +24,11 @@ public interface FriendAPI {
 
     //친구 요청 여부 확인
     @Headers({"Accept: application/json"})
-    @GET(BaseUrl.PATH_CHECK_REQUEST_FRIEND)
+    @GET(BaseUrl.PATH_REQUEST_FRIEND + "{userId}")
     Call<JsonObject> getCheckRequest(@Path("userId") int userId);
 
     //친구 요청 취소
     @Headers({"Accept: application/json"})
-    @DELETE(BaseUrl.PATH_CANCEL_REQUEST_FRIEND)
+    @DELETE(BaseUrl.PATH_REQUEST_FRIEND + "{userId}/")
     Call<JsonObject> deleteFriendRequest(@Path("userId") int userId);
 }
