@@ -7,8 +7,6 @@ import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -18,27 +16,20 @@ import com.applandeo.materialcalendarview.DatePicker;
 import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
 import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
-import com.google.android.material.navigation.NavigationView;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.friend.FriendActivity;
-import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
+import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static com.annimon.stream.Stream.*;
+import static com.annimon.stream.Stream.of;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
 /**
@@ -47,18 +38,9 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * added by CHO
  * Test
  */
-public class CalendarScheduleActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, CalendarScheduleContract.View, OnSelectDateListener {
+public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View, OnSelectDateListener {
 
     static final String TAG = CalendarScheduleActivity.class.getSimpleName();
-
-    @BindView(R.id.drawerLayout)
-    DrawerLayout drawer;
-
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-
-    @BindView(R.id.naviView)
-    NavigationView navigationView;
 
     @BindView(R.id.calendarView)
     CalendarView calendarView;
@@ -74,8 +56,6 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
 
     private CalendarScheduleContract.Presenter mPresenter;
 
-    View header;
-
     private long[] mNotes = new long[2]; //back button save.
 
     @Override
@@ -84,18 +64,6 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
         setContentView(R.layout.activity_calendar);
 
         ButterKnife.bind(this);
-        setTitle(getString(R.string.text_schedule_calendar));
-
-        setSupportActionBar(toolbar);
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        header = navigationView.getHeaderView(0);
 
         new CalendarSchedulePresenter(this, this);
 
@@ -198,38 +166,19 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Navig
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.navCalendar) {
-            // 현재 캘린더 뷰라면 실행하지않도록 수정예정
-            startActivity(new Intent(this, CalendarScheduleActivity.class));
-        } else if (id == R.id.navFriend) {
-            // finish();
-            startActivity(new Intent(this, FriendActivity.class));
-        }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
-
     //Navigation
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+        //http://forum.falinux.com/zbxe/index.php?document_srl=571358&mid=lecture_tip
+        System.arraycopy(mNotes, 1, mNotes, 0, mNotes.length - 1);
+        mNotes[mNotes.length - 1] = SystemClock.uptimeMillis();
+        if (SystemClock.uptimeMillis() - mNotes[0] < 1000) {
+            finish();
         } else {
-            //http://forum.falinux.com/zbxe/index.php?document_srl=571358&mid=lecture_tip
-            System.arraycopy(mNotes, 1, mNotes, 0, mNotes.length -1);
-            mNotes[mNotes.length - 1] = SystemClock.uptimeMillis();
-            if (SystemClock.uptimeMillis() - mNotes[0] < 1000) {
-                finish();
-            } else {
-                Toast.makeText(this, getString(R.string.text_exit_app), Toast.LENGTH_LONG).show();
-            }
+            Toast.makeText(this, getString(R.string.text_exit_app), Toast.LENGTH_LONG).show();
         }
     }
+
 
     @Override
     protected void onResume() {
