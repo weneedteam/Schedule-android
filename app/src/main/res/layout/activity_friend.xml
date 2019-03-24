@@ -46,13 +46,12 @@
         android:textSize="10sp"
         android:textStyle="normal" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="19dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/ivMyProfile"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -62,8 +61,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="14dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="78dp"
             android:orientation="vertical">
 
             <TextView
@@ -88,50 +87,75 @@
                 android:textStyle="normal" />
 
         </LinearLayout>
-    </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tvFriendRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="25dp"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/text_request_cancel"
+            android:textColor="@color/light_indigo"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/ivFriendRequest"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="35dp"
+            android:src="@drawable/friend_request"
+            android:visibility="gone" />
+    </RelativeLayout>
     <!-- 친구 부분 -->
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="26dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tvFriend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/text_friend"
-            android:textColor="@color/color_profile"
-            android:textSize="10sp"
-            android:textStyle="normal" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="23"
-            android:textColor="@color/light_indigo"
-            android:textSize="10sp"
-            android:textStyle="normal" />
-    </LinearLayout>
-
-    <LinearLayout
+        android:id="@+id/linearFriend"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tvFriend"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_friend"
+                android:textColor="@color/color_profile"
+                android:textSize="10sp"
+                android:textStyle="normal" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="26"
+                android:textColor="@color/light_indigo"
+                android:textSize="10sp"
+                android:textStyle="normal" />
+
+        </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="6dp"
-            android:layout_weight="1"
-            android:paddingStart="17dp"
-            android:paddingTop="13dp" />
+            android:layout_weight="1" />
 
         <ProgressBar
             android:id="@+id/progress"

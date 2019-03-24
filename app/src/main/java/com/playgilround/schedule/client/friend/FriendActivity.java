@@ -3,7 +3,11 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
@@ -32,10 +36,27 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     @BindView(R.id.searchBar)
     MaterialSearchBar searchBar;
 
+    @BindView(R.id.linearFriend)
+    LinearLayout linearFriend;
+
+    @BindView(R.id.tvMyNickName)
+    TextView tvMyNickName;
+
+    @BindView(R.id.tvMyName)
+    TextView tvMyName;
+
+    @BindView(R.id.ivFriendRequest)
+    ImageView ivRequest;
+
+    @BindView(R.id.tvFriendRequest)
+    TextView tvRequest;
+
     RecyclerView.LayoutManager mLayoutManager;
     FriendAdapter mAdapter;
 
     private FriendContract.Presenter mPresenter;
+
+    private static final String TAG = FriendPresenter.class.getSimpleName();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,6 +66,21 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
         new FriendPresenter(this, this);
 
+        mPresenter.getFriendList();
+
+        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
+
+        //친구 요청
+        ivRequest.setOnClickListener(view -> mPresenter.onRequestFriend());
+
+        //친구 요청 취소
+        tvRequest.setOnClickListener(view -> mPresenter.onRequestCancel());
+
+        searchBar.setOnSearchActionListener(this);
+    }
+
+    @Override
+    public void setFriendList() {
         mRecyclerView.setHasFixedSize(true);
 
         mLayoutManager = new LinearLayoutManager(this);
@@ -52,10 +88,6 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
         mAdapter = new FriendAdapter(this, this);
         mRecyclerView.setAdapter(mAdapter);
-
-        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
-
-        searchBar.setOnSearchActionListener(this);
     }
 
     //SearchBar Click
@@ -97,8 +129,29 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     @Override
     public void searchFind(User result) {
         Toast.makeText(this, result.getNickname(), Toast.LENGTH_LONG).show();
+        mPresenter.onCheckFriend(result);
     }
 
+    //검색 한 유저 결과
+    @Override
+    public void onCheckResult(User result) {
+
+        linearFriend.setVisibility(View.GONE);
+
+        //추후에 프로필 사진까지 표시.
+        tvMyNickName.setText(result.getNickname());
+        tvMyName.setText(result.getUsername());
+
+        tvRequest.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void updateFriendList() {
+        linearFriend.setVisibility(View.VISIBLE);
+        tvRequest.setVisibility(View.GONE);
+        ivRequest.setVisibility(View.GONE);
+        mPresenter.getFriendList();
+    }
     public void onProfileClick(int id) {
         startActivity(new Intent(this, ProfileActivity.class));
     }
