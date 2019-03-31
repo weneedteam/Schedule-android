@@ -53,7 +53,7 @@
     <string name="text_signup">SignUp</string>
     <string name="text_choice_day">Is the date selected?</string>
     <string name="text_user_find">Find User</string>
-    <string name="text_signin_forget_password">Do not remember your password?</string>
+    <string name="text_sign_in_forget_password">Do not remember your password?</string>
     <string name="text_login">Login</string>
     <string name="text_schedule_content">Please Input your work!</string>
     <string name="text_search_nickname">NickName Search</string>
@@ -93,6 +93,12 @@
         <item>비밀번호가 일치하지 않습니다.</item>
         <item>중복된 닉네임입니다.</item>
     </string-array>
+
+    <string name="error_sign_in_email_filed_check">올바르지 않은 형식의 이메일입니다.</string>
+    <string name="error_sign_in_password_filed_check">비밀번호를 입력해주세요.</string>
+    <string name="error_sign_in_not_match_email_and_password_filed_check">이메일과 비밀번호가 일치하지 않습니다.</string>
+
+    <string name="error_network">네트워트 연결이 불안정합니다.</string>
 
     <!-- Hint -->
     <string name="hint_schedule">Edit schedule.</string>
