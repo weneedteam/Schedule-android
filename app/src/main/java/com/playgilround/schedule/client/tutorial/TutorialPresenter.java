@@ -10,11 +10,12 @@ public class TutorialPresenter implements TutorialContract.Presenter {
 
     TutorialPresenter(TutorialContract.View view) {
         mView = view;
-
         mView.setPresenter(this);
     }
+
     @Override
     public void start() {
 
     }
+
 }
