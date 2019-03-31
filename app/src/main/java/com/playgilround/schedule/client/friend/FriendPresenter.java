@@ -102,17 +102,15 @@ public class FriendPresenter implements FriendContract.Presenter {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "Check Request get ->" + response.body());
                     //이미 친구 인지, 친구가 아닌지, 친구 요청중인지 판단 후 처리
                     mView.onCheckResult(result);
                 } else {
-                    Log.d(TAG, "Check Request ge2t ->" + response.body());
+
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d(TAG, "Check Request get3 ->" + t.toString());
 
             }
         });
@@ -132,16 +130,15 @@ public class FriendPresenter implements FriendContract.Presenter {
             @Override
             public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    Log.d(TAG, "Request Friend ->" + response.body());
                     mView.updateFriendList();
                 } else {
-                    Log.d(TAG, "Request Friend Fail->" + response.body());
+
                 }
             }
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                Log.d(TAG, "Request Friend err ->" + t.toString());
+
             }
         });
     }
