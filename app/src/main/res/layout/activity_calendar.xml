@@ -1,41 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                                   xmlns:app="http://schemas.android.com/apk/res-auto"
-                                   xmlns:tools="http://schemas.android.com/tools"
-                                   android:id="@+id/drawerLayout"
-                                   android:layout_width="match_parent"
-                                   android:layout_height="match_parent"
-                                   android:fitsSystemWindows="true"
-                                   android:orientation="vertical"
-                                   tools:openDrawer="start">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <include
-        layout="@layout/app_bar_navigation"
+    <com.applandeo.materialcalendarview.CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <com.google.android.material.navigation.NavigationView
-        android:id="@+id/naviView"
-        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header_navigation"
-        app:menu="@menu/activity_navigation_drawer">
+        android:layout_marginTop="8dp"
+        app:abbreviationsBarColor="#303F9F"
+        app:abbreviationsLabelsColor="@android:color/white"
+        app:anotherMonthsDaysLabelsColor="#3F51B5"
+        app:daysLabelsColor="@android:color/white"
+        app:eventsEnabled="true"
+        app:headerColor="@color/colorGreen"
+        app:pagesColor="@color/pages_color"
+        app:selectionColor="@android:color/white"
+        app:selectionLabelColor="@android:color/holo_blue_dark"
+        app:todayLabelColor="@color/color_pink"
+        app:type="many_days_picker" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorGreen">
+
+        <ImageView
+            android:id="@+id/ivRange"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/nav_calendar" />
+
+        <EditText
+            android:id="@+id/etInputContent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:padding="10dp">
+            android:layout_centerInParent="true"
+            android:background="@drawable/schedule_input_edit_text"
+            android:hint="@string/text_schedule_content"
+            android:paddingStart="30dp"
+            android:paddingTop="10dp"
+            android:paddingEnd="30dp"
+            android:paddingBottom="10dp" />
 
-            <!-- 추후에 PlayGilround 로고 추가-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/text_logo"
-                android:textSize="30sp" />
-        </LinearLayout>
-    </com.google.android.material.navigation.NavigationView>
-
-</androidx.drawerlayout.widget.DrawerLayout>
+        <ImageView
+            android:id="@+id/ivSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:src="@drawable/check_btn" />
+    </RelativeLayout>
+</RelativeLayout>
