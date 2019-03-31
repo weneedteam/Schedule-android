@@ -45,14 +45,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.ivSave)
-    ImageView ivSave;
-
-    @BindView(R.id.ivRange)
-    ImageView ivRange;
-
-    @BindView(R.id.etInputContent)
-    EditText etInput;
+    @BindView(R.id.ivAddSchedule)
+    ImageView ivAddSchedule;
 
     private CalendarScheduleContract.Presenter mPresenter;
 
@@ -87,7 +81,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
         callSchedules();
 
-        ivSave.setOnClickListener(v -> {
+  /*      ivAddSchedule.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
             String strInput = etInput.getText().toString();
             if (arrManyDays == null) {
@@ -103,7 +97,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             }
         });
 
-        ivRange.setOnClickListener(v -> openRangePicker());
+        ivRange.setOnClickListener(v -> openRangePicker());*/
     }
 
     private void openRangePicker() {

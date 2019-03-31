@@ -118,7 +118,7 @@ public class FriendPresenter implements FriendContract.Presenter {
 
     @Override
     public void onRequestFriend() {
-        
+
         Retrofit retrofit = APIClient.getClient();
         FriendAPI friendAPI = retrofit.create(FriendAPI.class);
 

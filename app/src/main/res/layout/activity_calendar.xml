@@ -5,11 +5,38 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+    <RelativeLayout
+        android:id="@+id/llTitle"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginStart="24dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/tvDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="2018년 12월"
+            android:textColor="@color/light_indigo"
+            android:textSize="20sp"
+            android:textStyle="normal" />
+
+        <ImageView
+            android:id="@+id/ivAddSchedule"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="14dp"
+            android:src="@drawable/add_btn" />
+
+    </RelativeLayout>
+
     <com.applandeo.materialcalendarview.CalendarView
         android:id="@+id/calendarView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="8dp"
+        android:layout_below="@+id/llTitle"
         app:abbreviationsBarColor="#303F9F"
         app:abbreviationsLabelsColor="@android:color/white"
         app:anotherMonthsDaysLabelsColor="#3F51B5"
@@ -23,36 +50,55 @@
         app:type="many_days_picker" />
 
 
-    <RelativeLayout
+    <!--  <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_alignParentBottom="true"
+          android:background="@color/colorGreen">
+
+          <ImageView
+              android:id="@+id/ivRange"
+              android:layout_width="40dp"
+              android:layout_height="40dp"
+              android:layout_centerVertical="true"
+              android:src="@drawable/nav_calendar" />
+
+          <EditText
+              android:id="@+id/etInputContent"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_centerInParent="true"
+              android:background="@drawable/schedule_input_edit_text"
+              android:hint="@string/text_schedule_content"
+              android:paddingStart="30dp"
+              android:paddingTop="10dp"
+              android:paddingEnd="30dp"
+              android:paddingBottom="10dp" />
+
+          <ImageView
+              android:id="@+id/ivSave"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_alignParentEnd="true"
+              android:src="@drawable/check_btn" />
+
+      </RelativeLayout>-->
+
+    <ProgressBar
+        android:id="@+id/progress"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/colorGreen">
+        android:layout_marginBottom="57dp"
+        android:max="5"
+        android:progress="1"
+        android:progressTint="@color/light_indigo" />
 
-        <ImageView
-            android:id="@+id/ivRange"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/nav_calendar" />
+    <include
+        layout="@layout/menu_lower"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true" />
 
-        <EditText
-            android:id="@+id/etInputContent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:background="@drawable/schedule_input_edit_text"
-            android:hint="@string/text_schedule_content"
-            android:paddingStart="30dp"
-            android:paddingTop="10dp"
-            android:paddingEnd="30dp"
-            android:paddingBottom="10dp" />
-
-        <ImageView
-            android:id="@+id/ivSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:src="@drawable/check_btn" />
-    </RelativeLayout>
 </RelativeLayout>
