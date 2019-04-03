@@ -12,6 +12,7 @@ import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendarschedule.CalendarScheduleActivity;
+import com.playgilround.schedule.client.main.MainActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
@@ -88,7 +89,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @Override
     public void signInComplete() {
-        startActivity(new Intent(this, CalendarScheduleActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

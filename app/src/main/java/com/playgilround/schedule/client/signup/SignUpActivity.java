@@ -68,7 +68,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
             @Override
             public void ableNextButton() {
-                mNextButton.setImageResource(R.drawable.next_btn);
+                mNextButton.setImageResource(R.drawable.image_next);
             }
         });
 
@@ -162,6 +162,7 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
 
     @Override
     public void singUpComplete() {
-
+        Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();
+        finish();
     }
 }

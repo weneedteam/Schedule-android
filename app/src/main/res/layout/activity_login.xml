@@ -45,7 +45,7 @@
             android:imeOptions="actionDone"
             android:inputType="textEmailAddress"
             android:lines="1"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +67,7 @@
             android:imeOptions="actionDone"
             android:inputType="textPassword"
             android:lines="1"
-            android:textSize="12sp"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
     </com.google.android.material.textfield.TextInputLayout>
