@@ -1,12 +1,15 @@
 package com.playgilround.schedule.client.tutorial;
 
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
 import com.playgilround.schedule.client.signin.SignInActivity;
+import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,8 +26,13 @@ import butterknife.OnClick;
  */
 public class TutorialActivity extends AppCompatActivity implements TutorialContract.View {
 
-    @BindView(R.id.recycler_image)
+    private static final String TAG = TutorialActivity.class.getSimpleName();
+
+    @BindView(R.id.list_tutorial)
     RecyclerView mRecyclerView;
+
+    @BindView(R.id.progress_tutorial)
+    ProgressBar mProgressBar;
 
     @BindView(R.id.ivNextBtn)
     ImageView mImageNext;
@@ -34,8 +42,6 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
     TutorialAdapter adapter;
 
     private TutorialContract.Presenter mPresenter;
-
-    static final String TAG = TutorialActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,10 +66,19 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
                 LinearLayoutManager mLinear = (LinearLayoutManager) recyclerView.getLayoutManager();
 
                 retPosition = mLinear.findFirstVisibleItemPosition();
-                if (adapter.getItemCount() -1 == retPosition) {
-                    mImageNext.setImageResource(R.drawable.check_btn);
+
+                if (adapter.getItemCount() - 1 == retPosition) {
+                    mImageNext.setImageResource(R.drawable.image_check);
                 } else {
-                    mImageNext.setImageResource(R.drawable.next_btn);
+                    mImageNext.setImageResource(R.drawable.image_next);
+                }
+
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    ObjectAnimator animator = ObjectAnimator.ofInt(mProgressBar,
+                            "progress", (retPosition + 1) * 100);
+                    animator.setDuration(500);
+                    animator.setInterpolator(new DecelerateInterpolator());
+                    animator.start();
                 }
             }
         });
@@ -75,16 +90,16 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
 
     @OnClick(R.id.ivNextBtn)
     void onButtonClick() {
-        if (adapter.getItemCount() -1 == retPosition) {
+        if (adapter.getItemCount() - 1 == retPosition) {
             startActivity(new Intent(this, SignInActivity.class));
             overridePendingTransition(R.anim.enter, R.anim.exit);
             finish();
-        } else if (adapter.getItemCount() -2 == retPosition) {
-            mImageNext.setImageResource(R.drawable.check_btn);
-            mRecyclerView.smoothScrollToPosition(retPosition +1);
+        } else if (adapter.getItemCount() - 2 == retPosition) {
+            mImageNext.setImageResource(R.drawable.image_check);
+            mRecyclerView.smoothScrollToPosition(retPosition + 1);
         } else {
-            mImageNext.setImageResource(R.drawable.next_btn);
-            mRecyclerView.smoothScrollToPosition(retPosition +1);
+            mImageNext.setImageResource(R.drawable.image_next);
+            mRecyclerView.smoothScrollToPosition(retPosition + 1);
         }
     }
 

@@ -21,14 +21,14 @@ import butterknife.ButterKnife;
 
 public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHolder> {
 
-    private static final String image1 = "illustration";
-    private static final String image2 = "logo";
+    private static final String TAG = TutorialAdapter.class.getSimpleName();
 
-    private String[] images = new String[]{image1, image2, image1, image1};
+    private static final int TYPE_ILLUSTRATION = 0;
+    private static final int TYPE_LOGO = 1;
+
+    private static final int ITEM_COUNT = 4;
 
     private Context mContext;
-
-    private static final String TAG = TutorialAdapter.class.getSimpleName();
 
     public TutorialAdapter(Context context) {
         mContext = context;
@@ -37,8 +37,21 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.item_tutorial, parent, false));
+        View view;
+        switch (viewType) {
+            case TYPE_ILLUSTRATION:
+                view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.item_tutorial_illustration, parent, false);
+                return new ViewHolder(view);
+            case TYPE_LOGO:
+                view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.item_tutorial_logo, parent, false);
+                return new ViewHolder(view);
+            default:
+                view = LayoutInflater.from(parent.getContext()).inflate(
+                        R.layout.item_tutorial, parent, false);
+                return new ViewHolder(view);
+        }
     }
 
     @Override
@@ -48,7 +61,12 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return images.length;
+        return ITEM_COUNT;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == 1 ? TYPE_LOGO : TYPE_ILLUSTRATION;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -59,24 +77,16 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
         @BindView(R.id.tvtutorial)
         TextView mTextView;
 
-        @BindView(R.id.progress)
-        ProgressBar mProgress;
-
         ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
         void bindView(int position) {
-            String image = images[position];
             String[] texts = mContext.getResources().getStringArray(R.array.tutorial_text_array);
             String text = texts[position];
 
-            int resourceID = mContext.getResources().getIdentifier(image, "drawable", mContext.getPackageName());
-
             mImageView.setTag(position);
-
-            Picasso.get().load(resourceID).into(mImageView);
 
             //특정 글자만 색깔 변경
             //ViewHolder 여러개 만들기
@@ -99,8 +109,6 @@ public class TutorialAdapter extends RecyclerView.Adapter<TutorialAdapter.ViewHo
             ssb.setSpan(new ForegroundColorSpan(mContext.getResources().getColor(R.color.light_indigo)), startText, lastText, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             mTextView.setText(ssb);
-
-            mProgress.setProgress(position + 1);
         }
     }
 }

@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="19dp"
-        android:layout_marginEnd="13dp"
+        android:layout_gravity="end"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="5dp"
         android:fontFamily="sans-serif"
-        android:text="@string/text_signin_forget_password"
+        android:padding="8dp"
+        android:text="@string/text_sign_in_forget_password"
         android:textColor="@color/light_indigo"
         android:textSize="14sp"
         android:textStyle="normal" />
@@ -19,132 +21,110 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="sans-serif"
         android:text="@string/text_login"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="normal" />
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="105dp"
-        android:orientation="vertical">
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="29dp"
+        android:theme="@style/SignUpEditTextTheme">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/text_email"
-            android:textColor="@color/light_indigo"
-            android:textSize="12sp"
-            android:textStyle="normal" />
-
-
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="29dp"
-            android:backgroundTint="@color/light_indigo"
             android:fontFamily="sans-serif"
+            android:hint="@string/text_email"
+            android:imeOptions="actionDone"
             android:inputType="textEmailAddress"
-            android:paddingStart="13dp"
-            android:textColor="@color/light_indigo"
-            android:textSize="12sp"
+            android:lines="1"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <LinearLayout
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="182dp"
-        android:orientation="vertical">
+        android:layout_marginStart="31dp"
+        android:layout_marginTop="31dp"
+        android:layout_marginEnd="29dp"
+        android:theme="@style/SignUpEditTextTheme">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="44dp"
-            android:fontFamily="sans-serif-medium"
-            android:letterSpacing="0.05"
-            android:text="@string/text_password"
-            android:textColor="@color/light_indigo"
-            android:textSize="12sp"
-            android:textStyle="normal" />
-
-
-        <EditText
+        <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/etPassword"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="31dp"
-            android:layout_marginEnd="29dp"
-            android:backgroundTint="@color/light_indigo"
             android:fontFamily="sans-serif"
+            android:hint="@string/text_password"
+            android:imeOptions="actionDone"
             android:inputType="textPassword"
-            android:paddingStart="11dp"
-            android:textColor="@color/light_indigo"
-            android:textSize="12sp"
+            android:lines="1"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
-    </LinearLayout>
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ImageView
         android:id="@+id/ivlogin"
         android:layout_width="56dp"
         android:layout_height="56dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="256dp"
-        android:src="@drawable/check_btn" />
-
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="28dp"
+        android:src="@drawable/image_check" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="372dp">
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp">
 
         <ImageView
             android:id="@+id/ivfacebook"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:src="@drawable/login_fb"/>
+            android:src="@drawable/image_login_face_book" />
 
         <ImageView
             android:id="@+id/ivnaver"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/login_naver"/>
+            android:src="@drawable/image_login_naver" />
 
         <ImageView
             android:id="@+id/ivkakao"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/login_kakao"/>
+            android:src="@drawable/image_login_kakao" />
 
         <ImageView
             android:id="@+id/ivgoogle"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/login_google"/>
+            android:src="@drawable/image_login_google" />
     </LinearLayout>
 
     <TextView
         android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="487dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="51dp"
         android:fontFamily="sans-serif-medium"
+        android:padding="8dp"
         android:text="@string/text_not_account"
         android:textColor="@color/light_indigo"
         android:textSize="14sp"
         android:textStyle="normal" />
-</RelativeLayout>
+
+</LinearLayout>
