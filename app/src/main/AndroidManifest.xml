@@ -23,8 +23,11 @@
 
         <activity android:name=".signin.SignInActivity" />
 
-        <activity android:name=".calendarschedule.CalendarScheduleActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity android:name=".main.MainActivity" />
+
+        <activity
+            android:name=".calendarschedule.CalendarScheduleActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
 
         <activity
             android:name=".addschedule.AddScheduleActivity"
@@ -46,12 +49,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".manyschedule.ManyScheduleActivity"
-            android:theme="@style/ThemeDialog"/>
+        <activity
+            android:name=".manyschedule.ManyScheduleActivity"
+            android:theme="@style/ThemeDialog" />
 
-        <activity android:name=".friend.FriendActivity"/>
+        <activity android:name=".friend.FriendActivity" />
 
-        <activity android:name=".profile.ProfileActivity"/>
+        <activity android:name=".profile.ProfileActivity" />
     </application>
 
 </manifest>

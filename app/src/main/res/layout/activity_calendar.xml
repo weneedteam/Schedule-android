@@ -50,9 +50,9 @@
 
         <ImageView
             android:id="@+id/ivSave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/check_btn" />
+            android:src="@drawable/image_check" />
     </RelativeLayout>
 </RelativeLayout>

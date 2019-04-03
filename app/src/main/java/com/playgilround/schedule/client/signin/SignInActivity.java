@@ -4,12 +4,15 @@ import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
+import com.nispok.snackbar.Snackbar;
+import com.nispok.snackbar.SnackbarManager;
+import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendarschedule.CalendarScheduleActivity;
+import com.playgilround.schedule.client.main.MainActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
@@ -18,6 +21,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.nispok.snackbar.Snackbar.with;
 
 public class SignInActivity extends AppCompatActivity implements SignInContract.View {
 
@@ -84,25 +89,38 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @Override
     public void signInComplete() {
-        startActivity(new Intent(this, CalendarScheduleActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
     }
 
-    // Todo:: View 코드 작성 (현욱)
     @Override
     public void signInError(int status) {
         switch (status) {
             case SignInPresenter.ERROR_EMAIL:
-                Toast.makeText(this, "Error Email", Toast.LENGTH_SHORT).show();
+                showSnackBar(getString(R.string.error_sign_in_email_filed_check));
                 break;
             case SignInPresenter.ERROR_PASSWORD:
-                Toast.makeText(this, "Error Password", Toast.LENGTH_SHORT).show();
+                showSnackBar(getString(R.string.error_sign_in_password_filed_check));
                 break;
             case SignInPresenter.ERROR_FAIL_SIGN_IN:
-                Toast.makeText(this, "Not match email and password", Toast.LENGTH_SHORT).show();
+                showSnackBar(getString(R.string.error_sign_in_not_match_email_and_password_filed_check));
                 break;
             case SignInPresenter.ERROR_NETWORK_CUSTOM:
-                Toast.makeText(this, "NetWork Error", Toast.LENGTH_SHORT).show();
+                showSnackBar(getString(R.string.error_network));
                 break;
         }
+    }
+
+    private void showSnackBar(String content) {
+        SnackbarManager.show(with(this)
+                .type(SnackbarType.MULTI_LINE)
+                .actionLabel(getString(R.string.error_text_close))
+                .actionColorResource(R.color.error_snack_bar)
+                .duration(Snackbar.SnackbarDuration.LENGTH_INDEFINITE)
+                .text(content));
+    }
+
+    private void dismissSnackBar() {
+        SnackbarManager.dismiss();
     }
 }
