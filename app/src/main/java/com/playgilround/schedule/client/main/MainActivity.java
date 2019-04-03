@@ -8,6 +8,11 @@ import android.widget.TableLayout;
 
 import com.google.android.material.tabs.TabLayout;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendarschedule.CalendarScheduleFragment;
+import com.playgilround.schedule.client.chat.ChatFragment;
+import com.playgilround.schedule.client.friend.FriendFragment;
+import com.playgilround.schedule.client.map.MapFragment;
+import com.playgilround.schedule.client.setting.SettingFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -86,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements MainContract.View
     private void setUpViewPager() {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         // Todo:: Add Fragment.
-        adapter.addFragment(new SampleFragment());
-        adapter.addFragment(new SampleFragment());
-        adapter.addFragment(new SampleFragment());
-        adapter.addFragment(new SampleFragment());
-        adapter.addFragment(new SampleFragment());
+        adapter.addFragment(new FriendFragment());
+        adapter.addFragment(new ChatFragment());
+        adapter.addFragment(new CalendarScheduleFragment());
+        adapter.addFragment(new MapFragment());
+        adapter.addFragment(new SettingFragment());
         mViewPager.setAdapter(adapter);
     }
 
