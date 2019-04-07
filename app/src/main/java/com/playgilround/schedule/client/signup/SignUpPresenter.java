@@ -1,18 +1,14 @@
 package com.playgilround.schedule.client.signup;
 
-import com.crashlytics.android.core.CrashlyticsCore;
-import com.google.gson.Gson;
+import android.util.Log;
+
 import com.google.gson.JsonObject;
-import com.playgilround.schedule.client.model.ResponseMessage;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
 import com.playgilround.schedule.client.signup.model.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import retrofit2.Retrofit;
 
 public class SignUpPresenter implements SignUpContract.Presenter {
@@ -97,6 +93,8 @@ public class SignUpPresenter implements SignUpContract.Presenter {
     @Override
     public void signUp() {
 
+        Log.v(SignUpPresenter.class.getSimpleName(), "SignUp");
+
         Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
 
@@ -117,7 +115,9 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         jsonObject.addProperty("birth", mUser.getBirth());
         jsonObject.addProperty("language", mUser.getLanguage());
 
-        userAPI.signUp(jsonObject).enqueue(new Callback<ResponseMessage>() {
+        mView.singUpComplete();
+
+        /*userAPI.signUp(jsonObject).enqueue(new Callback<ResponseMessage>() {
             @Override
             public void onResponse(Call<ResponseMessage> call, Response<ResponseMessage> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -133,7 +133,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
                 CrashlyticsCore.getInstance().log(t.toString());
                 mView.signUpError(ERROR_NETWORK_CUSTOM);
             }
-        });
+        });*/
 
     }
 }

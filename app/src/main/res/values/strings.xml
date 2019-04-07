@@ -2,6 +2,7 @@
 <resources>
     <string name="app_name">Schedule</string>
     <string name="realm_name" translatable="false">schedule.realm</string>
+    <string name="schedule_notification_channel_id" translatable="false">Schedule notification channel id</string>
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
