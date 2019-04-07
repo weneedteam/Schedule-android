@@ -19,6 +19,18 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data
+            android:name="com.google.firebase.messaging.default_notification_channel_id"
+            android:value="@string/schedule_notification_channel_id" />
+
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
+
         <activity android:name=".signup.SignUpActivity" />
 
         <activity android:name=".signin.SignInActivity" />
@@ -56,6 +68,13 @@
         <activity android:name=".friend.FriendActivity" />
 
         <activity android:name=".profile.ProfileActivity" />
+
+        <service android:name=".service.ScheduleFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

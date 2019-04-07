@@ -3,6 +3,7 @@ package com.playgilround.schedule.client;
 import android.app.Application;
 
 import com.facebook.stetho.Stetho;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.playgilround.schedule.client.model.ScheduleMigration;
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider;
 
@@ -13,6 +14,7 @@ import io.realm.RealmConfiguration;
  * 18-12-27
  */
 public class ScheduleApplication extends Application {
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -31,10 +33,11 @@ public class ScheduleApplication extends Application {
 
         Stetho.initialize(
                 Stetho.newInitializerBuilder(this)
-                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
-                .enableWebKitInspector(provider)
-                .build());
+                        .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                        .enableWebKitInspector(provider)
+                        .build());
 
+        FirebaseMessaging.getInstance().setAutoInitEnabled(true);
     }
 
   /*  @Override

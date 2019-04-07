@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.friend;
 import android.content.Context;
 import android.util.Log;
 
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.retrofit.APIClient;
@@ -87,7 +86,7 @@ public class FriendPresenter implements FriendContract.Presenter {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                CrashlyticsCore.getInstance().log(t.toString());
+                // CrashlyticsCore.getInstance().log(t.toString());
                 mView.searchError(ERROR_NETWORK_CUSTOM);
             }
         });

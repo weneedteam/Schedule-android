@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.signin;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.playgilround.schedule.client.retrofit.APIClient;
@@ -84,7 +83,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
             @Override
             public void onFailure(Call<User> call, Throwable t) {
-                CrashlyticsCore.getInstance().log(t.toString());
+                // CrashlyticsCore.getInstance().log(t.toString());
                 mView.signInError(ERROR_NETWORK_CUSTOM);
             }
         });
@@ -110,7 +109,9 @@ public class SignInPresenter implements SignInContract.Presenter {
         jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_EMAIL, email);
         jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, User.base64Encoding(password));
 
-        userAPI.emailSignIn(jsonObject).enqueue(new Callback<User>() {
+        mView.signInComplete();
+
+        /*userAPI.emailSignIn(jsonObject).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 if (response.isSuccessful() && response.body() != null) {
@@ -128,6 +129,6 @@ public class SignInPresenter implements SignInContract.Presenter {
                 CrashlyticsCore.getInstance().log(t.toString());
                 mView.signInError(ERROR_NETWORK_CUSTOM);
             }
-        });
+        });*/
     }
 }
