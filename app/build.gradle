@@ -10,8 +10,27 @@ ext {
     PUBLISH_ARTIFACT_ID = 'material-calendar-view'
     PUBLISH_VERSION = '1.5.0'
 }
-android {
 
+task switchToDebug(type: Copy) {
+    description = 'Switches to DEBUG google-services.json'
+    from "src/debug"
+    include "google-services.json"
+    into "."
+}
+
+task switchToRelease(type: Copy) {
+    description = 'Switches to RELEASE google-services.json'
+    from "src/main"
+    include "google-services.json"
+    into "."
+}
+
+afterEvaluate {
+    processDebugGoogleServices.dependsOn switchToDebug
+    processReleaseGoogleServices.dependsOn switchToRelease
+}
+
+android {
     compileSdkVersion 28
 
     defaultConfig {
@@ -19,18 +38,22 @@ android {
 
         minSdkVersion 17
         targetSdkVersion 28
+
         multiDexEnabled true
+
         versionCode 14
         versionName "1.4.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     compileOptions {
         sourceCompatibility = '1.8'
         targetCompatibility = '1.8'
