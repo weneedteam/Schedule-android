@@ -5,10 +5,10 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.FriendAPI;
 import com.playgilround.schedule.client.retrofit.UserAPI;
-import com.playgilround.schedule.client.signup.model.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;

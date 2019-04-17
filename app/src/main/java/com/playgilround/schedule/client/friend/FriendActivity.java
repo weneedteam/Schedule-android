@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.friend;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -12,9 +11,9 @@ import android.widget.Toast;
 
 import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
 import com.playgilround.schedule.client.profile.ProfileActivity;
-import com.playgilround.schedule.client.signup.model.User;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -152,6 +151,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
         ivRequest.setVisibility(View.GONE);
         mPresenter.getFriendList();
     }
+
     public void onProfileClick(int id) {
         startActivity(new Intent(this, ProfileActivity.class));
     }
