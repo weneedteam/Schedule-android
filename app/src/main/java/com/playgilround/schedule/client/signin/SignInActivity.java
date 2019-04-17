@@ -3,7 +3,9 @@ package com.playgilround.schedule.client.signin;
 import android.Manifest;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
@@ -11,7 +13,6 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.calendarschedule.CalendarScheduleActivity;
 import com.playgilround.schedule.client.main.MainActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
@@ -27,6 +28,9 @@ import static com.nispok.snackbar.Snackbar.with;
 public class SignInActivity extends AppCompatActivity implements SignInContract.View {
 
     private SignInContract.Presenter mPresenter;
+
+    @BindView(R.id.progress_sign_in)
+    ProgressBar mProgressBar;
 
     @BindView(R.id.etEmail)
     EditText mEditTextEmail;
@@ -88,13 +92,25 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     }
 
     @Override
+    public void showProgressBar() {
+        mProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgressBar() {
+        mProgressBar.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
     public void signInComplete() {
+        hideProgressBar();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 
     @Override
     public void signInError(int status) {
+        hideProgressBar();
         switch (status) {
             case SignInPresenter.ERROR_EMAIL:
                 showSnackBar(getString(R.string.error_sign_in_email_filed_check));
