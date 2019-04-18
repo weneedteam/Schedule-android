@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.signup.model;
+package com.playgilround.schedule.client.data;
 
 
 import android.util.Base64;

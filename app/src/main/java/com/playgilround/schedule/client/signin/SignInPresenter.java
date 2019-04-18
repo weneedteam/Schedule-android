@@ -5,10 +5,10 @@ import android.content.SharedPreferences;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.BaseUrl;
 import com.playgilround.schedule.client.retrofit.UserAPI;
-import com.playgilround.schedule.client.signup.model.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -62,17 +62,29 @@ public class SignInPresenter implements SignInContract.Presenter {
 
     @Override
     public void autoSignIn() {
+        mView.showProgressBar();
+
         Retrofit retrofit = APIClient.getClient();
         UserAPI userAPI = retrofit.create(UserAPI.class);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_TOKEN, mUser.getToken());
 
-        userAPI.tokenSignIn(jsonObject).enqueue(new Callback<User>() {
+        userAPI.tokenSignIn(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    User user = response.body();
+                    JsonObject userInfo = response.body().getAsJsonObject("user_info");
+                    User user = new Gson().fromJson(userInfo.get("user"), User.class);
+
+                    String birth = userInfo.get("birth").getAsString();
+                    String language = userInfo.get("language").getAsString();
+                    String token = userInfo.get("token").getAsString();
+
+                    user.setBirth(birth);
+                    user.setLanguage(language);
+                    user.setToken(token);
+
                     saveUser(new Gson().toJson(user));
 
                     mView.signInComplete();
@@ -82,7 +94,7 @@ public class SignInPresenter implements SignInContract.Presenter {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
+            public void onFailure(Call<JsonObject> call, Throwable t) {
                 // CrashlyticsCore.getInstance().log(t.toString());
                 mView.signInError(ERROR_NETWORK_CUSTOM);
             }
@@ -91,6 +103,7 @@ public class SignInPresenter implements SignInContract.Presenter {
 
     @Override
     public void signIn(String email, String password) {
+        mView.showProgressBar();
 
         if (!User.checkEmail(email)) {
             mView.signInError(ERROR_EMAIL);
@@ -107,15 +120,26 @@ public class SignInPresenter implements SignInContract.Presenter {
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_EMAIL, email);
-        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, User.base64Encoding(password));
 
-        mView.signInComplete();
+        // Todo:: Server 측에 base64 encoding 제안
+        // jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, User.base64Encoding(password));
+        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_PASSWORD, password);
 
-        /*userAPI.emailSignIn(jsonObject).enqueue(new Callback<User>() {
+        userAPI.emailSignIn(jsonObject).enqueue(new Callback<JsonObject>() {
             @Override
-            public void onResponse(Call<User> call, Response<User> response) {
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                 if (response.isSuccessful() && response.body() != null) {
-                    User user = response.body();
+                    JsonObject userInfo = response.body().getAsJsonObject("user_info");
+                    User user = new Gson().fromJson(userInfo.get("user"), User.class);
+
+                    String birth = userInfo.get("birth").getAsString();
+                    String language = userInfo.get("language").getAsString();
+                    String token = userInfo.get("token").getAsString();
+
+                    user.setBirth(birth);
+                    user.setLanguage(language);
+                    user.setToken(token);
+
                     saveUser(new Gson().toJson(user));
 
                     mView.signInComplete();
@@ -125,10 +149,10 @@ public class SignInPresenter implements SignInContract.Presenter {
             }
 
             @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                CrashlyticsCore.getInstance().log(t.toString());
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                // CrashlyticsCore.getInstance().log(t.toString());
                 mView.signInError(ERROR_NETWORK_CUSTOM);
             }
-        });*/
+        });
     }
 }
