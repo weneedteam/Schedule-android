@@ -72,7 +72,7 @@ class UsersRemoteDataSource private constructor(val context: Context) : UsersDat
         val userAPI = retrofit.create(UserAPI::class.java)
 
         val jsonObject = JsonObject()
-        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_TOKEN, currentUser.token)
+        jsonObject.addProperty(BaseUrl.PARAM_SIGN_IN_TOKEN, currentUser?.token)
 
         userAPI.tokenSignIn(jsonObject).enqueue(object : Callback<JsonObject> {
             override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
