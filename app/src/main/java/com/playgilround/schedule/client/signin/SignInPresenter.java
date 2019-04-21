@@ -1,5 +1,7 @@
 package com.playgilround.schedule.client.signin;
 
+import android.content.Context;
+
 import com.playgilround.schedule.client.data.repository.UsersRepository;
 import com.playgilround.schedule.client.data.source.UsersDataSource;
 
@@ -12,12 +14,14 @@ public class SignInPresenter implements SignInContract.Presenter, UsersDataSourc
     public static final int ERROR_FAIL_SIGN_IN = 0x0003;
     public static final int ERROR_NETWORK_CUSTOM = 0x0004;
 
+    private final Context mContext;
     private final SignInContract.View mView;
     private final UsersRepository mRepository;
 
-    SignInPresenter(SignInContract.View view, UsersRepository repository) {
+    SignInPresenter(Context context, SignInContract.View view, UsersRepository repository) {
         mView = view;
         mView.setPresenter(this);
+        mContext = context;
         mRepository = repository;
     }
 
@@ -28,7 +32,7 @@ public class SignInPresenter implements SignInContract.Presenter, UsersDataSourc
 
     @Override
     public boolean checkAutoSignIn() {
-        return mRepository.getCurrentUser() != null;
+        return mRepository.getCurrentUser(mContext) != null;
     }
 
     @Override

@@ -69,7 +69,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
                 .check();
 
         ButterKnife.bind(this);
-        new SignInPresenter(this,
+        new SignInPresenter(this, this,
                 new UsersRepository(
                         UsersLocalDataSource.getInstance(this),
                         UsersRemoteDataSource.getInstance(this)));

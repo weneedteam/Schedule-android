@@ -9,7 +9,7 @@ class UsersRepository(
         private val usersLocalDataSource: UsersDataSource,
         private val usersRemoteDataSource: UsersRemoteDataSource) : UsersDataSource {
 
-    override fun getCurrentUser(context: Context): User {
+    override fun getCurrentUser(context: Context): User? {
         return usersLocalDataSource.getCurrentUser(context)
     }
 
