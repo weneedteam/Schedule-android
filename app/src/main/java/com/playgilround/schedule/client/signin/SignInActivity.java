@@ -13,6 +13,9 @@ import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.data.repository.UsersRepository;
+import com.playgilround.schedule.client.data.source.local.UsersLocalDataSource;
+import com.playgilround.schedule.client.data.source.network.UsersRemoteDataSource;
 import com.playgilround.schedule.client.main.MainActivity;
 import com.playgilround.schedule.client.signup.SignUpActivity;
 
@@ -66,7 +69,10 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
                 .check();
 
         ButterKnife.bind(this);
-        new SignInPresenter(this, this);
+        new SignInPresenter(this, this,
+                new UsersRepository(
+                        UsersLocalDataSource.getInstance(this),
+                        UsersRemoteDataSource.getInstance(this)));
 
         if (mPresenter.checkAutoSignIn()) {
             mPresenter.autoSignIn();
