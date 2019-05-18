@@ -2,7 +2,6 @@ package com.playgilround.schedule.client.signup;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
-import com.playgilround.schedule.client.signup.model.User;
 
 public interface SignUpContract {
 
