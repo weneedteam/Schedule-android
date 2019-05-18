@@ -3,9 +3,9 @@ package com.playgilround.schedule.client.signup;
 import android.util.Log;
 
 import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.retrofit.APIClient;
 import com.playgilround.schedule.client.retrofit.UserAPI;
-import com.playgilround.schedule.client.signup.model.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
 import com.playgilround.schedule.client.signup.view.SignUpAdapter;
 
