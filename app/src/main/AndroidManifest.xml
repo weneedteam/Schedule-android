@@ -39,7 +39,7 @@
 
         <activity
             android:name=".calendarschedule.CalendarScheduleActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"> />
 
         <activity
             android:name=".addschedule.AddScheduleActivity"
