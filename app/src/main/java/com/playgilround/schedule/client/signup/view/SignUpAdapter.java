@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,20 +24,13 @@ import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
-
-import org.joda.time.DateTime;
-
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.lang.reflect.Field;
 
-import javax.annotation.OverridingMethodsMustInvokeSuper;
-
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.nispok.snackbar.Snackbar.with;
 
@@ -362,9 +354,9 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             int monthNumberPickerID = system.getIdentifier("month", "id", "android");
             int dayNumberPickerID = system.getIdentifier("day", "id", "android");
 
-            NumberPicker yearNumberPicker = (NumberPicker) datePicker.findViewById(yearNumberPickerID);
-            NumberPicker monthNumberPicker = (NumberPicker) datePicker.findViewById(monthNumberPickerID);
-            NumberPicker dayNumberPicker = (NumberPicker) datePicker.findViewById(dayNumberPickerID);
+            NumberPicker yearNumberPicker = datePicker.findViewById(yearNumberPickerID);
+            NumberPicker monthNumberPicker = datePicker.findViewById(monthNumberPickerID);
+            NumberPicker dayNumberPicker = datePicker.findViewById(dayNumberPickerID);
 
             setDividerColor(yearNumberPicker);
             setDividerColor(monthNumberPicker);
@@ -376,7 +368,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                 return;
 
             final int count = np.getChildCount();
-            for (int i=0 ; i<count ; i++) {
+            for (int i = 0; i < count; i++) {
                 View textView = np.getChildAt(i);
                 try {
                     Field dividerField = np.getClass().getDeclaredField("mSelectionDivider");
@@ -387,11 +379,11 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
                     ColorDrawable colorDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.light_indigo));
                     dividerField.set(np, colorDrawable);
 
-                    ((Paint)textField.get(np)).setColor(mContext.getResources().getColor(R.color.light_indigo));
-                    ((EditText)textView).setTextColor(mContext.getResources().getColor(R.color.light_indigo));
+                    ((Paint) textField.get(np)).setColor(mContext.getResources().getColor(R.color.light_indigo));
+                    ((EditText) textView).setTextColor(mContext.getResources().getColor(R.color.light_indigo));
 
                     np.invalidate();
-                } catch(Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -402,12 +394,7 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             this.position = position;
 
             mBirth.init(mBirth.getYear(), mBirth.getMonth(), mBirth.getDayOfMonth(),
-                    new DatePicker.OnDateChangedListener() {
-                        @Override
-                        public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                            setBirth(year, monthOfYear+1,dayOfMonth);
-                        }
-                    });
+                    (view, year, monthOfYear, dayOfMonth) -> setBirth(year, monthOfYear + 1, dayOfMonth));
             applyStyle(mBirth);
         }
 
