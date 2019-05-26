@@ -2,9 +2,11 @@ package com.playgilround.schedule.client.signup.view;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,24 +15,22 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.enums.SnackbarType;
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.signup.model.User;
+import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.signup.model.UserDataModel;
-import com.tsongkha.spinnerdatepicker.DatePickerDialog;
-import com.tsongkha.spinnerdatepicker.SpinnerDatePickerDialogBuilder;
 
-import org.joda.time.DateTime;
+import java.lang.reflect.Field;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 import static com.nispok.snackbar.Snackbar.with;
 
@@ -336,14 +336,8 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
 
     class BirthViewHolder extends RootViewHolder {
 
-        @BindView(R.id.text_sign_up_year)
-        TextView mTextYear;
-
-        @BindView(R.id.text_sign_up_month)
-        TextView mTextMonth;
-
-        @BindView(R.id.text_sign_up_day)
-        TextView mTextDay;
+        @BindView(R.id.datePicker_birth)
+        DatePicker mBirth;
 
         BirthViewHolder(View itemView) {
             super(itemView);
@@ -354,48 +348,58 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             return content != null;
         }
 
+        private void applyStyle(DatePicker datePicker) {
+            Resources system = Resources.getSystem();
+            int yearNumberPickerID = system.getIdentifier("year", "id", "android");
+            int monthNumberPickerID = system.getIdentifier("month", "id", "android");
+            int dayNumberPickerID = system.getIdentifier("day", "id", "android");
+
+            NumberPicker yearNumberPicker = datePicker.findViewById(yearNumberPickerID);
+            NumberPicker monthNumberPicker = datePicker.findViewById(monthNumberPickerID);
+            NumberPicker dayNumberPicker = datePicker.findViewById(dayNumberPickerID);
+
+            setDividerColor(yearNumberPicker);
+            setDividerColor(monthNumberPicker);
+            setDividerColor(dayNumberPicker);
+        }
+
+        private void setDividerColor(NumberPicker np) {
+            if (np == null)
+                return;
+
+            final int count = np.getChildCount();
+            for (int i = 0; i < count; i++) {
+                View textView = np.getChildAt(i);
+                try {
+                    Field dividerField = np.getClass().getDeclaredField("mSelectionDivider");
+                    Field textField = np.getClass().getDeclaredField("mSelectorWheelPaint");
+                    dividerField.setAccessible(true);
+                    textField.setAccessible(true);
+
+                    ColorDrawable colorDrawable = new ColorDrawable(mContext.getResources().getColor(R.color.light_indigo));
+                    dividerField.set(np, colorDrawable);
+
+                    ((Paint) textField.get(np)).setColor(mContext.getResources().getColor(R.color.light_indigo));
+                    ((EditText) textView).setTextColor(mContext.getResources().getColor(R.color.light_indigo));
+
+                    np.invalidate();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         @Override
         public void bind(int position) {
             this.position = position;
 
-            DateTime dateTime = new DateTime();
-
-            mTextYear.setText(String.valueOf(dateTime.getYear()));
-            mTextMonth.setText(String.valueOf(dateTime.getMonthOfYear() - 1));
-            mTextDay.setText(String.valueOf(dateTime.getDayOfMonth()));
-
-            content = String.valueOf(dateTime.getYear()) + "-" +
-                    (dateTime.getMonthOfYear() + 1) + "-" +
-                    dateTime.getDayOfMonth();
+            mBirth.init(mBirth.getYear(), mBirth.getMonth(), mBirth.getDayOfMonth(),
+                    (view, year, monthOfYear, dayOfMonth) -> setBirth(year, monthOfYear + 1, dayOfMonth));
+            applyStyle(mBirth);
         }
 
-        @OnClick(R.id.view_sign_up_birth)
-        void onChangeBirth() {
-            showDateDialog(
-                    Integer.valueOf(mTextYear.getText().toString()),
-                    Integer.valueOf(mTextMonth.getText().toString()),
-                    Integer.valueOf(mTextDay.getText().toString())
-            );
-        }
-
-        void showDateDialog(int year, int month, int day) {
-            new SpinnerDatePickerDialogBuilder()
-                    .context(mContext)
-                    .callback((view, year1, monthOfYear, dayOfMonth) -> {
-                        mTextYear.setText(String.valueOf(year1));
-                        mTextMonth.setText(String.valueOf(monthOfYear + 1));
-                        mTextDay.setText(String.valueOf(dayOfMonth));
-
-                        content = String.valueOf(year1) + "-" +
-                                (monthOfYear + 1) + "-" +
-                                dayOfMonth;
-
-                        mOnSignUpAdapterListener.ableNextButton();
-                    })
-                    .spinnerTheme(R.style.birthDatePicker)
-                    .defaultDate(year, month, day)
-                    .build()
-                    .show();
+        void setBirth(int year, int month, int day) {
+            content = Integer.toString(year) + "-" + Integer.toString(month) + "-" + Integer.toString(day);
         }
     }
 

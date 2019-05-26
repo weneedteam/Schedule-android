@@ -2,8 +2,7 @@ package com.playgilround.schedule.client.friend;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
-import com.playgilround.schedule.client.model.ResponseMessage;
-import com.playgilround.schedule.client.signup.model.User;
+import com.playgilround.schedule.client.data.User;
 
 /**
  * 19-03-14

@@ -30,12 +30,6 @@
 
     <style name="ThemeDialog" parent="Base.Theme.AppCompat.Light.Dialog" />
 
-    <style name="birthDatePicker">
-        <item name="android:textSize">18sp</item>
-        <item name="android:textColorPrimary">@color/light_indigo</item>
-        <item name="android:colorControlNormal">@color/light_indigo</item>
-    </style>
-
     <style name="SignUpEditTextTheme" parent="AppTheme">
         <!-- Hint Color -->
         <item name="colorAccent">@color/light_indigo</item>
@@ -57,6 +51,11 @@
         <!-- Error message appearance here -->
         <item name="android:textColor">#FF0000</item>
         <item name="android:textSize">12sp</item>
+    </style>
+    
+    <style name="NumberPickerStyle" >
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/light_indigo</item>
     </style>
 
 </resources>

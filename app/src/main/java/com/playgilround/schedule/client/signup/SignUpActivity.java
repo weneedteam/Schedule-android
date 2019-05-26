@@ -3,6 +3,7 @@ package com.playgilround.schedule.client.signup;
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -133,7 +134,10 @@ public class SignUpActivity extends AppCompatActivity implements SignUpContract.
                 mRecyclerView.smoothScrollToPosition(mAdapter.getPosition());
                 new Handler().postDelayed(() -> mAdapter.setFocus(), 500);
 
-                mNextButton.setImageResource(R.drawable.disable_btn);
+                if (mAdapter.getPosition() != mAdapter.getItemCount() - 1)
+                    mNextButton.setImageResource(R.drawable.disable_btn);
+                else
+                    mNextButton.setImageResource(R.drawable.image_check);
             } else {
                 mPresenter.signUp();
                 /*Toast.makeText(this, "회원가입 완료", Toast.LENGTH_LONG).show();

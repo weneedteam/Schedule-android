@@ -8,6 +8,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.data.repository.UsersRepository;
+import com.playgilround.schedule.client.data.source.local.UsersLocalDataSource;
+import com.playgilround.schedule.client.data.source.network.UsersRemoteDataSource;
 import com.playgilround.schedule.client.signin.SignInActivity;
 import com.playgilround.schedule.client.tutorial.view.TutorialAdapter;
 
@@ -54,7 +57,8 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setHasFixedSize(true);
 
-        new TutorialPresenter(this);
+        new TutorialPresenter(this, this, new UsersRepository(
+                UsersLocalDataSource.getInstance(this), UsersRemoteDataSource.getInstance(this)));
 
         adapter = new TutorialAdapter(this);
         mRecyclerView.setAdapter(adapter);
@@ -86,6 +90,7 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
         PagerSnapHelper pagerSnapHelper = new PagerSnapHelper();
         pagerSnapHelper.attachToRecyclerView(mRecyclerView);
 
+        mPresenter.checkLogin();
     }
 
     @OnClick(R.id.ivNextBtn)
@@ -106,5 +111,11 @@ public class TutorialActivity extends AppCompatActivity implements TutorialContr
     @Override
     public void setPresenter(TutorialContract.Presenter presenter) {
         mPresenter = presenter;
+    }
+
+    @Override
+    public void skipTutorial() {
+        startActivity(new Intent(this, SignInActivity.class));
+        finish();
     }
 }

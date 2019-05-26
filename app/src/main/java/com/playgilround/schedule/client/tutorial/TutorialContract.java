@@ -12,9 +12,13 @@ public interface TutorialContract {
 
     interface View extends BaseView<Presenter> {
 
+        void skipTutorial();
+
     }
 
     interface Presenter extends BasePresenter {
+
+        void checkLogin();
 
     }
 }
