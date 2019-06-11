@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.gson.Gson
 import com.playgilround.schedule.client.data.User
 

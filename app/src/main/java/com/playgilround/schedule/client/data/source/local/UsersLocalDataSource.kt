@@ -1,8 +1,6 @@
 package com.playgilround.schedule.client.data.source.local
 
 import android.content.Context
-import android.content.Intent
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.playgilround.schedule.client.data.source.UsersDataSource
 
 class UsersLocalDataSource private constructor(val context: Context) : UsersDataSource {
