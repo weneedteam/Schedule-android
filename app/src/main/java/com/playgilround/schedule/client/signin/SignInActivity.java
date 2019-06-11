@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.tasks.Task;
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.nispok.snackbar.Snackbar;
@@ -79,12 +83,32 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 9001) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                mPresenter.firebaseAuthGoogle(account);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @OnClick(R.id.ivlogin)
     void onLoginClick() {
         String email = mEditTextEmail.getText().toString();
         String password = mEditTextPassword.getText().toString();
 
         mPresenter.signIn(email, password);
+    }
+
+    @OnClick(R.id.ivgoogle)
+    void onGoolgeLoginClick() {
+        startActivityForResult(mPresenter.googleSingIn(), 9001);
     }
 
     @OnClick(R.id.tvSignUp)

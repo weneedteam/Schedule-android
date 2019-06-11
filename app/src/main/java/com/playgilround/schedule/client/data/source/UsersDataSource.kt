@@ -2,6 +2,9 @@ package com.playgilround.schedule.client.data.source
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.Intent
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.gson.Gson
 import com.playgilround.schedule.client.data.User
 
@@ -31,6 +34,12 @@ interface UsersDataSource {
     fun login(email: String, password: String, loginCallBack: LoginCallBack)
 
     fun tokenLogin(loginCallBack: LoginCallBack)
+
+    interface SNSLogin {
+        fun googleLogin(): Intent
+
+        fun firebaseAuthGoogle(acct: GoogleSignInAccount)
+    }
 
     companion object {
         private val TAG = UsersDataSource::class.java.simpleName

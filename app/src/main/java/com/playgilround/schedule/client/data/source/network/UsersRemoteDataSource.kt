@@ -1,8 +1,17 @@
 package com.playgilround.schedule.client.data.source.network
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GoogleAuthProvider
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.data.User
 import com.playgilround.schedule.client.data.source.UsersDataSource
 import com.playgilround.schedule.client.retrofit.APIClient
@@ -14,7 +23,10 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
 
-class UsersRemoteDataSource private constructor(val context: Context) : UsersDataSource {
+class UsersRemoteDataSource private constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
+
+    private lateinit var auth: FirebaseAuth
+    private lateinit var googleSignInClient: GoogleSignInClient
 
     override fun login(email: String, password: String, loginCallBack: UsersDataSource.LoginCallBack) {
         if (checkEmail(email)) {
@@ -100,6 +112,34 @@ class UsersRemoteDataSource private constructor(val context: Context) : UsersDat
                 loginCallBack.onDataNotAvailable(ERROR_NETWORK_CUSTOM)
             }
         })
+    }
+
+    override fun googleLogin(): Intent {
+
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(context.getString(R.string.google_web_client_id))
+                .requestEmail()
+                .build()
+        googleSignInClient = GoogleSignIn.getClient(context, gso)
+
+        auth = FirebaseAuth.getInstance()
+
+        return googleSignInClient.signInIntent
+    }
+
+    override fun firebaseAuthGoogle(acct: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // 로그인 성공 시 처리
+                        val user = auth.currentUser
+                        Log.d("TESTLOG","로그인 성공")
+                    } else {
+                        // 로그인 실패 시 처리
+                        Log.d("TESTLOG","로그인 실패")
+                    }
+                }
     }
 
     private fun checkEmail(email: String): Boolean {
