@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.gson.Gson
@@ -127,19 +127,27 @@ class UsersRemoteDataSource private constructor(val context: Context) : UsersDat
         return googleSignInClient.signInIntent
     }
 
-    override fun firebaseAuthGoogle(acct: GoogleSignInAccount) {
-        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        auth.signInWithCredential(credential)
-                .addOnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        // 로그인 성공 시 처리
-                        val user = auth.currentUser
-                        Log.d("TESTLOG","로그인 성공")
-                    } else {
-                        // 로그인 실패 시 처리
-                        Log.d("TESTLOG","로그인 실패")
+    override fun firebaseAuthGoogle(data: Intent) {
+
+        val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+
+            val credential = GoogleAuthProvider.getCredential(account!!.idToken, null)
+            auth.signInWithCredential(credential)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            // 로그인 성공 시 처리
+                            val user = auth.currentUser
+                            Log.d("TESTLOG","로그인 성공")
+                        } else {
+                            // 로그인 실패 시 처리
+                            Log.d("TESTLOG","로그인 실패")
+                        }
                     }
-                }
+        } catch (e: ApiException) {
+            e.printStackTrace()
+        }
     }
 
     private fun checkEmail(email: String): Boolean {

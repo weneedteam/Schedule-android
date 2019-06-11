@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.data.source
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.gson.Gson
 import com.playgilround.schedule.client.data.User
 
@@ -37,7 +36,7 @@ interface UsersDataSource {
     interface SNSLogin {
         fun googleLogin(): Intent
 
-        fun firebaseAuthGoogle(acct: GoogleSignInAccount)
+        fun firebaseAuthGoogle(data: Intent)
     }
 
     companion object {

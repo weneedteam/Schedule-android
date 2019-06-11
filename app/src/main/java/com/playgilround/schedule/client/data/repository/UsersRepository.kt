@@ -2,7 +2,6 @@ package com.playgilround.schedule.client.data.repository
 
 import android.content.Context
 import android.content.Intent
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.playgilround.schedule.client.data.User
 import com.playgilround.schedule.client.data.source.UsersDataSource
 import com.playgilround.schedule.client.data.source.network.UsersRemoteDataSource
@@ -27,8 +26,8 @@ class UsersRepository(
         return usersRemoteDataSource.googleLogin()
     }
 
-    override fun firebaseAuthGoogle(acct: GoogleSignInAccount) {
-        usersRemoteDataSource.firebaseAuthGoogle(acct)
+    override fun firebaseAuthGoogle(data: Intent) {
+        usersRemoteDataSource.firebaseAuthGoogle(data)
     }
 
 }

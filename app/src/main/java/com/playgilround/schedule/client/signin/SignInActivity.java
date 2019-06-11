@@ -7,10 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.Task;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.nispok.snackbar.Snackbar;
@@ -25,7 +23,6 @@ import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -88,13 +85,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == 9001) {
-            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
-            try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                mPresenter.firebaseAuthGoogle(account);
-            } catch (ApiException e) {
-                e.printStackTrace();
-            }
+            mPresenter.firebaseAuthGoogle(data);
         }
     }
 
