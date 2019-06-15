@@ -48,6 +48,8 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
             Manifest.permission.INTERNET
     };
 
+    static final int GOOGLE_LOGIN = 0x0001;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,7 +86,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == 9001) {
+        if (requestCode == GOOGLE_LOGIN) {
             mPresenter.firebaseAuthGoogle(data);
         }
     }
@@ -99,7 +101,7 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
 
     @OnClick(R.id.ivgoogle)
     void onGoolgeLoginClick() {
-        startActivityForResult(mPresenter.googleSingIn(), 9001);
+        startActivityForResult(mPresenter.googleSingIn(), GOOGLE_LOGIN);
     }
 
     @OnClick(R.id.tvSignUp)
