@@ -142,4 +142,7 @@
         <item>서로의 위치를\n 실시간으로 확인해 보세요.</item>
         <item>도착했다면,\n 몇 등인지 확인해보세요.</item>
     </string-array>
+
+    <!-- OAuth 2.0 Client ID -->
+    <string name="google_web_client_id">353847811725-vemdsfmqn70ue07845ae9d1ef6src9lo.apps.googleusercontent.com</string>
 </resources>

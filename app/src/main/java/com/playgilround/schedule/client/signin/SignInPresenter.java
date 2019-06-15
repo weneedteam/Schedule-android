@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.signin;
 
 import android.content.Context;
+import android.content.Intent;
 
 import com.playgilround.schedule.client.data.repository.UsersRepository;
 import com.playgilround.schedule.client.data.source.UsersDataSource;
@@ -45,6 +46,16 @@ public class SignInPresenter implements SignInContract.Presenter, UsersDataSourc
     public void signIn(String email, String password) {
         mView.showProgressBar();
         mRepository.login(email, password, this);
+    }
+
+    @Override
+    public Intent googleSingIn() {
+        return mRepository.googleLogin();
+    }
+
+    @Override
+    public void firebaseAuthGoogle(Intent data) {
+        mRepository.firebaseAuthGoogle(data);
     }
 
     @Override

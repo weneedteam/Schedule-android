@@ -110,6 +110,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.6'
     // implementation 'com.crashlytics.sdk.android:crashlytics:2.9.8'
     implementation 'com.google.firebase:firebase-messaging:17.3.4'
+    implementation 'com.google.firebase:firebase-auth:17.0.0'
+
+    //Google Login
+    implementation 'com.google.android.gms:play-services-auth:16.0.1'
 
     //Google Map
     implementation 'com.google.android.gms:play-services-maps:16.0.0'

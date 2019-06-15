@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.gun0912.tedpermission.PermissionListener;
 import com.gun0912.tedpermission.TedPermission;
 import com.nispok.snackbar.Snackbar;
@@ -21,7 +23,6 @@ import com.playgilround.schedule.client.signup.SignUpActivity;
 
 import java.util.List;
 
-import androidx.appcompat.app.AppCompatActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -79,12 +80,26 @@ public class SignInActivity extends AppCompatActivity implements SignInContract.
         }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 9001) {
+            mPresenter.firebaseAuthGoogle(data);
+        }
+    }
+
     @OnClick(R.id.ivlogin)
     void onLoginClick() {
         String email = mEditTextEmail.getText().toString();
         String password = mEditTextPassword.getText().toString();
 
         mPresenter.signIn(email, password);
+    }
+
+    @OnClick(R.id.ivgoogle)
+    void onGoolgeLoginClick() {
+        startActivityForResult(mPresenter.googleSingIn(), 9001);
     }
 
     @OnClick(R.id.tvSignUp)
