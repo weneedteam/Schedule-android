@@ -5,84 +5,39 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <RelativeLayout
-        android:id="@+id/llTitle"
+    <com.playgilround.schedule.client.calendar.ScheduleLayout
+        android:id="@+id/slSchedule"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="24dp"
-        android:gravity="center_vertical">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/tvDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="2018년 12월"
-            android:textColor="@color/light_indigo"
-            android:textSize="20sp"
-            android:textStyle="normal" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/ivAddSchedule"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="14dp"
-            android:src="@drawable/add_btn" />
+            <RelativeLayout
+                android:id="@+id/rlCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    </RelativeLayout>
-
-    <com.applandeo.materialcalendarview.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/llTitle"
-        app:abbreviationsBarColor="#303F9F"
-        app:abbreviationsLabelsColor="@android:color/white"
-        app:anotherMonthsDaysLabelsColor="#3F51B5"
-        app:daysLabelsColor="@android:color/white"
-        app:eventsEnabled="true"
-        app:headerColor="@color/colorGreen"
-        app:pagesColor="@color/pages_color"
-        app:selectionColor="@android:color/white"
-        app:selectionLabelColor="@android:color/holo_blue_dark"
-        app:todayLabelColor="@color/color_pink"
-        app:type="many_days_picker" />
+                <com.playgilround.schedule.client.calendar.CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:selectionColor="@color/light_indigo"
+                    app:type="range_picker" />
+            </RelativeLayout>
 
 
-    <!--  <RelativeLayout
-          android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:layout_alignParentBottom="true"
-          android:background="@color/colorGreen">
+            <include
+                layout="@layout/schedule_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-          <ImageView
-              android:id="@+id/ivRange"
-              android:layout_width="40dp"
-              android:layout_height="40dp"
-              android:layout_centerVertical="true"
-              android:src="@drawable/nav_calendar" />
+        </LinearLayout>
 
-          <EditText
-              android:id="@+id/etInputContent"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_centerInParent="true"
-              android:background="@drawable/schedule_input_edit_text"
-              android:hint="@string/text_schedule_content"
-              android:paddingStart="30dp"
-              android:paddingTop="10dp"
-              android:paddingEnd="30dp"
-              android:paddingBottom="10dp" />
+    </com.playgilround.schedule.client.calendar.ScheduleLayout>
 
-          <ImageView
-              android:id="@+id/ivSave"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"
-              android:layout_alignParentEnd="true"
-              android:src="@drawable/check_btn" />
-
-      </RelativeLayout>-->
 
     <ProgressBar
         android:id="@+id/progress"
@@ -101,10 +56,97 @@
         android:layout_height="56dp"
         android:layout_alignParentBottom="true" />
 
-    <ImageView
-        android:id="@+id/ivSave"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:src="@drawable/image_check" />
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/floatingAdd"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/add_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_add"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatingModify"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/modify_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_modify"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatingDelete"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/delete_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_delete"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:backgroundTint="@color/light_indigo"
+            android:src="@drawable/add"
+            app:fabSize="normal" />
+
+    </LinearLayout>
 </RelativeLayout>

@@ -46,6 +46,13 @@
     <string name="text_tutorial_start1">일정을 등록할 때,\n 장소를 설정해주세요.</string>
     <string name="text_tutorial_start2">장소에 가까워지면\n도착 버튼이 활성화됩니다.</string>
     <string name="text_tutorial_start3">도착 버튼을 누르고\n 친구와 함께 경쟁하세요.</string>
+    <string name="text_schedule">일정</string>
+
+    <string name="text_schedule_add">일정 추가</string>
+    <string name="text_schedule_modify">일정 수정</string>
+    <string name="text_schedule_delete">일정 삭제</string>
+
+    <string name="text_chatting_rome">채팅방</string>
 
     <!-- SignUp Text-->
     <string name="text_sign_up_title_name">이름을 입력해 주세요.</string>

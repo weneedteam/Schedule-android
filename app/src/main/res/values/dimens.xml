@@ -11,4 +11,9 @@
     <dimen name="add_event_set_radius">2dp</dimen>
 
     <dimen name="nav_header_height">250dp</dimen>
+
+    <dimen name="calendar_min_distance">5dp</dimen>
+    <dimen name="auto_scroll_distance">15dp</dimen>
+    <dimen name="week_calendar_height">-48dp</dimen>
+
 </resources>

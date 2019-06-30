@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlScheduleList"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="400dp"
+    android:background="@android:color/white">
+
+    <TextView
+        android:id="@+id/tvSchedule"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="@string/text_schedule"
+        android:textColor="@color/light_indigo"
+        android:textSize="18sp"
+        android:textStyle="normal" />
+
+    <com.playgilround.schedule.client.calendar.ScheduleRecyclerView
+        android:id="@+id/rvScheduleList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tvSchedule"
+        android:layout_marginTop="12dp"
+        android:orientation="vertical"
+        android:overScrollMode="never" />
+</RelativeLayout>

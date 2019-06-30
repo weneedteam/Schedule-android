@@ -45,8 +45,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.ivAddSchedule)
-    ImageView ivAddSchedule;
+//    @BindView(R.id.ivAddSchedule)
+//    ImageView ivAddSchedule;
 
     private CalendarScheduleContract.Presenter mPresenter;
 
