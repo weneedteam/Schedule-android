@@ -10,6 +10,10 @@ import android.widget.TextView;
 
 import com.annimon.stream.Stream;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.util.AppearanceUtils;
+import com.playgilround.schedule.client.calendar.util.DateUtils;
+import com.playgilround.schedule.client.calendar.util.SelectedDay;
+import com.playgilround.schedule.client.calendar.view.CalendarPageAdapter;
 
 import java.util.Calendar;
 import java.util.List;

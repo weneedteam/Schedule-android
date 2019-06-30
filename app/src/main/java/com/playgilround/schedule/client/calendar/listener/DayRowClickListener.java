@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.listener;
 
 import android.util.Log;
 import android.view.View;
@@ -7,6 +7,14 @@ import android.widget.TextView;
 
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.view.CalendarPageAdapter;
+import com.playgilround.schedule.client.calendar.CalendarProperties;
+import com.playgilround.schedule.client.calendar.CalendarView;
+import com.playgilround.schedule.client.calendar.util.EventDay;
+import com.playgilround.schedule.client.calendar.util.SelectedDay;
+import com.playgilround.schedule.client.calendar.util.CalendarUtils;
+import com.playgilround.schedule.client.calendar.util.DateUtils;
+import com.playgilround.schedule.client.calendar.util.DayColorsUtils;
 
 import java.util.Calendar;
 import java.util.Date;

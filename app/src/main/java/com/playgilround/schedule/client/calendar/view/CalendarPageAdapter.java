@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -6,6 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarGridView;
+import com.playgilround.schedule.client.calendar.CalendarProperties;
+import com.playgilround.schedule.client.calendar.util.SelectedDay;
+import com.playgilround.schedule.client.calendar.listener.DayRowClickListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;

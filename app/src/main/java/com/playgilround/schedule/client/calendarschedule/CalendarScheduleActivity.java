@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendar.CalendarView;
-import com.playgilround.schedule.client.calendar.EventDay;
+import com.playgilround.schedule.client.calendar.util.EventDay;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 
 import java.util.ArrayList;

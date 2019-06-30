@@ -1,8 +1,10 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.listener;
 
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
+
+import com.playgilround.schedule.client.calendar.ScheduleLayout;
 
 /**
  * 달력, 스케줄 부분 스크롤 리스너.

@@ -12,6 +12,8 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.listener.OnScheduleScrollListener;
+import com.playgilround.schedule.client.calendar.util.ScheduleState;
 
 public class ScheduleLayout extends LinearLayout {
 

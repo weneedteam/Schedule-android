@@ -1,6 +1,8 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.util;
 
 import android.graphics.drawable.Drawable;
+
+import com.playgilround.schedule.client.calendar.util.DateUtils;
 
 import java.util.Calendar;
 

@@ -6,7 +6,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
 import com.playgilround.schedule.client.R;
-import com.playgilround.schedule.client.calendar.EventDay;
+import com.playgilround.schedule.client.calendar.util.EventDay;
 import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 

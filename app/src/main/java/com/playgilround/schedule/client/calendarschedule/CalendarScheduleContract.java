@@ -6,7 +6,7 @@ import android.view.animation.Animation;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
-import com.playgilround.schedule.client.calendar.EventDay;
+import com.playgilround.schedule.client.calendar.util.EventDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;

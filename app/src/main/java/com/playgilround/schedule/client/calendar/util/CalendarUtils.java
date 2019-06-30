@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.util;
 
 import java.util.ArrayList;
 import java.util.Calendar;

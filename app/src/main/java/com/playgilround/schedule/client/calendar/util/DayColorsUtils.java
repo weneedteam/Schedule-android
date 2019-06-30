@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.calendar;
+package com.playgilround.schedule.client.calendar.util;
 
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarProperties;
 
 import java.util.Calendar;
 
