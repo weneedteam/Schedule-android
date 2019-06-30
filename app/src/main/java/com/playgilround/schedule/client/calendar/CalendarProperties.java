@@ -2,8 +2,6 @@ package com.playgilround.schedule.client.calendar;
 
 import android.content.Context;
 
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
 import com.playgilround.schedule.client.R;
 
 import java.util.ArrayList;

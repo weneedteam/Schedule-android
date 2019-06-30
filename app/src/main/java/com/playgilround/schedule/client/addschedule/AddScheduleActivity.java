@@ -16,14 +16,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
-import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+
 import com.jzxiang.pickerview.TimePickerDialog;
 import com.jzxiang.pickerview.data.Type;
 import com.jzxiang.pickerview.listener.OnDateSetListener;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarView;
 import com.playgilround.schedule.client.locationschedule.LocationScheduleActivity;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -48,7 +46,7 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * 18-12-30
  * 스케줄 추가 관련 Activity
  */
-public class AddScheduleActivity extends AppCompatActivity implements OnSelectDateListener, OnDateSetListener, AddScheduleContract.View {
+public class AddScheduleActivity extends AppCompatActivity implements OnDateSetListener, AddScheduleContract.View {
 
     static final String TAG = AddScheduleActivity.class.getSimpleName();
 
@@ -196,7 +194,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
 
     @OnClick(R.id.llScheduleTime)
     void onShowTimeDialog() {
-        DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
+       /* DatePickerBuilder dateBuilder = new DatePickerBuilder(this, this)
                 .headerColor(R.color.colorGreen)
                 .headerLabelColor(android.R.color.white)
                 .selectionColor(R.color.colorGreen)
@@ -211,7 +209,7 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
         }
 
         DatePicker datePicker = dateBuilder.build();
-        datePicker.show();
+        datePicker.show();*/
     }
 
 
@@ -287,10 +285,10 @@ public class AddScheduleActivity extends AppCompatActivity implements OnSelectDa
     }
 
     //Dialog Day Click Event
-    @Override
-    public void onSelect(List<Calendar> calendars) {
-        mPresenter.onSelectDay(calendars);
-    }
+//    @Override
+//    public void onSelect(List<Calendar> calendars) {
+//        mPresenter.onSelectDay(calendars);
+//    }
 
     //날짜 재 지정
     @SuppressLint("SetTextI18n")

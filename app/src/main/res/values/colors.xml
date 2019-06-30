@@ -101,5 +101,7 @@
     <color name="color_gray_day">#8a8a8f</color>
     <color name="color_schedule">#E3CEF6</color>
 
+    <color name="defaultColor">#2962FF</color>
+
 
 </resources>

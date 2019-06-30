@@ -11,12 +11,10 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarView;
+import com.playgilround.schedule.client.calendar.EventDay;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
 import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 
@@ -38,7 +36,7 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * added by CHO
  * Test
  */
-public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View, OnSelectDateListener {
+public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View {
 
     static final String TAG = CalendarScheduleActivity.class.getSimpleName();
 
@@ -61,7 +59,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
         new CalendarSchedulePresenter(this, this);
 
-        // 날짜 클릭 시 다이얼로그
+     /*   // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
             // 유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
             String dateString = mPresenter.convertCalendarToDateString(eventDay);
@@ -79,7 +77,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         // 전 달로 이동
         calendarView.setOnPreviousPageChangeListener(this::callSchedules);
 
-        callSchedules();
+        callSchedules();*/
 
   /*      ivAddSchedule.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
@@ -106,7 +104,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
         List<Calendar> selectDays = new ArrayList<>();
         selectDays.add(today);
-
+/*
         DatePickerBuilder rangeBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.RANGE_PICKER)
                 .headerColor(R.color.colorGreen)
@@ -122,22 +120,22 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
                 .selectedDays(selectDays);
 
         DatePicker rangePicker = rangeBuilder.build();
-        rangePicker.show();
+        rangePicker.show();*/
     }
 
-    @Override
+  /*  @Override
     public void onSelect(List<Calendar> calendars) {
         of(calendars).forEach(calendar ->
                 Toast.makeText(getApplicationContext(),
                         calendar.getTime().toString(),
                         Toast.LENGTH_SHORT).show());
 
-        calendarView.setSelectedDates(calendars);
+//        calendarView.setSelectedDates(calendars);
     }
-
+*/
     // yyyy-MM 기준으로 저장된 스케줄 표시
     private void callSchedules() {
-        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
+//        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
     }
 
     //show Dialog When User Click Calendar
@@ -155,7 +153,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             case ADD_SCHEDULE:
                 // 스케줄 입력이 완료됬을 때
                 callSchedules();
-                calendarView.setSelectedDates(new ArrayList<>());
+//                calendarView.setSelectedDates(new ArrayList<>());
                 break;
         }
     }
@@ -194,7 +192,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
     @Override
     public void addEvents(List<EventDay> events) {
-        calendarView.setEvents(events);
+//        calendarView.setEvents(events);
     }
 
     @Override

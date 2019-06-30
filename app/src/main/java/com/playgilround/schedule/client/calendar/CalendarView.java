@@ -8,7 +8,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.annimon.stream.Stream;
-import com.applandeo.materialcalendarview.utils.AppearanceUtils;
 import com.playgilround.schedule.client.R;
 
 import java.util.Calendar;

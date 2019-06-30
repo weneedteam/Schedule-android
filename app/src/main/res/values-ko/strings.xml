@@ -2,6 +2,14 @@
 <resources>
     <string name="app_name">일정</string>
 
+    <string name="material_calendar_monday">월</string>
+    <string name="material_calendar_tuesday">화</string>
+    <string name="material_calendar_wednesday">수</string>
+    <string name="material_calendar_thursday">목</string>
+    <string name="material_calendar_friday">금</string>
+    <string name="material_calendar_saturday">토</string>
+    <string name="material_calendar_sunday">일</string>
+
     <!-- Button -->
     <string name="button_exit">닫기</string>
     <string name="button_confirm">확인</string>

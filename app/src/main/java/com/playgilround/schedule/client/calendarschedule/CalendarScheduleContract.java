@@ -3,9 +3,9 @@ package com.playgilround.schedule.client.calendarschedule;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 
-import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
+import com.playgilround.schedule.client.calendar.EventDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;

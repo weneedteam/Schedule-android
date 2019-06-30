@@ -5,8 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
-import com.applandeo.materialcalendarview.CalendarUtils;
-import com.applandeo.materialcalendarview.EventDay;
+
 import com.playgilround.schedule.client.R;
 
 import java.util.Calendar;
