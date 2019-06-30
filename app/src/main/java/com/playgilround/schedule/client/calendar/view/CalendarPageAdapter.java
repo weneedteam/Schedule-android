@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendar.CalendarGridView;
 import com.playgilround.schedule.client.calendar.CalendarProperties;
-import com.playgilround.schedule.client.calendar.util.SelectedDay;
 import com.playgilround.schedule.client.calendar.listener.DayRowClickListener;
+import com.playgilround.schedule.client.calendar.util.SelectedDay;
 
 import java.util.ArrayList;
 import java.util.Calendar;
