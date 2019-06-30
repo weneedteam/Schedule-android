@@ -155,14 +155,14 @@ public class CalendarPageAdapter extends PagerAdapter {
         calendar.add(Calendar.DAY_OF_MONTH, -monthBeginningCell);
 /*
         Calendar calendar2 = mCalendarProperties.getFirstPageDate();
-        calendar2.add(Calendar.MONTH, position);
+        calendar2.floating_add(Calendar.MONTH, position);
         calendar2.set(Calendar.DAY_OF_MONTH, 1);*/
 
 //        Log.d(TAG, "set calendar2 ->" + calendar2.getTime());
         int retPosition = mCalendarProperties.getCalendarPosition();
         while (days.size() < 42) {
 //            Calendar retCalendar =  ((Calendar) mCalendarProperties.getFirstPageDate().clone());
-//            retCalendar.add(Calendar.MONTH, retPosition);
+//            retCalendar.floating_add(Calendar.MONTH, retPosition);
 //            Log.d(TAG ,"Month Check ->" + retCalendar.get(Calendar.MONTH));
 //            Log.d(TAG, "view days ->" + calendar.get(Calendar.MONTH));
 //
@@ -170,8 +170,8 @@ public class CalendarPageAdapter extends PagerAdapter {
             calendar.add(Calendar.DAY_OF_MONTH, 1);
 //            if (retCalendar.get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
 //                Log.d(TAG, "ret Days check ->" + calendar.getTime());
-//                curDays.add(calendar.getTime());
-//                calendar.add(Calendar.DAY_OF_MONTH, 1);
+//                curDays.floating_add(calendar.getTime());
+//                calendar.floating_add(Calendar.DAY_OF_MONTH, 1);
 //            } else {
 //                Log.d(TAG, "ret Days check ->" + calendar.getTime());
 //

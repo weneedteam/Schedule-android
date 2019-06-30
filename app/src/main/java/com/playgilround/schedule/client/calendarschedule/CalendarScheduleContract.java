@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.view.animation.Animation;
 
 import com.playgilround.schedule.client.base.BasePresenter;
 import com.playgilround.schedule.client.base.BaseView;
@@ -29,6 +30,8 @@ public interface CalendarScheduleContract {
         Drawable getThreeIcon(Context context);
 
         Drawable getFourIcon(Context context);
+
+        void eventFloating(Animation open, Animation close);
     }
 
     interface Presenter extends BasePresenter {
@@ -44,5 +47,6 @@ public interface CalendarScheduleContract {
 
         void realmClose();
 
+        void setFloatingAnimation(Animation open, Animation close);
     }
 }

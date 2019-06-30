@@ -6,18 +6,17 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
-import android.widget.EditText;
+import android.view.animation.Animation;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendar.CalendarView;
 import com.playgilround.schedule.client.calendar.EventDay;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
-import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,8 +49,22 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
     @BindView(R.id.btnPrevious)
     ImageButton btnPrevious;
 
-//    @BindView(R.id.ivAddSchedule)
-//    ImageView ivAddSchedule;
+    @BindView(R.id.floatingBtn)
+    FloatingActionButton floatingBtn;
+
+    @BindView(R.id.floatingAdd)
+    LinearLayout floatingAdd;
+
+    @BindView(R.id.floatingDelete)
+    LinearLayout floatingDelete;
+
+    @BindView(R.id.floatingModify)
+    LinearLayout floatingModify;
+
+    private Animation fabOpen;
+    private Animation fabClose;
+
+    private boolean isFabOpen = false;
 
     private CalendarScheduleContract.Presenter mPresenter;
 
@@ -65,6 +78,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         ButterKnife.bind(this);
 
         new CalendarSchedulePresenter(this, this);
+
+        setFloating();
 /*
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -99,6 +114,29 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         });
 
         ivRange.setOnClickListener(v -> openRangePicker());*/
+    }
+
+    private void setFloating() {
+        mPresenter.setFloatingAnimation(fabOpen, fabClose);
+    }
+
+    @Override
+    public void eventFloating(Animation open, Animation close) {
+        floatingBtn.setOnClickListener(l -> {
+            if (isFabOpen) {
+                floatingBtn.setImageResource(R.drawable.floating_add);
+                floatingAdd.startAnimation(close);
+                floatingModify.startAnimation(close);
+                floatingDelete.startAnimation(close);
+                isFabOpen = false;
+            } else {
+                floatingBtn.setImageResource(R.drawable.floating_exit);
+                floatingAdd.startAnimation(open);
+                floatingModify.startAnimation(open);
+                floatingDelete.startAnimation(open);
+                isFabOpen = true;
+            }
+        });
     }
 
     private void openRangePicker() {

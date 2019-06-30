@@ -143,9 +143,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="72dp"
             android:backgroundTint="@color/light_indigo"
-            android:src="@drawable/add"
+            android:src="@drawable/floating_add"
             app:fabSize="normal" />
 
     </LinearLayout>
