@@ -5,13 +5,19 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/calendarHeader"
         android:layout_width="match_parent"
         android:layout_height="56dp"
         android:layout_gravity="center_vertical"
         android:layout_marginStart="24dp"
         android:gravity="center_vertical">
+
+        <ImageButton
+            android:id="@+id/btnPrevious"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_chevron_left_black_24dp" />
 
         <TextView
             android:id="@+id/tvDate"
@@ -23,7 +29,13 @@
             android:textSize="20sp"
             android:textStyle="normal" />
 
-    </RelativeLayout>
+        <ImageButton
+            android:id="@+id/btnForward"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/title_arrow_right" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llCalendarView"

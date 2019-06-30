@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.calendar;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -30,7 +31,7 @@ public final class AppearanceUtils {
     }
 
     public static void setHeaderVisibility(View view, int visibility) {
-        RelativeLayout calendarHeader = view.findViewById(R.id.calendarHeader);
+        LinearLayout calendarHeader = view.findViewById(R.id.calendarHeader);
         calendarHeader.setVisibility(visibility);
     }
 

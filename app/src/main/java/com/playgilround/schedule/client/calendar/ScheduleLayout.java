@@ -19,7 +19,7 @@ public class ScheduleLayout extends LinearLayout {
     private LinearLayout llCalendarView;
     private RelativeLayout rlScheduleList;
     private ScheduleRecyclerView rvScheduleList;
-    private RelativeLayout llCalendarHeader;
+    private LinearLayout llCalendarHeader;
 
     private GestureDetector mGestureDetector;
     private float mDownPosition[] = new float[2];

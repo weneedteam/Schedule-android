@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.util.Log;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -43,6 +44,12 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
+    @BindView(R.id.btnForward)
+    ImageButton btnForward;
+
+    @BindView(R.id.btnPrevious)
+    ImageButton btnPrevious;
+
 //    @BindView(R.id.ivAddSchedule)
 //    ImageView ivAddSchedule;
 
@@ -58,8 +65,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         ButterKnife.bind(this);
 
         new CalendarSchedulePresenter(this, this);
-
-     /*   // 날짜 클릭 시 다이얼로그
+/*
+        // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
             // 유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
             String dateString = mPresenter.convertCalendarToDateString(eventDay);
@@ -69,15 +76,11 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             } else if (!dateString.isEmpty()) {
                 showCalendarDialog(dateString);
             }
-        });
+        });*/
 
-        // 다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(this::callSchedules);
 
-        // 전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(this::callSchedules);
 
-        callSchedules();*/
+//        callSchedules();
 
   /*      ivAddSchedule.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());

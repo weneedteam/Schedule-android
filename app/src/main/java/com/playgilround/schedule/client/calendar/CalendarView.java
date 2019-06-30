@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -78,7 +79,20 @@ public class CalendarView extends LinearLayout {
     private void initUIElements() {
         tvDate = findViewById(R.id.tvDate);
         mViewPager = findViewById(R.id.calendarViewPager);
+
+        ImageButton forwardBtn = findViewById(R.id.btnForward);
+        forwardBtn.setOnClickListener(onNextClickListener);
+
+        ImageButton previousBtn = findViewById(R.id.btnPrevious);
+        previousBtn.setOnClickListener(onPreviousClickListener);
     }
+
+    private final OnClickListener onNextClickListener =
+            v -> mViewPager.setCurrentItem(mViewPager.getCurrentItem() +1);
+
+    private final OnClickListener onPreviousClickListener =
+            v -> mViewPager.setCurrentItem(mViewPager.getCurrentItem() -1);
+
     //Calendar Properties Setting.
     private void initCalendarProperties(TypedArray typedArray) {
         int headerColor = typedArray.getColor(R.styleable.CalendarView_headerColor, 0);
