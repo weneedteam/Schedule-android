@@ -6,12 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.friend.FriendFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.*;
 
 public class ChatFragment extends Fragment {
+
+    public static ChatFragment newInstance() {
+        return new ChatFragment();
+    }
 
     @Nullable
     @Override

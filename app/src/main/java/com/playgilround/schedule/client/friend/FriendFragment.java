@@ -13,6 +13,10 @@ import androidx.fragment.app.*;
 
 public class FriendFragment extends Fragment {
 
+    public static FriendFragment newInstance() {
+        return new FriendFragment();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
