@@ -3,7 +3,6 @@ package com.playgilround.schedule.client.profile;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 
@@ -40,8 +39,8 @@ public class ProfileActivity extends Activity {
 
         ButterKnife.bind(this);
 
-        animOpen = AnimationUtils.loadAnimation(this, R.anim.fab_open);
-        animClose = AnimationUtils.loadAnimation(this, R.anim.fab_close);
+        animOpen = AnimationUtils.loadAnimation(this, R.anim.floating_open);
+        animClose = AnimationUtils.loadAnimation(this, R.anim.floating_close);
 
         fabBottom.setOnClickListener(l -> floatingAnim());
         fabMiddle.setOnClickListener(l -> floatingAnim());

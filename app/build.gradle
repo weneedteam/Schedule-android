@@ -87,8 +87,6 @@ dependencies {
 
     //Calendar
     implementation 'com.prolificinteractive:material-calendarview:1.4.3'
-    implementation 'com.applandeo:material-calendar-view:1.5.1'
-
     implementation 'com.annimon:stream:1.2.1'
 
     //TimePicker

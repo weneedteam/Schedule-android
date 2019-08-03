@@ -25,4 +25,12 @@
         <enum name="many_days_picker" value="2"/>
         <enum name="range_picker" value="3"/>
     </attr>
+
+    <declare-styleable name="ScheduleLayout">
+        <attr name="default_view">
+            <enum name="month" value="0"/>
+            <enum name="week" value="1"/>
+        </attr>
+        <attr name="auto_change_month_row" format="boolean"/>
+    </declare-styleable>
 </resources>

@@ -6,19 +6,17 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.InsetDrawable;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.util.Log;
-import android.widget.EditText;
-import android.widget.ImageView;
+import android.view.animation.Animation;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.applandeo.materialcalendarview.CalendarView;
-import com.applandeo.materialcalendarview.DatePicker;
-import com.applandeo.materialcalendarview.EventDay;
-import com.applandeo.materialcalendarview.builders.DatePickerBuilder;
-import com.applandeo.materialcalendarview.listeners.OnSelectDateListener;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.CalendarView;
+import com.playgilround.schedule.client.calendar.util.EventDay;
 import com.playgilround.schedule.client.infoschedule.InfoScheduleActivity;
-import com.playgilround.schedule.client.manyschedule.ManyScheduleActivity;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,15 +36,35 @@ import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity
  * added by CHO
  * Test
  */
-public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View, OnSelectDateListener {
+public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View {
 
     static final String TAG = CalendarScheduleActivity.class.getSimpleName();
 
     @BindView(R.id.calendarView)
     CalendarView calendarView;
 
-    @BindView(R.id.ivAddSchedule)
-    ImageView ivAddSchedule;
+    @BindView(R.id.btnForward)
+    ImageButton btnForward;
+
+    @BindView(R.id.btnPrevious)
+    ImageButton btnPrevious;
+
+    @BindView(R.id.floatingBtn)
+    FloatingActionButton floatingBtn;
+
+    @BindView(R.id.floatingAdd)
+    LinearLayout floatingAdd;
+
+    @BindView(R.id.floatingDelete)
+    LinearLayout floatingDelete;
+
+    @BindView(R.id.floatingModify)
+    LinearLayout floatingModify;
+
+    private Animation fabOpen;
+    private Animation fabClose;
+
+    private boolean isFabOpen = false;
 
     private CalendarScheduleContract.Presenter mPresenter;
 
@@ -61,6 +79,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
         new CalendarSchedulePresenter(this, this);
 
+        setFloating();
+/*
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
             // 유저가 클릭한 날짜와, 현재 클릭되어있는 날짜가 같을 경우에만 Dialog 표시
@@ -71,15 +91,11 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             } else if (!dateString.isEmpty()) {
                 showCalendarDialog(dateString);
             }
-        });
+        });*/
 
-        // 다음 달로 이동
-        calendarView.setOnForwardPageChangeListener(this::callSchedules);
 
-        // 전 달로 이동
-        calendarView.setOnPreviousPageChangeListener(this::callSchedules);
 
-        callSchedules();
+//        callSchedules();
 
   /*      ivAddSchedule.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
@@ -100,13 +116,36 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         ivRange.setOnClickListener(v -> openRangePicker());*/
     }
 
+    private void setFloating() {
+        mPresenter.setFloatingAnimation(fabOpen, fabClose);
+    }
+
+    @Override
+    public void eventFloating(Animation open, Animation close) {
+        floatingBtn.setOnClickListener(l -> {
+            if (isFabOpen) {
+                floatingBtn.setImageResource(R.drawable.floating_add);
+                floatingAdd.startAnimation(close);
+                floatingModify.startAnimation(close);
+                floatingDelete.startAnimation(close);
+                isFabOpen = false;
+            } else {
+                floatingBtn.setImageResource(R.drawable.floating_exit);
+                floatingAdd.startAnimation(open);
+                floatingModify.startAnimation(open);
+                floatingDelete.startAnimation(open);
+                isFabOpen = true;
+            }
+        });
+    }
+
     private void openRangePicker() {
 
         Calendar today = Calendar.getInstance();
 
         List<Calendar> selectDays = new ArrayList<>();
         selectDays.add(today);
-
+/*
         DatePickerBuilder rangeBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.RANGE_PICKER)
                 .headerColor(R.color.colorGreen)
@@ -122,22 +161,22 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
                 .selectedDays(selectDays);
 
         DatePicker rangePicker = rangeBuilder.build();
-        rangePicker.show();
+        rangePicker.show();*/
     }
 
-    @Override
+  /*  @Override
     public void onSelect(List<Calendar> calendars) {
         of(calendars).forEach(calendar ->
                 Toast.makeText(getApplicationContext(),
                         calendar.getTime().toString(),
                         Toast.LENGTH_SHORT).show());
 
-        calendarView.setSelectedDates(calendars);
+//        calendarView.setSelectedDates(calendars);
     }
-
+*/
     // yyyy-MM 기준으로 저장된 스케줄 표시
     private void callSchedules() {
-        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
+//        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
     }
 
     //show Dialog When User Click Calendar
@@ -155,7 +194,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             case ADD_SCHEDULE:
                 // 스케줄 입력이 완료됬을 때
                 callSchedules();
-                calendarView.setSelectedDates(new ArrayList<>());
+//                calendarView.setSelectedDates(new ArrayList<>());
                 break;
         }
     }
@@ -194,7 +233,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
     @Override
     public void addEvents(List<EventDay> events) {
-        calendarView.setEvents(events);
+//        calendarView.setEvents(events);
     }
 
     @Override

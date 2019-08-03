@@ -2,9 +2,11 @@ package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Context;
 import android.util.Log;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
-import com.applandeo.materialcalendarview.EventDay;
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.calendar.util.EventDay;
 import com.playgilround.schedule.client.model.MonthEnum;
 import com.playgilround.schedule.client.model.Schedule;
 
@@ -152,5 +154,13 @@ public class CalendarSchedulePresenter implements CalendarScheduleContract.Prese
     @Override
     public void realmClose() {
         mRealm.close();
+    }
+
+    @Override
+    public void setFloatingAnimation(Animation open, Animation close) {
+        open = AnimationUtils.loadAnimation(mContext, R.anim.floating_open);
+        close = AnimationUtils.loadAnimation(mContext, R.anim.floating_close);
+
+        mView.eventFloating(open, close);
     }
 }
