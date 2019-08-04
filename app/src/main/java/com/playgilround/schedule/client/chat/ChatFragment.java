@@ -14,10 +14,6 @@ import androidx.fragment.app.*;
 
 public class ChatFragment extends Fragment {
 
-    public static ChatFragment newInstance() {
-        return new ChatFragment();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

@@ -14,9 +14,6 @@ import androidx.fragment.app.*;
 
 public class SettingFragment extends Fragment {
 
-    public static SettingFragment newInstance() {
-        return new SettingFragment();
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

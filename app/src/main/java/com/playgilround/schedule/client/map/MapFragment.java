@@ -14,9 +14,6 @@ import androidx.fragment.app.*;
 
 public class MapFragment extends Fragment {
 
-    public static MapFragment newInstance() {
-        return new MapFragment();
-    }
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

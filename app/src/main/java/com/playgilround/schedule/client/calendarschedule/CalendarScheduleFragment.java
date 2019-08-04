@@ -14,10 +14,6 @@ import androidx.fragment.app.*;
 
 public class CalendarScheduleFragment extends Fragment {
 
-    public static CalendarScheduleFragment newInstance() {
-        return new CalendarScheduleFragment();
-    }
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
