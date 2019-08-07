@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.tutorial
 
 import android.animation.ObjectAnimator
+import android.animation.TimeInterpolator
 import android.content.Intent
 import android.os.Bundle
 import android.view.animation.DecelerateInterpolator
@@ -32,7 +33,7 @@ class TutorialActivity: AppCompatActivity(), TutorialContract.View {
         list_tutorial.layoutManager = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
         list_tutorial.setHasFixedSize(true)
 
-        TutorialPresenter(this, this, UsersRepository(UsersLocalDataSource.getInstance(this), UsersRemoteDataSource.getInstance(this)))
+        TutorialPresenter(this, this)
 
         adapter = TutorialAdapter(this)
         list_tutorial.adapter = adapter

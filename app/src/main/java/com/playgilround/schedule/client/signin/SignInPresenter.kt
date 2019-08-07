@@ -15,7 +15,7 @@ class SignInPresenter constructor(private val mContext: Context, private val mVi
 
     init {
         mView.setPresenter(this)
-        (mContext.applicationContext as ScheduleApplication).appComponent.inject(this)
+        (mContext.applicationContext as ScheduleApplication).appComponent.signInInject(this)
 
     }
 

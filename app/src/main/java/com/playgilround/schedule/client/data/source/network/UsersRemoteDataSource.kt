@@ -30,7 +30,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class UsersRemoteDataSource @Inject private constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
+class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
