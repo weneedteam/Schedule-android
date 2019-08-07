@@ -106,7 +106,7 @@ class SignInActivity : Activity(), SignInContract.View {
         }
     }
 
-    fun showSnackBar(content: String) {
+    private fun showSnackBar(content: String) {
         SnackbarManager.show(Snackbar.with(this)
                 .type(SnackbarType.MULTI_LINE)
                 .actionLabel(getString(R.string.error_text_close))

@@ -17,8 +17,15 @@ class UserModule {
 
     @Provides
     @Singleton
-    fun provideUsersRepository(context: Context): UsersRepository {
-        return UsersRepository(UsersLocalDataSource.getInstance(context),
-                                UsersRemoteDataSource.getInstance(context))
+    fun provideUsersRepository(usersLocalDataSource: UsersLocalDataSource, usersRemoteDataSource: UsersRemoteDataSource): UsersRepository {
+        return UsersRepository(usersLocalDataSource, usersRemoteDataSource)
     }
+
+//    @Provides
+//    @Singleton
+//    fun provideUsersLocalDataSource(context: Context) = UsersLocalDataSource(context)
+
+    @Provides
+    @Singleton
+    fun provideUsersRemoteDataSource(context: Context) = UsersRemoteDataSource.getInstance(context)
 }

@@ -7,6 +7,7 @@ import com.google.firebase.messaging.FirebaseMessaging
 import com.playgilround.schedule.client.di.AppComponent
 import com.playgilround.schedule.client.di.AppModule
 import com.playgilround.schedule.client.di.DaggerAppComponent
+import com.playgilround.schedule.client.di.UserModule
 import com.playgilround.schedule.client.model.ScheduleMigration
 import com.uphyca.stetho_realm.RealmInspectorModulesProvider
 import io.realm.Realm
@@ -49,11 +50,6 @@ class ScheduleApplication: Application() {
                 .appModule(AppModule(this))
                 .build()
     }
-
-/*    operator fun get(context: Context): ScheduleApplication {
-        return context.applicationContext as ScheduleApplication
-    }*/
-
     companion object {
         fun get(context: Context): ScheduleApplication {
             return context.applicationContext as ScheduleApplication

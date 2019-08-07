@@ -2,27 +2,15 @@ package com.playgilround.schedule.client.data.source.local
 
 import android.content.Context
 import com.playgilround.schedule.client.data.source.UsersDataSource
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UsersLocalDataSource private constructor(val context: Context) : UsersDataSource {
+@Singleton
+class UsersLocalDataSource @Inject constructor(val context: Context) : UsersDataSource {
 
     override fun login(email: String, password: String, loginCallBack: UsersDataSource.LoginCallBack) {
     }
 
     override fun tokenLogin(loginCallBack: UsersDataSource.LoginCallBack) {
     }
-
-    companion object {
-        private var INSTANCE: UsersLocalDataSource? = null
-
-        @JvmStatic
-        fun getInstance(context: Context): UsersLocalDataSource {
-            if (INSTANCE == null) {
-                synchronized(UsersDataSource::javaClass) {
-                    INSTANCE = UsersLocalDataSource(context)
-                }
-            }
-            return INSTANCE!!
-        }
-    }
-
 }
