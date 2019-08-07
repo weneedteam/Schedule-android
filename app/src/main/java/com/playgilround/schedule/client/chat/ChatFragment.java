@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.playgilround.schedule.client.R;
+import com.playgilround.schedule.client.friend.FriendFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

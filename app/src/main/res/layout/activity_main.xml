@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -7,18 +8,18 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager_main"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/nav_main"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_main" />
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/nav_main"
         android:layout_width="match_parent"
         android:layout_height="56dp"
-        android:layout_alignParentBottom="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:tabBackground="@android:color/white"
         app:tabIndicatorColor="@color/light_indigo"
         app:tabIndicatorGravity="top"
-        app:tabMode="fixed" />
+        app:tabMode="fixed"
+        app:tabGravity="fill"/>
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
