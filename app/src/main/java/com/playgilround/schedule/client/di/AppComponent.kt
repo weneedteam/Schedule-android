@@ -5,7 +5,8 @@ import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class])
+@Component(modules = [AppModule::class,
+            UserModule::class])
 public interface AppComponent {
     fun inject(app: ScheduleApplication)
 }

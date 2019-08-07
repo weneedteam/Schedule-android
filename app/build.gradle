@@ -4,6 +4,7 @@ apply plugin: 'realm-android'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 ext {
     PUBLISH_GROUP_ID = 'com.applandeo'
@@ -45,6 +46,9 @@ android {
         versionName "1.4.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    kapt {
+        generateStubs = true
     }
 
     buildTypes {
@@ -144,9 +148,12 @@ dependencies {
 
     //Dagger2
     implementation 'com.google.dagger:dagger:2.16'
-    implementation 'com.google.dagger:dagger-producers:2.14.1'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    implementation 'com.google.dagger:dagger-producers:2.16'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     implementation 'com.google.guava:guava:27.0.1-android'
+
+    kapt "com.google.dagger:dagger-compiler:2.22.1"
+    kapt "com.google.dagger:dagger-android-processor:2.22.1"
 }
 
 apply plugin: 'com.google.gms.google-services'
