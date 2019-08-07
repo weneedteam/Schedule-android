@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client
 
 import android.app.Application
+import android.content.Context
 import com.facebook.stetho.Stetho
 import com.google.firebase.messaging.FirebaseMessaging
 import com.playgilround.schedule.client.di.AppComponent
@@ -47,5 +48,15 @@ class ScheduleApplication: Application() {
         appComponent = DaggerAppComponent.builder()
                 .appModule(AppModule(this))
                 .build()
+    }
+
+/*    operator fun get(context: Context): ScheduleApplication {
+        return context.applicationContext as ScheduleApplication
+    }*/
+
+    companion object {
+        fun get(context: Context): ScheduleApplication {
+            return context.applicationContext as ScheduleApplication
+        }
     }
 }

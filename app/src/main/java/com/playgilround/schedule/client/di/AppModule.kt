@@ -15,12 +15,6 @@ class AppModule constructor(private var application: Application) {
 
     @Provides
     @Singleton
-    fun provideApplication(): Application {
-        return application
-    }
-
-    @Provides
-    @Singleton
     fun provideContext(): Context {
         return application
     }
