@@ -3,8 +3,11 @@ package com.playgilround.schedule.client.signin;
 import android.content.Context;
 import android.content.Intent;
 
+import com.playgilround.schedule.client.ScheduleApplication;
 import com.playgilround.schedule.client.data.repository.UsersRepository;
 import com.playgilround.schedule.client.data.source.UsersDataSource;
+
+import javax.inject.Inject;
 
 public class SignInPresenter implements SignInContract.Presenter, UsersDataSource.LoginCallBack {
 
@@ -17,13 +20,14 @@ public class SignInPresenter implements SignInContract.Presenter, UsersDataSourc
 
     private final Context mContext;
     private final SignInContract.View mView;
-    private final UsersRepository mRepository;
 
-    SignInPresenter(Context context, SignInContract.View view, UsersRepository repository) {
+    @Inject UsersRepository mRepository;
+
+    SignInPresenter(Context context, SignInContract.View view) {
         mView = view;
         mView.setPresenter(this);
         mContext = context;
-        mRepository = repository;
+        ((ScheduleApplication)(context.getApplicationContext())).appComponent.inject(this);
     }
 
     @Override

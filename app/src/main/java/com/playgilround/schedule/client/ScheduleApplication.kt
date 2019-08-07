@@ -13,7 +13,7 @@ import io.realm.RealmConfiguration
 
 class ScheduleApplication: Application() {
 
-    private lateinit var appComponent: AppComponent
+    lateinit var appComponent: AppComponent
 
     override fun onCreate() {
         super.onCreate()
