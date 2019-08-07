@@ -26,8 +26,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UsersRemoteDataSource private constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
+@Singleton
+class UsersRemoteDataSource @Inject private constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -159,20 +162,6 @@ class UsersRemoteDataSource private constructor(val context: Context) : UsersDat
         val p = Pattern.compile(mail)
         val m = p.matcher(email)
         return m.matches()
-    }
-
-    companion object {
-        private var INSTANCE: UsersRemoteDataSource? = null
-
-        @JvmStatic
-        fun getInstance(context: Context): UsersRemoteDataSource {
-            if (INSTANCE == null) {
-                synchronized(UsersDataSource::javaClass) {
-                    INSTANCE = UsersRemoteDataSource(context)
-                }
-            }
-            return INSTANCE!!
-        }
     }
 
 }

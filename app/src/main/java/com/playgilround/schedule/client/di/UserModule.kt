@@ -25,7 +25,7 @@ class UserModule {
 //    @Singleton
 //    fun provideUsersLocalDataSource(context: Context) = UsersLocalDataSource(context)
 
-    @Provides
-    @Singleton
-    fun provideUsersRemoteDataSource(context: Context) = UsersRemoteDataSource.getInstance(context)
+//    @Provides
+//    @Singleton
+//    fun provideUsersRemoteDataSource(context: Context) = UsersRemoteDataSource.getInstance(context)
 }
