@@ -52,4 +52,11 @@ class SignInPresenter constructor(private val mContext: Context, private val mVi
     override fun onDataNotAvailable(error: Int) {
         mView.signInError(error)
     }
+
+    companion object {
+        const val ERROR_EMAIL = 0x0001
+        const val ERROR_PASSWORD = 0x0002
+        const val ERROR_FAIL_SIGN_IN = 0x0003
+        const val ERROR_NETWORK_CUSTOM = 0x0004
+    }
 }

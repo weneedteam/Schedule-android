@@ -1,10 +1,12 @@
 package com.playgilround.schedule.client.signin
 
 import android.Manifest
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil.setContentView
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
 import com.nispok.snackbar.Snackbar
@@ -15,7 +17,7 @@ import com.playgilround.schedule.client.main.MainActivity
 import com.playgilround.schedule.client.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_login.*
 
-class SignInActivity : AppCompatActivity(), SignInContract.View {
+class SignInActivity : Activity(), SignInContract.View {
 
     private lateinit var mPresenter: SignInContract.Presenter
 
@@ -51,7 +53,7 @@ class SignInActivity : AppCompatActivity(), SignInContract.View {
         setOnClickListener()
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == GOOGLE_LOGIN) {
@@ -67,7 +69,7 @@ class SignInActivity : AppCompatActivity(), SignInContract.View {
             mPresenter.signIn(email, password)
         }
 
-        ivgoogle.setOnClickListener { startActivityForResult(mPresenter.googleSingIn(), GOOGLE_LOGIN) }
+        ivgoogle.setOnClickListener { startActivityForResult(mPresenter.googleSignIn(), GOOGLE_LOGIN) }
 
         tvSignUp.setOnClickListener { startActivity(Intent(this, SignUpActivity::class.java)) }
     }

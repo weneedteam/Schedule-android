@@ -18,6 +18,10 @@ import com.playgilround.schedule.client.retrofit.APIClient
 import com.playgilround.schedule.client.retrofit.BaseUrl
 import com.playgilround.schedule.client.retrofit.UserAPI
 import com.playgilround.schedule.client.signin.SignInPresenter.*
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_EMAIL
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_FAIL_SIGN_IN
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_NETWORK_CUSTOM
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_PASSWORD
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
