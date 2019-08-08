@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -206,6 +207,10 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
         protected int position;
         protected String content = null;
 
+        RootViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
         EditText.OnEditorActionListener mOnEditorActionListener = new EditText.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -218,10 +223,6 @@ public class SignUpAdapter extends RecyclerView.Adapter<SignUpAdapter.RootViewHo
             }
         };
 
-        RootViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
-        }
 
         abstract boolean checkEditText(String content);
 
