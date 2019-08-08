@@ -115,7 +115,7 @@ public class SignUpPresenter implements SignUpContract.Presenter {
         jsonObject.addProperty("birth", mUser.getBirth());
         jsonObject.addProperty("language", mUser.getLanguage());
 
-        mView.singUpComplete();
+        mView.signUpComplete();
 
         /*userAPI.signUp(jsonObject).enqueue(new Callback<ResponseMessage>() {
             @Override

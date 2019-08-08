@@ -11,7 +11,7 @@ public interface SignUpContract {
 
         void signUpError(int status);
 
-        void singUpComplete();
+        void signUpComplete();
 
     }
 
