@@ -53,7 +53,7 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
         PagerSnapHelper().attachToRecyclerView(recycler_sign_up)
 
         setOnClickListener()
-        SignUpPresenter(this, mAdapter)
+        SignUpPresenter(this, this, mAdapter)
     }
 
     fun setOnClickListener() {

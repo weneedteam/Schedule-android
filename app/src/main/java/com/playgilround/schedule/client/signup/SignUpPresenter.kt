@@ -1,25 +1,30 @@
 package com.playgilround.schedule.client.signup
 
+import android.content.Context
 import com.google.gson.JsonObject
+import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.data.User
 import com.playgilround.schedule.client.retrofit.APIClient
 import com.playgilround.schedule.client.retrofit.UserAPI
 import com.playgilround.schedule.client.signup.model.UserDataModel
 import com.playgilround.schedule.client.signup.view.SignUpAdapter
+import javax.inject.Inject
 
-class SignUpPresenter constructor(private val mView: SignUpContract.View, private val mUserDataModel: UserDataModel): SignUpContract.Presenter {
+class SignUpPresenter constructor(mContext: Context, private val mView: SignUpContract.View, private val mUserDataModel: UserDataModel): SignUpContract.Presenter {
 
     companion object {
         const val ERROR_SIGN_UP = 0x0001
         const val ERROR_NETWORK_CUSTOM = 0x0002
     }
 
-    private var mUser: User
+    @Inject
+    internal lateinit var mUser: User
 
     init {
         mView.setPresenter(this)
+        (mContext.applicationContext as ScheduleApplication).appComponent.signUpInject(this)
 
-        mUser = User()
+//        mUser = User()
     }
 
     override fun start() {
