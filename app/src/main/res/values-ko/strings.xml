@@ -98,7 +98,7 @@
     <string name="error_sign_in_password_filed_check">비밀번호를 입력해주세요.</string>
     <string name="error_sign_in_not_match_email_and_password_filed_check">이메일과 비밀번호가 일치하지 않습니다.</string>
 
-    <string name="error_network">네트워트 연결이 불안정합니다.</string>
+    <string name="error_network">네트워크 연결이 불안정합니다.</string>
 
     <!-- Hint -->
     <string name="hint_schedule">스케줄을 적어주세요..</string>

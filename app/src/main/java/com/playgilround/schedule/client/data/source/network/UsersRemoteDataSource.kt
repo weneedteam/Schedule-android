@@ -18,12 +18,19 @@ import com.playgilround.schedule.client.retrofit.APIClient
 import com.playgilround.schedule.client.retrofit.BaseUrl
 import com.playgilround.schedule.client.retrofit.UserAPI
 import com.playgilround.schedule.client.signin.SignInPresenter.*
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_EMAIL
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_FAIL_SIGN_IN
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_NETWORK_CUSTOM
+import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_PASSWORD
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.util.regex.Pattern
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UsersRemoteDataSource private constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
+@Singleton
+class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDataSource, UsersDataSource.SNSLogin {
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -155,20 +162,6 @@ class UsersRemoteDataSource private constructor(val context: Context) : UsersDat
         val p = Pattern.compile(mail)
         val m = p.matcher(email)
         return m.matches()
-    }
-
-    companion object {
-        private var INSTANCE: UsersRemoteDataSource? = null
-
-        @JvmStatic
-        fun getInstance(context: Context): UsersRemoteDataSource {
-            if (INSTANCE == null) {
-                synchronized(UsersDataSource::javaClass) {
-                    INSTANCE = UsersRemoteDataSource(context)
-                }
-            }
-            return INSTANCE!!
-        }
     }
 
 }
