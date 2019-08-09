@@ -18,6 +18,7 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
 
     private lateinit var mAdapter: SignUpAdapter
     private lateinit var mPresenter: SignUpContract.Presenter
+    private  var clickable = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,10 +42,12 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
 
             override fun disableNextButton() {
                 button_sign_up_next.setImageResource(R.drawable.disable_btn)
+                clickable = false
             }
 
             override fun ableNextButton() {
                 button_sign_up_next.setImageResource(R.drawable.image_next)
+                clickable = true
             }
         })
 
@@ -57,7 +60,8 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
     }
 
     fun setOnClickListener() {
-        button_sign_up_next.setOnClickListener { mPresenter.onClickNext(mAdapter.position) }
+        button_sign_up_next.setOnClickListener {
+            if (clickable) mPresenter.onClickNext(mAdapter.position) }
     }
 
     private fun onBack() {
@@ -82,6 +86,8 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
     override fun fieldCheck(check: Boolean) {
         if (check) {
             if (mAdapter.position +1 != mAdapter.itemCount) {
+                clickable = false
+
                 val animator = ObjectAnimator.ofInt(progress_sign_up,
                         "progress", progress_sign_up.progress + 10)
                 animator.duration = 500
@@ -94,7 +100,10 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
                 Handler().postDelayed({ mAdapter.setFocus() }, 500)
 
                 if (mAdapter.position != mAdapter.itemCount -1) button_sign_up_next.setImageResource(R.drawable.disable_btn)
-                else button_sign_up_next.setImageResource(R.drawable.image_check)
+                else {
+                    button_sign_up_next.setImageResource(R.drawable.image_check)
+                    clickable = true
+                }
             } else {
                 mPresenter.signUp()
             }
