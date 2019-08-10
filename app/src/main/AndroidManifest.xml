@@ -35,12 +35,19 @@
         <activity android:name=".signup.SignUpActivity" />
 
         <activity android:name=".signin.SignInActivity" />
-        <activity android:name=".main.MainActivity" />
+        <activity android:name=".main.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        <activity
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+    <!--    <activity
             android:name=".calendarschedule.CalendarScheduleActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" >
-        </activity>
+
+        </activity>-->
         <activity
             android:name=".addschedule.AddScheduleActivity"
             android:theme="@style/ThemeDialog" />
@@ -54,11 +61,6 @@
             android:theme="@style/ThemeDialog" />
 
         <activity android:name=".tutorial.TutorialActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
