@@ -12,6 +12,7 @@
     <color name="saturdayColor">#0000FF</color>
     <color name="disabledDialogButtonColor">#1F000000</color>
 
+    <color name="color_gray_light">#bdbdbd</color>
     <color name="itemHighlightColor">#1F000000</color>
 
     <color name="color_schedule_line">#E3E1EE</color>
