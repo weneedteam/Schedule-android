@@ -27,10 +27,10 @@
     <color name="color_menu_border">#2D2D51</color>
 
     <color name="color_schedule_focus">#9082BD</color>
-    <color name="color_schedule_normal">#9E9DC9</color>
+    <color name="color_schedule_normal">#E6E6E6</color>
 
     <color name="color_text_grey">#ADADB9</color>
-
+    <color name="color_background_light_grey">#F2F2F2</color>
     <color name="color_menu_text_color_normal">#A5A1C2</color>
     <color name="color_menu_text_color_pre">#73728B</color>
 
