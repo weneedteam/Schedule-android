@@ -10,6 +10,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -25,16 +26,41 @@ class CalendarScheduleFragment: Fragment(), CalendarScheduleContract.View {
     private lateinit var mPresenter: CalendarScheduleContract.Presenter
     private lateinit var mScheduleAdapter: ScheduleAdapter
 
+    private lateinit var fabOpen: Animation
+    private lateinit var fabClose: Animation
+
+    private var isFabOpen = false
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         CalendarSchedulePresenter(context, this)
+
+        fabOpen = AnimationUtils.loadAnimation(context, R.anim.floating_open)
+        fabClose = AnimationUtils.loadAnimation(context, R.anim.floating_close)
         return inflater.inflate(R.layout.fragment_calendar, container, false)
     }
 
     override fun onResume() {
         super.onResume()
         initScheduleList()
+        setOnClickListener()
+    }
 
+    fun setOnClickListener() {
+        floatingBtn.setOnClickListener {
+            isFabOpen = if (isFabOpen) {
+                floatingBtn.setImageResource(R.drawable.floating_add)
+                floatingAdd.startAnimation(fabClose)
+                floatingModify.startAnimation(fabClose)
+                floatingDelete.startAnimation(fabClose)
+                false
+            } else {
+                floatingBtn.setImageResource(R.drawable.floating_exit)
+                floatingAdd.startAnimation(fabOpen)
+                floatingModify.startAnimation(fabOpen)
+                floatingDelete.startAnimation(fabOpen)
+                true
+            }
+        }
     }
 
 
