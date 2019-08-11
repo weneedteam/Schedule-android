@@ -28,11 +28,4 @@ public class APIClient {
                 .build();
     }
 
-    public static Retrofit getNaverProfile() {
-        return new Retrofit.Builder()
-                .baseUrl("https://openapi.naver.com")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-    }
-
 }
