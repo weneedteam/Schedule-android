@@ -11,6 +11,11 @@ public class BaseUrl {
     static final String PATH_EMAIL_SIGN_IN = "api-token-auth/";
     static final String PATH_TOKEN_SIGN_IN = "api-token-verify/";
 
+    static final String PATH_FACEBOOK_SIGN_IN = "rest-auth/facebook/";
+    static final String PATH_NAVER_SIGN_IN  = "rest-auth/naver/";
+    static final String PATH_KAKAO_SIGN_IN = "rest-auth/kakao/";
+    static final String PATH_GOOGLE_SIGN_IN = "rest-auth/google/";
+
     static final String PATH_USER_SEARCH = "v1/user/user/search";
 
     public static final String PARAM_SIGN_IN_EMAIL = "email";

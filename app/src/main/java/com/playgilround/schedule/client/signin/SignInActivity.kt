@@ -7,8 +7,10 @@ import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil.setContentView
+import com.facebook.CallbackManager
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.nhn.android.naverlogin.OAuthLogin
 import com.nispok.snackbar.Snackbar
 import com.nispok.snackbar.SnackbarManager
 import com.nispok.snackbar.enums.SnackbarType
@@ -25,6 +27,9 @@ class SignInActivity : Activity(), SignInContract.View {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
             Manifest.permission.INTERNET)
+
+    private lateinit var fbCallbackManager: CallbackManager
+    private var isFacebookLogin: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,7 +61,10 @@ class SignInActivity : Activity(), SignInContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == GOOGLE_LOGIN) {
+        if (isFacebookLogin) {
+            fbCallbackManager.onActivityResult(requestCode, resultCode, data)
+            isFacebookLogin = false
+        } else if (requestCode == GOOGLE_LOGIN) {
             mPresenter.firebaseAuthGoogle(data)
         }
     }
@@ -67,6 +75,16 @@ class SignInActivity : Activity(), SignInContract.View {
             val password = etPassword.text.toString()
 
             mPresenter.signIn(email, password)
+        }
+
+        ivfacebook.setOnClickListener {
+            fbCallbackManager = mPresenter.facebookSignIn(this)
+            isFacebookLogin = true
+        }
+
+        ivnaver.setOnClickListener {
+            val mOAuthLogin = mPresenter.naverInit()
+            mPresenter.naverSignIn(this, mOAuthLogin)
         }
 
         ivgoogle.setOnClickListener { startActivityForResult(mPresenter.googleSignIn(), GOOGLE_LOGIN) }
