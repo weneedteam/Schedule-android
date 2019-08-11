@@ -13,7 +13,7 @@ import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.calendar.util.AppearanceUtils;
 import com.playgilround.schedule.client.calendar.util.DateUtils;
 import com.playgilround.schedule.client.calendar.util.SelectedDay;
-import com.playgilround.schedule.client.calendar.view.CalendarPageAdapter;
+import com.playgilround.schedule.client.calendar.adapter.CalendarPageAdapter;
 
 import java.util.Calendar;
 import java.util.List;

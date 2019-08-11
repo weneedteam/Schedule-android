@@ -8,7 +8,7 @@ import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.calendar.CalendarProperties
 import com.playgilround.schedule.client.calendar.CalendarView
 import com.playgilround.schedule.client.calendar.util.*
-import com.playgilround.schedule.client.calendar.view.CalendarPageAdapter
+import com.playgilround.schedule.client.calendar.adapter.CalendarPageAdapter
 import java.util.*
 
 class DayRowClickListener(private var mCalendarPageAdapter: CalendarPageAdapter, private var mCalendarProperties: CalendarProperties, var pageMonth: Int) : AdapterView.OnItemClickListener {
@@ -34,7 +34,7 @@ class DayRowClickListener(private var mCalendarPageAdapter: CalendarPageAdapter,
             return
         }
 
-        val selectedDays = mCalendarPageAdapter.selectedDays
+        val selectedDays = mCalendarPageAdapter.getSelectedDays()
 
         if (selectedDays.size > 1) {
             clearAndSelectOne(tvDay, day)
@@ -50,12 +50,12 @@ class DayRowClickListener(private var mCalendarPageAdapter: CalendarPageAdapter,
     }
 
     private fun clearAndSelectOne(tvDay: TextView, day: Calendar) {
-        of(mCalendarPageAdapter.selectedDays).forEach(this::reverseUnselectedColor)
+        of(mCalendarPageAdapter.getSelectedDays()).forEach(this::reverseUnselectedColor)
         selectDay(tvDay, day)
     }
 
     private fun selectOneAndRange(tvDay: TextView, day: Calendar) {
-        val previousSelectedDay = mCalendarPageAdapter.selectedDay
+        val previousSelectedDay = mCalendarPageAdapter.getSelectedDay()
 
         of(CalendarUtils.getDatesRange(previousSelectedDay.calendar, day))
                 .forEach{ calendar -> mCalendarPageAdapter.addSelectedDay(SelectedDay(calendar))
@@ -91,7 +91,7 @@ class DayRowClickListener(private var mCalendarPageAdapter: CalendarPageAdapter,
 
     private fun selectDay(tvDay: TextView, day: Calendar) {
         DayColorsUtils.setSelectedDayColors(tvDay, mCalendarProperties, 3)
-        mCalendarPageAdapter.selectedDay = SelectedDay(tvDay, day)
+        mCalendarPageAdapter.setSelectedDay(SelectedDay(tvDay, day))
     }
 
     private fun callOnClickListener(eventDay: EventDay) {

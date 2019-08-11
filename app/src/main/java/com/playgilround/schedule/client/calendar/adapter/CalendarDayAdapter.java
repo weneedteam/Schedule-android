@@ -1,4 +1,4 @@
-package com.playgilround.schedule.client.calendar.view;
+package com.playgilround.schedule.client.calendar.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
@@ -41,7 +41,7 @@ public class CalendarDayAdapter extends ArrayAdapter<Date> {
     private static final String TAG = CalendarDayAdapter.class.getSimpleName();
 
 
-    public CalendarDayAdapter(CalendarPageAdapter calendarPageAdapter, Context context, CalendarProperties calendarProperties,
+    CalendarDayAdapter(CalendarPageAdapter calendarPageAdapter, Context context, CalendarProperties calendarProperties,
                        ArrayList<Date> dates, int pageMonth, int position) {
         super(context, calendarProperties.getItemLayoutResource(), dates);
         mCalendarPageAdapter = calendarPageAdapter;
