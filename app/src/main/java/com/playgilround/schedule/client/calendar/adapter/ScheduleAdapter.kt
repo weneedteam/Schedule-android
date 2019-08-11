@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 
-class ScheduleAdapter constructor(context: Context): RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
+class ScheduleAdapter (context: Context?): RecyclerView.Adapter<ScheduleAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_schedule, parent, false))
