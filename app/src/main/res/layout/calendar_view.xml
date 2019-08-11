@@ -17,7 +17,7 @@
             android:id="@+id/btnPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_chevron_left_black_24dp" />
+            android:src="@drawable/chevron_left"/>
 
         <TextView
             android:id="@+id/tvDate"
@@ -33,7 +33,7 @@
             android:id="@+id/btnForward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/title_arrow_right" />
+            android:src="@drawable/chevron_right" />
 
     </LinearLayout>
 

@@ -18,7 +18,7 @@ public final class AppearanceUtils {
             return;
         }
 
-        RelativeLayout calendarHeader = view.findViewById(R.id.calendarHeader);
+        LinearLayout calendarHeader = view.findViewById(R.id.calendarHeader);
         calendarHeader.setBackgroundColor(color);
     }
 
