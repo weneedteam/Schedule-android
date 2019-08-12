@@ -184,4 +184,10 @@
 
     <!-- OAuth 2.0 Client ID -->
     <string name="google_web_client_id">353847811725-vemdsfmqn70ue07845ae9d1ef6src9lo.apps.googleusercontent.com</string>
+    <string name="naver_web_client_id">pisCfv1CSL1QcOmikeDN</string>
+    <string name="naver_web_client_pw">4DsmgefJnd</string>
+
+    <!-- Facebook App ID -->
+    <string name="facebook_app_id">2208294345872737</string>
+    <string name="fb_login_protocol_scheme">fb2208294345872737</string>
 </resources>
