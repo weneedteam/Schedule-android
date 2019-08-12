@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.calendar;
 
 import android.content.Context;
@@ -18,11 +19,13 @@ public class CalendarGridView extends GridView {
         super(context, attrs, defStyle);
     }
 
-    //This method is needed to get wrap_content height for GridView
+ //This method is needed to get wrap_content height for GridView
     @Override
     public void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int expandSpec = MeasureSpec.makeMeasureSpec(Integer.MAX_VALUE >> 2,
                 MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, expandSpec);
     }
+
 }
+*/

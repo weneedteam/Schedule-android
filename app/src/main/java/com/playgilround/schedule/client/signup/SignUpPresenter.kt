@@ -23,8 +23,6 @@ class SignUpPresenter constructor(mContext: Context, private val mView: SignUpCo
     init {
         mView.setPresenter(this)
         (mContext.applicationContext as ScheduleApplication).appComponent.signUpInject(this)
-
-//        mUser = User()
     }
 
     override fun start() {
