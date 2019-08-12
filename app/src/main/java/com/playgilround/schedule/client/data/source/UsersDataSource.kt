@@ -1,9 +1,12 @@
 package com.playgilround.schedule.client.data.source
 
+import android.app.Activity
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import com.facebook.CallbackManager
 import com.google.gson.Gson
+import com.nhn.android.naverlogin.OAuthLogin
 import com.playgilround.schedule.client.data.User
 
 interface UsersDataSource {
@@ -34,9 +37,15 @@ interface UsersDataSource {
     fun tokenLogin(loginCallBack: LoginCallBack)
 
     interface SNSLogin {
+        fun facebookLogin(activity: Activity, loginCallBack: LoginCallBack): CallbackManager
+
+        fun naverInit(): OAuthLogin
+
+        fun naverLogin(activity: Activity, oAuthLogin: OAuthLogin, loginCallBack: LoginCallBack)
+
         fun googleLogin(): Intent
 
-        fun firebaseAuthGoogle(data: Intent)
+        fun firebaseAuthGoogle(data: Intent, loginCallBack: LoginCallBack)
     }
 
     companion object {

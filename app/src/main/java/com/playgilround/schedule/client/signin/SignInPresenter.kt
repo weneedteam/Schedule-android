@@ -1,7 +1,10 @@
 package com.playgilround.schedule.client.signin
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import com.facebook.CallbackManager
+import com.nhn.android.naverlogin.OAuthLogin
 import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.data.repository.UsersRepository
 import com.playgilround.schedule.client.data.source.UsersDataSource
@@ -37,12 +40,24 @@ class SignInPresenter constructor(private val mContext: Context, private val mVi
         mRepository.login(email, password, this)
     }
 
+    override fun facebookSignIn(activity: Activity): CallbackManager {
+        return mRepository.facebookLogin(activity, this)
+    }
+
+    override fun naverInit(): OAuthLogin {
+        return mRepository.naverInit()
+    }
+
+    override fun naverSignIn(activity: Activity, oAuthLogin: OAuthLogin) {
+        mRepository.naverLogin(activity, oAuthLogin, this)
+    }
+
     override fun googleSignIn(): Intent {
         return mRepository.googleLogin()
     }
 
     override fun firebaseAuthGoogle(data: Intent) {
-        mRepository.firebaseAuthGoogle(data)
+        mRepository.firebaseAuthGoogle(data, this)
     }
 
     override fun onUserLoaded() {
