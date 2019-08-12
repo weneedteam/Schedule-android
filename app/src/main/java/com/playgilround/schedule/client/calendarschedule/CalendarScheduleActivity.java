@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.calendarschedule;
 
 import android.content.Context;
@@ -30,12 +31,14 @@ import butterknife.ButterKnife;
 import static com.annimon.stream.Stream.of;
 import static com.playgilround.schedule.client.infoschedule.InfoScheduleActivity.ADD_SCHEDULE;
 
+*/
 /**
  * 18-12-26
  * Schedule Calendar Activity
  * added by CHO
  * Test
- */
+ *//*
+
 public class CalendarScheduleActivity extends AppCompatActivity implements CalendarScheduleContract.View {
 
     static final String TAG = CalendarScheduleActivity.class.getSimpleName();
@@ -73,13 +76,14 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_calendar);
+        setContentView(R.layout.fragment_calendar);
 
         ButterKnife.bind(this);
 
         new CalendarSchedulePresenter(this, this);
 
         setFloating();
+*/
 /*
         // 날짜 클릭 시 다이얼로그
         calendarView.setOnDayClickListener(eventDay -> {
@@ -91,13 +95,15 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             } else if (!dateString.isEmpty()) {
                 showCalendarDialog(dateString);
             }
-        });*/
+        });*//*
+
 
 
 
 //        callSchedules();
 
-  /*      ivAddSchedule.setOnClickListener(v -> {
+  */
+/*      ivAddSchedule.setOnClickListener(v -> {
             ArrayList arrManyDays = mPresenter.getSelectedManyDays(calendarView.getSelectedDates());
             String strInput = etInput.getText().toString();
             if (arrManyDays == null) {
@@ -113,7 +119,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
             }
         });
 
-        ivRange.setOnClickListener(v -> openRangePicker());*/
+        ivRange.setOnClickListener(v -> openRangePicker());*//*
+
     }
 
     private void setFloating() {
@@ -145,6 +152,7 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
         List<Calendar> selectDays = new ArrayList<>();
         selectDays.add(today);
+*/
 /*
         DatePickerBuilder rangeBuilder = new DatePickerBuilder(this, this)
                 .pickerType(CalendarView.RANGE_PICKER)
@@ -161,10 +169,12 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
                 .selectedDays(selectDays);
 
         DatePicker rangePicker = rangeBuilder.build();
-        rangePicker.show();*/
+        rangePicker.show();*//*
+
     }
 
-  /*  @Override
+  */
+/*  @Override
     public void onSelect(List<Calendar> calendars) {
         of(calendars).forEach(calendar ->
                 Toast.makeText(getApplicationContext(),
@@ -173,7 +183,8 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
 
 //        calendarView.setSelectedDates(calendars);
     }
-*/
+*//*
+
     // yyyy-MM 기준으로 저장된 스케줄 표시
     private void callSchedules() {
 //        mPresenter.getSchedule(calendarView.getCurrentPageDate().getTimeInMillis());
@@ -260,3 +271,4 @@ public class CalendarScheduleActivity extends AppCompatActivity implements Calen
         return new InsetDrawable(drawable, 100, 0, 100, 0);
     }
 }
+*/

@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-</LinearLayout>
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <com.playgilround.schedule.client.calendar.ScheduleLayout
+        android:id="@+id/slSchedule"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rlCalendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.playgilround.schedule.client.calendar.CalendarView
+                    android:id="@+id/calendarView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:selectionColor="@color/light_indigo"
+                    app:type="range_picker" />
+            </RelativeLayout>
+
+
+            <include
+                layout="@layout/schedule_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </LinearLayout>
+
+    </com.playgilround.schedule.client.calendar.ScheduleLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/floatingAdd"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/add_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_add"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatingModify"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/modify_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_modify"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/floatingDelete"
+            android:layout_width="124dp"
+            android:layout_height="42dp"
+            android:background="@drawable/rounded"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="invisible">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:src="@drawable/delete_schedule" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="12dp"
+                android:fontFamily="sans-serif-medium"
+                android:text="@string/text_schedule_delete"
+                android:textSize="14sp"
+                android:textStyle="normal" />
+        </LinearLayout>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floatingBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginBottom="72dp"
+            android:layout_marginEnd="20dp"
+            android:backgroundTint="@color/light_indigo"
+            android:src="@drawable/floating_add"
+            app:fabSize="normal" />
+
+    </LinearLayout>
+</RelativeLayout>

@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="400dp"
-    android:background="@android:color/white">
+    android:background="@color/color_background_light_grey">
 
     <TextView
         android:id="@+id/tvSchedule"
