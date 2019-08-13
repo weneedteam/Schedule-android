@@ -20,6 +20,12 @@ public interface UserAPI {
     @POST(BaseUrl.PATH_EMAIL_SIGN_IN)
     Call<JsonObject> emailSignIn(@Body JsonObject user);
 
+    @GET(BaseUrl.PATH_DUPLICATE_EMAIL)
+    Call<JsonObject> checkEmail(@Query(BaseUrl.PARAM_SIGN_IN_EMAIL) String email);
+
+    @GET(BaseUrl.PATH_DUPLICATE_NICKNAME)
+    Call<JsonObject> checkNickName(@Query(BaseUrl.PARAM_SIGN_IN_NICKNAME) String nickname);
+
     @Headers({"Content-Type: application/json"})
     @POST(BaseUrl.PATH_TOKEN_SIGN_IN)
     Call<JsonObject> tokenSignIn(@Body JsonObject token);
@@ -27,5 +33,5 @@ public interface UserAPI {
     @Headers({"Content-Type: application/json"})
     @GET(BaseUrl.PATH_USER_SEARCH)
     Call<JsonObject> searchUserName(@Query(BaseUrl.PARAM_USER_NAME_SEARCH) String name);
-    
+
 }

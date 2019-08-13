@@ -17,6 +17,7 @@ public class BaseUrl {
     public static final String PARAM_SIGN_IN_EMAIL = "email";
     public static final String PARAM_SIGN_IN_PASSWORD = "password";
     public static final String PARAM_SIGN_IN_TOKEN = "token";
+    public static final String PARAM_SIGN_IN_NICKNAME = "nickname";
 
     static final String PARAM_USER_NAME_SEARCH = "name";
 
