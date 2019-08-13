@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.AddScheduleActivity
+import com.playgilround.schedule.client.addschedule.TestAddScheduleActivity
 import com.playgilround.schedule.client.calendar.adapter.ScheduleAdapter
 import com.playgilround.schedule.client.calendar.util.EventDay
 import kotlinx.android.synthetic.main.fragment_calendar.*
@@ -65,8 +66,7 @@ class CalendarScheduleFragment: Fragment(), CalendarScheduleContract.View {
         }
 
         floatingAdd.setOnClickListener {
-            Log.d("TEST", "Add Schedule View")
-            val intent = Intent(context, AddScheduleActivity::class.java)
+            val intent = Intent(context, TestAddScheduleActivity::class.java)
             startActivity(intent)
             activity?.finish()
 
