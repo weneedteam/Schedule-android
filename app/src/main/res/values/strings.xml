@@ -118,6 +118,13 @@
     <string name="text_sign_up_content_password_check">비밀번호</string>
     <string name="text_sign_up_content_nickname">닉네임</string>
 
+    <string name="text_add_schedule_title">일정 제목을 입력해 주세요.</string>
+    <string name="text_add_schedule_date">날짜가 어떻게 되나요?</string>
+    <string name="text_add_schedule_member">누구와 함께 하시나요?</string>
+    <string name="text_add_schedule_location">장소를 입력해주세요.</string>
+    <string name="text_add_schedule_memo">메모를 작성해주세요.</string>
+    <string name="text_add_schedule_map">지도를 작성해주세요.</string>
+
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">My Profile</string>
     <string name="text_friend">Friend</string>

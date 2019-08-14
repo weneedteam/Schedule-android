@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.addschedule.view
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import java.lang.IllegalArgumentException
 
-class AddScheduleAdapter constructor(private val mContext: Context): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>() {
+class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>() {
 
     private lateinit var mTitleViewHolder: TitleViewHolder
     private lateinit var mDateViewHolder: DateViewHolder
@@ -16,7 +17,7 @@ class AddScheduleAdapter constructor(private val mContext: Context): RecyclerVie
     private lateinit var mPlaceViewHolder: PlaceViewHolder
     private lateinit var mMemoViewHolder: MemoViewHolder
     private lateinit var mMapViewHolder: MapViewHolder
-    private lateinit var mResultViewholder: ResultViewHolder
+    private lateinit var mResultViewHolder: ResultViewHolder
 
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         open fun bind(position: Int) {
@@ -26,7 +27,7 @@ class AddScheduleAdapter constructor(private val mContext: Context): RecyclerVie
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RootViewHolder {
         return when (viewType) {
             TYPE_SCHEDULE_TITLE -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_sign_up_birth, parent, false)
+                val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_title, parent, false)
                 mTitleViewHolder = TitleViewHolder(view)
                 return mTitleViewHolder
             }
@@ -57,8 +58,8 @@ class AddScheduleAdapter constructor(private val mContext: Context): RecyclerVie
             }
             TYPE_SCHEDULE_RESULT -> {
                 val view = LayoutInflater.from(mContext).inflate(R.layout.item_sign_up_birth, parent, false)
-                mResultViewholder = ResultViewHolder(view)
-                return mResultViewholder
+                mResultViewHolder = ResultViewHolder(view)
+                return mResultViewHolder
             }
             else -> {
                 throw IllegalArgumentException("Invalid view type")

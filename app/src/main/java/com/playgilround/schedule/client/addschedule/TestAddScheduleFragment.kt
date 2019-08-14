@@ -4,19 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.playgilround.schedule.client.R
+import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.base.BaseFragment
+import kotlinx.android.synthetic.main.add_schedule_frag.*
 
 class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     private lateinit var mPresenter: TestAddScheduleContract.Presenter
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
+    private lateinit var mAdapter: AddScheduleAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.add_schedule_frag, container, false)
+        mAdapter = AddScheduleAdapter(context)
+        return  inflater.inflate(R.layout.add_schedule_frag, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recycler_add_schedule.setHasFixedSize(true)
+        recycler_add_schedule.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recycler_add_schedule.adapter = mAdapter
     }
 
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {
