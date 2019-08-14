@@ -11,6 +11,7 @@ import java.lang.IllegalArgumentException
 
 class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>() {
 
+    var position = 0
     private lateinit var mTitleViewHolder: TitleViewHolder
     private lateinit var mDateViewHolder: DateViewHolder
     private lateinit var mMemberViewHolder: MemberViewHolder
@@ -20,9 +21,12 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
     private lateinit var mResultViewHolder: ResultViewHolder
 
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+
         open fun bind(position: Int) {
 
         }
+
+
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RootViewHolder {
         return when (viewType) {

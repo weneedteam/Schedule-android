@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.addschedule
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -24,6 +25,18 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         recycler_add_schedule.setHasFixedSize(true)
         recycler_add_schedule.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         recycler_add_schedule.adapter = mAdapter
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setOnClickListener()
+    }
+
+    fun setOnClickListener() {
+        schedule_next_btn.setOnClickListener {
+            Log.d("TEST", "Position --${mAdapter.position}")
+            mPresenter.onClickNext(mAdapter.position)
+        }
     }
 
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {

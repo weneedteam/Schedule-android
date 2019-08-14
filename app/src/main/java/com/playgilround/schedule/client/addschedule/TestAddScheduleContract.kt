@@ -10,6 +10,6 @@ interface TestAddScheduleContract {
     }
 
     interface Presenter: BasePresenter {
-
+        fun onClickNext(position: Int)
     }
 }
