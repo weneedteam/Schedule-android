@@ -10,6 +10,9 @@ import androidx.databinding.DataBindingUtil.setContentView
 import com.facebook.CallbackManager
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
+import com.kakao.auth.KakaoAdapter
+import com.kakao.auth.KakaoSDK
+import com.kakao.auth.Session
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nispok.snackbar.Snackbar
 import com.nispok.snackbar.SnackbarManager
@@ -29,7 +32,7 @@ class SignInActivity : Activity(), SignInContract.View {
             Manifest.permission.INTERNET)
 
     private lateinit var fbCallbackManager: CallbackManager
-    private var isFacebookLogin: Boolean = false
+    private var loginType = 0x0000
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,12 +64,21 @@ class SignInActivity : Activity(), SignInContract.View {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (isFacebookLogin) {
-            fbCallbackManager.onActivityResult(requestCode, resultCode, data)
-            isFacebookLogin = false
-        } else if (requestCode == GOOGLE_LOGIN) {
-            mPresenter.firebaseAuthGoogle(data)
+        when (loginType) {
+            FACEBOOK_LOGIN -> {
+                fbCallbackManager.onActivityResult(requestCode, resultCode, data)
+            }
+            KAKAO_LOGIN -> {
+                if(Session.getCurrentSession().handleActivityResult(requestCode, resultCode, data)) {
+                    return
+                }
+                super.onActivityResult(requestCode, resultCode, data)
+            }
+            GOOGLE_LOGIN -> {
+                mPresenter.firebaseAuthGoogle(data)
+            }
         }
+        loginType = 0x0000
     }
 
     fun setOnClickListener() {
@@ -79,7 +91,7 @@ class SignInActivity : Activity(), SignInContract.View {
 
         ivfacebook.setOnClickListener {
             fbCallbackManager = mPresenter.facebookSignIn(this)
-            isFacebookLogin = true
+            loginType = FACEBOOK_LOGIN
         }
 
         ivnaver.setOnClickListener {
@@ -87,7 +99,15 @@ class SignInActivity : Activity(), SignInContract.View {
             mPresenter.naverSignIn(this, mOAuthLogin)
         }
 
-        ivgoogle.setOnClickListener { startActivityForResult(mPresenter.googleSignIn(), GOOGLE_LOGIN) }
+        ivkakao.setOnClickListener {
+            mPresenter.kakaoSignIn(this)
+            loginType = KAKAO_LOGIN
+        }
+
+        ivgoogle.setOnClickListener {
+            startActivityForResult(mPresenter.googleSignIn(), GOOGLE_LOGIN)
+            loginType = GOOGLE_LOGIN
+        }
 
         tvSignUp.setOnClickListener { startActivity(Intent(this, SignUpActivity::class.java)) }
     }
@@ -138,6 +158,8 @@ override fun setPresenter(presenter: SignInContract.Presenter) {
 }
 
 companion object {
-    const val GOOGLE_LOGIN = 0x0001
+    const val FACEBOOK_LOGIN = 0x0001
+    const val KAKAO_LOGIN = 0x0002
+    const val GOOGLE_LOGIN = 0x0003
 }
 }

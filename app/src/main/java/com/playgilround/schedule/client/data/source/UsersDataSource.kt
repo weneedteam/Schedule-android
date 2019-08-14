@@ -43,6 +43,8 @@ interface UsersDataSource {
 
         fun naverLogin(activity: Activity, oAuthLogin: OAuthLogin, loginCallBack: LoginCallBack)
 
+        fun kakaoLogin(activity: Activity, loginCallBack: LoginCallBack)
+
         fun googleLogin(): Intent
 
         fun firebaseAuthGoogle(data: Intent, loginCallBack: LoginCallBack)

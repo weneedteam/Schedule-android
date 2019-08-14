@@ -34,6 +34,8 @@ interface SignInContract {
 
         fun naverSignIn(activity: Activity, oAuthLogin: OAuthLogin)
 
+        fun kakaoSignIn(activity: Activity)
+
         fun googleSignIn(): Intent
 
         fun firebaseAuthGoogle(data: Intent)
