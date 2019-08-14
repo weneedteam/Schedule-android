@@ -277,9 +277,6 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
             }
 
             LOGIN_TYPE_NAVER -> {
-                val retrofit = APIClient.getClient()
-                val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
-
                 restAuthAPI.postNaverLogin(token).enqueue(object : Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if (response.isSuccessful && response.body() != null) {
@@ -342,8 +339,7 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
         override fun getSessionConfig(): ISessionConfig {
             return object: ISessionConfig {
                 override fun getAuthTypes(): Array<AuthType> {
-                    val array: Array<AuthType> = arrayOf(AuthType.KAKAO_LOGIN_ALL)
-                    return array
+                    return arrayOf(AuthType.KAKAO_LOGIN_ALL)
                 }
 
                 override fun isUsingWebviewTimer(): Boolean {

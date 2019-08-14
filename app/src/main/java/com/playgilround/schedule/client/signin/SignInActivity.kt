@@ -5,15 +5,10 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil.setContentView
 import com.facebook.CallbackManager
 import com.gun0912.tedpermission.PermissionListener
 import com.gun0912.tedpermission.TedPermission
-import com.kakao.auth.KakaoAdapter
-import com.kakao.auth.KakaoSDK
 import com.kakao.auth.Session
-import com.nhn.android.naverlogin.OAuthLogin
 import com.nispok.snackbar.Snackbar
 import com.nispok.snackbar.SnackbarManager
 import com.nispok.snackbar.enums.SnackbarType
