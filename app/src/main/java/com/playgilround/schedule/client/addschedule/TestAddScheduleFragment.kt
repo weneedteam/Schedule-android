@@ -16,7 +16,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.dialog_add_schedule, container, false)
+        return inflater.inflate(R.layout.add_schedule_frag, container, false)
     }
 
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {
