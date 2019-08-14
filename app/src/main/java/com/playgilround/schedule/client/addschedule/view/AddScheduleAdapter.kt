@@ -37,12 +37,12 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
                 return mDateViewHolder
             }
             TYPE_SCHEDULE_MEMBER -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_sign_up_birth, parent, false)
+                val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_member, parent, false)
                 mMemberViewHolder = MemberViewHolder(view)
                 return mMemberViewHolder
             }
             TYPE_SCHEDULE_PLACE -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_sign_up_birth, parent, false)
+                val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_place, parent, false)
                 mPlaceViewHolder = PlaceViewHolder(view)
                 return mPlaceViewHolder
             }

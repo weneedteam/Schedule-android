@@ -120,7 +120,7 @@
     <string name="text_add_schedule_title">일정 제목을 입력해 주세요.</string>
     <string name="text_add_schedule_date">날짜가 어떻게 되나요?</string>
     <string name="text_add_schedule_member">누구와 함께 하시나요?</string>
-    <string name="text_add_schedule_location">장소를 입력해주세요.</string>
+    <string name="text_add_schedule_place">장소를 입력해주세요.</string>
     <string name="text_add_schedule_memo">메모를 작성해주세요.</string>
     <string name="text_add_schedule_map">지를 작성해주세요.</string>
 
@@ -128,6 +128,7 @@
     <string name="text_schedule_date_start">시작</string>
     <string name="text_schedule_date_end">종료</string>
     <string name="text_schedule_search_friend">친구 검색</string>
+    <string name="text_schedule_place">장소</string>
 
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">My Profile</string>
@@ -162,6 +163,7 @@
 
     <string name="hint_add_schedule_title">일정 입력</string>
     <string name="hint_schedule_search_user">유저 검색</string>
+    <string name="hint_add_schedule_place">장소 입력</string>
 
     <!-- Message -->
     <string name="message_check_permission">Checking permission</string>
