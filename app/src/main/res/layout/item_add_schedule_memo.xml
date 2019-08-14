@@ -8,31 +8,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="23dp"
-        android:text="@string/text_add_schedule_title"
+        android:text="@string/text_add_schedule_memo"
         android:textColor="@android:color/black"
         android:textSize="24sp"
         android:textStyle="normal" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="57dp"
-        android:layout_marginStart="23dp"
-        android:textColor="@color/light_indigo"
-        android:textSize="12sp"
-        android:text="@string/text_schedule_title"/>
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edit_sign_up"
+            android:id="@+id/edit_memo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/hint_add_schedule_title"
+            android:hint="@string/hint_schedule_non_memo"
             android:imeOptions="actionDone"
-            android:layout_marginStart="30dp"
-            android:layout_marginEnd="30dp"
-            android:textSize="18sp"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="35dp"
+            android:textSize="12sp"
+            android:layout_marginTop="15dp"
             android:inputType="text"
+            android:background="@null"
             android:lines="1" />
 
 </LinearLayout>

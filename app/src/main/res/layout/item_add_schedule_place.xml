@@ -26,7 +26,6 @@
             android:id="@+id/edit_sign_up"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
             android:hint="@string/hint_add_schedule_place"
             android:imeOptions="actionDone"
             android:layout_marginStart="30dp"

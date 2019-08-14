@@ -164,6 +164,7 @@
     <string name="hint_add_schedule_title">일정 입력</string>
     <string name="hint_schedule_search_user">유저 검색</string>
     <string name="hint_add_schedule_place">장소 입력</string>
+    <string name="hint_schedule_non_memo">작성하실 메모가 없으시다면\n오른쪽 하단의 버튼을 눌러주세요.</string>
 
     <!-- Message -->
     <string name="message_check_permission">Checking permission</string>
