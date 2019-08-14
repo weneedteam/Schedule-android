@@ -32,7 +32,7 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
                 return mTitleViewHolder
             }
             TYPE_SCHEDULE_DATE -> {
-                val view = LayoutInflater.from(mContext).inflate(R.layout.item_sign_up_birth, parent, false)
+                val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_date, parent, false)
                 mDateViewHolder = DateViewHolder(view)
                 return mDateViewHolder
             }

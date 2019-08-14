@@ -83,6 +83,8 @@
     <string name="text_add_schedule_map">지도를 작성해주세요.</string>
 
     <string name="text_schedule_title">일정 제목</string>
+    <string name="text_schedule_date_start">시작</string>
+    <string name="text_schedule_date_end">종료</string>
 
     <string name="text_destination">목적지</string>
     <string name="text_search_nickname">닉네임 검색</string>

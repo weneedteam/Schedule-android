@@ -125,6 +125,8 @@
     <string name="text_add_schedule_map">지를 작성해주세요.</string>
 
     <string name="text_schedule_title">일정 제목</string>
+    <string name="text_schedule_date_start">시작</string>
+    <string name="text_schedule_date_end">종료</string>
 
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">My Profile</string>
