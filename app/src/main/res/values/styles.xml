@@ -33,7 +33,6 @@
     <style name="SignUpEditTextTheme" parent="AppTheme">
         <!-- Hint Color -->
         <item name="colorAccent">@color/light_indigo</item>
-
         <item name="hintTextAppearance">@style/AppTheme.TextFloatLabelAppearance</item>
         <item name="errorTextAppearance">@style/AppTheme.TextErrorAppearance</item>
         <item name="counterTextAppearance">@style/TextAppearance.Design.Counter</item>

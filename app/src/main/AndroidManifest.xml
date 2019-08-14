@@ -56,6 +56,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".addschedule.TestAddScheduleActivity" />
         <activity android:name=".signup.SignUpActivity" />
 
         <activity android:name=".signin.SignInActivity" />

@@ -80,7 +80,6 @@
     <string name="text_date_year_month_day_title" translatable="false">yyyy년 MM월 dd일</string>
     <string name="text_logo" translatable="false">PlayGilRound</string>
     <string name="text_schedule_desc">Schedule Desc..</string>
-    <string name="text_schedule_title">Schedule Title</string>
     <string name="text_email">E-mail</string>
     <string name="text_password">Password</string>
     <string name="text_not_account">Not yet account</string>
@@ -118,9 +117,22 @@
     <string name="text_sign_up_content_password_check">비밀번호</string>
     <string name="text_sign_up_content_nickname">닉네임</string>
 
+    <string name="text_add_schedule_title">일정 제목을 입력해 주세요.</string>
+    <string name="text_add_schedule_date">날짜가 어떻게 되나요?</string>
+    <string name="text_add_schedule_member">누구와 함께 하시나요?</string>
+    <string name="text_add_schedule_place">장소를 입력해주세요.</string>
+    <string name="text_add_schedule_memo">메모를 작성해주세요.</string>
+    <string name="text_add_schedule_map">지를 작성해주세요.</string>
+
+    <string name="text_schedule_title">일정 제목</string>
+    <string name="text_schedule_date_start">시작</string>
+    <string name="text_schedule_date_end">종료</string>
+    <string name="text_schedule_search_friend">친구 검색</string>
+    <string name="text_schedule_place">장소</string>
+
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">My Profile</string>
-    <string name="text_friend">Friend</string>
+    <string name="text_friend">친구</string>
     <string name="text_exit_app">Exit App?</string>
     <string name="text_request_cancel">Request Cancel</string>
 
@@ -148,6 +160,11 @@
     <string name="hint_birth">Birth(19950818)</string>
     <string name="hint_nick_name">NickName</string>
     <string name="hint_name">Name</string>
+
+    <string name="hint_add_schedule_title">일정 입력</string>
+    <string name="hint_schedule_search_user">유저 검색</string>
+    <string name="hint_add_schedule_place">장소 입력</string>
+    <string name="hint_schedule_non_memo">작성하실 메모가 없으시다면\n오른쪽 하단의 버튼을 눌러주세요.</string>
 
     <!-- Message -->
     <string name="message_check_permission">Checking permission</string>
