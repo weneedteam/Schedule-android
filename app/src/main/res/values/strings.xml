@@ -207,4 +207,7 @@
     <!-- Facebook App ID -->
     <string name="facebook_app_id">2208294345872737</string>
     <string name="fb_login_protocol_scheme">fb2208294345872737</string>
+
+    <!-- Kakao App Key -->
+    <string name="kakao_app_key">afca4cbd1f0ba11a14daffadd9d96472</string>
 </resources>

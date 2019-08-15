@@ -37,6 +37,10 @@ class UsersRepository(
         usersRemoteDataSource.naverLogin(activity, oAuthLogin, loginCallBack)
     }
 
+    override fun kakaoLogin(activity: Activity, loginCallBack: UsersDataSource.LoginCallBack) {
+        usersRemoteDataSource.kakaoLogin(activity, loginCallBack)
+    }
+
     override fun googleLogin(): Intent {
         return usersRemoteDataSource.googleLogin()
     }

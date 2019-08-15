@@ -52,6 +52,10 @@ class SignInPresenter constructor(private val mContext: Context, private val mVi
         mRepository.naverLogin(activity, oAuthLogin, this)
     }
 
+    override fun kakaoSignIn(activity: Activity) {
+        mRepository.kakaoLogin(activity, this)
+    }
+
     override fun googleSignIn(): Intent {
         return mRepository.googleLogin()
     }

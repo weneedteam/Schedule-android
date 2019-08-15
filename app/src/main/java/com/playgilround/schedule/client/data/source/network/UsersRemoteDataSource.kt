@@ -4,11 +4,13 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.util.Log
-import com.facebook.*
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -16,13 +18,21 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.gson.Gson
 import com.google.gson.JsonObject
+import com.kakao.auth.*
+import com.kakao.network.ErrorResult
+import com.kakao.usermgmt.UserManagement
+import com.kakao.usermgmt.callback.MeV2ResponseCallback
+import com.kakao.usermgmt.response.MeV2Response
+import com.kakao.util.exception.KakaoException
 import com.nhn.android.naverlogin.OAuthLogin
 import com.nhn.android.naverlogin.OAuthLoginHandler
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.data.User
 import com.playgilround.schedule.client.data.source.UsersDataSource
-import com.playgilround.schedule.client.retrofit.*
-import com.playgilround.schedule.client.signin.SignInPresenter.*
+import com.playgilround.schedule.client.retrofit.APIClient
+import com.playgilround.schedule.client.retrofit.BaseUrl
+import com.playgilround.schedule.client.retrofit.RestAuthAPI
+import com.playgilround.schedule.client.retrofit.UserAPI
 import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_EMAIL
 import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_FAIL_SIGN_IN
 import com.playgilround.schedule.client.signin.SignInPresenter.Companion.ERROR_NETWORK_CUSTOM
@@ -40,11 +50,7 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
 
     private lateinit var auth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
-
-    private val LOGIN_TYPE_FACEBOOK = 0x0001
-    private val LOGIN_TYPE_NAVER = 0x0002
-    private val LOGIN_TYPE_KAKAO = 0x0003
-    private val LOGIN_TYPE_GOOGLE = 0x0004
+    private var isKakaoLogin = false
 
     override fun login(email: String, password: String, loginCallBack: UsersDataSource.LoginCallBack) {
         if (checkEmail(email)) {
@@ -161,7 +167,7 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
     }
 
     override fun naverInit(): OAuthLogin {
-        val mOAuthLoginModule = OAuthLogin.getInstance()
+        val mOAuthLoginModule   = OAuthLogin.getInstance()
         mOAuthLoginModule.init(
                 context,
                 context.getString(R.string.naver_web_client_id),
@@ -174,7 +180,7 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
 
     override fun naverLogin(activity: Activity, oAuthLogin: OAuthLogin, loginCallBack: UsersDataSource.LoginCallBack) {
 
-        var accessToken = ""
+        var accessToken : String
         //var refreshToken : String
         //var expiresAt : Long
         //var tokenType : String
@@ -198,6 +204,18 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
         }
 
         oAuthLogin.startOauthLoginActivity(activity, oAuthLoginHandler)
+    }
+
+    override fun kakaoLogin(activity: Activity, loginCallBack: UsersDataSource.LoginCallBack) {
+        if (!isKakaoLogin) {
+            KakaoSDK.init(KakaoSDKAdapter())
+            isKakaoLogin = true
+        }
+
+        var kakaoCallback = SessionStatusCallback(loginCallBack)
+        Session.getCurrentSession().addCallback(kakaoCallback)
+        Session.getCurrentSession().checkAndImplicitOpen()
+        Session.getCurrentSession().open(AuthType.KAKAO_LOGIN_ALL, activity)
     }
 
     override fun googleLogin(): Intent {
@@ -237,11 +255,12 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
     }
 
     private fun postRestAuth(type: Int, token: String, loginCallBack: UsersDataSource.LoginCallBack) {
+
+        val retrofit = APIClient.getClient()
+        val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
+
         when(type) {
             LOGIN_TYPE_FACEBOOK -> {
-                val retrofit = APIClient.getClient()
-                val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
-
                 restAuthAPI.postFacebookLogin(token).enqueue(object : Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if (response.isSuccessful && response.body() != null) {
@@ -258,9 +277,6 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
             }
 
             LOGIN_TYPE_NAVER -> {
-                val retrofit = APIClient.getClient()
-                val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
-
                 restAuthAPI.postNaverLogin(token).enqueue(object : Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if (response.isSuccessful && response.body() != null) {
@@ -277,9 +293,6 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
             }
 
             LOGIN_TYPE_KAKAO -> {
-                val retrofit = APIClient.getClient()
-                val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
-
                 restAuthAPI.postKakaoLogin(token).enqueue(object : Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if (response.isSuccessful && response.body() != null) {
@@ -296,9 +309,6 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
             }
 
             LOGIN_TYPE_GOOGLE -> {
-                val retrofit = APIClient.getClient()
-                val restAuthAPI = retrofit.create(RestAuthAPI::class.java)
-
                 restAuthAPI.postGoogleLogin(token).enqueue(object : Callback<JsonObject>{
                     override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
                         if (response.isSuccessful && response.body() != null) {
@@ -322,6 +332,66 @@ class UsersRemoteDataSource @Inject constructor(val context: Context) : UsersDat
         val p = Pattern.compile(mail)
         val m = p.matcher(email)
         return m.matches()
+    }
+
+    inner class KakaoSDKAdapter: KakaoAdapter() {
+
+        override fun getSessionConfig(): ISessionConfig {
+            return object: ISessionConfig {
+                override fun getAuthTypes(): Array<AuthType> {
+                    return arrayOf(AuthType.KAKAO_LOGIN_ALL)
+                }
+
+                override fun isUsingWebviewTimer(): Boolean {
+                    return false
+                }
+
+                override fun isSecureMode(): Boolean {
+                    return false
+                }
+
+                override fun getApprovalType(): ApprovalType? {
+                    return ApprovalType.INDIVIDUAL
+                }
+
+                override fun isSaveFormData(): Boolean {
+                    return true
+                }
+            }
+        }
+
+        override fun getApplicationConfig(): IApplicationConfig {
+            return object: IApplicationConfig {
+                override fun getApplicationContext(): Context {
+                    return context
+                }
+            }
+        }
+    }
+
+    inner class SessionStatusCallback(var loginCallBack: UsersDataSource.LoginCallBack): ISessionCallback {
+        override fun onSessionOpenFailed(exception: KakaoException?) {
+
+        }
+
+        override fun onSessionOpened() {
+            UserManagement.getInstance().me(object: MeV2ResponseCallback() {
+                override fun onSessionClosed(errorResult: ErrorResult?) {
+                }
+
+                override fun onSuccess(result: MeV2Response?) {
+                    Log.d("TESTLOG", "카카오 로그인 성공 \ntoken:" + Session.getCurrentSession().tokenInfo.accessToken)
+                    postRestAuth(LOGIN_TYPE_KAKAO, Session.getCurrentSession().tokenInfo.accessToken, loginCallBack)
+                }
+            })
+        }
+    }
+
+    companion object {
+        const val LOGIN_TYPE_FACEBOOK = 0x0001
+        const val LOGIN_TYPE_NAVER = 0x0002
+        const val LOGIN_TYPE_KAKAO = 0x0003
+        const val LOGIN_TYPE_GOOGLE = 0x0004
     }
 
 }
