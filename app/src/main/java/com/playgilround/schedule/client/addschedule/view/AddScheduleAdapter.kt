@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.addschedule.view
 
 import android.content.Context
+import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -41,8 +42,26 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
             }
             false
         }
-        open fun bind(position: Int) {
 
+        abstract fun checkEditText(content: String): Boolean
+
+        open fun bind(position: Int) {
+            viewPosition = position
+            mEditSchedule.setOnEditorActionListener(mOnEditorActionListener)
+            mEditSchedule.addTextChangedListener(object: TextWatcher {
+                override fun beforeTextChanged(p0: CharSequence?, start: Int, count: Int, after: Int) {
+
+                }
+
+                override fun onTextChanged(p0: CharSequence?, start: Int, before: Int, count: Int) {
+                    val text = mEditSchedule.text.toString().trim()
+                    if (checkEditText(text)) {
+                        textContent = text
+                        mOnEditorAdapterListener.ableNextButton()
+                        dismissSnackBar()
+                    }
+                }
+            })
         }
 
         fun getContent(): String {
