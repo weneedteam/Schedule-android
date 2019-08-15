@@ -1,6 +1,6 @@
 package com.playgilround.schedule.client.data;
 
-public class Schedule {
+public class ScheduleData {
 
     private String title;
     private String startDate;
@@ -11,7 +11,7 @@ public class Schedule {
     private String map;
     private String result;
 
-    public Schedule() {
+    public ScheduleData() {
 
     }
 

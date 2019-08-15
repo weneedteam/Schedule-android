@@ -20,6 +20,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mAdapter = AddScheduleAdapter(context)
+        TestAddSchedulePresenter(context, this, mAdapter)
         return  inflater.inflate(R.layout.add_schedule_frag, container, false)
     }
 
@@ -39,6 +40,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     override fun onResume() {
         super.onResume()
+        mPresenter.start()
         setOnClickListener()
     }
 

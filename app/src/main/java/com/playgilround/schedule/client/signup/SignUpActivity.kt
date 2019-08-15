@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
-import com.playgilround.schedule.client.signup.view.OnSignUpAdapterListener
+import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import com.playgilround.schedule.client.signup.view.SignUpAdapter
 import kotlinx.android.synthetic.main.activity_sign_up.*
 
@@ -35,7 +35,7 @@ class SignUpActivity: AppCompatActivity(), SignUpContract.View {
 
         mAdapter = SignUpAdapter(this)
 
-        mAdapter.setOnSignUpNextFieldListener(object : OnSignUpAdapterListener {
+        mAdapter.setOnSignUpNextFieldListener(object : OnEditorAdapterListener {
             override fun onNextField(position: Int) {
                 mPresenter.onClickBack(position)
             }

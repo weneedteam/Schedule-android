@@ -5,11 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
+import android.widget.EditText
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
+import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
+import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
-class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>() {
+class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
 
     var position = 0
     private lateinit var mTitleViewHolder: TitleViewHolder
@@ -20,14 +25,31 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
     private lateinit var mMapViewHolder: MapViewHolder
     private lateinit var mResultViewHolder: ResultViewHolder
 
+    private lateinit var mOnEditorAdapterListener: OnEditorAdapterListener
+
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
+        val mEditSchedule = itemView.findViewById(R.id.edit_schedule) as EditText
+
+        internal lateinit var textContent: String
+        internal var viewPosition: Int = 0
+
+        private val mOnEditorActionListener = TextView.OnEditorActionListener {v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && mOnEditorAdapterListener != null) {
+                mOnEditorAdapterListener.onNextField(viewPosition)
+                return@OnEditorActionListener true
+            }
+            false
+        }
         open fun bind(position: Int) {
 
         }
 
-
+        fun getContent(): String {
+            return textContent
+        }
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RootViewHolder {
         return when (viewType) {
             TYPE_SCHEDULE_TITLE -> {
@@ -95,6 +117,14 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
 
     override fun getItemViewType(position: Int): Int {
         return position
+    }
+
+    fun setOnScheduleNextFieldListener(onEditorAdapterListener: OnEditorAdapterListener) {
+        mOnEditorAdapterListener = onEditorAdapterListener
+    }
+
+    override fun getScheduleField(): String {
+        return mTitleViewHolder.getContent()
     }
 
     companion object {
