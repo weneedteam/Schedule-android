@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.PagerSnapHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.base.BaseFragment
@@ -24,7 +26,15 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         recycler_add_schedule.setHasFixedSize(true)
         recycler_add_schedule.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recycler_add_schedule.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                recyclerView.stopScroll()
+            }
+        })
         recycler_add_schedule.adapter = mAdapter
+
+        PagerSnapHelper().attachToRecyclerView(recycler_add_schedule)
     }
 
     override fun onResume() {
