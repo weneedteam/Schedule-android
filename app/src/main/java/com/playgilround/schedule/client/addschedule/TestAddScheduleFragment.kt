@@ -1,6 +1,8 @@
 package com.playgilround.schedule.client.addschedule
 
+import android.animation.ObjectAnimator
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -17,6 +19,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     private lateinit var mPresenter: TestAddScheduleContract.Presenter
     private lateinit var mAdapter: AddScheduleAdapter
+    private var clickable = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mAdapter = AddScheduleAdapter(context)
@@ -48,6 +51,29 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         schedule_next_btn.setOnClickListener {
             Log.d("TEST", "Position --${mAdapter.position}")
             mPresenter.onClickNext(mAdapter.position)
+        }
+    }
+
+    override fun fieldCheck(check: Boolean) {
+        if (check) {
+            if (mAdapter.position +1 != mAdapter.itemCount) {
+                clickable = false
+
+                mAdapter.position = mAdapter.position +1
+                recycler_add_schedule.smoothScrollToPosition(mAdapter.position)
+
+                Handler().postDelayed({ mAdapter.setFocus() }, 500)
+
+                if (mAdapter.position != mAdapter.itemCount -1) schedule_next_btn.setImageResource(R.drawable.disable_btn)
+                else {
+                    schedule_next_btn.setImageResource(R.drawable.image_check)
+                    clickable = true
+                }
+            } else {
+                mPresenter.scheduleSave()
+            }
+        } else {
+            mAdapter.showSnackBar()
         }
     }
 

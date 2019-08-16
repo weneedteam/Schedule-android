@@ -26,7 +26,8 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
 
         when (position) {
             AddScheduleAdapter.TYPE_SCHEDULE_TITLE -> {
-                mSchedule.title =
+                mSchedule.title = mScheduleDataModel.getScheduleTitle()
+                check = mSchedule.title != null
             }
             AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_MEMBER -> {}
@@ -35,5 +36,6 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
             AddScheduleAdapter.TYPE_SCHEDULE_MAP -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_RESULT -> {}
         }
+        mView.fieldCheck(check)
     }
 }

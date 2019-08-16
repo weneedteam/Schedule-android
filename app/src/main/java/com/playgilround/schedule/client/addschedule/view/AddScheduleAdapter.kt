@@ -1,6 +1,7 @@
 package com.playgilround.schedule.client.addschedule.view
 
 import android.content.Context
+import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -58,14 +59,23 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
                     if (checkEditText(text)) {
                         textContent = text
                         mOnEditorAdapterListener.ableNextButton()
-                        dismissSnackBar()
+                    } else {
+                        mOnEditorAdapterListener.disableNextButton()
                     }
+                }
+
+                override fun afterTextChanged(s: Editable?) {
+
                 }
             })
         }
 
         fun getContent(): String {
             return textContent
+        }
+
+        fun setFocus() {
+            mEditSchedule.requestFocus()
         }
     }
 
@@ -131,7 +141,7 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
     inner class ResultViewHolder(itemView: View): RootViewHolder(itemView)
 
     override fun getItemCount(): Int {
-        return 5
+        return SCHEDULE_MAX
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -142,8 +152,28 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
         mOnEditorAdapterListener = onEditorAdapterListener
     }
 
-    override fun getScheduleField(): String {
+    override fun getScheduleTitle(): String {
         return mTitleViewHolder.getContent()
+    }
+
+    fun setFocus() {
+        when (this.position) {
+            TYPE_SCHEDULE_TITLE -> mTitleViewHolder.setFocus()
+            TYPE_SCHEDULE_DATE -> mDateViewHolder.setFocus()
+            TYPE_SCHEDULE_MEMBER -> mMemberViewHolder.setFocus()
+            TYPE_SCHEDULE_PLACE -> mPlaceViewHolder.setFocus()
+            TYPE_SCHEDULE_MEMO -> mMemoViewHolder.setFocus()
+            TYPE_SCHEDULE_MAP -> mMapViewHolder.setFocus()
+            TYPE_SCHEDULE_RESULT -> mResultViewHolder.setFocus()
+        }
+    }
+
+    fun showSnackBar() {
+
+    }
+
+    fun dismissSnackBar() {
+
     }
 
     companion object {
@@ -154,5 +184,6 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
         const val TYPE_SCHEDULE_MEMO = 4
         const val TYPE_SCHEDULE_MAP = 5
         const val TYPE_SCHEDULE_RESULT = 6
+        const val SCHEDULE_MAX = 7
     }
 }
