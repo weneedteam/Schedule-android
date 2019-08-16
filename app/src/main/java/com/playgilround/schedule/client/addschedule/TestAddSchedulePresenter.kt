@@ -38,4 +38,23 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
         }
         mView.fieldCheck(check)
     }
+
+    override fun onClickBack(position: Int) {
+        when (position) {
+            AddScheduleAdapter.TYPE_SCHEDULE_TITLE -> mSchedule.title = null
+            AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {
+                mSchedule.startDate = null
+                mSchedule.endDate = null
+            }
+            AddScheduleAdapter.TYPE_SCHEDULE_MEMBER -> mSchedule.member = null
+            AddScheduleAdapter.TYPE_SCHEDULE_PLACE -> mSchedule.place = null
+            AddScheduleAdapter.TYPE_SCHEDULE_MEMO -> mSchedule.memo = null
+            AddScheduleAdapter.TYPE_SCHEDULE_MAP -> mSchedule.map = null
+            AddScheduleAdapter.TYPE_SCHEDULE_RESULT -> mSchedule.result = null
+        }
+    }
+
+    override fun scheduleSave() {
+
+    }
 }

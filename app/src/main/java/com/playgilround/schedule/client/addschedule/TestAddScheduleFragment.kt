@@ -56,12 +56,13 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
                 clickable = true
             }
         })
+
+        setOnClickListener()
     }
 
     override fun onResume() {
         super.onResume()
         mPresenter.start()
-        setOnClickListener()
     }
 
     fun setOnClickListener() {

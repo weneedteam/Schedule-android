@@ -13,6 +13,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
+import com.playgilround.schedule.client.signup.view.SignUpAdapter
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
@@ -30,10 +31,18 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
     private lateinit var mOnEditorAdapterListener: OnEditorAdapterListener
 
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
+        internal var textContent: String? = null
+
+        fun getContent(): String? {
+            return textContent
+        }
+
+        abstract fun bind(position: Int)
+    }
+    abstract inner class EditViewHolder(itemView: View): RootViewHolder(itemView) {
 
         val mEditSchedule = itemView.findViewById(R.id.edit_schedule) as EditText
 
-        internal lateinit var textContent: String
         internal var viewPosition: Int = 0
 
         private val mOnEditorActionListener = TextView.OnEditorActionListener {v, actionId, event ->
@@ -46,7 +55,7 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
 
         abstract fun checkEditText(content: String): Boolean
 
-        open fun bind(position: Int) {
+        override fun bind(position: Int) {
             viewPosition = position
             mEditSchedule.setOnEditorActionListener(mOnEditorActionListener)
             mEditSchedule.addTextChangedListener(object: TextWatcher {
@@ -70,14 +79,19 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
             })
         }
 
-        fun getContent(): String {
-            return textContent
-        }
-
         fun setFocus() {
             mEditSchedule.requestFocus()
         }
     }
+
+    abstract inner class EmptyViewHolder(itemView: View): RootViewHolder(itemView) {
+
+        override fun bind(position: Int) {
+
+        }
+    }
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RootViewHolder {
         return when (viewType) {
@@ -122,23 +136,44 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
         }
     }
 
+
     override fun onBindViewHolder(holder: RootViewHolder, position: Int) {
         holder.bind(position)
     }
 
-    inner class TitleViewHolder(itemView: View): RootViewHolder(itemView)
+    inner class TitleViewHolder(itemView: View): EditViewHolder(itemView) {
+        override fun checkEditText(content: String): Boolean {
+            return content.isNotEmpty()
+        }
+    }
 
-    inner class DateViewHolder(itemView: View): RootViewHolder(itemView)
+    inner class DateViewHolder(itemView: View): EmptyViewHolder(itemView) {
 
-    inner class MemberViewHolder(itemView: View): RootViewHolder(itemView)
+    }
 
-    inner class PlaceViewHolder(itemView: View): RootViewHolder(itemView)
+    inner class MemberViewHolder(itemView: View): EmptyViewHolder(itemView) {
 
-    inner class MemoViewHolder(itemView: View): RootViewHolder(itemView)
+    }
 
-    inner class MapViewHolder(itemView: View): RootViewHolder(itemView)
+    inner class PlaceViewHolder(itemView: View): EditViewHolder(itemView) {
+        override fun checkEditText(content: String): Boolean {
+            return content.isNotEmpty()
+        }
+    }
 
-    inner class ResultViewHolder(itemView: View): RootViewHolder(itemView)
+    inner class MemoViewHolder(itemView: View): EditViewHolder(itemView) {
+        override fun checkEditText(content: String): Boolean {
+            return content.isNotEmpty()
+        }
+    }
+
+    inner class MapViewHolder(itemView: View): EmptyViewHolder(itemView) {
+
+    }
+
+    inner class ResultViewHolder(itemView: View): EmptyViewHolder(itemView) {
+
+    }
 
     override fun getItemCount(): Int {
         return SCHEDULE_MAX
@@ -152,19 +187,19 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
         mOnEditorAdapterListener = onEditorAdapterListener
     }
 
-    override fun getScheduleTitle(): String {
+    override fun getScheduleTitle(): String? {
         return mTitleViewHolder.getContent()
     }
 
     fun setFocus() {
         when (this.position) {
             TYPE_SCHEDULE_TITLE -> mTitleViewHolder.setFocus()
-            TYPE_SCHEDULE_DATE -> mDateViewHolder.setFocus()
-            TYPE_SCHEDULE_MEMBER -> mMemberViewHolder.setFocus()
+            TYPE_SCHEDULE_DATE -> null
+            TYPE_SCHEDULE_MEMBER -> null
             TYPE_SCHEDULE_PLACE -> mPlaceViewHolder.setFocus()
             TYPE_SCHEDULE_MEMO -> mMemoViewHolder.setFocus()
-            TYPE_SCHEDULE_MAP -> mMapViewHolder.setFocus()
-            TYPE_SCHEDULE_RESULT -> mResultViewHolder.setFocus()
+            TYPE_SCHEDULE_MAP -> null
+            TYPE_SCHEDULE_RESULT -> null
         }
     }
 
