@@ -18,6 +18,10 @@ interface SignUpContract {
 
         fun onClickBack(position: Int)
 
+        fun validateEmail(email: String): Boolean
+
+        fun validateNickName(nickName: String): Boolean
+
         fun signUp()
     }
 }
