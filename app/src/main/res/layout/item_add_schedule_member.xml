@@ -34,8 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginStart="34dp"
-            android:src="@drawable/add_btn" />
-
+            android:src="@drawable/search_icon" />
 
         <androidx.appcompat.widget.AppCompatEditText
             android:id="@+id/edit_member_search"

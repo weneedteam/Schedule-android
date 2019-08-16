@@ -7,8 +7,6 @@ import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,26 +23,25 @@ import com.nispok.snackbar.enums.SnackbarType
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.data.User
 import com.playgilround.schedule.client.signup.model.UserDataModel
+import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
 class SignUpAdapter(private val context: Context): RecyclerView.Adapter<SignUpAdapter.RootViewHolder>(), UserDataModel {
     var position = 0
 
-    private lateinit var mOnSignUpAdapterListener: OnSignUpAdapterListener
+    private lateinit var mOnEditorAdapterListener: OnEditorAdapterListener
     abstract inner class RootViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         val mEditSignUp: EditText = itemView.findViewById(R.id.edit_sign_up)
         internal lateinit var textContent: String
         internal var viewPosition: Int = 0
 
-        private val mOnEditorActionListener = object : TextView.OnEditorActionListener {
-            override fun onEditorAction(v: TextView, actionId: Int, event: KeyEvent): Boolean {
-                if (actionId == EditorInfo.IME_ACTION_DONE && mOnSignUpAdapterListener != null) {
-                    mOnSignUpAdapterListener.onNextField(viewPosition)
-                    return true
-                }
-                return false
+        private val mOnEditorActionListener = TextView.OnEditorActionListener { v, actionId, event ->
+            if (actionId == EditorInfo.IME_ACTION_DONE && mOnEditorAdapterListener != null) {
+                mOnEditorAdapterListener.onNextField(viewPosition)
+                return@OnEditorActionListener true
             }
+            false
         }
 
         abstract fun checkEditText(content: String): Boolean
@@ -61,10 +58,10 @@ class SignUpAdapter(private val context: Context): RecyclerView.Adapter<SignUpAd
                     val text = mEditSignUp.text.toString().trim()
                     if (checkEditText(text)) {
                         textContent = text
-                        mOnSignUpAdapterListener.ableNextButton()
+                        mOnEditorAdapterListener.ableNextButton()
                         dismissSnackBar()
                     } else {
-                        mOnSignUpAdapterListener.disableNextButton()
+                        mOnEditorAdapterListener.disableNextButton()
                         dismissSnackBar()
                     }
                 }
@@ -290,8 +287,8 @@ class SignUpAdapter(private val context: Context): RecyclerView.Adapter<SignUpAd
         return SIGN_UP_MAX
     }
 
-    fun setOnSignUpNextFieldListener(onSignUpAdapterListener: OnSignUpAdapterListener) {
-        mOnSignUpAdapterListener = onSignUpAdapterListener
+    fun setOnSignUpNextFieldListener(onEditorAdapterListener: OnEditorAdapterListener) {
+        mOnEditorAdapterListener = onEditorAdapterListener
     }
 
     fun showSnackBar() {
