@@ -12,6 +12,8 @@ interface TestAddScheduleContract {
     interface Presenter: BasePresenter {
         fun onClickNext(position: Int)
 
+        fun onClickBack(position: Int)
+
         fun scheduleSave()
     }
 }

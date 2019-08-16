@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.base.BaseFragment
+import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import kotlinx.android.synthetic.main.add_schedule_frag.*
 
 class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
@@ -39,6 +40,22 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         recycler_add_schedule.adapter = mAdapter
 
         PagerSnapHelper().attachToRecyclerView(recycler_add_schedule)
+
+        mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
+            override fun onNextField(position: Int) {
+                mPresenter.onClickBack(position)
+            }
+
+            override fun disableNextButton() {
+                schedule_next_btn.setImageResource(R.drawable.disable_btn)
+                clickable = false
+            }
+
+            override fun ableNextButton() {
+                schedule_next_btn.setImageResource(R.drawable.image_next)
+                clickable = true
+            }
+        })
     }
 
     override fun onResume() {
