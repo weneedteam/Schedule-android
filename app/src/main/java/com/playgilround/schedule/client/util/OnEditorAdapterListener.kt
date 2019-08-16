@@ -1,6 +1,6 @@
-package com.playgilround.schedule.client.signup.view
+package com.playgilround.schedule.client.util
 
-interface OnSignUpAdapterListener {
+interface OnEditorAdapterListener {
 
     fun onNextField(position: Int)
 
