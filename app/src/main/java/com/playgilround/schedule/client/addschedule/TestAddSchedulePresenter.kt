@@ -29,7 +29,12 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
                 mSchedule.title = mScheduleDataModel.getScheduleTitle()
                 check = mSchedule.title != null
             }
-            AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {}
+            AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {
+                //TEST
+                mSchedule.startDate = "2019-06-22T17:30:00"
+                mSchedule.endDate = "2019-06-22T17:30:00"
+                check = true
+            }
             AddScheduleAdapter.TYPE_SCHEDULE_MEMBER -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_PLACE -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_MEMO -> {}

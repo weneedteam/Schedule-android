@@ -37,7 +37,7 @@
             android:src="@drawable/search_icon" />
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/edit_member_search"
+            android:id="@+id/edit_schedule"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="5dp"
