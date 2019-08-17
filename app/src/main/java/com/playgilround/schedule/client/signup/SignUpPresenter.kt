@@ -8,6 +8,9 @@ import com.playgilround.schedule.client.retrofit.APIClient
 import com.playgilround.schedule.client.retrofit.UserAPI
 import com.playgilround.schedule.client.signup.model.UserDataModel
 import com.playgilround.schedule.client.signup.view.SignUpAdapter
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
 class SignUpPresenter constructor(mContext: Context, private val mView: SignUpContract.View, private val mUserDataModel: UserDataModel): SignUpContract.Presenter {
@@ -40,7 +43,7 @@ class SignUpPresenter constructor(mContext: Context, private val mView: SignUpCo
 
             SignUpAdapter.TYPE_EMAIL -> {
                 mUser.email = mUserDataModel.getEmailField()
-                check = mUser.email != null
+                check = validateEmail(mUser.email)
             }
 
             SignUpAdapter.TYPE_PASSWORD -> {
@@ -55,7 +58,7 @@ class SignUpPresenter constructor(mContext: Context, private val mView: SignUpCo
 
             SignUpAdapter.TYPE_NICK_NAME -> {
                 mUser.nickname = mUserDataModel.getNicknameField()
-                check = mUser.nickname != null
+                check = validateNickName(mUser.nickname)
             }
 
             SignUpAdapter.TYPE_BIRTH -> {
@@ -75,6 +78,34 @@ class SignUpPresenter constructor(mContext: Context, private val mView: SignUpCo
             SignUpAdapter.TYPE_NICK_NAME -> mUser.nickname = null
             SignUpAdapter.TYPE_BIRTH -> mUser.birth = null
         }
+    }
+
+    override fun validateEmail(email: String): Boolean {
+        val retrofit = APIClient.getClient()
+        val userAPI = retrofit.create(UserAPI::class.java)
+        var isValidEmail = false
+
+        runBlocking {
+            launch(Dispatchers.Default) {
+                val response = userAPI.checkEmail(email).execute()
+                isValidEmail = response.isSuccessful && response.body() != null
+            }
+        }
+        return isValidEmail
+    }
+
+    override fun validateNickName(nickName: String): Boolean {
+        val retrofit = APIClient.getClient()
+        val userAPI = retrofit.create(UserAPI::class.java)
+        var isValidNickname = false
+
+        runBlocking {
+            launch(Dispatchers.Default) {
+                val response = userAPI.checkNickName(nickName).execute()
+                isValidNickname = response.isSuccessful && response.body() != null
+            }
+        }
+        return isValidNickname
     }
 
     override fun signUp() {

@@ -4,7 +4,7 @@ public class BaseUrl {
 
     // Readme 앞으로는 아래에 IP만 바꿔서 사용하기
     // static final String BASE_URL = "http://schedule-prod.ap-northeast-2.elasticbeanstalk.com/api/v1/";
-    static final String BASE_URL = "http://127.0.0.1:8000/";
+    static final String BASE_URL = "http://192.168.150.11:8000/";
 
 
     static final String PATH_TOKEN_SIGN_IN = "api-token-verify/";
@@ -40,8 +40,8 @@ public class BaseUrl {
 
     //User
     static final String PATH_SIGN_UP = "/v1/user/user/"; //회원가입
-    static final String PATH_DUPLICATE_EMAIL = "/v1/user/email-validate/?email={email}";//이메일 중복 검사
-    static final String PATH_DUPLICATE_NICKNAME = "/v1/user/nickname-validate/?nickname={nickname}";//닉네임 중복 검사
+    static final String PATH_DUPLICATE_EMAIL = "/v1/user/email-validate/";//이메일 중복 검사
+    static final String PATH_DUPLICATE_NICKNAME = "/v1/user/nickname-validate/";//닉네임 중복 검사
     static final String PATH_EMAIL_SIGN_IN = "/api-token-auth/"; //로그인
     static final String PATH_USER_PROFILE = "/v1/user/user/{user_id}/";//유저 프로필
     static final String PATH_USER_PROFILE_UPDATE = "/v1/user/user/{user_id}/";//유저 프로필 업데이트
