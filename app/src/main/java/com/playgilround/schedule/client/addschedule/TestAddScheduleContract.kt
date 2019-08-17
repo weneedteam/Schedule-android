@@ -15,5 +15,9 @@ interface TestAddScheduleContract {
         fun onClickBack(position: Int)
 
         fun scheduleSave()
+
+        fun getFriendList()
+
+        fun rxUnSubscribe()
     }
 }

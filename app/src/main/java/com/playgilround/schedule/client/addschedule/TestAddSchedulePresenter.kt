@@ -5,6 +5,7 @@ import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.data.ScheduleData
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 class TestAddSchedulePresenter constructor(mContext: Context?, private val mView: TestAddScheduleContract.View, private val mScheduleDataModel: ScheduleDataModel): TestAddScheduleContract.Presenter {
@@ -12,9 +13,12 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
     @Inject
     internal lateinit var mSchedule: ScheduleData
 
+    private var mCompositeDisposable: CompositeDisposable
+
     init {
         mView.setPresenter(this)
         (mContext?.applicationContext as ScheduleApplication).appComponent.addScheduleInject(this)
+        mCompositeDisposable = CompositeDisposable()
     }
 
     override fun start() {
@@ -61,5 +65,13 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
 
     override fun scheduleSave() {
 
+    }
+
+    override fun getFriendList() {
+        val disposable = m
+    }
+
+    override fun rxUnSubscribe() {
+     if (null != mCompositeDisposable) mCompositeDisposable.clear()
     }
 }
