@@ -5,13 +5,21 @@ import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.data.ScheduleData
+import com.playgilround.schedule.client.data.repository.FriendRepository
+import com.playgilround.schedule.client.model.ResponseMessage
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TestAddSchedulePresenter constructor(mContext: Context?, private val mView: TestAddScheduleContract.View, private val mScheduleDataModel: ScheduleDataModel): TestAddScheduleContract.Presenter {
 
     @Inject
     internal lateinit var mSchedule: ScheduleData
+
+    @Inject
+    internal lateinit var mFriendRepository: FriendRepository
 
     private var mCompositeDisposable: CompositeDisposable
 
@@ -68,7 +76,11 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
     }
 
     override fun getFriendList() {
-        val disposable = m
+        val disposable = mFriendRepository.getFriendList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(DisposableSingleObserver<ResponseMessage>()) {
+            }
     }
 
     override fun rxUnSubscribe() {
