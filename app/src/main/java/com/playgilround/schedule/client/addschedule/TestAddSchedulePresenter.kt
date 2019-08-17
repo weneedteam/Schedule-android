@@ -1,11 +1,14 @@
 package com.playgilround.schedule.client.addschedule
 
 import android.content.Context
+import android.util.Log
 import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
+import com.playgilround.schedule.client.data.FriendList
 import com.playgilround.schedule.client.data.ScheduleData
 import com.playgilround.schedule.client.data.repository.FriendRepository
+import com.playgilround.schedule.client.model.BaseResponse
 import com.playgilround.schedule.client.model.ResponseMessage
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,7 +28,7 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
 
     init {
         mView.setPresenter(this)
-        (mContext?.applicationContext as ScheduleApplication).appComponent.addScheduleInject(this)
+        (mContext?.applicationContext as ScheduleApplication).appComponent.getFriendInject(this)
         mCompositeDisposable = CompositeDisposable()
     }
 
@@ -79,8 +82,18 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
         val disposable = mFriendRepository.getFriendList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(DisposableSingleObserver<ResponseMessage>()) {
-            }
+                .subscribeWith(object: DisposableSingleObserver<BaseResponse>() {
+//                .subscribeWith(object :DisposableSingleObserver<BaseResponse<FriendList>>() {
+                    override fun onSuccess(response: BaseResponse) {
+                        Log.d("TEST", "onSuccess getFriendList")
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.d("TEST", "onError getFriendList")
+                    }
+
+            })
+        mCompositeDisposable.add(disposable)
     }
 
     override fun rxUnSubscribe() {

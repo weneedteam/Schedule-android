@@ -16,7 +16,6 @@ interface AppComponent {
     fun signInInject(presenter: SignInPresenter)
     fun tutorialInject(presenter: TutorialPresenter)
     fun signUpInject(presenter: SignUpPresenter)
-    fun addScheduleInject(presenter: TestAddSchedulePresenter)
     fun getFriendInject(presenter: TestAddSchedulePresenter)
 }
 

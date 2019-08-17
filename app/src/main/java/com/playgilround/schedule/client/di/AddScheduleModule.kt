@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.di
 
 import com.playgilround.schedule.client.addschedule.TestAddScheduleFragment
@@ -9,4 +10,4 @@ interface AddScheduleModule {
 
     @ContributesAndroidInjector
     fun addScheduleFragment(): TestAddScheduleFragment
-}
+}*/
