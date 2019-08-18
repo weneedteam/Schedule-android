@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.addschedule
 
 import android.content.Context
@@ -99,3 +100,4 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
      if (null != mCompositeDisposable) mCompositeDisposable.clear()
     }
 }
+*/

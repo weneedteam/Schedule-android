@@ -1,7 +1,9 @@
 package com.playgilround.schedule.client.retrofit;
 
 import com.google.gson.JsonObject;
+import com.playgilround.schedule.client.model.BaseResponse;
 
+import io.reactivex.Single;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -15,7 +17,7 @@ public interface FriendAPI {
     //친구 리스트 확인
     @Headers({"Accept: application/json"})
     @GET(BaseUrl.PATH_REQUEST_FRIEND)
-    Call<JsonObject> getFriendList();
+    Single<BaseResponse> friendList();
 
     //친구 요청
     @Headers({"Accept: application/json"})

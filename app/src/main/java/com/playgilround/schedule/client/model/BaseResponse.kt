@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.model
 
 import com.google.gson.annotations.Expose
@@ -12,4 +13,4 @@ class BaseResponse<T> {
     @Expose
     var message: T? = null
 
-}
+}*/
