@@ -16,10 +16,17 @@ import javax.inject.Singleton
 @Singleton
 class FriendRemoteDataSource @Inject constructor(val context: Context): FriendDataSource {
 
+    private lateinit var friendAPI: FriendAPI
     override fun getFriendList(): Single<ResponseMessage> {
         val retrofit = APIClient.getClient()
         val friendAPI = retrofit.create(FriendAPI::class.java)
 //        return getFriendList()
 //        friendAPI.friendList().enq
+    }
+
+    fun getFriendService(): FriendAPI {
+        if (null == friendAPI) {
+            friendAPI =
+        }
     }
 }
