@@ -82,16 +82,15 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
         val disposable = mFriendRepository.getFriendList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: DisposableSingleObserver<BaseResponse>() {
-//                .subscribeWith(object :DisposableSingleObserver<BaseResponse<FriendList>>() {
-                    override fun onSuccess(response: BaseResponse) {
+                .subscribeWith(object: DisposableSingleObserver<BaseResponse<FriendList>>() {
+                    override fun onSuccess(response: BaseResponse<FriendList>) {
                         Log.d("TEST", "onSuccess getFriendList")
+                        mView.setFriendInfo(response.message!!)
                     }
 
                     override fun onError(e: Throwable) {
                         Log.d("TEST", "onError getFriendList")
                     }
-
             })
         mCompositeDisposable.add(disposable)
     }

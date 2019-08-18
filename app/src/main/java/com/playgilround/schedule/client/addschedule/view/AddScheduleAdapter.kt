@@ -15,11 +15,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
+import com.playgilround.schedule.client.data.FriendList
 import com.playgilround.schedule.client.signup.view.SignUpAdapter
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
-class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
+class AddScheduleAdapter constructor(private val mContext: Context?, private val friendList: FriendList): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
 
     var position = 0
     private lateinit var mTitleViewHolder: TitleViewHolder
