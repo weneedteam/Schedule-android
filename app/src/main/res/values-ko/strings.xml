@@ -120,6 +120,8 @@
     <string name="hint_birth">생년월일(19950818)</string>
     <string name="hint_nick_name">닉네임</string>
     <string name="hint_name">이름</string>
+    <string name="hint_nick_name_search">닉네임 검색</string>
+
 
     <string name="hint_add_schedule_title">일정 입력</string>
     <string name="hint_schedule_search_user">유저 검색</string>
