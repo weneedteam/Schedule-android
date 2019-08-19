@@ -27,7 +27,7 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
     private final Context mContext;
     private final TestAddScheduleContract.View mView;
     private final CompositeDisposable mCompositeDisposable;
-    private ScheduleDataModel mScheduleDataModel;
+//    private ScheduleDataModel mScheduleDataModel;
 
 
     @Inject
@@ -36,14 +36,15 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
     @Inject
     FriendRepository mFriendRepository;
 
-    TestAddSchedulePresenter(Context context, TestAddScheduleContract.View view, ScheduleDataModel scheduleDataModel) {
+//    TestAddSchedulePresenter(Context context, TestAddScheduleContract.View view, ScheduleDataModel scheduleDataModel) {
+    TestAddSchedulePresenter(Context context, TestAddScheduleContract.View view) {
         mView = view;
         mContext = context;
 
         mView.setPresenter(this);
         ((ScheduleApplication) mContext.getApplicationContext()).appComponent.getFriendInject(this);
         mCompositeDisposable = new CompositeDisposable();
-        mScheduleDataModel = scheduleDataModel;
+//        mScheduleDataModel = scheduleDataModel;
     }
 
 
@@ -59,7 +60,7 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
 
         switch (position) {
             case AddScheduleAdapter.TYPE_SCHEDULE_TITLE: {
-                mSchedule.setTitle(mScheduleDataModel.getScheduleTitle());
+//                mSchedule.setTitle(mScheduleDataModel.getScheduleTitle());
                 check = mSchedule.getTitle() != null;
             }
             case AddScheduleAdapter.TYPE_SCHEDULE_DATE: {
@@ -128,7 +129,7 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
                     @Override
                     public void onSuccess(@NonNull BaseResponse<FriendList> response) {
                         Log.d("TEST", "onSuccess getFriendList");
-                        mView.setFriendInfo(response.getMessage());
+                        mView.updateFriendInfo(response.getMessage());
                     }
 
                     @Override

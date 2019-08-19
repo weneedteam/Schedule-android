@@ -15,14 +15,14 @@ import javax.inject.Singleton
 
 @Singleton
 class FriendRemoteDataSource @Inject constructor(private val mHttpUtils: HttpUtils): FriendDataSource {
-    private lateinit var friendAPI: FriendAPI
+    private var friendAPI: FriendAPI? = null
 
 
     override fun getFriendList(): Single<BaseResponse<FriendList>>? {
-        return getFriendService().friendList()
+        return getFriendService()?.friendList()
     }
 
-    private fun getFriendService(): FriendAPI {
+    private fun getFriendService(): FriendAPI? {
         if (null == friendAPI) {
             friendAPI = mHttpUtils.getRetrofitKey()!!.create(FriendAPI::class.java)
         }

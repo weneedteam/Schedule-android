@@ -13,7 +13,7 @@ class TestAddScheduleActivity: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_schedule)
 
-        var testAddScheduleFragment = supportFragmentManager.findFragmentById(R.id.add_schedule_frag) as TestAddScheduleFragment
+        var testAddScheduleFragment = supportFragmentManager.findFragmentById(R.id.add_schedule_frag)
 
         if (null == testAddScheduleFragment) {
             testAddScheduleFragment = TestAddScheduleFragment.newInstance()

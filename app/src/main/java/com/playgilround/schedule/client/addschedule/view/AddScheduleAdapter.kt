@@ -20,7 +20,7 @@ import com.playgilround.schedule.client.signup.view.SignUpAdapter
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
-class AddScheduleAdapter constructor(private val mContext: Context?, private val friendList: FriendList): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
+class AddScheduleAdapter constructor(private val mContext: Context?, private val friendList: FriendList?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
 
     var position = 0
     private lateinit var mTitleViewHolder: TitleViewHolder
@@ -32,6 +32,8 @@ class AddScheduleAdapter constructor(private val mContext: Context?, private val
     private lateinit var mResultViewHolder: ResultViewHolder
 
     private lateinit var mOnEditorAdapterListener: OnEditorAdapterListener
+
+    private var mDataList: FriendList? = null
 
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         internal var textContent: String? = null
@@ -226,6 +228,12 @@ class AddScheduleAdapter constructor(private val mContext: Context?, private val
 
     fun dismissSnackBar() {
 
+    }
+
+
+    fun updateDataList(friendList: FriendList?) {
+        mDataList = friendList
+        notifyDataSetChanged()
     }
 
     companion object {
