@@ -13,7 +13,9 @@ import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.base.BaseFragment
 import com.playgilround.schedule.client.data.FriendList
+import com.playgilround.schedule.client.model.Friend
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.add_schedule_frag.*
 
 class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
@@ -24,6 +26,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
     private var clickable = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+//        TestAddSchedulePresenter(context, this, mAdapter)
         TestAddSchedulePresenter(context, this)
         mPresenter.getFriendList()
         return  inflater.inflate(R.layout.add_schedule_frag, container, false)
@@ -39,7 +42,6 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
             }
         })
         PagerSnapHelper().attachToRecyclerView(recycler_add_schedule)
-
         setOnClickListener()
     }
 
@@ -81,6 +83,10 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         } else {
             mAdapter.showSnackBar()
         }
+    }
+
+    override fun setLocalFriendData(data: RealmResults<Friend>) {
+
     }
 
     override fun updateFriendInfo(list: FriendList) {

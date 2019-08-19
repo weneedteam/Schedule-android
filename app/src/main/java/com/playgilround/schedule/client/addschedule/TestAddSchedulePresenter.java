@@ -10,6 +10,7 @@ import com.playgilround.schedule.client.data.FriendList;
 import com.playgilround.schedule.client.data.ScheduleData;
 import com.playgilround.schedule.client.data.repository.FriendRepository;
 import com.playgilround.schedule.client.model.BaseResponse;
+import com.playgilround.schedule.client.model.Friend;
 import com.playgilround.schedule.client.model.ResponseMessage;
 
 import javax.inject.Inject;
@@ -20,10 +21,12 @@ import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 public class TestAddSchedulePresenter implements TestAddScheduleContract.Presenter {
 
-
+    private final Realm mRealm;
     private final Context mContext;
     private final TestAddScheduleContract.View mView;
     private final CompositeDisposable mCompositeDisposable;
@@ -40,6 +43,7 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
     TestAddSchedulePresenter(Context context, TestAddScheduleContract.View view) {
         mView = view;
         mContext = context;
+        mRealm = Realm.getDefaultInstance();
 
         mView.setPresenter(this);
         ((ScheduleApplication) mContext.getApplicationContext()).appComponent.getFriendInject(this);
@@ -60,7 +64,7 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
 
         switch (position) {
             case AddScheduleAdapter.TYPE_SCHEDULE_TITLE: {
-//                mSchedule.setTitle(mScheduleDataModel.getScheduleTitle());
+                mSchedule.setTitle("TEST Value");
                 check = mSchedule.getTitle() != null;
             }
             case AddScheduleAdapter.TYPE_SCHEDULE_DATE: {
@@ -120,6 +124,17 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
 
     }
 
+    @Override
+    public void getLocalFriendList() {
+        mRealm.executeTransaction(realm -> {
+            RealmResults<Friend> friend = realm.where(Friend.class).findAll();
+
+            if (friend.size() != 0) {
+                mView.setLocalFriendData(friend);
+            }
+        });
+
+    }
     @Override
     public void getFriendList() {
         Disposable disposable = mFriendRepository.getFriendList()

@@ -22,7 +22,7 @@ class ScheduleApplication: Application() {
         Realm.init(this)
         val config = RealmConfiguration.Builder()
                 .name(getString(R.string.realm_name))
-                .schemaVersion(3)
+                .schemaVersion(4)
                 .migration(ScheduleMigration())
                 .deleteRealmIfMigrationNeeded()
                 .build()
