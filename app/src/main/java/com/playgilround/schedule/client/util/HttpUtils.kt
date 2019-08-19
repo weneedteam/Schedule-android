@@ -11,8 +11,11 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class HttpUtils constructor(private val mContext: Context) {
+@Singleton
+class HttpUtils @Inject constructor(private val mContext: Context) {
     private val API_BASE_URL = "http://192.168.150.11:8000/"
 
     private var retrofitKey: Retrofit? = null
@@ -61,13 +64,6 @@ class HttpUtils constructor(private val mContext: Context) {
            val connectivityManager = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
            val networkInfo = connectivityManager.activeNetworkInfo
            return (networkInfo != null && networkInfo.isConnected)
-       }
-
-       fun getInstance(context: Context): HttpUtils {
-           if (null == INSTANCE) {
-               INSTANCE = HttpUtils(context)
-           }
-           return INSTANCE as HttpUtils
        }
    }
 

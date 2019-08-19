@@ -1,6 +1,5 @@
 package com.playgilround.schedule.client.addschedule
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -25,22 +24,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
     private var clickable = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mAdapter = AddScheduleAdapter(context)
-        mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
-            override fun onNextField(position: Int) {
-                mPresenter.onClickBack(position)
-            }
-
-            override fun disableNextButton() {
-                schedule_next_btn.setImageResource(R.drawable.disable_btn)
-                clickable = false
-            }
-
-            override fun ableNextButton() {
-                schedule_next_btn.setImageResource(R.drawable.image_next)
-                clickable = true
-            }
-        })
+        mAdapter = AddScheduleAdapter(context, mFriendList)
         TestAddSchedulePresenter(context, this, mAdapter)
         mPresenter.getFriendList()
         return  inflater.inflate(R.layout.add_schedule_frag, container, false)
@@ -102,11 +86,8 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         }
     }
 
-    override fun setFriendInfo(result: String) {
-       }
-/*    override fun setFriendInfo(list: FriendList) {
+    override fun setFriendInfo(list: FriendList) {
         mFriendList = list
-        mAdapter = AddScheduleAdapter(context, mFriendList)
         recycler_add_schedule.adapter = mAdapter
         mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
             override fun onNextField(position: Int) {
@@ -123,7 +104,7 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
                 clickable = true
             }
         })
-    }*/
+    }
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {
         mPresenter = presenter
     }

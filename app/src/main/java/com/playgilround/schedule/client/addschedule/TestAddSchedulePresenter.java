@@ -6,8 +6,10 @@ import android.util.Log;
 import com.playgilround.schedule.client.ScheduleApplication;
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel;
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter;
+import com.playgilround.schedule.client.data.FriendList;
 import com.playgilround.schedule.client.data.ScheduleData;
 import com.playgilround.schedule.client.data.repository.FriendRepository;
+import com.playgilround.schedule.client.model.BaseResponse;
 import com.playgilround.schedule.client.model.ResponseMessage;
 
 import javax.inject.Inject;
@@ -43,6 +45,8 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
         mCompositeDisposable = new CompositeDisposable();
         mScheduleDataModel = scheduleDataModel;
     }
+
+
 
     @Override
     public void start() {
@@ -120,9 +124,9 @@ public class TestAddSchedulePresenter implements TestAddScheduleContract.Present
         Disposable disposable = mFriendRepository.getFriendList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableSingleObserver<ResponseMessage>() {
+                .subscribeWith(new DisposableSingleObserver<BaseResponse<FriendList>>() {
                     @Override
-                    public void onSuccess(@NonNull ResponseMessage response) {
+                    public void onSuccess(@NonNull BaseResponse<FriendList> response) {
                         Log.d("TEST", "onSuccess getFriendList");
                         mView.setFriendInfo(response.getMessage());
                     }

@@ -9,8 +9,7 @@ interface TestAddScheduleContract {
     interface View: BaseView<Presenter> {
         fun fieldCheck(check: Boolean)
 
-        //        fun setFriendInfo(list: FriendList)
-        fun setFriendInfo(result: String)
+        fun setFriendInfo(list: FriendList)
     }
 
     interface Presenter: BasePresenter {

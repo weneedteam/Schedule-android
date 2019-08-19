@@ -7,11 +7,13 @@ import com.playgilround.schedule.client.util.ActivityUtils
 
 class TestAddScheduleActivity: AppCompatActivity() {
 
+    lateinit var mPresenter: TestAddScheduleContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_schedule)
 
-        var testAddScheduleFragment = supportFragmentManager.findFragmentById(R.id.add_schedule_frag)
+        var testAddScheduleFragment = supportFragmentManager.findFragmentById(R.id.add_schedule_frag) as TestAddScheduleFragment
 
         if (null == testAddScheduleFragment) {
             testAddScheduleFragment = TestAddScheduleFragment.newInstance()
