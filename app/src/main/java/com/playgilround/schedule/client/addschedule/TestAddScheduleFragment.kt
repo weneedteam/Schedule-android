@@ -26,8 +26,23 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
     private var clickable = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-//        TestAddSchedulePresenter(context, this, mAdapter)
-        TestAddSchedulePresenter(context, this)
+        mAdapter = AddScheduleAdapter(context, mFriendList)
+        TestAddSchedulePresenter(context, this, mAdapter)
+        mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
+            override fun onNextField(position: Int) {
+                mPresenter.onClickBack(position)
+            }
+
+            override fun disableNextButton() {
+                schedule_next_btn.setImageResource(R.drawable.disable_btn)
+                clickable = false
+            }
+
+            override fun ableNextButton() {
+                schedule_next_btn.setImageResource(R.drawable.image_next)
+                clickable = true
+            }
+        })
         mPresenter.getFriendList()
         return  inflater.inflate(R.layout.add_schedule_frag, container, false)
     }
@@ -89,6 +104,10 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     }
 
+    override fun noFriendInfo() {
+        recycler_add_schedule.adapter = mAdapter
+    }
+
     override fun updateFriendInfo(list: FriendList) {
         if (mAdapter == null) {
             mFriendList = list
@@ -97,22 +116,6 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         } else {
             mAdapter.updateDataList(list)
         }
-
-        mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
-            override fun onNextField(position: Int) {
-                mPresenter.onClickBack(position)
-            }
-
-            override fun disableNextButton() {
-                schedule_next_btn.setImageResource(R.drawable.disable_btn)
-                clickable = false
-            }
-
-            override fun ableNextButton() {
-                schedule_next_btn.setImageResource(R.drawable.image_next)
-                clickable = true
-            }
-        })
     }
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {
         mPresenter = presenter

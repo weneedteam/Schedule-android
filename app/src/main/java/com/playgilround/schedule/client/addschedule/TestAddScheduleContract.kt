@@ -14,6 +14,8 @@ interface TestAddScheduleContract {
         fun updateFriendInfo(list: FriendList)
 
         fun setLocalFriendData(data: RealmResults<Friend>)
+
+        fun noFriendInfo()
     }
 
     interface Presenter: BasePresenter {
