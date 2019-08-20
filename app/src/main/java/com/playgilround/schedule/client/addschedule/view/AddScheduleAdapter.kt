@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
 import com.playgilround.schedule.client.data.FriendList
-import com.playgilround.schedule.client.signup.view.SignUpAdapter
+import com.playgilround.schedule.client.friend.view.FriendListAdapter
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 

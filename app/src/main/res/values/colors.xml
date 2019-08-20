@@ -103,6 +103,7 @@
     <color name="color_schedule">#E3CEF6</color>
 
     <color name="defaultColor">#2962FF</color>
+    <color name="light_grey">#dadada</color>
 
 
 </resources>

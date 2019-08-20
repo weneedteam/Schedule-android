@@ -1,10 +1,9 @@
-package com.playgilround.schedule.client.addschedule.view
+package com.playgilround.schedule.client.friend.view
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.view.menu.ActionMenuItemView
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 

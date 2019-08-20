@@ -133,6 +133,7 @@
     <string name="text_destination">Destination</string>
     <string name="text_my_profile">내 프로필</string>
     <string name="text_friend">친구</string>
+    <string name="text_request_friend">친구 요청</string>
     <string name="text_exit_app">Exit App?</string>
     <string name="text_request_cancel">Request Cancel</string>
 
@@ -212,4 +213,6 @@
 
     <!-- Kakao App Key -->
     <string name="kakao_app_key">afca4cbd1f0ba11a14daffadd9d96472</string>
+    <string name="text_accept">수락</string>
+    <string name="text_refuse">거절</string>
 </resources>
