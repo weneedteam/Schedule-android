@@ -1,3 +1,4 @@
+/*
 package com.playgilround.schedule.client.profile;
 
 
@@ -12,10 +13,12 @@ import com.playgilround.schedule.client.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+*/
 /**
  * 19-03-15
  * 나(친구) 프로필 관련 Fragment
- */
+ *//*
+
 public class ProfileActivity extends Activity {
 
     @BindView(R.id.fabTop)
@@ -70,3 +73,4 @@ public class ProfileActivity extends Activity {
         super.onStart();
     }
 }
+*/

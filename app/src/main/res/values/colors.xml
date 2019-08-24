@@ -96,6 +96,7 @@
     <color name="color_profile">#757575</color>
     <color name="color_simple_gray">#bdbdbd</color>
     <color name="color_profile_gray">#979797</color>
+    <color name="color_profile_text_gray">#383838</color>
 
     <color name="color_profile_menu">#5c4b69</color>
 

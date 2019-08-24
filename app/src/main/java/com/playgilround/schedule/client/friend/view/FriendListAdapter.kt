@@ -1,11 +1,14 @@
 package com.playgilround.schedule.client.friend.view
 
 import android.content.Context
+import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
+import com.playgilround.schedule.client.profile.TestProfileActivity
 
 /**
  * 19-08-17
@@ -19,7 +22,14 @@ class FriendListAdapter constructor(private val mContext: Context?): RecyclerVie
         }
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendViewHolder {
-        return FriendViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_friend, parent, false))
+        val rootView = LayoutInflater.from(parent.context)
+                .inflate(R.layout.item_friend, parent, false)
+
+        val holder = FriendViewHolder(rootView)
+        holder.itemView.setOnClickListener {
+            mContext?.startActivity(Intent(mContext, TestProfileActivity::class.java))
+        }
+        return holder
     }
 
     override fun onBindViewHolder(holder: FriendViewHolder, position: Int) {

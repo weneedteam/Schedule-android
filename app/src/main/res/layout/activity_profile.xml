@@ -1,140 +1,159 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
 
     <ImageView
+        android:id="@+id/iv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="70dp"
+        android:layout_marginStart="17dp"
+        android:src="@drawable/back_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/ivProfile"
-        android:layout_width="match_parent"
-        android:layout_height="254dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/test_profile" />
+        android:layout_width="82dp"
+        android:layout_height="82dp"
+        android:src="@drawable/test_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_back" />
 
     <TextView
         android:id="@+id/tvNickName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="206dp"
-        android:fontFamily="sans-serif"
+        android:layout_marginTop="5dp"
         android:text="한큐에 쏜다"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivProfile" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="276dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/friend_profile" />
-
-        <TextView
-            android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif"
-            android:text="한규언"
-            android:textColor="@color/light_indigo"
-            android:textSize="18sp"
-            android:textStyle="normal" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="322dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/friend_profile_birth" />
-
-        <TextView
-            android:id="@+id/tvBirth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="7dp"
-            android:fontFamily="sans-serif"
-            android:text="2001.03.18"
-            android:textColor="@color/color_profile_gray"
-            android:textSize="16sp"
-            android:textStyle="normal" />
-    </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginTop="353dp">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/friend_profile_email" />
-
-        <TextView
-            android:id="@+id/tvEmail"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="39dp"
-            android:layout_marginTop="4dp"
-            android:fontFamily="sans-serif"
-            android:text="hanku@gmail.com"
-            android:textColor="@color/color_profile_gray"
-            android:textSize="16sp"
-            android:textStyle="normal" />
-    </RelativeLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabTop"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="157dp"
-        android:src="@drawable/favorite_off"
-        app:fabSize="mini"
-        android:visibility="invisible"
-        app:backgroundTint="@color/color_profile_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabMiddle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginEnd="28dp"
-        android:layout_marginBottom="102dp"
-        android:src="@drawable/friend_trash"
-        android:visibility="invisible"
-        app:fabSize="mini"
-        app:backgroundTint="@color/color_profile_menu" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fabBottom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="26dp"
+    <View
+        android:id="@+id/viewLine1"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="62.5dp"
         android:layout_marginEnd="20dp"
-        android:scaleType="center"
-        android:src="@drawable/friend_more"
-        app:fabSize="normal"
-        app:backgroundTint="@color/light_indigo" />
+        android:background="@color/color_profile_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvNickName" />
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tvNameTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:text="이름"
+        android:textColor="@color/color_profile_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine1" />
+
+    <TextView
+        android:id="@+id/tvNameContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="18dp"
+        android:text="한규언"
+        android:textColor="@color/color_profile_text_gray"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/tvNameTitle"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine1" />
+
+    <View
+        android:id="@+id/viewLine2"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="47.5dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/color_profile_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine1" />
+
+    <TextView
+        android:id="@+id/tvEmailTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:text="이메일"
+        android:textColor="@color/color_profile_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine2" />
+
+    <TextView
+        android:id="@+id/tvEmailContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="33dp"
+        android:layout_marginTop="18dp"
+        android:text="hanku@gmail.com"
+        android:textColor="@color/color_profile_text_gray"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/tvEmailTitle"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine2" />
+
+    <View
+        android:id="@+id/viewLine3"
+        android:layout_width="0dp"
+        android:layout_height="0.5dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="47.5dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/color_profile_gray"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine2" />
+
+    <TextView
+        android:id="@+id/tvBirthTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="18dp"
+        android:text="생일"
+        android:textColor="@color/color_profile_gray"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine3" />
+
+    <TextView
+        android:id="@+id/tvBirthContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="18dp"
+        android:text="2001.03.18"
+        android:textColor="@color/color_profile_text_gray"
+        android:textSize="16sp"
+        app:layout_constraintLeft_toRightOf="@+id/tvBirthTitle"
+        app:layout_constraintTop_toBottomOf="@+id/viewLine3" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floatingBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:backgroundTint="@color/light_indigo"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:src="@drawable/floating_add"
+        app:fabSize="normal" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
