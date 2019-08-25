@@ -93,6 +93,8 @@
     <string name="text_my_profile">내 프로필</string>
     <string name="text_friend">친구</string>
     <string name="text_request_friend">친구 요청</string>
+    <string name="text_friend_delete">친구 삭제</string>
+    <string name="text_friend_attention">관심 친구</string>
     <string name="text_exit_app">앱을 종료하시겠어요? </string>
 
     <string name="text_find_set_location">설정된 위치를 찾고있습니다..</string>
