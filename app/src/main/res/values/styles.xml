@@ -57,4 +57,10 @@
         <item name="android:textColor">@color/light_indigo</item>
     </style>
 
+    <!--dialog-->
+    <style name="DefaultDialogTheme" parent="Base.Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:windowMinWidthMinor">85%</item>
+        <item name="android:windowMinWidthMajor">85%</item>
+    </style>
+
 </resources>

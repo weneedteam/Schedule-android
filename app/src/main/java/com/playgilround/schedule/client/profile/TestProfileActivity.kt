@@ -7,6 +7,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import com.playgilround.schedule.client.R
+import com.playgilround.schedule.client.dialog.FriendDeleteDialogFragment
 import kotlinx.android.synthetic.main.activity_profile.*
 
 /**
@@ -49,6 +50,11 @@ class TestProfileActivity: AppCompatActivity() {
             setAttentionFriend()
             setFloatingView()
         }
+
+        llDeleteFriend.setOnClickListener {
+            showFriendDeleteDialog()
+            setFloatingView()
+        }
     }
 
     //관심 친구 설정
@@ -75,5 +81,15 @@ class TestProfileActivity: AppCompatActivity() {
             llDeleteFriend.startAnimation(fabOpen)
             true
         }
+    }
+
+    private fun showFriendDeleteDialog() {
+        val dialogFragment = FriendDeleteDialogFragment()
+        val args = Bundle()
+        val content = getString(R.string.text_friend_delete_content, "한큐에 쏜다")
+        args.putString(FriendDeleteDialogFragment.TITLE_KEY, getString(R.string.text_friend_delete_title))
+        args.putString(FriendDeleteDialogFragment.CONTENT_KEY, content)
+        dialogFragment.arguments = args
+        dialogFragment.show(supportFragmentManager, "Delete Friend")
     }
 }
