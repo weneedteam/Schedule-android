@@ -2,6 +2,7 @@ package com.playgilround.schedule.client.profile
 
 import android.os.Bundle
 import android.os.PersistableBundle
+import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
@@ -24,6 +25,7 @@ class TestProfileActivity: AppCompatActivity() {
     private lateinit var fabClose: Animation
 
     private var isFabOpen = false
+    private var isAttention = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,18 +38,42 @@ class TestProfileActivity: AppCompatActivity() {
     }
 
     fun setOnClickListener() {
-        floatingBtn.setOnClickListener {
-            isFabOpen = if (isFabOpen) {
-                floatingBtn.setImageResource(R.drawable.floating_add)
-                llAttention.startAnimation(fabClose)
-                llDeleteFriend.startAnimation(fabClose)
-                false
-            } else {
-                floatingBtn.setImageResource(R.drawable.floating_exit)
-                llAttention.startAnimation(fabOpen)
-                llDeleteFriend.startAnimation(fabOpen)
-                true
-            }
+        floatingBtn.setOnClickListener { setFloatingView() }
+
+        llAttention.setOnClickListener {
+            setAttentionFriend()
+            setFloatingView()
+        }
+
+        ivAttention.setOnClickListener {
+            setAttentionFriend()
+            setFloatingView()
+        }
+    }
+
+    //관심 친구 설정
+    private fun setAttentionFriend() {
+        isAttention = if (isAttention) {
+            ivAttention.visibility = View.INVISIBLE
+            false
+        } else {
+            ivAttention.visibility = View.VISIBLE
+            true
+        }
+    }
+
+    //floating Animation 설정
+    private fun setFloatingView() {
+        isFabOpen = if (isFabOpen) {
+            floatingBtn.setImageResource(R.drawable.floating_add)
+            llAttention.startAnimation(fabClose)
+            llDeleteFriend.startAnimation(fabClose)
+            false
+        } else {
+            floatingBtn.setImageResource(R.drawable.floating_exit)
+            llAttention.startAnimation(fabOpen)
+            llDeleteFriend.startAnimation(fabOpen)
+            true
         }
     }
 }

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="40dp"
+    android:layout_marginEnd="40dp">
+
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="21dp"
+        android:text="친구를 삭제하시겠습니까?"
+        android:textColor="@android:color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/tvContent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="12dp"
+        android:text="한큐에 쏜다 님이 슬퍼하십니다."
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tvTitle" />
+
+    <TextView
+        android:id="@+id/tvCancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="33dp"
+        android:text="취소"
+        android:textColor="@color/color_profile_gray"
+        android:textSize="16sp"
+        android:layout_marginTop="41dp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toBottomOf="@+id/tvContent"
+        app:layout_constraintEnd_toStartOf="@+id/tvDelete"/>
+
+    <TextView
+        android:id="@+id/tvDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="삭제"
+        android:textColor="@color/light_indigo"
+        android:textSize="14sp"
+        android:textStyle="normal"
+        app:layout_constraintTop_toTopOf="@+id/tvCancel"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="17dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
