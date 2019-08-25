@@ -8,6 +8,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.playgilround.schedule.client.R
 import kotlinx.android.synthetic.main.activity_profile.*
 
+/**
+ * 19-08-25
+ * rlFriendRequest는 친구가 아니거나 tvFriendState(친구 요청),
+ * 친구 요청 중 tvFriendState(친구 요청 취소)일 경우에 표시 됨.
+ *
+ * floatingBtn은 친구 상태 일때만 표시됨
+ *
+ * 해당 액티비티는 유저검색 후 유저 프로필, 내 프로필, 친구 프로필 등 유저 관련 정보 표시
+ *
+ */
 class TestProfileActivity: AppCompatActivity() {
 
     private lateinit var fabOpen: Animation
