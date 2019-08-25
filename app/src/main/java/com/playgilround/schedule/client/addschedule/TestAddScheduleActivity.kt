@@ -7,6 +7,8 @@ import com.playgilround.schedule.client.util.ActivityUtils
 
 class TestAddScheduleActivity: AppCompatActivity() {
 
+    lateinit var mPresenter: TestAddScheduleContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_schedule)

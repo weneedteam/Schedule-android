@@ -1,5 +1,6 @@
 package com.playgilround.schedule.client.addschedule.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.text.Editable
 import android.text.TextWatcher
@@ -10,14 +11,16 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import android.widget.EditText
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
-import com.playgilround.schedule.client.signup.view.SignUpAdapter
+import com.playgilround.schedule.client.data.FriendList
+import com.playgilround.schedule.client.friend.view.FriendListAdapter
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
 import java.lang.IllegalArgumentException
 
-class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
+class AddScheduleAdapter constructor(private val mContext: Context?, private val friendList: FriendList?): RecyclerView.Adapter<AddScheduleAdapter.RootViewHolder>(), ScheduleDataModel{
 
     var position = 0
     private lateinit var mTitleViewHolder: TitleViewHolder
@@ -29,6 +32,8 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
     private lateinit var mResultViewHolder: ResultViewHolder
 
     private lateinit var mOnEditorAdapterListener: OnEditorAdapterListener
+
+    private var mDataList: FriendList? = null
 
     abstract inner class RootViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
         internal var textContent: String? = null
@@ -84,10 +89,22 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
         }
     }
 
+    abstract inner class RecyclerViewHolder(itemView: View): RootViewHolder(itemView) {
+
+        val mEditSchedule = itemView.findViewById(R.id.edit_schedule) as EditText
+        val mRecyclerView = itemView.findViewById(R.id.rvMemberList) as RecyclerView
+
+        @SuppressLint("WrongConstant")
+        override fun bind(position: Int) {
+            mRecyclerView.layoutManager = LinearLayoutManager(itemView.context, LinearLayoutManager.VERTICAL, false)
+            mRecyclerView.adapter = FriendListAdapter(mContext)
+        }
+    }
+
     abstract inner class EmptyViewHolder(itemView: View): RootViewHolder(itemView) {
 
         override fun bind(position: Int) {
-
+            mOnEditorAdapterListener.ableNextButton()
         }
     }
 
@@ -106,11 +123,13 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
                 return mDateViewHolder
             }
             TYPE_SCHEDULE_MEMBER -> {
+                Log.d("TEST", "MemberViewHolder")
                 val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_member, parent, false)
                 mMemberViewHolder = MemberViewHolder(view)
                 return mMemberViewHolder
             }
             TYPE_SCHEDULE_PLACE -> {
+                Log.d("TEST", "PlaceViewHolder")
                 val view = LayoutInflater.from(mContext).inflate(R.layout.item_add_schedule_place, parent, false)
                 mPlaceViewHolder = PlaceViewHolder(view)
                 return mPlaceViewHolder
@@ -151,7 +170,7 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
 
     }
 
-    inner class MemberViewHolder(itemView: View): EmptyViewHolder(itemView) {
+    inner class MemberViewHolder(itemView: View): RecyclerViewHolder(itemView) {
 
     }
 
@@ -209,6 +228,12 @@ class AddScheduleAdapter constructor(private val mContext: Context?): RecyclerVi
 
     fun dismissSnackBar() {
 
+    }
+
+
+    fun updateDataList(friendList: FriendList?) {
+        mDataList = friendList
+        notifyDataSetChanged()
     }
 
     companion object {

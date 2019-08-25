@@ -13,7 +13,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar;
 import com.playgilround.schedule.client.R;
 import com.playgilround.schedule.client.data.User;
 import com.playgilround.schedule.client.friend.view.FriendAdapter;
-import com.playgilround.schedule.client.profile.ProfileActivity;
+import com.playgilround.schedule.client.profile.TestProfileActivity;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,7 +67,7 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
 
         mPresenter.getFriendList();
 
-        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, ProfileActivity.class)));
+        ivMyProfile.setOnClickListener(l -> startActivity(new Intent(this, TestProfileActivity.class)));
 
         //친구 요청
         ivRequest.setOnClickListener(view -> mPresenter.onRequestFriend());
@@ -153,6 +153,6 @@ public class FriendActivity extends Activity implements FriendContract.View, Mat
     }
 
     public void onProfileClick(int id) {
-        startActivity(new Intent(this, ProfileActivity.class));
+        startActivity(new Intent(this, TestProfileActivity.class));
     }
 }

@@ -94,7 +94,7 @@
 
         <activity android:name=".friend.FriendActivity" />
 
-        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.TestProfileActivity" />
 
         <service android:name=".service.ScheduleFirebaseMessagingService">
             <intent-filter>

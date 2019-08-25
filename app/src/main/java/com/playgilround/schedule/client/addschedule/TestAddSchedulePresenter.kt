@@ -1,10 +1,20 @@
+/*
 package com.playgilround.schedule.client.addschedule
 
 import android.content.Context
+import android.util.Log
 import com.playgilround.schedule.client.ScheduleApplication
 import com.playgilround.schedule.client.addschedule.model.ScheduleDataModel
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
+import com.playgilround.schedule.client.data.FriendList
 import com.playgilround.schedule.client.data.ScheduleData
+import com.playgilround.schedule.client.data.repository.FriendRepository
+import com.playgilround.schedule.client.model.BaseResponse
+import com.playgilround.schedule.client.model.ResponseMessage
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class TestAddSchedulePresenter constructor(mContext: Context?, private val mView: TestAddScheduleContract.View, private val mScheduleDataModel: ScheduleDataModel): TestAddScheduleContract.Presenter {
@@ -12,9 +22,15 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
     @Inject
     internal lateinit var mSchedule: ScheduleData
 
+    @Inject
+    internal lateinit var mFriendRepository: FriendRepository
+
+    private var mCompositeDisposable: CompositeDisposable
+
     init {
         mView.setPresenter(this)
-        (mContext?.applicationContext as ScheduleApplication).appComponent.addScheduleInject(this)
+        (mContext?.applicationContext as ScheduleApplication).appComponent.getFriendInject(this)
+        mCompositeDisposable = CompositeDisposable()
     }
 
     override fun start() {
@@ -29,7 +45,12 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
                 mSchedule.title = mScheduleDataModel.getScheduleTitle()
                 check = mSchedule.title != null
             }
-            AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {}
+            AddScheduleAdapter.TYPE_SCHEDULE_DATE -> {
+                //TEST
+                mSchedule.startDate = "2019-06-22T17:30:00"
+                mSchedule.endDate = "2019-06-22T17:30:00"
+                check = true
+            }
             AddScheduleAdapter.TYPE_SCHEDULE_MEMBER -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_PLACE -> {}
             AddScheduleAdapter.TYPE_SCHEDULE_MEMO -> {}
@@ -57,4 +78,26 @@ class TestAddSchedulePresenter constructor(mContext: Context?, private val mView
     override fun scheduleSave() {
 
     }
+
+    override fun getFriendList() {
+        val disposable = mFriendRepository.getFriendList()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object: DisposableSingleObserver<BaseResponse<FriendList>>() {
+                    override fun onSuccess(response: BaseResponse<FriendList>) {
+                        Log.d("TEST", "onSuccess getFriendList")
+                        mView.setFriendInfo(response.message!!)
+                    }
+
+                    override fun onError(e: Throwable) {
+                        Log.d("TEST", "onError getFriendList")
+                    }
+            })
+        mCompositeDisposable.add(disposable)
+    }
+
+    override fun rxUnSubscribe() {
+     if (null != mCompositeDisposable) mCompositeDisposable.clear()
+    }
 }
+*/

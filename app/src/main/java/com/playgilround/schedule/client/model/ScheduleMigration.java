@@ -47,5 +47,12 @@ public class ScheduleMigration implements RealmMigration {
             schema.get("Schedule")
                     .addField("dateDay", String.class, FieldAttribute.REQUIRED);
         }
+        if (oldVersion == 4) {
+            schema.create("Friend")
+                    .addField("friendId", int.class, FieldAttribute.PRIMARY_KEY)
+                    .addField("nickName", String.class, FieldAttribute.REQUIRED)
+                    .addField("name", String.class, FieldAttribute.REQUIRED)
+                    .addField("image", Byte.class);
+        }
     }
 }

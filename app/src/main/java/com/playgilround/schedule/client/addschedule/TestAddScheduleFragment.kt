@@ -1,6 +1,5 @@
 package com.playgilround.schedule.client.addschedule
 
-import android.animation.ObjectAnimator
 import android.os.Bundle
 import android.os.Handler
 import android.util.Log
@@ -13,34 +12,22 @@ import androidx.recyclerview.widget.RecyclerView
 import com.playgilround.schedule.client.R
 import com.playgilround.schedule.client.addschedule.view.AddScheduleAdapter
 import com.playgilround.schedule.client.base.BaseFragment
+import com.playgilround.schedule.client.data.FriendList
+import com.playgilround.schedule.client.model.Friend
 import com.playgilround.schedule.client.util.OnEditorAdapterListener
+import io.realm.RealmResults
 import kotlinx.android.synthetic.main.add_schedule_frag.*
 
 class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
 
     private lateinit var mPresenter: TestAddScheduleContract.Presenter
     private lateinit var mAdapter: AddScheduleAdapter
+    private var mFriendList: FriendList? = null
     private var clickable = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        mAdapter = AddScheduleAdapter(context)
+        mAdapter = AddScheduleAdapter(context, mFriendList)
         TestAddSchedulePresenter(context, this, mAdapter)
-        return  inflater.inflate(R.layout.add_schedule_frag, container, false)
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recycler_add_schedule.setHasFixedSize(true)
-        recycler_add_schedule.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recycler_add_schedule.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                recyclerView.stopScroll()
-            }
-        })
-        recycler_add_schedule.adapter = mAdapter
-
-        PagerSnapHelper().attachToRecyclerView(recycler_add_schedule)
-
         mAdapter.setOnScheduleNextFieldListener(object : OnEditorAdapterListener {
             override fun onNextField(position: Int) {
                 mPresenter.onClickBack(position)
@@ -56,13 +43,31 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
                 clickable = true
             }
         })
+        mPresenter.getFriendList()
+        return  inflater.inflate(R.layout.add_schedule_frag, container, false)
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        recycler_add_schedule.setHasFixedSize(true)
+        recycler_add_schedule.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recycler_add_schedule.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                recyclerView.stopScroll()
+            }
+        })
+        PagerSnapHelper().attachToRecyclerView(recycler_add_schedule)
         setOnClickListener()
     }
 
     override fun onResume() {
         super.onResume()
         mPresenter.start()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mPresenter.rxUnSubscribe()
     }
 
     fun setOnClickListener() {
@@ -95,6 +100,23 @@ class TestAddScheduleFragment: BaseFragment(), TestAddScheduleContract.View {
         }
     }
 
+    override fun setLocalFriendData(data: RealmResults<Friend>) {
+
+    }
+
+    override fun noFriendInfo() {
+        recycler_add_schedule.adapter = mAdapter
+    }
+
+    override fun updateFriendInfo(list: FriendList) {
+        if (mAdapter == null) {
+            mFriendList = list
+            mAdapter = AddScheduleAdapter(context, mFriendList)
+            recycler_add_schedule.adapter = mAdapter
+        } else {
+            mAdapter.updateDataList(list)
+        }
+    }
     override fun setPresenter(presenter: TestAddScheduleContract.Presenter) {
         mPresenter = presenter
     }
